@@ -5,10 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ComponentsComponent } from './components/components.component';
+import { LoginComponent } from './components/login/login.component';
+import { AssessmentsComponent } from './components/assessments/assessments.component';
+import { AssessmentComponent } from './components/assessments/assessment/assessment.component';
+import { TopicComponent } from './components/assessments/assessment/components/topic/topic.component';
+import { QuestionComponent } from './components/assessments/assessment/components/topic/components/question/question.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ComponentsComponent,
+    LoginComponent,
+    AssessmentsComponent,
+    AssessmentComponent,
+    TopicComponent,
+    QuestionComponent
   ],
   imports: [
     BrowserModule,
