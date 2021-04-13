@@ -5,22 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { ComponentsComponent } from './components/components.component';
-import { LoginComponent } from './components/login/login.component';
+/*
+import { AuthComponent } from './components/auth/auth.component';
 import { AssessmentsComponent } from './components/assessments/assessments.component';
-import { AssessmentComponent } from './components/assessments/assessment/assessment.component';
-import { TopicComponent } from './components/assessments/assessment/components/topic/topic.component';
-import { QuestionComponent } from './components/assessments/assessment/components/topic/components/question/question.component';
-
+import { AssessmentComponent } from './components/assessments/components/assessment/assessment.component';
+import { TopicComponent } from './components/assessments/components/assessment/components/topic/topic.component';
+import { QuestionComponent } from './components/assessments/components/assessment/components/topic/components/question/question.component';
+*/
 @NgModule({
   declarations: [
     AppComponent,
-    ComponentsComponent,
-    LoginComponent,
+    /*AuthComponent,
     AssessmentsComponent,
     AssessmentComponent,
     TopicComponent,
-    QuestionComponent
+    QuestionComponent*/
   ],
   imports: [
     BrowserModule,
