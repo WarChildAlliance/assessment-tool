@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'auth', //TODO change later to assessments
+    redirectTo: 'auth', //TODO change to assessments when auth guard in place
     pathMatch: 'full'
   },
   {
