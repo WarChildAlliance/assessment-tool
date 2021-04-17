@@ -6,7 +6,10 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from './components/auth/auth.module'
+import { AuthModule } from './components/auth/auth.module';
+import { AssessmentsModule } from './components/assessments/assessments.module';
+import { CommonModule } from "@angular/common";
+import { LoginModule } from './components/auth/login/login.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { AuthModule } from './components/auth/auth.module'
     RouterModule,
     AppRoutingModule,
     AuthModule,
+    CommonModule,
+    AssessmentsModule,
+    LoginModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

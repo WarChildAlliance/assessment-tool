@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AssessmentComponent } from './assessment.component';
-import { AssessmentsRoutingModule } from './assessment-routing.module';
 
 
 
@@ -12,7 +11,6 @@ import { AssessmentsRoutingModule } from './assessment-routing.module';
   ],
   imports: [
     CommonModule,
-    AssessmentsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
   ]

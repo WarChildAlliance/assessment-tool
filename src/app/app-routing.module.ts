@@ -1,31 +1,35 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthModule } from './components/auth/auth.module'
-import { AssessmentsModule } from './components/assessments/assessments.module'
+import { AuthModule } from './components/auth/auth.module';
+import { AssessmentsComponent } from './components/assessments/assessments.component';
+import { AssessmentComponent } from './components/assessments/components/assessment/assessment.component';
+import { AuthComponent } from './components/auth/auth.component';
 //import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./components/auth/auth.module')
-      .then(m => m.AuthModule),
+    component: AuthComponent,
       //canLoad: [AuthGuard]
   },
   {
     path: 'assessments',
-    loadChildren: () => import('./components/assessments/assessments.module')
-      .then(m => m.AssessmentsModule),
+    component: AssessmentsComponent,
     //canLoad: [AuthGuard]
   },
   {
+    path: 'assessments/:name',
+    component: AssessmentComponent,
+      //canLoad: [AuthGuard]
+  },
+  {
     path: '',
-    redirectTo: 'auth', //TODO change to assessments when auth guard in place
+    redirectTo: 'auth',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'assessments', 
-    pathMatch: 'full'
+    redirectTo: 'auth', //TODO change to assessments when auth guard in place
   }
 ];
 
