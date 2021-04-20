@@ -4,6 +4,7 @@ import { AuthModule } from './components/auth/auth.module';
 import { AssessmentsComponent } from './components/assessments/assessments.component';
 import { AssessmentComponent } from './components/assessments/components/assessment/assessment.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { TopicComponent } from './components/assessments/components/assessment/components/topic/topic.component';
 //import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'assessments/:name',
     component: AssessmentComponent,
+      //canLoad: [AuthGuard]
+  },
+  {
+    path: 'assessments/:name/:topic',
+    component: TopicComponent,
       //canLoad: [AuthGuard]
   },
   {

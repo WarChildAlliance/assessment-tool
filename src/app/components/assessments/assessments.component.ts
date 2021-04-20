@@ -17,9 +17,4 @@ export class AssessmentsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navigate(item: String) {
-    const navigationString = '/assessments/' + item;
-    this.router.navigate([navigationString]);
-  }
-
 }

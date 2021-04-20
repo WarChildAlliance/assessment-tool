@@ -2,9 +2,7 @@
     <h2>Hello friends.</h2>
     <ul>
         <li *ngFor="let item of dummyData">
-            <p>a {{item}} </p>
-            <a [routerLink]="['../assessments', item]">link</a>
-            <button (click)="navigate(item)">{{item}}</button>
+            <a [routerLink]="['../assessments', item]">{{item}}</a>
         </li>
     </ul>
     

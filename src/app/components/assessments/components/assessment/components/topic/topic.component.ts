@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopicComponent implements OnInit {
 
+  public start: boolean = true;
+  public currentQuestion: number;
+
   constructor() { }
 
   ngOnInit(): void {
+    //Todo set current question as last question answered
   }
 
 }

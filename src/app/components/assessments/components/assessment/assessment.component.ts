@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentComponent implements OnInit {
 
+
+  dummyTopics = ['Algebra', 'Geometry', 'Statistics'];
+
   constructor() { }
 
   ngOnInit(): void {

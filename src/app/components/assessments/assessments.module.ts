@@ -5,7 +5,6 @@ import { AssessmentsComponent } from './assessments.component';
 import { AssessmentsRoutingModule } from './assessments-routing.module';
 
 
-
 @NgModule({
   declarations: [
     AssessmentsComponent

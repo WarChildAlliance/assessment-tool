@@ -9,11 +9,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './components/auth/auth.module';
 import { AssessmentsModule } from './components/assessments/assessments.module';
 import { CommonModule } from "@angular/common";
-import { LoginModule } from './components/auth/login/login.module';
+import { LoginModule } from './components/auth/login/login.module'; //TODO why necessary here? Not sufficient in child?
+import { TopicModule } from './components/assessments/components/assessment/components/topic/topic.module';
+import { AssessmentModule } from './components/assessments/components/assessment/assessment.module';
+import { UserComponent } from './components/user/user.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,9 @@ import { LoginModule } from './components/auth/login/login.module';
     AuthModule,
     CommonModule,
     AssessmentsModule,
+    AssessmentModule,
     LoginModule,
+    TopicModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
