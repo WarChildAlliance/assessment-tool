@@ -1,0 +1,11 @@
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="code">Code</label>
+        <input type="text" formControlName="code" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">
+            Login
+        </button>
+    </div>
+</form>

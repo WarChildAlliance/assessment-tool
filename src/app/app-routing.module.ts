@@ -1,41 +1,33 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthModule } from './components/auth/auth.module';
-import { AssessmentsComponent } from './components/assessments/assessments.component';
-import { AssessmentComponent } from './components/assessments/components/assessment/assessment.component';
-import { AuthComponent } from './components/auth/auth.component';
-import { TopicComponent } from './components/assessments/components/assessment/components/topic/topic.component';
-//import { AuthGuard } from './core/guards/auth.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    component: AuthComponent,
-      //canLoad: [AuthGuard]
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule),
+    canLoad: [AuthGuard]
   },
   {
-    path: 'assessments',
-    component: AssessmentsComponent,
-    //canLoad: [AuthGuard]
+    path: 'home',
+    loadChildren: () => import('./home/home.module')
+      .then(m => m.HomeModule),
+    canLoad: [AuthGuard]
   },
   {
-    path: 'assessments/:name',
-    component: AssessmentComponent,
-      //canLoad: [AuthGuard]
-  },
-  {
-    path: 'assessments/:name/:topic',
-    component: TopicComponent,
-      //canLoad: [AuthGuard]
+    path: 'assessments/:id',
+    loadChildren: () => import('./assessment/assessment.module')
+      .then(m => m.AssessmentModule),
   },
   {
     path: '',
-    redirectTo: 'auth',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'auth', //TODO change to assessments when auth guard in place
+    redirectTo: 'home', 
   }
 ];
 
@@ -47,5 +39,5 @@ const routes: Routes = [
 
 
 
-export class AppRoutingModule { 
+export class AppRoutingModule {
 }
