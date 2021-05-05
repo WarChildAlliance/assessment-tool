@@ -1,0 +1,270 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import * as moment from 'moment';
+import { combineLatest, EMPTY, forkJoin, from, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AnswerSession } from '../models/answer-session.model';
+import { GeneralAnswer } from '../models/answer.model';
+import { TopicAnswer } from '../models/topic-answer.model';
+import { CacheService } from './cache.service';
+import { UserService } from './user.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AnswerService {
+  private activeSessionStorage = 'active-session';
+  private activeSessionLocalStorage = 'active-session-local';
+  private activeTopicAnswerStorage = 'active-topic-answer';
+  private activeTopicAnswerLocalStorage = 'active-topic-answer-local';
+
+  constructor(
+    private http: HttpClient,
+    private cacheService: CacheService,
+    private userService: UserService
+  ) { }
+
+  hasActiveSession(): Observable<boolean> {
+    return forkJoin([
+      from(this.cacheService.getData(this.activeSessionStorage)),
+      from(this.cacheService.getData(this.activeSessionLocalStorage))
+    ]).pipe(
+      map(([activeSession, activeSessionLocal]: [AnswerSession, AnswerSession]) => {
+        if (activeSession || activeSessionLocal) {
+          return true;
+        }
+        return false;
+      })
+    );
+  }
+
+  startSession(): Observable<AnswerSession> {
+    return this.cacheService.networkStatus.pipe(
+      switchMap(online => {
+        if (online) {
+          return this.createSession();
+        } else {
+          const session: AnswerSession = {
+            student: this.userService.user.id,
+            start_date: moment(),
+            end_date: null,
+            assessment_topic_answers: []
+          };
+          this.cacheService.setData(this.activeSessionLocalStorage, session);
+          return of(session);
+        }
+      })
+    );
+  }
+
+  startTopicAnswer(topicId: number): Observable<TopicAnswer> {
+    return combineLatest([
+      this.cacheService.networkStatus,
+      from(this.cacheService.getData(this.activeSessionLocalStorage))
+    ]).pipe(
+      switchMap(([online, activeSessionLocal]: [boolean, AnswerSession]) => {
+        if (online && activeSessionLocal) {
+          // If network on and local session exists, add session to API and then add topic answer to API
+          return this.createSessionFull(activeSessionLocal).pipe(
+            switchMap(session => {
+              this.cacheService.deleteData(this.activeSessionLocalStorage);
+              this.cacheService.setData(this.activeSessionStorage, session);
+              return this.createTopicAnswer(topicId, session.id);
+            })
+          );
+        } else if (online) {
+          // If network on and no local session exists, add topic answer to API
+          return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
+            switchMap(session => this.createTopicAnswer(topicId, session.id))
+          );
+        } else if (!online && activeSessionLocal) {
+          // If network off and local session exists, add topic answer to local session
+          const topicAnswer: TopicAnswer = {
+            topic: topicId,
+            start_date: moment(),
+            end_date: null,
+            answers: []
+          };
+          activeSessionLocal.assessment_topic_answers.push(topicAnswer);
+          this.cacheService.setData(this.activeSessionLocalStorage, activeSessionLocal);
+          return of(topicAnswer);
+        } else {
+          // If network off and no local session exists, get session id and add local topic answer
+          return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
+            map((data: AnswerSession) => {
+              const topicAnswer: TopicAnswer = {
+                topic: topicId,
+                start_date: moment(),
+                end_date: null,
+                session: data.id,
+                answers: []
+              };
+              this.cacheService.setData(this.activeTopicAnswerLocalStorage, data);
+              return topicAnswer;
+            })
+          );
+        }
+      })
+    );
+  }
+
+  submitAnswer(answer: GeneralAnswer): Observable<GeneralAnswer> {
+    return combineLatest([
+      this.cacheService.networkStatus,
+      from(this.cacheService.getData(this.activeSessionLocalStorage)),
+      from(this.cacheService.getData(this.activeTopicAnswerLocalStorage))
+    ]).pipe(
+      switchMap(([online, activeSessionLocal, activeTopicAnswerLocal]: [boolean, AnswerSession, TopicAnswer]) => {
+        if (online && activeSessionLocal) {
+          // If network on and local session exists, add add session to API, set active session and topic answer and then add answer to API
+          return this.createSessionFull(activeSessionLocal).pipe(
+            switchMap(session => {
+              const activeTopic = session.assessment_topic_answers[session.assessment_topic_answers.length - 1];
+              this.cacheService.deleteData(this.activeSessionLocalStorage);
+              this.cacheService.setData(this.activeSessionStorage, session);
+              this.cacheService.setData(this.activeTopicAnswerStorage, activeTopic);
+              return this.createAnswer({ ...answer, topic_answer: activeTopic.id });
+            })
+          );
+        } else if (online && activeTopicAnswerLocal) {
+          // If network on and local topic answer exists, add topic answer to API and then add answer to API
+          return this.createTopicAnswerFull(activeTopicAnswerLocal).pipe(
+            switchMap(topicAnswer => {
+              this.cacheService.deleteData(this.activeTopicAnswerLocalStorage);
+              this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer);
+              return this.createAnswer({ ...answer, topic_answer: topicAnswer.id });
+            })
+          );
+        } else if (!online && activeSessionLocal) {
+          // If not network on and local session exists, add answer to last topic answer in local session
+          const activeTopic = activeSessionLocal.assessment_topic_answers[activeSessionLocal.assessment_topic_answers.length - 1];
+          activeTopic.answers.push(answer);
+          this.cacheService.setData(this.activeSessionLocalStorage, activeSessionLocal);
+          return of(answer);
+        } else if (!online && activeTopicAnswerLocal) {
+          // If not network on and local topic answer exists, add answer to topic answer
+          activeTopicAnswerLocal.answers.push(answer);
+          this.cacheService.setData(this.activeTopicAnswerLocalStorage, activeTopicAnswerLocal);
+          return of(answer);
+        } else {
+          // Send request with active topic answer (online or offline)
+          return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
+            switchMap((data: TopicAnswer) => this.createAnswer({ ...answer, topic_answer: data.id }))
+          );
+        }
+      })
+    );
+  }
+
+  endTopicAnswer(): Observable<TopicAnswer> {
+    return combineLatest([
+      this.cacheService.networkStatus,
+      from(this.cacheService.getData(this.activeSessionLocalStorage)),
+      from(this.cacheService.getData(this.activeTopicAnswerLocalStorage))
+    ]).pipe(
+      switchMap(([online, activeSessionLocal, activeTopicAnswerLocal]: [boolean, AnswerSession, TopicAnswer]) => {
+        if (activeSessionLocal) {
+          const activeTopic = activeSessionLocal.assessment_topic_answers[activeSessionLocal.assessment_topic_answers.length - 1];
+          activeTopic.end_date = moment();
+          if (online) {
+            // If network on and local session exists, add end_date to last topic answer and add session in API
+            return this.createSessionFull(activeSessionLocal).pipe(
+              tap(session => {
+                this.cacheService.setData(this.activeSessionStorage, session);
+                this.cacheService.deleteData(this.activeSessionLocalStorage);
+              }),
+              map(session => session.assessment_topic_answers[session.assessment_topic_answers.length - 1])
+            );
+          } else {
+            // If no network on and local session exists, add end_date to last topic answer
+            this.cacheService.setData(this.activeSessionLocalStorage, activeSessionLocal);
+            return of(activeTopic);
+          }
+        } else if (activeTopicAnswerLocal) {
+          // If local topic answer exists, add end_date to topic answer and add topic answer to API
+          activeTopicAnswerLocal.end_date = moment();
+          this.cacheService.deleteData(this.activeSessionLocalStorage);
+          return this.createTopicAnswerFull(activeTopicAnswerLocal);
+        } else {
+          // If no local data exists, update topic_answer in API
+          return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
+            switchMap((topicAnswer: TopicAnswer) => {
+              if (topicAnswer) {
+                this.cacheService.deleteData(this.activeTopicAnswerStorage);
+                return this.updateTopicAnswer(topicAnswer.id, moment());
+              } else {
+                return EMPTY;
+              }
+            })
+          );
+        }
+      })
+    );
+  }
+
+  endSession(): Observable<AnswerSession> {
+    return combineLatest([
+      this.cacheService.networkStatus,
+      from(this.cacheService.getData(this.activeSessionLocalStorage))
+    ]).pipe(
+      switchMap(([online, activeSessionLocal]: [boolean, AnswerSession]) => {
+        if (activeSessionLocal) {
+          activeSessionLocal.end_date = moment();
+          this.cacheService.deleteData(this.activeSessionLocalStorage);
+          return this.createSessionFull(activeSessionLocal);
+        } else {
+          return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
+            switchMap(session => {
+              this.cacheService.deleteData(this.activeSessionStorage);
+              return this.updateSession(session.id, moment());
+            })
+          );
+        }
+      })
+    );
+  }
+
+  private createSession(): Observable<AnswerSession> {
+    return this.http.post<AnswerSession>(
+      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/`,
+      { student: this.userService.user.id, duration: 0 }
+    ).pipe(
+      tap(session => this.cacheService.setData(this.activeSessionStorage, session))
+    );
+  }
+
+  private createSessionFull(data: AnswerSession): Observable<AnswerSession> {
+    return this.http.post<AnswerSession>(
+      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/create_all/`,
+      data
+    );
+  }
+
+  private updateSession(sessionId: number, endDate: moment.Moment): Observable<AnswerSession> {
+    return this.http.put<AnswerSession>(`${environment.API_URL}/answers/${this.userService.user.id}/sessions/${sessionId}/`,
+      { end_date: endDate });
+  }
+
+  private createTopicAnswer(topicId: number, sessionId: number): Observable<TopicAnswer> {
+    return this.http.post<TopicAnswer>(
+      `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
+      { topic: topicId, session: sessionId }
+    ).pipe(
+      tap(topicAnswer => this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer))
+    );
+  }
+
+  private createTopicAnswerFull(data: TopicAnswer): Observable<TopicAnswer> {
+    return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
+  }
+
+  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment): Observable<TopicAnswer> {
+    return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
+      { end_date: endDate });
+  }
+
+  private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {
+    return this.http.post<GeneralAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/`, data);
+  }
+}

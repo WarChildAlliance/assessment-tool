@@ -1,0 +1,6 @@
+<select [formControl]="valueForm" [multiple]="question.multiple">
+    <option *ngFor="let option of question.options" [value]="option">
+        {{ option.value }}
+        <app-attachments [attachments]="option.attachments"></app-attachments>
+    </option>
+</select>

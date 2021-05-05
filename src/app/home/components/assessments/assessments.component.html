@@ -1,9 +1,12 @@
 <div>
-    <h2>Hello friends.</h2>
-    <ul>
-        <li *ngFor="let item of dummyData">
-            <a [routerLink]="['../assessments', item]">{{item}}</a>
+    <ul *ngIf="assessments && assessments.length; else noAssessments">
+        <li *ngFor="let assessment of assessments">
+            <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
         </li>
     </ul>
+
+    <ng-template #noAssessments>
+        <p>{{ 'No assessments' | translate }}</p>
+    </ng-template>
     
 </div>

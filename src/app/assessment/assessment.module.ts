@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AssessmentComponent } from './assessment.component';
+import { SharedModule } from '../shared/shared.module';
 import { AssessmentRoutingModule } from './assessment-routing.module';
+import { AssessmentComponent } from './assessment.component';
+import { HeaderComponent } from './components/header/header.component';
+import { TopicsComponent } from './components/topics/topics.component';
 
 
 
 @NgModule({
   declarations: [
-    AssessmentComponent
+    AssessmentComponent,
+    HeaderComponent,
+    TopicsComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     AssessmentRoutingModule
   ]
 })

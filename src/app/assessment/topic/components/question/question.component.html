@@ -1,0 +1,29 @@
+<div class="question-header">
+    <button mat-icon-button [routerLink]="['../../../../']">
+        <mat-icon>cancel</mat-icon>
+    </button>
+    <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100"></mat-progress-bar>
+</div>
+
+<div class="question">
+    <h4>{{ question.title }}</h4>
+    <app-attachments [attachments]="question.attachments"></app-attachments>
+</div>
+
+<ng-container *ngIf="question && question.question_type === 'INPUT'">
+    <app-question-input [question]="question" [(answer)]="answer"></app-question-input>
+</ng-container>
+
+<ng-container *ngIf="question && question.question_type === 'NUMBER_LINE'">
+    <app-question-number-line [question]="question" [(answer)]="answer"></app-question-number-line>
+</ng-container>
+
+<ng-container *ngIf="question && question.question_type === 'SELECT'">
+    <app-question-select [question]="question" [(answer)]="answer"></app-question-select>
+</ng-container>
+
+<ng-container *ngIf="question && question.question_type === 'SORT'">
+    <app-question-sort [question]="question" [(answer)]="answer"></app-question-sort>
+</ng-container>
+
+<button mat-flat-button color="primary" (click)="submitAnswer()">{{ 'Submit' | translate }}</button>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UserResolver } from './core/resolvers/user.resolver';
 
 const routes: Routes = [
   {
@@ -13,12 +14,15 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module')
       .then(m => m.HomeModule),
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
-    path: 'assessments/:id',
+    path: 'assessments/:assessment_id',
     loadChildren: () => import('./assessment/assessment.module')
       .then(m => m.AssessmentModule),
+    canLoad: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: '',
@@ -27,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home', 
+    redirectTo: 'home'
   }
 ];
 

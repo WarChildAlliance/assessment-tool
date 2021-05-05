@@ -1,0 +1,17 @@
+.drop-container {
+    background-color: lightgrey;
+    min-height: 50px;
+    border-radius: 4px;
+    margin: 24px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.drop-option {
+    background-color: white;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 8px;
+    width: 12%;
+    border: 1px solid gray;
+}

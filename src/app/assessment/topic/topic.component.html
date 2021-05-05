@@ -1,0 +1,12 @@
+<button [routerLink]="['../../']">Back icon</button>
+
+<p>{{ topic?.name }}</p>
+
+<p *ngIf="topic && topic.description">{{ topic.description }}</p>
+
+<app-attachments [attachments]="topic.attachments"></app-attachments>
+
+<button [disabled]="!topic || !topic.questions || !topic.questions.length"
+    [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
+    {{ 'Start' | translate }}
+</button>

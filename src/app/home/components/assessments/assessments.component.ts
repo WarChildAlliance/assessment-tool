@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Assessment } from 'src/app/core/models/assessment.model';
+import { AssessmentService } from 'src/app/core/services/assessment.service';
 
 @Component({
   selector: 'app-assessments',
@@ -8,13 +10,16 @@ import { Router } from '@angular/router';
 })
 export class AssessmentsComponent implements OnInit {
 
-  dummyData = ['math', 'literacy', 'other'];
+  assessments: Assessment[];
 
   constructor(
-    private router: Router
+    private assessmentService: AssessmentService
   ) { }
 
   ngOnInit(): void {
+    this.assessmentService.getAssessments().subscribe(
+      assessments => this.assessments = assessments
+    );
   }
 
 }

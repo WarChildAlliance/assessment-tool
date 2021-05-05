@@ -1,0 +1,14 @@
+<div>
+    <button [routerLink]="['../../home']">Back</button>
+
+    <ul *ngIf="topics && topics.length; else noTopics">
+        <li *ngFor="let topic of topics">
+            <a [routerLink]="['./topics', topic.id]">{{topic.name}}</a>
+        </li>
+    </ul>
+
+    <ng-template #noTopics>
+        <p>{{ 'No topics' | translate }}</p>
+    </ng-template>
+
+</div>
