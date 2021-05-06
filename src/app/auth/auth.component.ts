@@ -11,7 +11,7 @@ import { AuthService } from '../core/services/auth.service';
 export class AuthComponent implements OnInit {
 
   authForm = new FormGroup({
-    code: new FormControl(null, [Validators.required, Validators.pattern(/\d{6+}/)])
+    code: new FormControl(null, [Validators.required, Validators.pattern(/\d{6,}/)])
   });
 
   constructor(

@@ -20,7 +20,6 @@ export class OfflineInterceptor implements HttpInterceptor {
     if (request.url.match(environment.API_URL) && request.method !== 'GET') {
       return this.cacheService.networkStatus.asObservable().pipe(
         switchMap((online: boolean) => {
-          console.log('online', online);
           if (online) {
             return next.handle(request);
           } else {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { combineLatest, EMPTY, forkJoin, from, Observable, of } from 'rxjs';
+import { combineLatest, forkJoin, from, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AnswerSession } from '../models/answer-session.model';
@@ -191,10 +191,11 @@ export class AnswerService {
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
             switchMap((topicAnswer: TopicAnswer) => {
               if (topicAnswer) {
-                this.cacheService.deleteData(this.activeTopicAnswerStorage);
-                return this.updateTopicAnswer(topicAnswer.id, moment());
+                return this.updateTopicAnswer(topicAnswer.id, moment()).pipe(
+                  tap(_ => this.cacheService.deleteData(this.activeTopicAnswerStorage))
+                );
               } else {
-                return EMPTY;
+                return of(null);
               }
             })
           );
@@ -204,11 +205,8 @@ export class AnswerService {
   }
 
   endSession(): Observable<AnswerSession> {
-    return combineLatest([
-      this.cacheService.networkStatus,
-      from(this.cacheService.getData(this.activeSessionLocalStorage))
-    ]).pipe(
-      switchMap(([online, activeSessionLocal]: [boolean, AnswerSession]) => {
+    return from(this.cacheService.getData(this.activeSessionLocalStorage)).pipe(
+      switchMap((activeSessionLocal: AnswerSession) => {
         if (activeSessionLocal) {
           activeSessionLocal.end_date = moment();
           this.cacheService.deleteData(this.activeSessionLocalStorage);
@@ -216,8 +214,13 @@ export class AnswerService {
         } else {
           return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
             switchMap(session => {
-              this.cacheService.deleteData(this.activeSessionStorage);
-              return this.updateSession(session.id, moment());
+              if (session) {
+                return this.updateSession(session.id, moment()).pipe(
+                  tap(_ => this.cacheService.deleteData(this.activeSessionStorage))
+                );
+              } else {
+                return of(null);
+              }
             })
           );
         }

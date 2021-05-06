@@ -15,10 +15,8 @@ export class AssessmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('init assessment');
     this.answerService.hasActiveSession().pipe(
       switchMap((hasActiveSession: boolean) => {
-        console.log('hasActiveSession', hasActiveSession);
         if (!hasActiveSession) {
           return this.answerService.startSession();
         }
