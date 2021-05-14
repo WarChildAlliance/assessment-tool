@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot, Resolve,
-
   Router,
-
   RouterStateSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
@@ -18,7 +16,7 @@ export class UserResolver implements Resolve<User> {
   constructor(
     private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> | User {
     if (!!this.userService.user) {
