@@ -7,6 +7,10 @@ import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
+import { FeedbackComponent } from '../feedback/feedback.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AssessmentService } from 'src/app/core/services/assessment.service';
+import { Assessment } from 'src/app/core/models/assessment.model';
 
 @Component({
   selector: 'app-question',
@@ -23,17 +27,25 @@ export class QuestionComponent implements OnInit {
 
   private dateStart: Moment;
 
+  private assessment: Assessment;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private answerService: AnswerService
+    private answerService: AnswerService,
+    public dialog: MatDialog,
+    private assessmentService: AssessmentService
   ) { }
 
   ngOnInit(): void {
     this.dateStart = moment();
+
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
-      ([data, params]: [{ topic: Topic }, ParamMap]) => {
+      ([data, params]: [{ topic: any }, ParamMap]) => {
         if (data && params) {
+          this.assessmentService.getAssessment(data.topic.assessment).subscribe( res =>{
+            this.assessment = res;
+          });
           this.topic = data.topic;
           const questionId = parseInt(params.get('question_id'), 10);
           this.questionIndex = data.topic.questions.findIndex(q => q.id === questionId);
@@ -47,14 +59,26 @@ export class QuestionComponent implements OnInit {
     const duration = moment.duration(moment().diff(this.dateStart));
     if (this.answer) {
       this.answer.duration = duration.asMilliseconds();
-      this.answerService.submitAnswer(this.answer).subscribe(_ => {
-        this.goToNextPage();
-        this.answer = null;
-      });
+      if (true){ //TODO DEPEND ON ASSESSMENT this.assessment.show_feedback === 1 etc.
+        const dialogRef = this.dialog.open(FeedbackComponent, {
+          data: {answer: this.answer, solution: this.question, valid: this.answer.valid}
+        });
+        dialogRef.afterClosed().subscribe(_ => {
+          this.answerService.submitAnswer(this.answer).subscribe(res => {
+            this.goToNextPage();
+            this.answer = null;
+          });
+        });
+      }
     } else {
       this.goToNextPage();
     }
   }
+
+
+
+
+
 
   private goToNextPage(): void {
     if (this.questionIndex + 1 < this.topic.questions.length) {

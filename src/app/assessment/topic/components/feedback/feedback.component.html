@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{data.valid ? "Correct" : "Incorrect"}}</h1>
+<mat-dialog-content>
+  <p>Your answer:</p>
+  <div [innerHTML]="answer"></div>
+  <div *ngIf="!data.valid">
+    <p>Correct answer:</p>
+    <div [innerHTML]="solution"></div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Continue</button>
+</mat-dialog-actions>
