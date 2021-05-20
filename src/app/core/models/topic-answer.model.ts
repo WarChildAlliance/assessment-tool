@@ -7,8 +7,8 @@ export interface TopicAnswer {
     topic_access?: number;
     topic?: number;
     complete?: boolean;
-    start_date: Moment;
-    end_date: Moment;
+    start_date: Moment | string;
+    end_date: Moment | string;
     session?: AnswerSession | number;
     answers?: GeneralAnswer[];
 }

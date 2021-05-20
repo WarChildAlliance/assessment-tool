@@ -4,7 +4,7 @@ export interface Question {
   id: number;
   title: string;
   question_type: QuestionTypeEnum;
-  hint: any;
+  hint: Hint;
   attachments: Attachment[];
 }
 
@@ -53,4 +53,10 @@ enum QuestionTypeEnum {
   Select = 'SELECT',
   Sort = 'SORT',
   NumberLine = 'NUMBER_LINE'
+}
+
+export interface Hint {
+  id: number;
+  text: string;
+  attachments: Attachment[];
 }

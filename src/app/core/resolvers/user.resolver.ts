@@ -4,7 +4,7 @@ import {
   Router,
   RouterStateSnapshot
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
@@ -24,9 +24,9 @@ export class UserResolver implements Resolve<User> {
     }
 
     return this.userService.getSelf().pipe(
-      catchError(_ => {
+      catchError(err => {
         this.router.navigate(['auth']);
-        return of(null);
+        return throwError(err);
       })
     );
   }

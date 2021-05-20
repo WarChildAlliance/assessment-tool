@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AnswerSession } from '../models/answer-session.model';
 import { GeneralAnswer } from '../models/answer.model';
@@ -35,7 +35,8 @@ export class AnswerService {
           return true;
         }
         return false;
-      })
+      }),
+      first()
     );
   }
 
@@ -47,14 +48,15 @@ export class AnswerService {
         } else {
           const session: AnswerSession = {
             student: this.userService.user.id,
-            start_date: moment(),
+            start_date: moment().format(),
             end_date: null,
             assessment_topic_answers: []
           };
           this.cacheService.setData(this.activeSessionLocalStorage, session);
           return of(session);
         }
-      })
+      }),
+      first()
     );
   }
 
@@ -82,7 +84,7 @@ export class AnswerService {
           // If network off and local session exists, add topic answer to local session
           const topicAnswer: TopicAnswer = {
             topic: topicId,
-            start_date: moment(),
+            start_date: moment().format(),
             end_date: null,
             answers: []
           };
@@ -95,17 +97,18 @@ export class AnswerService {
             map((data: AnswerSession) => {
               const topicAnswer: TopicAnswer = {
                 topic: topicId,
-                start_date: moment(),
+                start_date: moment().format(),
                 end_date: null,
                 session: data.id,
                 answers: []
               };
-              this.cacheService.setData(this.activeTopicAnswerLocalStorage, data);
+              this.cacheService.setData(this.activeTopicAnswerLocalStorage, topicAnswer);
               return topicAnswer;
             })
           );
         }
-      })
+      }),
+      first()
     );
   }
 
@@ -153,7 +156,8 @@ export class AnswerService {
             switchMap((data: TopicAnswer) => this.createAnswer({ ...answer, topic_answer: data.id }))
           );
         }
-      })
+      }),
+      first()
     );
   }
 
@@ -166,7 +170,7 @@ export class AnswerService {
       switchMap(([online, activeSessionLocal, activeTopicAnswerLocal]: [boolean, AnswerSession, TopicAnswer]) => {
         if (activeSessionLocal) {
           const activeTopic = activeSessionLocal.assessment_topic_answers[activeSessionLocal.assessment_topic_answers.length - 1];
-          activeTopic.end_date = moment();
+          activeTopic.end_date = moment().format();
           if (online) {
             // If network on and local session exists, add end_date to last topic answer and add session in API
             return this.createSessionFull(activeSessionLocal).pipe(
@@ -183,7 +187,7 @@ export class AnswerService {
           }
         } else if (activeTopicAnswerLocal) {
           // If local topic answer exists, add end_date to topic answer and add topic answer to API
-          activeTopicAnswerLocal.end_date = moment();
+          activeTopicAnswerLocal.end_date = moment().format();
           this.cacheService.deleteData(this.activeSessionLocalStorage);
           return this.createTopicAnswerFull(activeTopicAnswerLocal);
         } else {
@@ -200,7 +204,8 @@ export class AnswerService {
             })
           );
         }
-      })
+      }),
+      first()
     );
   }
 
@@ -208,7 +213,7 @@ export class AnswerService {
     return from(this.cacheService.getData(this.activeSessionLocalStorage)).pipe(
       switchMap((activeSessionLocal: AnswerSession) => {
         if (activeSessionLocal) {
-          activeSessionLocal.end_date = moment();
+          activeSessionLocal.end_date = moment().format();
           this.cacheService.deleteData(this.activeSessionLocalStorage);
           return this.createSessionFull(activeSessionLocal);
         } else {
@@ -246,7 +251,7 @@ export class AnswerService {
 
   private updateSession(sessionId: number, endDate: moment.Moment): Observable<AnswerSession> {
     return this.http.put<AnswerSession>(`${environment.API_URL}/answers/${this.userService.user.id}/sessions/${sessionId}/`,
-      { end_date: endDate });
+      { end_date: endDate.format() });
   }
 
   private createTopicAnswer(topicId: number, sessionId: number): Observable<TopicAnswer> {
@@ -264,7 +269,7 @@ export class AnswerService {
 
   private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment): Observable<TopicAnswer> {
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
-      { end_date: endDate });
+      { end_date: endDate.format() });
   }
 
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {

@@ -1,7 +1,10 @@
 import { Component, HostListener } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
 
@@ -15,8 +18,14 @@ export class AppComponent {
 
   constructor(
     private answerService: AnswerService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private swUpdate: SwUpdate,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    this.checkAppUpdates();
+    this.registerIcons();
+  }
 
   @HostListener('document:visibilitychange', ['$event'])
   @HostListener('window:beforeunload', ['$event'])
@@ -44,6 +53,23 @@ export class AppComponent {
   private endSession(): Observable<AnswerSession> {
     return this.answerService.endTopicAnswer().pipe(
       switchMap(_ => this.answerService.endSession())
+    );
+  }
+
+  private checkAppUpdates(): void {
+    this.swUpdate.available.subscribe(_ => {
+      this.swUpdate.activateUpdate().then(() => document.location.reload());
+    });
+  }
+
+  private registerIcons(): void {
+    this.matIconRegistry.addSvgIcon(
+      'volume_up',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/volume_up.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'cancel',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/cancel.svg')
     );
   }
 }

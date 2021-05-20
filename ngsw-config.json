@@ -10,6 +10,7 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.scss",
+          "/*.css",
           "/*.js"
         ]
       },
@@ -37,7 +38,8 @@
       },
       "name": "api-queries",
       "urls": [
-        "http://localhost:8002"
+        "http://localhost:8002",
+        "https://gmlt-api.development.humanitarian.tech"
       ]
     }
   ],

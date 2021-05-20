@@ -37,6 +37,20 @@ export class CacheService {
     this.indexedDbContext().then(db => db.add('mutations', request));
   }
 
+  async getRequests(): Promise<{ key: number, value: HttpRequest<unknown> }[]> {
+    let cursor = await this.indexedDbContext().then(db => db.transaction('mutations').store.openCursor());
+    const requests: { key: number, value: HttpRequest<unknown> }[] = [];
+    while (cursor) {
+      requests.push({ key: cursor.key as number, value: cursor.value });
+      cursor = await cursor.continue();
+    }
+    return requests;
+  }
+
+  deleteRequest(key: number): void {
+    this.indexedDbContext().then(db => db.delete('mutations', key));
+  }
+
   setData(storeName: string, data: any): void {
     this.indexedDbContext().then(db => db.put(storeName, data, 0));
   }
