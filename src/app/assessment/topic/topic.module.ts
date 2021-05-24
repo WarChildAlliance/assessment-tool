@@ -17,6 +17,8 @@ import { TopicComponent } from './topic.component';
 import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule,
   ]
 })
 export class TopicModule { }

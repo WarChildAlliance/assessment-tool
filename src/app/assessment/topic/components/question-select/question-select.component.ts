@@ -19,6 +19,7 @@ export class QuestionSelectComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {
         if (!this.answer) {
@@ -41,7 +42,6 @@ export class QuestionSelectComponent implements OnInit {
     if (!this.question.multiple) {
       return this.valueForm.value.valid;
     }
-
     const validOptionsLength = this.question.options.filter(option => option.valid).length;
     const selectedOptionsLength = this.valueForm.value.filter(option => option.valid).length;
     return validOptionsLength === selectedOptionsLength;

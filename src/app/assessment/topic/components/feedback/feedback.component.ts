@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
+
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -16,27 +17,39 @@ export class FeedbackComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    var currentAnswer = this.data.answer;
-    var currentSolution = this.data.solution;
+    const currentAnswer = this.data.answer;
+    const currentSolution = this.data.solution;
     switch (this.data.solution.question_type) {
-      case "NUMBER_LINE":
-        this.answer = "<b>" + currentAnswer.value + "</b>";
-        this.solution = "<b>" + currentSolution.expected_value + "</b>";
+      case 'NUMBER_LINE':
+        this.answer = [{value: currentAnswer.value, valid: this.data.valid}];
+        this.solution = currentSolution.expected_value;
         break;
-      case "SORT":
-        var option = this.getOptions(currentSolution);
-        this.answer = "<p>" + currentSolution.category_A + ": " + currentAnswer.category_A + "</p>" +
-        "<p>" + currentSolution.category_B + ":" + currentAnswer.category_B + "</p>";
-        this.solution = "<p>" + currentSolution.category_A + ": " + option.category_A + "</p>" +
-        "<p>" + currentSolution.category_B + ":" + option.category_B + "</p>";
+
+      case 'SORT':
+        const option = this.getOptions(currentSolution);
+        this.answer = {name_A: currentSolution.category_A, data_A: currentAnswer.category_A.map(a => {
+            return {value: currentSolution.options.find(x => x.id === a).value,
+            valid: option.category_A.includes(currentSolution.options.find(x => x.id === a).value.toString())};
+          }),
+            name_B: currentSolution.category_B, data_B: currentAnswer.category_B.map(a => {
+            return {value: currentSolution.options.find(x => x.id === a).value,
+            valid: option.category_B.includes(currentSolution.options.find(x => x.id === a).value.toString())};
+          })};
+        this.solution =  [{name_A: currentSolution.category_A, data_A: option.category_A},
+          {name_B: currentSolution.category_B, data_B: option.category_B}];
         break;
-      case "SELECT":
-        this.answer = currentAnswer.selected_options.map( a => currentSolution.options[a].value);
-        this.solution = currentSolution.options.filter( o => o.valid).map( a => a.value);
+
+      case 'SELECT':
+        this.answer = currentAnswer.selected_options.map(a => {
+        return {value: currentSolution.options.find(x => x.id === a).value,
+        valid: currentSolution.options.find(x => x.id === a).valid};
+        });
+        this.solution = currentSolution.options.filter(o => o.valid).map(a => a.value);
         break;
-      case "INPUT":
-        this.answer = "<b>" + currentAnswer.value + "</b>";
-        this.solution = "<b>" + currentSolution.valid_answer + "</b>";
+
+      case 'INPUT':
+        this.answer = [{value: currentAnswer.value, valid: this.data.valid}];
+        this.solution = currentSolution.valid_answer;
         break;
     }
   }
@@ -46,14 +59,14 @@ export class FeedbackComponent implements OnInit{
   }
 
   getOptions(solution): any{
-    var options = {category_A: [], category_B: []};
+    const options = {category_A: [], category_B: []};
     solution.options.forEach(option => {
-      if(option.category === solution.category_A) {
+      if (option.category === solution.category_A) {
         options.category_A.push(option.value);
       } else {
         options.category_B.push(option.value);
       }
-    })
+    });
     return options;
   }
 

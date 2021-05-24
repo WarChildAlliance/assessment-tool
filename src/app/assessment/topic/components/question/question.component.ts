@@ -43,7 +43,7 @@ export class QuestionComponent implements OnInit {
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
         if (data && params) {
-          this.assessmentService.getAssessment(data.topic.assessment).subscribe( res =>{
+          this.assessmentService.getAssessment(data.topic.assessment).subscribe( res => {
             this.assessment = res;
           });
           this.topic = data.topic;
@@ -59,7 +59,7 @@ export class QuestionComponent implements OnInit {
     const duration = moment.duration(moment().diff(this.dateStart));
     if (this.answer) {
       this.answer.duration = duration.asMilliseconds();
-      if (true){ //TODO DEPEND ON ASSESSMENT this.assessment.show_feedback === 1 etc.
+      if (true){ // TODO DEPEND ON ASSESSMENT this.assessment.show_feedback === 1 etc.
         const dialogRef = this.dialog.open(FeedbackComponent, {
           data: {answer: this.answer, solution: this.question, valid: this.answer.valid}
         });
@@ -74,10 +74,6 @@ export class QuestionComponent implements OnInit {
       this.goToNextPage();
     }
   }
-
-
-
-
 
 
   private goToNextPage(): void {
