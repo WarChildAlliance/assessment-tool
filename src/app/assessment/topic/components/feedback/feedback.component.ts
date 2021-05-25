@@ -17,6 +17,14 @@ export class FeedbackComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
+    this.reviseAnswer();
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
+
+  reviseAnswer(): void{
     const currentAnswer = this.data.answer;
     const currentSolution = this.data.solution;
     switch (this.data.solution.question_type) {
@@ -27,22 +35,15 @@ export class FeedbackComponent implements OnInit{
 
       case 'SORT':
         const option = this.getOptions(currentSolution);
-        this.answer = {name_A: currentSolution.category_A, data_A: currentAnswer.category_A.map(a => {
-            return {value: currentSolution.options.find(x => x.id === a).value,
-            valid: option.category_A.includes(currentSolution.options.find(x => x.id === a).value.toString())};
-          }),
-            name_B: currentSolution.category_B, data_B: currentAnswer.category_B.map(a => {
-            return {value: currentSolution.options.find(x => x.id === a).value,
-            valid: option.category_B.includes(currentSolution.options.find(x => x.id === a).value.toString())};
-          })};
-        this.solution =  [{name_A: currentSolution.category_A, data_A: option.category_A},
-          {name_B: currentSolution.category_B, data_B: option.category_B}];
+        this.answer = this.getSortAnswer(option, currentSolution, currentAnswer);
+        this.solution =  [{category_A: currentSolution.category_A, data_A: option.category_A},
+                          {category_B: currentSolution.category_B, data_B: option.category_B}];
         break;
 
       case 'SELECT':
         this.answer = currentAnswer.selected_options.map(a => {
-        return {value: currentSolution.options.find(x => x.id === a).value,
-        valid: currentSolution.options.find(x => x.id === a).valid};
+          return {value: currentSolution.options.find(x => x.id === a).value,
+                  valid: currentSolution.options.find(x => x.id === a).valid};
         });
         this.solution = currentSolution.options.filter(o => o.valid).map(a => a.value);
         break;
@@ -54,9 +55,20 @@ export class FeedbackComponent implements OnInit{
     }
   }
 
-  onClose(): void {
-    this.dialogRef.close();
+  getSortAnswer(option, currentSolution, currentAnswer): any{
+   return {
+      category_A: currentSolution.category_A,
+      data_A: currentAnswer.category_A.map(a => {
+        return {value: currentSolution.options.find(x => x.id === a).value,
+        valid: option.category_A.includes(currentSolution.options.find(x => x.id === a).value.toString())};
+      }),
+      category_B: currentSolution.category_B,
+      data_B: currentAnswer.category_B.map(a => {
+          return {value: currentSolution.options.find(x => x.id === a).value,
+          valid: option.category_B.includes(currentSolution.options.find(x => x.id === a).value.toString())};
+      })};
   }
+
 
   getOptions(solution): any{
     const options = {category_A: [], category_B: []};
