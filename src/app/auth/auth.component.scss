@@ -1,0 +1,13 @@
+form {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    max-width: 300px;
+    width: 100%;
+}
+
+.login-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

@@ -71,5 +71,9 @@ export class AppComponent {
       'cancel',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/cancel.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'arrow_back',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/arrow_back.svg')
+    );
   }
 }

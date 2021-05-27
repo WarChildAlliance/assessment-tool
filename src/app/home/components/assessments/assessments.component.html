@@ -1,6 +1,6 @@
 <div>
-    <ul *ngIf="assessments && assessments.length; else noAssessments">
-        <li *ngFor="let assessment of assessments">
+    <ul class="assessment-cards-list" *ngIf="assessments && assessments.length; else noAssessments">
+        <li class="assessment-card" *ngFor="let assessment of assessments">
             <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
         </li>
     </ul>

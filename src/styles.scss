@@ -40,12 +40,22 @@ $assessment-tool-theme: mat-light-theme((color: (primary: $assessment-tool-prima
 
 /* You can add global styles to this file, and also import other style files */
 
+
 html,
 body {
   height: 100%;
 }
-
 body {
   margin: 0;
-  font-family: 'Cairo', sans-serif;;
+  font-family: 'Cairo', sans-serif;
+  background-color: rgb(213, 232, 238);
+  padding-top: 40px;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+   width: 100%;
+   margin: 0px;
+   padding-top:0px;
+ }
 }
