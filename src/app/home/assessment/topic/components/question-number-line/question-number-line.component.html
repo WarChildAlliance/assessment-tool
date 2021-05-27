@@ -1,6 +1,8 @@
-<span>{{ question.start }}</span>
-<mat-slider [max]="question.end" [min]="question.start" [step]="question.step" [thumbLabel]="question.show_value"
-    [tickInterval]="question.show_ticks ? question.step : 0" [formControl]="valueForm"
-    aria-labelledby="example-name-label">
-</mat-slider>
-<span>{{ question.end }}</span>
+<div class="number-line">
+    <span>{{ question.start }}</span>
+    <mat-slider [max]="question.end" [min]="question.start" [step]="question.step" [thumbLabel]="question.show_value"
+        [tickInterval]="question.show_ticks ? question.step : 0" [formControl]="valueForm"
+        aria-labelledby="example-name-label">
+    </mat-slider>
+    <span>{{ question.end }}</span>
+</div>

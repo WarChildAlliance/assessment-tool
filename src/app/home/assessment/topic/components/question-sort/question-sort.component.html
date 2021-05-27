@@ -1,4 +1,4 @@
-<div cdkDropListGroup>
+<div class="question-sort" cdkDropListGroup>
     <div cdkDropList class="drop-container" [cdkDropListData]="optionsCopy" cdkDropListSortingDisabled
         (cdkDropListDropped)="drop($event)">
         <div class="drop-option" *ngFor="let option of optionsCopy" cdkDrag>

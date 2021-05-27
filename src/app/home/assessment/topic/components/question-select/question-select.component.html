@@ -1,6 +1,15 @@
-<select [formControl]="valueForm" [multiple]="question.multiple">
-    <option *ngFor="let option of question.options" [value]="option">
+<mat-radio-group class="select-radio" [formControl]="valueForm" *ngIf="!question.multiple">
+    <mat-radio-button class="select-radio-options" *ngFor="let option of question.options" [value]="option">
         {{ option.value }}
         <app-attachments [attachments]="option.attachments"></app-attachments>
-    </option>
-</select>
+    </mat-radio-button>
+</mat-radio-group>
+
+<section *ngIf="question.multiple" class="select-checkbox">
+    <div class="select-checkbox-options" *ngFor="let option of question.options">
+        <mat-checkbox>
+            {{ option.value }}
+        </mat-checkbox>
+        <app-attachments [attachments]="option.attachments"></app-attachments>
+    </div>
+  </section>
