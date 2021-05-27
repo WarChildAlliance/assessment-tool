@@ -28,6 +28,7 @@ export class QuestionComponent implements OnInit {
   private dateStart: Moment;
 
   private assessment: Assessment;
+  firstTry: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +38,7 @@ export class QuestionComponent implements OnInit {
     private assessmentService: AssessmentService
   ) { }
 
+
   ngOnInit(): void {
     this.dateStart = moment();
 
@@ -45,6 +47,7 @@ export class QuestionComponent implements OnInit {
         if (data && params) {
           this.assessmentService.getAssessment(data.topic.assessment).subscribe( res => {
             this.assessment = res;
+            this.isFirst(this.assessment.id, this.topic.id);
           });
           this.topic = data.topic;
           const questionId = parseInt(params.get('question_id'), 10);
@@ -53,13 +56,15 @@ export class QuestionComponent implements OnInit {
         }
       }
     );
+
   }
 
-  submitAnswer(): void {
+  submitAnswer(): void{
     const duration = moment.duration(moment().diff(this.dateStart));
     if (this.answer) {
       this.answer.duration = duration.asMilliseconds();
-      if (true){ // TODO DEPEND ON ASSESSMENT this.assessment.show_feedback === 1 etc.
+      // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
+      if (this.assessment.show_feedback === 1 || (this.assessment.show_feedback === 2 && !this.firstTry)){
         const dialogRef = this.dialog.open(FeedbackComponent, {
           data: {answer: this.answer, solution: this.question, valid: this.answer.valid}
         });
@@ -69,12 +74,25 @@ export class QuestionComponent implements OnInit {
             this.answer = null;
           });
         });
+      } else {
+        this.answerService.submitAnswer(this.answer).subscribe(res => {
+          this.goToNextPage();
+          this.answer = null;
+        });
       }
     } else {
       this.goToNextPage();
     }
   }
 
+  isFirst(assessmentId, topicId): any{
+    return this.answerService.getStudentAnswersTopic(assessmentId).subscribe( x => {
+      const topics = x.filter(t => {
+        return (t.id === topicId && t.complete === 'Yes');
+      });
+      this.firstTry = topics.length === 0;
+    });
+  }
 
   private goToNextPage(): void {
     if (this.questionIndex + 1 < this.topic.questions.length) {
