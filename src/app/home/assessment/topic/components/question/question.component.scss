@@ -1,11 +1,14 @@
 .question-container {
     background-color: whitesmoke;
-    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
 
     .question-header {
         background-color: white;
         padding: 10px;
         margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
 
         .questions-progress {
             display: flex;
@@ -14,7 +17,13 @@
             .mat-progress-bar {
                 height: 15px;
                 border-radius: 8px;
-                align-self: center;
+                align-self: baseline;
+            }
+
+            button {
+                mat-icon {
+                    margin-bottom: 7px;
+                }
             }
         }
 
@@ -22,6 +31,11 @@
         h2 {
             text-align: center;
             margin: 5px;
+        }
+
+        .question-attachment {
+            display: block;
+            margin: auto;
         }
     }
 
@@ -31,9 +45,9 @@
     }
 
     .submit-button {
-        margin-top: 20px;
+        margin: 20px auto;
         width: 96%;
-        margin-left: 2%;
+        display: block;
     }
 
 }

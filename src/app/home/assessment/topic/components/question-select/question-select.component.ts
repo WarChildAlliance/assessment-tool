@@ -15,10 +15,18 @@ export class QuestionSelectComponent implements OnInit {
 
 
   valueForm = new FormControl(null);
+  hasAttachment: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.question.options.forEach(option => {
+      if (option.attachments.length) {
+        this.hasAttachment = true;
+      } else {
+        this.hasAttachment = false;
+      }
+    });
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {
         if (!this.answer) {

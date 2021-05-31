@@ -1,15 +1,19 @@
-<mat-radio-group class="select-radio" [formControl]="valueForm" *ngIf="!question.multiple">
-    <mat-radio-button class="select-radio-options" *ngFor="let option of question.options" [value]="option">
-        {{ option.value }}
-        <app-attachments [attachments]="option.attachments"></app-attachments>
+<mat-radio-group [ngClass]="hasAttachment ? 'has-attachment' : 'no-attachment'"  [formControl]="valueForm" *ngIf="!question.multiple">
+    <mat-radio-button [ngClass]="hasAttachment ? 'options-attachment' : 'options-no-attachment'" *ngFor="let option of question.options" [value]="option">
+            {{ option.value }}
+            <div class="attachment-styling">
+            <app-attachments [attachments]="option.attachments"></app-attachments>
+           </div>
     </mat-radio-button>
 </mat-radio-group>
 
-<section *ngIf="question.multiple" class="select-checkbox">
-    <div class="select-checkbox-options" *ngFor="let option of question.options">
+<section *ngIf="question.multiple" [ngClass]="hasAttachment ? 'has-attachment' : 'no-attachment'">
+    <div [ngClass]="hasAttachment ? 'options-attachment' : 'options-no-attachment'" *ngFor="let option of question.options">
         <mat-checkbox>
             {{ option.value }}
         </mat-checkbox>
+        <div class="attachment-styling">
         <app-attachments [attachments]="option.attachments"></app-attachments>
+        </div>
     </div>
   </section>

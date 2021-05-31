@@ -8,12 +8,13 @@
     display: block;
       margin-left: auto;
       margin-right: auto;
-      padding: 20px;
+      padding: 20px 0px;
     }
   
     @media only screen and (max-width: 800px) {
-      mat-card {
-        width: 100%;
-        padding: 20px 0px;
-      }
+        mat-card {
+          width: 100vw;
+          height: 100vh;
+        }
+
     }

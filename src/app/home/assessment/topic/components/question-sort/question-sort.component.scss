@@ -1,6 +1,6 @@
 .question-sort {
     padding: 10px;
-
+}
     .drop-container {
         background-color: lightgrey;
         min-height: 50px;
@@ -8,15 +8,17 @@
         margin: 24px;
         display: flex;
         justify-content: space-evenly;
+        flex-wrap: wrap;
     
-        .drop-option {
-            background-color: white;
-            padding: 8px;
-            border-radius: 4px;
-            margin: 8px;
-            border: 1px solid gray;
-            display: flex;
-            flex-direction: column;
-        }
+        
     }
-}
+    .drop-option {
+        background-color: white;
+        padding: 8px;
+        border-radius: 4px;
+        margin: 8px;
+        border: 1px solid gray;
+        display: flex;
+        flex-direction: column;
+    }
+
