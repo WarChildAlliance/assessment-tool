@@ -71,5 +71,13 @@ export class AppComponent {
       'cancel',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/cancel.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'stars',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/stars.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'generating_tokens',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/generating_tokens.svg')
+    );
   }
 }

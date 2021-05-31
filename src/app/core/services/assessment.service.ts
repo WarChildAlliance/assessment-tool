@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Assessment } from '../models/assessment.model';
@@ -26,7 +26,20 @@ export class AssessmentService {
   }
 
   getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`);
+
+    return forkJoin ( {
+      topics: this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`),
+      competencies: this.http.get<Object[]>(`${environment.API_URL}/gamification/topic-competencies/get_self/`)
+    }).pipe(
+      map(
+        res => {
+          for (let topic of res.topics) {
+            let matching_competency = res.competencies.find(competency => competency['topic'] === topic.id);
+            topic.competency = matching_competency['competency'];
+          } 
+          return res.topics;
+      })
+    )
   }
 
   getAssessmentTopicWithQuestions(assessmentId: number, topicId: number): Observable<Topic> {

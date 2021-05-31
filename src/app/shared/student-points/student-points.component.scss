@@ -1,0 +1,10 @@
+
+.points-flex-container {
+    display: flex;
+    width: 100%;
+    text-align: center;
+
+    & > span {
+        width: 50%;
+    }
+}

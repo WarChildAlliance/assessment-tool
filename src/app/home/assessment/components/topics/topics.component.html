@@ -4,6 +4,7 @@
     <ul *ngIf="topics && topics.length; else noTopics">
         <li *ngFor="let topic of topics">
             <a [routerLink]="['./topics', topic.id]">{{topic.name}}</a>
+            <p>Competency: [{{ topic.competency }}]</p>
         </li>
     </ul>
 
