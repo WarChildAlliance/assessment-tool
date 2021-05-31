@@ -29,17 +29,17 @@ export class AssessmentService {
 
     return forkJoin ( {
       topics: this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`),
-      competencies: this.http.get<Object[]>(`${environment.API_URL}/gamification/topic-competencies/get_self/`)
+      competencies: this.http.get<any[]>(`${environment.API_URL}/gamification/topic-competencies/`)
     }).pipe(
       map(
         res => {
-          for (let topic of res.topics) {
-            let matching_competency = res.competencies.find(competency => competency['topic'] === topic.id);
-            topic.competency = matching_competency['competency'];
-          } 
+          for (const topic of res.topics) {
+            const matchingCompetency = res.competencies.find(competency => competency.topic === topic.id);
+            topic.competency = matchingCompetency.competency;
+          }
           return res.topics;
       })
-    )
+    );
   }
 
   getAssessmentTopicWithQuestions(assessmentId: number, topicId: number): Observable<Topic> {

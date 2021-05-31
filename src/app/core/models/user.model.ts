@@ -13,7 +13,7 @@ export interface User {
   language?: Language;
   country?: string;
   created_by?: number;
-  profile?: Profile
+  profile?: Profile;
 }
 
 enum UserRoles {

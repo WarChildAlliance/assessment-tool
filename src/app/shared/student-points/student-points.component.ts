@@ -9,7 +9,7 @@ import { User } from 'src/app/core/models/user.model';
 })
 export class StudentPointsComponent implements OnInit {
 
-  user: User
+  user: User;
 
   constructor(
     private route: ActivatedRoute
