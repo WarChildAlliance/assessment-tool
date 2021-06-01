@@ -8,4 +8,5 @@ export interface Topic {
   description?: string;
   attachments?: Attachment[];
   questions?: GeneralQuestion[];
+  show_feedback?: number;
 }

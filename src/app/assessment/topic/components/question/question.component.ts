@@ -64,7 +64,7 @@ export class QuestionComponent implements OnInit {
     if (this.answer) {
       this.answer.duration = duration.asMilliseconds();
       // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
-      if (this.assessment.show_feedback === 1 || (this.assessment.show_feedback === 2 && !this.firstTry)){
+      if (this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry)){
         const dialogRef = this.dialog.open(FeedbackComponent, {
           data: {answer: this.answer, solution: this.question, valid: this.answer.valid}
         });

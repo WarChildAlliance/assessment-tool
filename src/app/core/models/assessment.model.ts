@@ -9,7 +9,6 @@ export interface Assessment {
   country?: string;
   private: boolean;
   topics?: Topic[];
-  show_feedback?: number;
 }
 
 enum SubjectEnum {
