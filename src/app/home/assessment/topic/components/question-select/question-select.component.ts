@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
 
@@ -15,33 +15,62 @@ export class QuestionSelectComponent implements OnInit {
 
 
   valueForm = new FormControl(null);
-  hasAttachment: boolean;
+  multipleSelectForm: FormGroup = new FormGroup({
+    selectedOptions: new FormArray([]),
+  });
 
-  constructor() { }
+  selectedOptions = [];
+  hasOptionAttachments = false;
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.question.options.forEach(option => {
       if (option.attachments.length) {
-        this.hasAttachment = true;
-      } else {
-        this.hasAttachment = false;
+        this.hasOptionAttachments = true;
       }
     });
-    this.valueForm.valueChanges.subscribe(value => {
-      if (value) {
-        if (!this.answer) {
+
+    if (this.question.multiple) {
+      this.generateMultipleSelectForm();
+      this.multipleSelectForm.valueChanges.subscribe(value => {
+        this.selectedOptions = [];
+        value.selectedOptions.forEach((val, index) => {
+          if (val.selected) {
+            this.selectedOptions.push(this.question.options[index]);
+            this.answer = {
+              selected_options: this.formatSelectedOptions(this.question.options[index]),
+              question: this.question.id,
+              duration: 0,
+              valid: this.isValid()
+            };
+            this.answerChange.emit(this.answer);
+          }
+        });
+      });
+    } else {
+      this.valueForm.valueChanges.subscribe(value => {
+        if (value) {
           this.answer = {
             selected_options: this.formatSelectedOptions(value),
             question: this.question.id,
             duration: 0,
             valid: this.isValid()
           };
-        } else {
-          this.answer.selected_options = this.formatSelectedOptions(value);
-          this.answer.valid = this.isValid();
+          this.answerChange.emit(this.answer);
         }
-        this.answerChange.emit(this.answer);
-      }
+      });
+    }
+  }
+
+  private generateMultipleSelectForm(): void {
+    const selectedOptionsForm = this.multipleSelectForm.get('selectedOptions') as FormArray;
+
+    this.question.options.forEach((option) => {
+      const selectOption = this.formBuilder.group({
+        selected: new FormControl(false),
+      });
+      selectedOptionsForm.push(selectOption);
     });
   }
 
@@ -51,8 +80,8 @@ export class QuestionSelectComponent implements OnInit {
     }
 
     const validOptionsLength = this.question.options.filter(option => option.valid).length;
-    const selectedOptionsLength = this.valueForm.value.filter(option => option.valid).length;
-    return validOptionsLength === selectedOptionsLength;
+    const validSelectedOptionsLength = this.selectedOptions.filter(option => option.valid).length;
+    return validOptionsLength === validSelectedOptionsLength;
   }
 
   private formatSelectedOptions(value: SelectOption | SelectOption[]): number[] {
