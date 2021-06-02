@@ -271,7 +271,7 @@ export class AnswerService {
     return this.http.post<GeneralAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/`, data);
   }
 
-  public getStudentAnswersTopic(assessmentId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.API_URL}/visualization/student_answers/${this.userService.user.id}/assessments/${assessmentId}/topics`);
+  public getCompleteStudentAnswersForTopic(topicId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/?complete=true&topic_access__topic=${topicId}`);
   }
 }

@@ -47,7 +47,7 @@ export class QuestionComponent implements OnInit {
         if (data && params) {
           this.assessmentService.getAssessment(data.topic.assessment).subscribe( res => {
             this.assessment = res;
-            this.isFirst(this.assessment.id, this.topic.id);
+            this.isFirst(this.topic.id);
           });
           this.topic = data.topic;
           const questionId = parseInt(params.get('question_id'), 10);
@@ -85,11 +85,8 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  isFirst(assessmentId, topicId): any{
-    return this.answerService.getStudentAnswersTopic(assessmentId).subscribe( x => {
-      const topics = x.filter(t => {
-        return (t.id === topicId && t.complete === 'Yes');
-      });
+  isFirst(topicId): any{
+    return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe( topics => {
       this.firstTry = topics.length === 0;
     });
   }
