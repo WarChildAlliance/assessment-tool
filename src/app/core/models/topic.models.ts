@@ -9,4 +9,5 @@ export interface Topic {
   attachments?: Attachment[];
   questions?: GeneralQuestion[];
   competency?: number;
+  show_feedback?: number;
 }

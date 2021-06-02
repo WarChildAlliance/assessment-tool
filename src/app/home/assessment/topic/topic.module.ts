@@ -15,6 +15,10 @@ import { QuestionComponent } from './components/question/question.component';
 import { TopicRoutingModule } from './topic-routing.module';
 import { TopicComponent } from './topic.component';
 import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
     QuestionSortComponent,
     QuestionNumberLineComponent,
     AttachmentsComponent,
-    CompletedTopicComponent
+    CompletedTopicComponent,
+    FeedbackComponent
   ],
   imports: [
     SharedModule,
@@ -37,6 +42,8 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
+    MatDialogModule,
+    MatDividerModule,
   ]
 })
 export class TopicModule { }

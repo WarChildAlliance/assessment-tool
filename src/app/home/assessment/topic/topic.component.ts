@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Assessment } from 'src/app/core/models/assessment.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
 
@@ -10,6 +11,8 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 })
 export class TopicComponent implements OnInit {
   topic: Topic;
+  assessment: Assessment;
+  firstTry: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,7 +21,9 @@ export class TopicComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(
-      (data: { topic: Topic }) => this.topic = data.topic
+      (data: { topic: Topic}) => {
+        this.topic = data.topic;
+      }
     );
   }
 

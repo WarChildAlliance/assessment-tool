@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
 
+
 @Component({
   selector: 'app-question-number-line',
   templateUrl: './question-number-line.component.html',
@@ -19,21 +20,25 @@ export class QuestionNumberLineComponent implements OnInit {
 
   ngOnInit(): void {
     this.valueForm.valueChanges.subscribe(value => {
-      if (value) {
-        if (!this.answer) {
-          this.answer = {
-            value,
-            question: this.question.id,
-            duration: 0,
-            valid: this.isValid()
-          };
-        } else {
-          this.answer.value = value;
-          this.answer.valid = this.isValid();
-        }
-        this.answerChange.emit(this.answer);
-      }
+      this.submit(value);
     });
+  }
+
+  private submit(value): void{
+    if (value) {
+      if (!this.answer) {
+        this.answer = {
+          value,
+          question: this.question.id,
+          duration: 0,
+          valid: this.isValid()
+        };
+      } else {
+        this.answer.value = value;
+        this.answer.valid = this.isValid();
+      }
+      this.answerChange.emit(this.answer);
+    }
   }
 
   private isValid(): boolean {

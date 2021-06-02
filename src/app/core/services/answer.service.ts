@@ -275,4 +275,8 @@ export class AnswerService {
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {
     return this.http.post<GeneralAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/`, data);
   }
+
+  public getCompleteStudentAnswersForTopic(topicId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/?complete=true&topic_access__topic=${topicId}`);
+  }
 }

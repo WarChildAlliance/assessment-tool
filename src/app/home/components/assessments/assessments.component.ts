@@ -18,7 +18,9 @@ export class AssessmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.assessmentService.getAssessments().subscribe(
-      assessments => this.assessments = assessments
+      assessments => {
+        this.assessments = assessments;
+      }
     );
   }
 
