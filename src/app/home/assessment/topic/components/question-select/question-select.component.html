@@ -1,13 +1,17 @@
-<mat-radio-group class="select-radio" [formControl]="valueForm" *ngIf="!question.multiple">
-    <mat-radio-button  [ngClass]="hasOptionAttachments ? 'select-radio-options-attachments' : 'select-radio-options'" *ngFor="let option of question.options" [value]="option">
-        {{ option.value }}
-        <app-attachments [attachments]="option.attachments"></app-attachments>
-    </mat-radio-button>
+<mat-radio-group class="select-content" [formControl]="valueForm" *ngIf="!question.multiple">
+    <div *ngFor="let option of question.options" [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']" >
+        <mat-radio-button  [value]="option">
+            {{ option.value }}
+        </mat-radio-button>
+        <div class="attachments-style">
+                <app-attachments [attachments]="option.attachments"></app-attachments>
+        </div>
+    </div>
 </mat-radio-group>
 
-<section  [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-checkbox">
+<section  [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-content">
     <ng-container formArrayName="selectedOptions">
-        <div [ngClass]="hasOptionAttachments ? 'select-checkbox-options-attachment' : 'select-checkbox-options'" *ngFor="let option of question.options; let i = index" [formGroupName]="i">
+        <div [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']" *ngFor="let option of question.options; let i = index" [formGroupName]="i">
             <mat-checkbox formControlName="selected">
                 {{ option.value }}
             </mat-checkbox>

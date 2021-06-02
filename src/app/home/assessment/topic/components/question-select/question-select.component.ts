@@ -9,9 +9,22 @@ import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model
   styleUrls: ['./question-select.component.scss']
 })
 export class QuestionSelectComponent implements OnInit {
-  @Input() question: QuestionSelect;
   @Input() answer: AnswerSelect;
   @Output() answerChange = new EventEmitter<AnswerSelect>();
+
+  private recievedQuestion: QuestionSelect;
+
+  @Input() set question(value: QuestionSelect) {
+     this.recievedQuestion = value;
+
+     if (this.recievedQuestion.multiple) {
+       this.generateMultipleSelectForm();
+     }
+  }
+
+  get question(): QuestionSelect {
+      return this.recievedQuestion;
+  }
 
 
   valueForm = new FormControl(null);
@@ -20,19 +33,13 @@ export class QuestionSelectComponent implements OnInit {
   });
 
   selectedOptions = [];
-  hasOptionAttachments = false;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.question.options.forEach(option => {
-      if (option.attachments.length) {
-        this.hasOptionAttachments = true;
-      }
-    });
 
     if (this.question.multiple) {
-      this.generateMultipleSelectForm();
+
       this.multipleSelectForm.valueChanges.subscribe(value => {
         this.selectedOptions = [];
         value.selectedOptions.forEach((val, index) => {
