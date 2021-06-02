@@ -64,8 +64,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.assessmentService.getAssessmentTopics(assessment.id).subscribe((topics: Topic[]) => {
           for (const topic of topics) {
             this.getAttachments(topic.attachments);
-            this.assessmentService.getAssessmentTopicWithQuestions(assessment.id, topic.id).subscribe((fetchedTopic: Topic) => {
-              for (const question of fetchedTopic.questions) {
+            this.assessmentService.getAssessmentTopicWithQuestions(assessment.id, topic.id).subscribe((t: Topic) => {
+              for (const question of t.questions) {
                 let attachments = question.attachments || [];
                 if (question.question_type === 'SORT' || question.question_type === 'SELECT') {
                   for (const option of (question as QuestionSort | QuestionSelect).options) {
@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     for (const attachment of attachments) {
       // TODO: Fix CORS error to successfully get the attachments
-      this.http.get(attachment.link).subscribe();
+      this.http.get(attachment.file).subscribe();
     }
   }
 

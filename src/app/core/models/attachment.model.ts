@@ -1,7 +1,7 @@
 export interface Attachment {
   id: number;
   attachment_type: AttachmentTypeEnum;
-  link: string;
+  file: string;
 }
 
 enum AttachmentTypeEnum {
