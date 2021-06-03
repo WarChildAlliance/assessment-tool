@@ -1,15 +1,26 @@
-.username-header {
-  font-weight: bold;
-  text-align: center;
-}
-
 mat-card {
   width: 100vw;
   height: 100vh;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding: 20px 0px;
+  padding: 0px;
+
+  .username-header {
+    font-weight: bold;
+    text-align: center;
+    background-color: #00A28B;
+    padding: 20px 10px 10px 10px;
+    margin: 0px;
+  
+    .user-icon {
+      height: 9vh;
+    }
+
+    h3 {
+      margin: 0px;
+    }
+  }
 }
 
 @media only screen and (min-width: 800px) {
