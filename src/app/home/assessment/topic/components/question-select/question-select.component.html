@@ -1,6 +1,21 @@
-<select [formControl]="valueForm" [multiple]="question.multiple">
-    <option *ngFor="let option of question.options" [value]="option">
-        {{ option.value }}
-        <app-attachments [attachments]="option.attachments"></app-attachments>
-    </option>
-</select>
+<mat-radio-group class="select-content" [formControl]="valueForm" *ngIf="!question.multiple">
+    <div *ngFor="let option of question.options" [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']" >
+        <mat-radio-button  [value]="option">
+            {{ option.value }}
+        </mat-radio-button>
+        <div class="attachments-style">
+                <app-attachments [attachments]="option.attachments"></app-attachments>
+        </div>
+    </div>
+</mat-radio-group>
+
+<section  [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-content">
+    <ng-container formArrayName="selectedOptions">
+        <div [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']" *ngFor="let option of question.options; let i = index" [formGroupName]="i">
+            <mat-checkbox formControlName="selected">
+                {{ option.value }}
+            </mat-checkbox>
+            <app-attachments [attachments]="option.attachments"></app-attachments>
+        </div>
+    </ng-container>
+</section>

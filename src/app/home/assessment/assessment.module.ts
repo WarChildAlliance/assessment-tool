@@ -4,6 +4,8 @@ import { AssessmentRoutingModule } from './assessment-routing.module';
 import { AssessmentComponent } from './assessment.component';
 import { HeaderComponent } from './components/header/header.component';
 import { TopicsComponent } from './components/topics/topics.component';
+import { MatIconModule } from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -15,7 +17,9 @@ import { TopicsComponent } from './components/topics/topics.component';
   ],
   imports: [
     SharedModule,
-    AssessmentRoutingModule
+    AssessmentRoutingModule,
+    MatIconModule,
+    MatCardModule,
   ]
 })
 export class AssessmentModule { }

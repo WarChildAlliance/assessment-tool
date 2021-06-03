@@ -79,5 +79,9 @@ export class AppComponent {
       'generating_tokens',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/generating_tokens.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'arrow_back',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/arrow_back.svg')
+    );
   }
 }

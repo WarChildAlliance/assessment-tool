@@ -1,16 +1,18 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 @font-face {
-  font-family: 'Cairo';
-  src: url('/assets/fonts/Cairo-Regular.ttf') format('truetype');
+  font-family: "Cairo";
+  src: url("/assets/fonts/Cairo-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-$assessment-tool-typography: mat-typography-config($font-family: 'Cairo');
+$assessment-tool-typography: mat-typography-config(
+  $font-family: "Cairo",
+);
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -28,10 +30,15 @@ $assessment-tool-warn: mat-palette($mat-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$assessment-tool-theme: mat-light-theme((color: (primary: $assessment-tool-primary,
+$assessment-tool-theme: mat-light-theme(
+  (
+    color: (
+      primary: $assessment-tool-primary,
       accent: $assessment-tool-accent,
       warn: $assessment-tool-warn,
-    )));
+    ),
+  )
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -46,6 +53,17 @@ body {
 }
 
 body {
-  margin: 0;
-  font-family: 'Cairo', sans-serif;;
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(213, 232, 238);
+  width: 100%;
+  margin: 0px;
+  padding-top: 0px;
+}
+
+@media only screen and (min-width: 800px) {
+  body {
+    margin: 0;
+    padding-top: 40px;
+    width: auto;
+  }
 }

@@ -1,12 +1,12 @@
-<div *ngIf="attachments && attachments.length">
+<ng-container *ngIf="attachments && attachments.length">
     <ng-container *ngFor="let attachment of attachments">
-        <div *ngIf="attachment.attachment_type === 'AUDIO'">
+        <div class="audio-attachment" *ngIf="attachment.attachment_type === 'AUDIO'">
             <button mat-icon-button [appAudioPlay]="attachment.file">
                 <mat-icon svgIcon="volume_up"></mat-icon>
             </button>
         </div>
-        <div *ngIf="attachment.attachment_type === 'IMAGE'">
+        <div class="img-attachment" *ngIf="attachment.attachment_type === 'IMAGE'">
             <img [src]="attachment.file">
         </div>
     </ng-container>
-</div>
+</ng-container>

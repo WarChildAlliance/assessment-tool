@@ -1,12 +1,18 @@
-<button mat-button [routerLink]="['../../']">Back icon</button>
 
-<p>{{ topic?.name }}</p>
+<div mat-icon-button class="back-banner" [routerLink]="['../../']">
+    <mat-icon svgIcon="arrow_back"></mat-icon>Back to topics
+</div>
+
+<div class="topic-content">
+<p class="topic-name">{{ topic?.name }}</p>
 
 <p *ngIf="topic && topic.description">{{ topic.description }}</p>
 
 <app-attachments [attachments]="topic.attachments"></app-attachments>
 
-<button [disabled]="!topic || !topic.questions || !topic.questions.length"
+
+<button class="start-button" [disabled]="!topic || !topic.questions || !topic.questions.length"
     [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
     {{ 'Start' | translate }}
 </button>
+</div>

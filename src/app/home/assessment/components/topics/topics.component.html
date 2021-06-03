@@ -1,8 +1,11 @@
 <div>
-    <button [routerLink]="['../../home']">Back</button>
 
-    <ul *ngIf="topics && topics.length; else noTopics">
-        <li *ngFor="let topic of topics">
+    <div mat-icon-button class="back-banner" [routerLink]="['../../home']">
+      <mat-icon svgIcon="arrow_back"></mat-icon> Back to assessments
+    </div>
+    
+    <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
+        <li class="topic-card" *ngFor="let topic of topics">
             <a [routerLink]="['./topics', topic.id]">{{topic.name}}</a>
             <p>Competency: [{{ topic.competency }}]</p>
         </li>

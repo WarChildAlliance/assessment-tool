@@ -1,0 +1,18 @@
+.img-attachment {
+    width: 20vw;
+    padding: 10px;
+    img {
+        height: auto;
+        width: 100%;
+        display:block;
+        margin:auto;
+        
+    }
+}
+
+.audio-attachment {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+}
