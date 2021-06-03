@@ -35,7 +35,7 @@ export class AssessmentService {
         res => {
           for (const topic of res.topics) {
             const matchingCompetency = res.competencies.find(competency => competency.topic === topic.id);
-            topic.competency = matchingCompetency.competency;
+            topic.competency = matchingCompetency ? matchingCompetency.competency : null;
           }
           return res.topics;
       })
@@ -47,7 +47,7 @@ export class AssessmentService {
       switchMap(
         topic => this.getAssessmentTopicQuestions(assessmentId, topicId).pipe(
           map(questions => {
-            topic.questions = questions;
+            topic.questions = questions.sort((a, b) => a.order - b.order);
             return topic;
           })
         )

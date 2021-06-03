@@ -3,6 +3,7 @@ import { Attachment } from './attachment.model';
 export interface Question {
   id: number;
   title: string;
+  order: number;
   question_type: QuestionTypeEnum;
   hint: Hint;
   attachments: Attachment[];
