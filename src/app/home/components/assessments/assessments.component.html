@@ -1,8 +1,14 @@
 <div>
     <ul class="assessment-cards-list" *ngIf="assessments && assessments.length; else noAssessments">
-        <li class="assessment-card" *ngFor="let assessment of assessments">
-            <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
-        </li>
+        <ng-container *ngFor="let assessment of assessments">
+            <li *ngIf="!assessment.locked" class="assessment-card">
+                <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
+            </li>
+
+            <li *ngIf="assessment.locked" class="assessment-card -locked">
+                <a >{{assessment.title}} (locked)</a>
+            </li>
+        </ng-container>
     </ul>
 
     <ng-template #noAssessments>
