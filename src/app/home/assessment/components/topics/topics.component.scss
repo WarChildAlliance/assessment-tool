@@ -8,17 +8,28 @@
 
     .topic-card {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
         list-style-type: none;
         background-color: #EBEBEB;
         margin: 10px;
         border-radius: 5px;
         padding: 10px;
-        width: 250px;
+        width: 85vw;
+        max-width: 500px;
 
         a {
         color:black;
         text-decoration: none;
+        }
+
+        div {
+            display: flex;
+            justify-content: right;
+
+            mat-icon {
+               color:#f9c74f;
+            }
         }
     }
 }

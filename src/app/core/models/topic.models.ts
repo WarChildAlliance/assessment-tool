@@ -8,6 +8,6 @@ export interface Topic {
   description?: string;
   attachments?: Attachment[];
   questions?: GeneralQuestion[];
-  competency?: number;
+  competency?: any;
   show_feedback?: number;
 }

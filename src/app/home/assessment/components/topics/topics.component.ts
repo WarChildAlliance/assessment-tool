@@ -28,7 +28,21 @@ export class TopicsComponent implements OnInit {
         throwError('No assessment id provided');
       })
     ).subscribe(
-      topics => this.topics = topics
+      topics => {
+        topics.forEach(topic => {
+          let competencyArr = [];
+          if (topic.competency === 1) {
+            competencyArr = [true, false, false];
+          } else if (topic.competency === 2) {
+            competencyArr = [true, true, false];
+          } else if (topic.competency === 3) {
+            competencyArr = [true, true, true];
+          }
+          topic.competency = competencyArr;
+        });
+
+        this.topics = topics;
+      }
     );
   }
 

@@ -7,7 +7,12 @@
     <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
         <li class="topic-card" *ngFor="let topic of topics">
             <a [routerLink]="['./topics', topic.id]">{{topic.name}}</a>
-            <p>Competency: [{{ topic.competency }}]</p>
+            <div>
+            <div *ngFor="let comp of topic.competency">
+                <mat-icon *ngIf="comp" svgIcon="competency_star"></mat-icon>
+                <mat-icon *ngIf="!comp" svgIcon="competency_star_outline"></mat-icon>
+            </div>
+            </div>
         </li>
     </ul>
 
