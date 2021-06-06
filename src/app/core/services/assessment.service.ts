@@ -19,7 +19,7 @@ export class AssessmentService {
 
   getAssessments(): Observable<Assessment[]> {
     return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/`).pipe(
-      
+
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
         assessmentsList.map(assessment => {
@@ -37,7 +37,7 @@ export class AssessmentService {
         } else {
           assessmentsList.map(assessment => {
             assessment.locked = false;
-          })
+          });
           preSelAssessment.locked = true;
         }
 
