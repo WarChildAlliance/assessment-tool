@@ -9,7 +9,7 @@ export interface Assessment {
   country?: string;
   private: boolean;
   topics?: Topic[];
-  
+
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   locked?: boolean;
   all_topics_complete?: boolean;
@@ -17,7 +17,7 @@ export interface Assessment {
 }
 
 enum SubjectEnum {
-  
+
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   PreSel = 'PRESEL',
   PostSel = 'POSTSEL',
