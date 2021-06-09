@@ -4,7 +4,8 @@ import { HomeComponent } from './home.component';
 import { AssessmentsComponent } from './components/assessments/assessments.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import {MatCardModule} from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {MatCardModule} from '@angular/material/card';
   imports: [
     SharedModule,
     HomeRoutingModule,
+    MatIconModule,
     MatCardModule,
   ]
 })

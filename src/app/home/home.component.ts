@@ -10,7 +10,9 @@ import { Topic } from '../core/models/topic.models';
 import { User } from '../core/models/user.model';
 import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
+import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -26,8 +28,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private answerService: AnswerService,
     private assessmentService: AssessmentService,
+    private authService: AuthService,
     private http: HttpClient,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -114,5 +118,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  logout(): void {
+    this.userService.resetUser();
+    this.authService.logout();
   }
 }
