@@ -1,7 +1,12 @@
 {
-  "Hello": "Hello",
-  "No assessments": "No assessments",
-  "No topics": "No topics",
-  "Start": "Start",
-  "Submit": "Submit"
+  "hello": "Hello",
+  "noAssessments": "No assessments",
+  "noTopics": "No topics",
+  "start": "Start",
+  "submit": "Submit",
+
+  "topics": {
+    "noSkipQuestions": "Questions can't be skipped",
+    "skipQuestions": "Questions can be skipped"
+  }
 }

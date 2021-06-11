@@ -1,7 +1,12 @@
 {
-  "Hello": "مرحبا",
-  "No assessments": "لا تقييمات",
-  "No topics": "لا مواضيع",
-  "Start": "بداية",
-  "Submit": "إرسال"
+  "hello": "مرحبا",
+  "noAssessments": "لا تقييمات",
+  "noTopics": "لا مواضيع",
+  "start": "بداية",
+  "submit": "إرسال",
+
+  "topics": {
+    "noSkipQuestions": "لا يمكن تخطي الأسئلة",
+    "skipQuestions": "يمكن تخطي الأسئلة"
+  }
 }
