@@ -1,4 +1,4 @@
-<div class="question-container">
+<div class="question-container" *ngIf="question; questionNotAvailable">
     <div class="question-header">
         <div class="questions-progress">
             <button mat-icon-button [routerLink]="['../../../../']">
@@ -13,22 +13,18 @@
     </div>
 
     <div class="question-content">
-        <ng-container *ngIf="question && question.question_type === 'INPUT'">
-            <app-question-input [question]="question" [(answer)]="answer"></app-question-input>
-        </ng-container>
+        <app-question-input *ngIf="question.question_type === 'INPUT'" [question]="question" [(answer)]="answer"></app-question-input>
     
-        <ng-container *ngIf="question && question.question_type === 'NUMBER_LINE'">
-            <app-question-number-line [question]="question" [(answer)]="answer"></app-question-number-line>
-        </ng-container>
+        <app-question-number-line *ngIf="question.question_type === 'NUMBER_LINE'" [question]="question" [(answer)]="answer"></app-question-number-line>
     
-        <ng-container *ngIf="question && question.question_type === 'SELECT'">
-            <app-question-select [question]="question" [(answer)]="answer"></app-question-select>
-        </ng-container>
+        <app-question-select *ngIf="question.question_type === 'SELECT'" [question]="question" [(answer)]="answer"></app-question-select>
     
-        <ng-container *ngIf="question && question.question_type === 'SORT'">
-            <app-question-sort [question]="question" [(answer)]="answer"></app-question-sort>
-        </ng-container>
+        <app-question-sort *ngIf="question.question_type === 'SORT'" [question]="question" [(answer)]="answer"></app-question-sort>
+
     </div>
 
-    <button class="submit-button" mat-flat-button color="primary" (click)="submitAnswer()">{{ 'Submit' | translate }}</button>
+    <button [disabled]="!topic.allow_skip && !answer" class="submit-button" mat-flat-button color="primary" (click)="submitAnswer()">{{ 'submit' | translate }}</button>
+</div>
+<div #questionNotAvailable>
+    This question is not available
 </div>

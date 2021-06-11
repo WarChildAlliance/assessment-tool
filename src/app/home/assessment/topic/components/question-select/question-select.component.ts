@@ -12,20 +12,7 @@ export class QuestionSelectComponent implements OnInit {
   @Input() answer: AnswerSelect;
   @Output() answerChange = new EventEmitter<AnswerSelect>();
 
-  private recievedQuestion: QuestionSelect;
-
-  @Input() set question(value: QuestionSelect) {
-     this.recievedQuestion = value;
-
-     if (this.recievedQuestion.multiple) {
-       this.generateMultipleSelectForm();
-     }
-  }
-
-  get question(): QuestionSelect {
-      return this.recievedQuestion;
-  }
-
+  @Input() question: QuestionSelect;
 
   valueForm = new FormControl(null);
   multipleSelectForm: FormGroup = new FormGroup({
@@ -39,6 +26,8 @@ export class QuestionSelectComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.question.multiple) {
+
+      this.generateMultipleSelectForm();
 
       this.multipleSelectForm.valueChanges.subscribe(value => {
         this.selectedOptions = [];

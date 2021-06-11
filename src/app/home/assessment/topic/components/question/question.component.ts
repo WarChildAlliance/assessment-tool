@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -27,15 +27,16 @@ export class QuestionComponent implements OnInit {
 
   private dateStart: Moment;
 
-  private assessment: Assessment;
   firstTry: boolean;
+  invalidAnswersStreak = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private answerService: AnswerService,
     public dialog: MatDialog,
-    private assessmentService: AssessmentService
+    private assessmentService: AssessmentService,
+    private changeDetector: ChangeDetectorRef
   ) { }
 
 
@@ -45,8 +46,9 @@ export class QuestionComponent implements OnInit {
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
         if (data && params) {
-          this.assessmentService.getAssessment(data.topic.assessment).subscribe( res => {
-            this.assessment = res;
+          this.question = null;
+          this.changeDetector.detectChanges();
+          this.assessmentService.getAssessment(data.topic.assessment).subscribe(res => {
             this.isFirst(this.topic.id);
           });
           this.topic = data.topic;
@@ -59,14 +61,15 @@ export class QuestionComponent implements OnInit {
 
   }
 
-  submitAnswer(): void{
+  submitAnswer(): void {
     const duration = moment.duration(moment().diff(this.dateStart));
+
     if (this.answer) {
       this.answer.duration = duration.asMilliseconds();
       // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
-      if (this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry)){
+      if (this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry)) {
         const dialogRef = this.dialog.open(FeedbackComponent, {
-          data: {answer: this.answer, solution: this.question, valid: this.answer.valid}
+          data: { answer: this.answer, solution: this.question, valid: this.answer.valid }
         });
         dialogRef.afterClosed().subscribe(_ => {
           this.answerService.submitAnswer(this.answer).subscribe(res => {
@@ -80,19 +83,32 @@ export class QuestionComponent implements OnInit {
           this.answer = null;
         });
       }
+    } else if (!this.answer && this.topic.allow_skip) {
+
+      if (confirm('Skip the question?')) {
+        this.goToNextPage();
+      }
+
     } else {
+      console.warn('Unexpected behaviour while submitting answer');
       this.goToNextPage();
     }
   }
 
-  isFirst(topicId): any{
-    return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe( topics => {
+  isFirst(topicId): any {
+    return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
       this.firstTry = topics.length === 0;
     });
   }
 
   private goToNextPage(): void {
-    if (this.questionIndex + 1 < this.topic.questions.length) {
+
+    this.invalidAnswersStreak = (this.answer && this.answer.valid) ? 0 : this.invalidAnswersStreak + 1;
+
+    if (this.invalidAnswersStreak > 2) {
+
+      this.router.navigate(['']);
+    } else if (this.questionIndex + 1 < this.topic.questions.length) {
       const nextId = this.topic.questions[this.questionIndex + 1].id;
       this.router.navigate(['../', nextId], { relativeTo: this.route });
     } else {
