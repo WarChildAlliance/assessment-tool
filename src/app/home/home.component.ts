@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       (data: { user: User }) => this.user = data.user
     );
 
-    this.answerService.hasActiveSession().pipe(
+    this.cacheService.hasActiveSession().pipe(
       switchMap((hasActiveSession: boolean) => {
         if (!hasActiveSession) {
           return this.answerService.startSession();

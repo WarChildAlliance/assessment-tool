@@ -37,5 +37,5 @@ export class UserService {
 
   resetUser(): void {
     this.user = null;
-  };
+  }
 }
