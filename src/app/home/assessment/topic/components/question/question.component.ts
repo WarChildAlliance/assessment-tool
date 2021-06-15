@@ -24,7 +24,7 @@ export class QuestionComponent implements OnInit {
   questionIndex: number;
 
   answer: GeneralAnswer;
-  test: boolean;
+     
 
   private dateStart: Moment;
 
