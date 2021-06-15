@@ -11,10 +11,10 @@ lint:
   script: npm run lint
 build:
   stage: test
-  before_script:
-    - npm i
   only:
     - master
+  before_script:
+    - npm i
   script: npm run build -- --prod
 deploy_dev:
   stage: deploy
