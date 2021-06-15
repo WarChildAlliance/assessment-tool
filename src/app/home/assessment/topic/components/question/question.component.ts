@@ -22,9 +22,9 @@ export class QuestionComponent implements OnInit {
 
   question: GeneralQuestion;
   questionIndex: number;
+  bool: boolean = false; 
 
   answer: GeneralAnswer;
-     
 
   private dateStart: Moment;
 
