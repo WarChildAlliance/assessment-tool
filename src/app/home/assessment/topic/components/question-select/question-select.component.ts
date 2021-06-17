@@ -10,24 +10,31 @@ import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model
 })
 export class QuestionSelectComponent implements OnInit {
     @Input() answer: AnswerSelect;
-    @Input() displayCorrectAnswer = false;
 
-    @Output() answerChange = new EventEmitter<AnswerSelect>();
-
-    private recievedQuestion: QuestionSelect;
+    private receivedQuestion: QuestionSelect;
 
     @Input() set question(value: QuestionSelect) {
-        this.recievedQuestion = value;
+        this.receivedQuestion = value;
 
-        if (this.recievedQuestion.multiple) {
+        if (this.receivedQuestion.multiple) {
             this.generateMultipleSelectForm();
         }
     }
 
     get question(): QuestionSelect {
-        return this.recievedQuestion;
+        return this.receivedQuestion;
     }
 
+    displayAnswer: boolean;
+
+    @Input() set displayCorrectAnswer(value: boolean) {
+        this.displayAnswer = value;
+        if (this.displayAnswer && this.question.multiple) {
+            this.multipleSelectForm.disable();
+        }
+    }
+
+    @Output() answerChange = new EventEmitter<AnswerSelect>();
 
     valueForm = new FormControl(null);
     multipleSelectForm: FormGroup = new FormGroup({
@@ -40,11 +47,7 @@ export class QuestionSelectComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
-        console.log('QUESTION', this.question);
-
         if (this.question.multiple) {
-
             this.multipleSelectForm.valueChanges.subscribe(value => {
                 this.selectedOptions = [];
                 value.selectedOptions.forEach((val, index) => {
@@ -69,7 +72,6 @@ export class QuestionSelectComponent implements OnInit {
                         duration: 0,
                         valid: this.isValid()
                     };
-                    console.log('ANSWER', this.answer);
                     this.answerChange.emit(this.answer);
                 }
             });
@@ -104,8 +106,8 @@ export class QuestionSelectComponent implements OnInit {
         return [value.id];
     }
 
-    setAnswerBackground(option: SelectOption): string {
-        return this.displayCorrectAnswer && (option.id === this.answer.selected_options[0]) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer && option.valid ? '#7EBF9A' : '';
+    setAnswerBackground(option: any): string {
+        return this.displayAnswer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
+            : this.displayAnswer && option.valid ? '#7EBF9A' : '';
     }
 }

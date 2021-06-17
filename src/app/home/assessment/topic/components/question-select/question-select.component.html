@@ -2,7 +2,7 @@
     <ng-container *ngFor="let option of question.options">
         <div [style.background]="setAnswerBackground(option)"
              [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']">
-            <mat-radio-button [disabled]="displayCorrectAnswer" [value]="option">
+            <mat-radio-button [disabled]="displayAnswer" [value]="option">
                 {{ option.value }}
             </mat-radio-button>
             <div class="attachments-style">
@@ -13,9 +13,10 @@
 </mat-radio-group>
 
 <section [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-content">
-    <ng-container formArrayName="selectedOptions">
-        <div [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']"
-             *ngFor="let option of question.options; let i = index" [formGroupName]="i">
+    <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
+        <div [style.background]="setAnswerBackground(option)"
+             [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']"
+             [formGroupName]="i">
             <mat-checkbox formControlName="selected">
                 {{ option.value }}
             </mat-checkbox>
