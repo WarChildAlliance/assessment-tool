@@ -25,7 +25,8 @@
         </ng-container>
 
         <ng-container *ngIf="question && question.question_type === 'SELECT'">
-            <app-question-select [question]="question" [(answer)]="answer"></app-question-select>
+            <app-question-select [question]="question" [(answer)]="answer"
+                                 [displayCorrectAnswer]="displayCorrectAnswer"></app-question-select>
         </ng-container>
 
         <ng-container *ngIf="question && question.question_type === 'SORT'">
