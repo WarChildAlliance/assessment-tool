@@ -65,7 +65,7 @@ export class QuestionSelectComponent implements OnInit {
             this.answer.selected_options = this.formatSelectedOptions(value);
             this.answer.valid = this.isValid();
           }
-          
+
           this.answerChange.emit(this.answer);
         }
       });

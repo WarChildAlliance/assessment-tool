@@ -61,7 +61,7 @@ export class QuestionComponent implements OnInit {
   }
 
   submitAnswer(): void {
-    const duration = moment.utc(moment().diff(this.questionTimeStart)).format("HH:mm:ss");
+    const duration = moment.utc(moment().diff(this.questionTimeStart)).format('HH:mm:ss');
 
     if (this.answer) {
       this.answer.duration = duration;
@@ -85,10 +85,11 @@ export class QuestionComponent implements OnInit {
       if (confirm('Skip the question?')) {
         this.answer = {
           question: this.question.id,
-          duration: duration,
+          duration,
           valid: false,
-        }
-        
+          skipped: true
+        };
+
         this.answerService.submitAnswer(this.answer).subscribe(res => {
           this.goToNextPage();
         });

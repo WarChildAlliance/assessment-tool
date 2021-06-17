@@ -26,6 +26,8 @@ export interface AnswerSort extends Answer {
   category_B: SortOption[] | number[];
 }
 
-export interface SkippedAnswer extends Answer {}
+export interface SkippedAnswer extends Answer {
+  skipped: true;
+}
 
 export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | SkippedAnswer;
