@@ -13,7 +13,7 @@ export class CompletedTopicComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.answerService.endTopicAnswer(true).subscribe();
+    this.answerService.endTopicAnswer().subscribe();
   }
 
 }

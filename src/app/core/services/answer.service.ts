@@ -161,7 +161,7 @@ export class AnswerService {
     );
   }
 
-  endTopicAnswer(complete: boolean): Observable<TopicAnswer> {
+  endTopicAnswer(): Observable<TopicAnswer> {
     return combineLatest([
       this.cacheService.networkStatus,
       from(this.cacheService.getData(this.activeSessionLocalStorage)),
@@ -171,7 +171,6 @@ export class AnswerService {
         if (activeSessionLocal) {
           const activeTopic = activeSessionLocal.assessment_topic_answers[activeSessionLocal.assessment_topic_answers.length - 1];
           activeTopic.end_date = moment().format();
-          activeTopic.complete = complete;
           if (online) {
             // If network on and local session exists, add end_date to last topic answer and add session in API
             return this.createSessionFull(activeSessionLocal).pipe(
@@ -189,7 +188,6 @@ export class AnswerService {
         } else if (activeTopicAnswerLocal) {
           // If local topic answer exists, add end_date to topic answer and add topic answer to API
           activeTopicAnswerLocal.end_date = moment().format();
-          activeTopicAnswerLocal.complete = complete;
           this.cacheService.deleteData(this.activeSessionLocalStorage);
           return this.createTopicAnswerFull(activeTopicAnswerLocal);
         } else {
@@ -197,7 +195,7 @@ export class AnswerService {
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
             switchMap((topicAnswer: TopicAnswer) => {
               if (topicAnswer) {
-                return this.updateTopicAnswer(topicAnswer.id, moment(), complete).pipe(
+                return this.updateTopicAnswer(topicAnswer.id, moment()).pipe(
                   tap(_ => this.cacheService.deleteData(this.activeTopicAnswerStorage))
                 );
               } else {
@@ -269,9 +267,9 @@ export class AnswerService {
     return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
   }
 
-  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment, complete: boolean): Observable<TopicAnswer> {
+  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment): Observable<TopicAnswer> {
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
-      { end_date: endDate.format(), complete });
+      { end_date: endDate.format() });
   }
 
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {

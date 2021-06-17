@@ -51,7 +51,7 @@ export class AppComponent {
   }
 
   private endSession(): Observable<AnswerSession> {
-    return this.answerService.endTopicAnswer(false).pipe(
+    return this.answerService.endTopicAnswer().pipe(
       switchMap(_ => this.answerService.endSession())
     );
   }
