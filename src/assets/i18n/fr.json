@@ -4,6 +4,7 @@
   "noTopics": "Aucun sujet",
   "start": "Démarrer",
   "submit": "Soumettre",
+  "skip": "Passer",
 
   "topics": {
     "noSkipQuestions": "Les questions ne peuvent pas être passées",

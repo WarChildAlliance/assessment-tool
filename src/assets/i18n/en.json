@@ -4,6 +4,7 @@
   "noTopics": "No topics",
   "start": "Start",
   "submit": "Submit",
+  "skip": "Skip",
 
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",

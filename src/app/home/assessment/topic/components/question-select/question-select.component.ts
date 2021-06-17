@@ -34,12 +34,19 @@ export class QuestionSelectComponent implements OnInit {
         value.selectedOptions.forEach((val, index) => {
           if (val.selected) {
             this.selectedOptions.push(this.question.options[index]);
-            this.answer = {
-              selected_options: this.formatSelectedOptions(this.question.options[index]),
-              question: this.question.id,
-              duration: 0,
-              valid: this.isValid()
-            };
+
+            if (!this.answer) {
+              this.answer = {
+                selected_options: this.formatSelectedOptions(this.question.options[index]),
+                question: this.question.id,
+                duration: '',
+                valid: this.isValid()
+              };
+            } else {
+              this.answer.selected_options = this.formatSelectedOptions(this.question.options[index]);
+              this.answer.valid = this.isValid();
+            }
+
             this.answerChange.emit(this.answer);
           }
         });
@@ -47,12 +54,18 @@ export class QuestionSelectComponent implements OnInit {
     } else {
       this.valueForm.valueChanges.subscribe(value => {
         if (value) {
-          this.answer = {
-            selected_options: this.formatSelectedOptions(value),
-            question: this.question.id,
-            duration: 0,
-            valid: this.isValid()
-          };
+          if (!this.answer) {
+            this.answer = {
+              selected_options: this.formatSelectedOptions(value),
+              question: this.question.id,
+              duration: '',
+              valid: this.isValid()
+            };
+          } else {
+            this.answer.selected_options = this.formatSelectedOptions(value);
+            this.answer.valid = this.isValid();
+          }
+          
           this.answerChange.emit(this.answer);
         }
       });

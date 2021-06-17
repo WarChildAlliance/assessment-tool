@@ -30,7 +30,7 @@ export class QuestionNumberLineComponent implements OnInit {
         this.answer = {
           value,
           question: this.question.id,
-          duration: 0,
+          duration: '',
           valid: this.isValid()
         };
       } else {

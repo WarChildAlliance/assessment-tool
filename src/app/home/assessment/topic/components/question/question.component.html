@@ -23,7 +23,7 @@
 
     </div>
 
-    <button [disabled]="!topic.allow_skip && !answer" class="submit-button" mat-flat-button color="primary" (click)="submitAnswer()">{{ 'submit' | translate }}</button>
+    <button [disabled]="!topic.allow_skip && !answer" class="submit-button" mat-flat-button color="primary" (click)="submitAnswer()">{{ (!this.answer && this.topic.allow_skip)? ('skip' | translate) : ('submit' | translate) }}</button>
 </div>
 <div #questionNotAvailable>
     This question is not available

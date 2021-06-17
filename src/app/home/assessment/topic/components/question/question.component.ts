@@ -25,7 +25,7 @@ export class QuestionComponent implements OnInit {
 
   answer: GeneralAnswer;
 
-  private dateStart: Moment;
+  private questionTimeStart: Moment;
 
   firstTry: boolean;
   invalidAnswersStreak = 0;
@@ -41,10 +41,10 @@ export class QuestionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.dateStart = moment();
-
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
+        this.questionTimeStart = moment();
+
         if (data && params) {
           this.question = null;
           this.changeDetector.detectChanges();
@@ -58,14 +58,13 @@ export class QuestionComponent implements OnInit {
         }
       }
     );
-
   }
 
   submitAnswer(): void {
-    const duration = moment.duration(moment().diff(this.dateStart));
+    const duration = moment.utc(moment().diff(this.questionTimeStart)).format("HH:mm:ss");
 
     if (this.answer) {
-      this.answer.duration = duration.asMilliseconds();
+      this.answer.duration = duration;
       // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
       if (this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry)) {
         const dialogRef = this.dialog.open(FeedbackComponent, {
@@ -74,19 +73,25 @@ export class QuestionComponent implements OnInit {
         dialogRef.afterClosed().subscribe(_ => {
           this.answerService.submitAnswer(this.answer).subscribe(res => {
             this.goToNextPage();
-            this.answer = null;
           });
         });
       } else {
         this.answerService.submitAnswer(this.answer).subscribe(res => {
           this.goToNextPage();
-          this.answer = null;
         });
       }
     } else if (!this.answer && this.topic.allow_skip) {
 
       if (confirm('Skip the question?')) {
-        this.goToNextPage();
+        this.answer = {
+          question: this.question.id,
+          duration: duration,
+          valid: false,
+        }
+        
+        this.answerService.submitAnswer(this.answer).subscribe(res => {
+          this.goToNextPage();
+        });
       }
 
     } else {
@@ -104,8 +109,9 @@ export class QuestionComponent implements OnInit {
   private goToNextPage(): void {
 
     this.invalidAnswersStreak = (this.answer && this.answer.valid) ? 0 : this.invalidAnswersStreak + 1;
+    this.answer = null;
 
-    if (this.invalidAnswersStreak > 2) {
+    if (this.invalidAnswersStreak > 4) {
 
       this.router.navigate(['']);
     } else if (this.questionIndex + 1 < this.topic.questions.length) {
