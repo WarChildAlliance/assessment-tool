@@ -12,6 +12,8 @@ import { QuestionNumberLine } from 'src/app/core/models/question.model';
 export class QuestionNumberLineComponent implements OnInit {
   @Input() question: QuestionNumberLine;
   @Input() answer: AnswerNumberLine;
+  @Input() displayCorrectAnswer = false;
+
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
   valueForm = new FormControl(null);

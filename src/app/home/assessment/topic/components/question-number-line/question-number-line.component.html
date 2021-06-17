@@ -1,8 +1,17 @@
-<div class="number-line">
+<div [style.pointerEvents]="displayCorrectAnswer ? 'none' : ''" class="number-line">
     <span>{{ question.start }}</span>
-    <mat-slider class="number-line-slider" [max]="question.end" [min]="question.start" [step]="question.step" [thumbLabel]="question.show_value"
-        [tickInterval]="question.show_ticks ? question.step : 0" [formControl]="valueForm"
-        aria-labelledby="example-name-label">
+    <mat-slider class="number-line-slider"
+                [color]="displayCorrectAnswer && !answer.valid ? 'warn' : 'primary'"
+                [max]="question.end"
+                [min]="question.start"
+                [step]="question.step"
+                [thumbLabel]="question.show_value"
+                [tickInterval]="question.show_ticks ? question.step : 0"
+                [formControl]="valueForm"
+                aria-labelledby="example-name-label">
     </mat-slider>
     <span>{{ question.end }}</span>
+</div>
+<div class="correct-answer" *ngIf="displayCorrectAnswer">
+    Correct answer: {{question.expected_value}}
 </div>

@@ -9,17 +9,17 @@
             <mat-label>Type here</mat-label>
             <div [className]="displayCorrectAnswer && !isValid() ? 'incorrect-answer' : ''">
                 <textarea
-                    [readonly]="displayCorrectAnswer"
-                    resizeToFitContent
-                    rows="10" cols="40"
-                    [formControl]="valueForm"
-                    matInput>
+                        [readonly]="displayCorrectAnswer"
+                        resizeToFitContent
+                        rows="10" cols="40"
+                        [formControl]="valueForm"
+                        matInput>
                 </textarea>
             </div>
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions *ngIf="displayCorrectAnswer">
-        <div>
+        <div class="correct-answer">
             Correct answer: {{question.valid_answer}}
         </div>
     </mat-card-actions>

@@ -20,7 +20,8 @@
         </ng-container>
 
         <ng-container *ngIf="question && question.question_type === 'NUMBER_LINE'">
-            <app-question-number-line [question]="question" [(answer)]="answer"></app-question-number-line>
+            <app-question-number-line [question]="question" [(answer)]="answer"
+                                      [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
         </ng-container>
 
         <ng-container *ngIf="question && question.question_type === 'SELECT'">
