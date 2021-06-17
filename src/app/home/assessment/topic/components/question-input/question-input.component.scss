@@ -1,6 +1,28 @@
-mat-card {
-  height: 40vh;
+mat-form-field, textarea {
+  width: 100%;
 }
+
+mat-card-actions, .incorrect-answer {
+  color: white;
+}
+
+mat-card-actions {
+  padding: 0 15px;
+  border-radius: 1rem;
+  background-color: #7EBF9A;
+}
+
+textarea {
+  border: none;
+  resize: vertical;
+}
+
+.incorrect-answer {
+  padding: 1rem 0 0 0.5rem;
+  border-radius: 1rem;
+  background-color: #F2836B;
+}
+
 ::ng-deep .mat-form-field-underline {
-    display: none;
-  }
+  display: none;
+}

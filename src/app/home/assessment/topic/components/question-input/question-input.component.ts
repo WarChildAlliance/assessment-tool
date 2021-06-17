@@ -11,6 +11,8 @@ import { QuestionInput } from 'src/app/core/models/question.model';
 export class QuestionInputComponent implements OnInit {
   @Input() question: QuestionInput;
   @Input() answer: AnswerInput;
+  @Input() displayCorrectAnswer = false;
+
   @Output() answerChange = new EventEmitter<AnswerInput>();
 
   valueForm = new FormControl(null);
@@ -36,7 +38,7 @@ export class QuestionInputComponent implements OnInit {
     });
   }
 
-  private isValid(): boolean {
+  isValid(): boolean {
     return this.valueForm.value === this.question.valid_answer;
   }
 }
