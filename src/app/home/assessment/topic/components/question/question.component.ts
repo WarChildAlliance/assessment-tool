@@ -69,7 +69,7 @@ export class QuestionComponent implements OnInit {
 
     submitAnswer(): void {
         const duration = moment.duration(moment().diff(this.dateStart));
-        if (this.answer !== null) {
+        if (this.answer) {
             this.answer.duration = duration.asMilliseconds();
             if (this.canShowFeedback()) {
                 this.displayCorrectAnswer.next(true);
