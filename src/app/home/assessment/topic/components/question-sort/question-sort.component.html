@@ -1,6 +1,6 @@
-<div class="question-sort" cdkDropListGroup>
+<div [style.pointerEvents]="displayCorrectAnswer ? 'none' : ''"  class="question-sort" cdkDropListGroup>
     <div cdkDropList class="drop-container" [cdkDropListData]="optionsCopy" cdkDropListSortingDisabled
-        (cdkDropListDropped)="drop($event)">
+         (cdkDropListDropped)="drop($event)">
         <div class="drop-option" *ngFor="let option of optionsCopy" cdkDrag>
             {{ option.value }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
@@ -10,22 +10,31 @@
 
     <p>{{ question.category_A }}</p>
     <div cdkDropList class="drop-container" [cdkDropListData]="selectedCategoryA" cdkDropListSortingDisabled
-        (cdkDropListDropped)="drop($event)">
-        <div class="drop-option" *ngFor="let option of selectedCategoryA" cdkDrag>
+         (cdkDropListDropped)="drop($event)">
+        <div class="drop-option" [style.background]="setAnswerBackground(option)"
+             *ngFor="let option of selectedCategoryA" cdkDrag>
             {{ option.value }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
         </div>
     </div>
 
-    
-    <p>{{ question.category_B }}</p>
-    <div cdkDropList class="drop-container" [cdkDropListData]="selectedCategoryB" cdkDropListSortingDisabled
-        (cdkDropListDropped)="drop($event)">
-        <div class="drop-option" *ngFor="let option of selectedCategoryB" cdkDrag>
+
+    <p>{{ question.category_B }}</p>
+    <div cdkDropList class="drop-container"
+         [cdkDropListData]="selectedCategoryB" cdkDropListSortingDisabled
+         (cdkDropListDropped)="drop($event)">
+        <div class="drop-option" [style.background]="setAnswerBackground(option)"
+             *ngFor="let option of selectedCategoryB" cdkDrag>
             {{ option.value }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
         </div>
     </div>
+</div>
+<div *ngIf="displayCorrectAnswer" class="correct-answer">
+    Correct answer:
+    <p *ngFor="let option of question.options">
+        {{ option.value }} {{ option.category }}
+    </p>
 </div>
 
 

@@ -30,7 +30,8 @@
         </ng-container>
 
         <ng-container *ngIf="question && question.question_type === 'SORT'">
-            <app-question-sort [question]="question" [(answer)]="answer"></app-question-sort>
+            <app-question-sort [question]="question" [(answer)]="answer"
+                               [displayCorrectAnswer]="displayCorrectAnswer"></app-question-sort>
         </ng-container>
 
         <div *ngIf="canShowFeedback() && displayCorrectAnswer && !!answer && answer.valid">Congrats!! 🎉</div>
