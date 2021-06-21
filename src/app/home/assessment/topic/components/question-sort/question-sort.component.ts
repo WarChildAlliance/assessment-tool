@@ -1,16 +1,17 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AnswerSort } from 'src/app/core/models/answer.model';
 import { QuestionSort, SortOption } from 'src/app/core/models/question.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-question-sort',
     templateUrl: './question-sort.component.html',
     styleUrls: ['./question-sort.component.scss']
 })
-export class QuestionSortComponent implements OnInit {
+export class QuestionSortComponent implements OnInit, OnDestroy {
     @Input() question: QuestionSort;
-    @Input() displayCorrectAnswer: boolean;
+    @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
     @Input() answer: AnswerSort;
     @Output() answerChange = new EventEmitter<AnswerSort>();
@@ -39,7 +40,7 @@ export class QuestionSortComponent implements OnInit {
     }
 
     setAnswerBackground(option: any): string {
-        if (!this.displayCorrectAnswer) {
+        if (!this.displayCorrectAnswer.getValue()) {
             return '';
         }
         return this.answer.category_A.includes(option.id) && option.category !== this.question.category_A ? '#F2836B' :
@@ -60,7 +61,6 @@ export class QuestionSortComponent implements OnInit {
             this.answer.category_B = this.selectedCategoryB.map(option => option.id);
             this.answer.valid = this.isValid();
         }
-        console.log('ANSWER', this.answer);
         this.answerChange.emit(this.answer);
     }
 
@@ -79,4 +79,8 @@ export class QuestionSortComponent implements OnInit {
             option => expectedCategoryA.findIndex(o => o.id === option.id) >= 0);
     }
 
+    ngOnDestroy(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
+    }
 }

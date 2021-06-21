@@ -1,7 +1,7 @@
-<div [style.pointerEvents]="displayCorrectAnswer ? 'none' : ''" class="number-line">
+<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="number-line">
     <span>{{ question.start }}</span>
     <mat-slider class="number-line-slider"
-                [color]="displayCorrectAnswer && !answer.valid ? 'warn' : 'primary'"
+                [color]="displayCorrectAnswer.getValue() && !answer.valid ? 'warn' : 'primary'"
                 [max]="question.end"
                 [min]="question.start"
                 [step]="question.step"
@@ -12,6 +12,6 @@
     </mat-slider>
     <span>{{ question.end }}</span>
 </div>
-<div class="correct-answer" *ngIf="displayCorrectAnswer">
+<div class="correct-answer" *ngIf="displayCorrectAnswer.getValue()">
     Correct answer: {{question.expected_value}}
 </div>

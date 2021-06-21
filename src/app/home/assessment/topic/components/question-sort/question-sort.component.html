@@ -1,4 +1,4 @@
-<div [style.pointerEvents]="displayCorrectAnswer ? 'none' : ''"  class="question-sort" cdkDropListGroup>
+<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="question-sort" cdkDropListGroup>
     <div cdkDropList class="drop-container" [cdkDropListData]="optionsCopy" cdkDropListSortingDisabled
          (cdkDropListDropped)="drop($event)">
         <div class="drop-option" *ngFor="let option of optionsCopy" cdkDrag>
@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="displayCorrectAnswer" class="correct-answer">
+<div *ngIf="displayCorrectAnswer.getValue()" class="correct-answer">
     Correct answer:
     <p *ngFor="let option of question.options">
         {{ option.value }} {{ option.category }}

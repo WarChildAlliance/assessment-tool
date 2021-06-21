@@ -2,7 +2,7 @@
     <ng-container *ngFor="let option of question.options">
         <div [style.background]="setAnswerBackground(option)"
              [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']">
-            <mat-radio-button [disabled]="displayAnswer" [value]="option">
+            <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
                 {{ option.value }}
             </mat-radio-button>
             <div class="attachments-style">
@@ -17,7 +17,7 @@
         <div [style.background]="setAnswerBackground(option)"
              [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']"
              [formGroupName]="i">
-            <mat-checkbox formControlName="selected">
+            <mat-checkbox [disabled]="displayCorrectAnswer.getValue()" formControlName="selected">
                 {{ option.value }}
             </mat-checkbox>
             <app-attachments [attachments]="option.attachments"></app-attachments>

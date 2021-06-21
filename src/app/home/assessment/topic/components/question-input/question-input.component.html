@@ -1,13 +1,13 @@
 <mat-card>
     <mat-card-content>
-        <div [className]="displayCorrectAnswer && answer.value !== question.valid_answer ? 'incorrect-answer' : ''">
+        <div [className]="displayCorrectAnswer.getValue() && answer.value !== question.valid_answer ? 'incorrect-answer' : ''">
             <mat-form-field>
-                <input [readonly]="displayCorrectAnswer" matInput type="text"
-                       [placeholder]="displayCorrectAnswer ? '' : 'Type here...'" [formControl]="valueForm"/>
+                <input [readonly]="displayCorrectAnswer.getValue()" matInput type="text"
+                       [placeholder]="displayCorrectAnswer.getValue() ? '' : 'Type here...'" [formControl]="valueForm"/>
             </mat-form-field>
         </div>
     </mat-card-content>
-    <mat-card-actions *ngIf="displayCorrectAnswer">
+    <mat-card-actions *ngIf="displayCorrectAnswer.getValue()">
         <div class="correct-answer">
             Correct answer: {{question.valid_answer}}
         </div>

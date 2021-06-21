@@ -34,12 +34,13 @@
                                [displayCorrectAnswer]="displayCorrectAnswer"></app-question-sort>
         </ng-container>
 
-        <div *ngIf="canShowFeedback() && displayCorrectAnswer && !!answer && answer.valid">Congrats!! 🎉</div>
+        <div *ngIf="canShowFeedback() && displayCorrectAnswer.getValue() && !!answer && answer.valid">Congrats!! 🎉
+        </div>
     </div>
 
 
-    <button *ngIf="!displayCorrectAnswer" class="submit-button" mat-flat-button color="primary"
+    <button *ngIf="!displayCorrectAnswer.getValue()" class="submit-button" mat-flat-button color="primary"
             (click)="submitAnswer()">{{ 'Submit' | translate }}</button>
-    <button *ngIf="displayCorrectAnswer" class="submit-button" mat-flat-button color="primary"
+    <button *ngIf="displayCorrectAnswer.getValue()" class="submit-button" mat-flat-button color="primary"
             (click)="this.submitAndGoNextPage()">{{ 'Continue' | translate }}</button>
 </div>

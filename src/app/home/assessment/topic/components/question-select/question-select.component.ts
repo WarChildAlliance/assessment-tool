@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-question-select',
     templateUrl: './question-select.component.html',
     styleUrls: ['./question-select.component.scss']
 })
-export class QuestionSelectComponent implements OnInit {
+export class QuestionSelectComponent implements OnInit, OnDestroy {
     @Input() answer: AnswerSelect;
 
     private receivedQuestion: QuestionSelect;
@@ -25,14 +26,7 @@ export class QuestionSelectComponent implements OnInit {
         return this.receivedQuestion;
     }
 
-    displayAnswer: boolean;
-
-    @Input() set displayCorrectAnswer(value: boolean) {
-        this.displayAnswer = value;
-        if (this.displayAnswer && this.question.multiple) {
-            this.multipleSelectForm.disable();
-        }
-    }
+    @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
@@ -47,6 +41,12 @@ export class QuestionSelectComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.displayCorrectAnswer.subscribe((value: boolean) => {
+                if (value && this.question.multiple) {
+                    this.multipleSelectForm.disable();
+                }
+            }
+        );
         if (this.question.multiple) {
             this.multipleSelectForm.valueChanges.subscribe(value => {
                 this.selectedOptions = [];
@@ -107,7 +107,12 @@ export class QuestionSelectComponent implements OnInit {
     }
 
     setAnswerBackground(option: any): string {
-        return this.displayAnswer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayAnswer && option.valid ? '#7EBF9A' : '';
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
+            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : '';
+    }
+
+    ngOnDestroy(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
     }
 }

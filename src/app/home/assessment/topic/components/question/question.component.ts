@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -23,7 +23,7 @@ export class QuestionComponent implements OnInit {
     question: GeneralQuestion;
     questionIndex: number;
 
-    displayCorrectAnswer = false;
+    displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     answer: GeneralAnswer;
 
@@ -67,7 +67,7 @@ export class QuestionComponent implements OnInit {
         if (this.answer) {
             this.answer.duration = duration.asMilliseconds();
             if (this.canShowFeedback()) {
-                this.displayCorrectAnswer = true;
+                this.displayCorrectAnswer.next(true);
             } else {
                 this.submitAndGoNextPage();
             }
@@ -95,7 +95,8 @@ export class QuestionComponent implements OnInit {
     }
 
     private goToNextPage(): void {
-        this.displayCorrectAnswer = false;
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
         if (this.questionIndex + 1 < this.topic.questions.length) {
             const nextId = this.topic.questions[this.questionIndex + 1].id;
             this.router.navigate(['../', nextId], {relativeTo: this.route});
