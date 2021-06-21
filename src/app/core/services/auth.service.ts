@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { combineLatest, from } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
+import { AlertService } from './alert.service';
+import { CacheService } from './cache.service';
 import { CookieService } from './cookie.service';
 
 @Injectable({
@@ -13,19 +16,32 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private alertService: AlertService,
     private cookieService: CookieService,
+    private cacheService: CacheService,
     private router: Router
   ) {
     this.isAuthenticated = this.cookieService.has('auth-token');
   }
 
   login(username: string): void {
-    this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }).subscribe(
-      res => {
+    combineLatest([this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
+    this.cacheService.hasActiveSession(),
+    from(this.cacheService.getData('active-session'))]).subscribe(
+      ([res, hasActiveSession, activeSession]) => {
+        if (hasActiveSession) {
+          if (activeSession.student !== res.user_id) {
+            this.cacheService.deleteData('active-session');
+            this.cacheService.deleteData('active-topic-answer');
+          }
+        }
         this.isAuthenticated = true;
         this.cookieService.set('auth-token', res.token);
 
         this.router.navigate(['']);
+      },
+      (error) => {
+        this.alertService.error(error.error);
       }
     );
   }

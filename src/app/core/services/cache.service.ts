@@ -1,14 +1,17 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDBPDatabase, openDB } from 'idb';
-import { BehaviorSubject, fromEvent, merge } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { IDBPDatabase, openDB, deleteDB } from 'idb';
+import { BehaviorSubject, forkJoin, from, fromEvent, merge, Observable } from 'rxjs';
+import { first, map, mapTo } from 'rxjs/operators';
+import { AnswerSession } from '../models/answer-session.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CacheService {
   private dbName = 'api-storage';
+  private activeSessionStorage = 'active-session';
+  private activeSessionLocalStorage = 'active-session-local';
 
   networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
 
@@ -61,5 +64,20 @@ export class CacheService {
 
   deleteData(storeName: string): void {
     this.indexedDbContext().then(db => db.delete(storeName, 0));
+  }
+
+  hasActiveSession(): Observable<boolean> {
+    return forkJoin([
+      from(this.getData(this.activeSessionStorage)),
+      from(this.getData(this.activeSessionLocalStorage))
+    ]).pipe(
+      map(([activeSession, activeSessionLocal]: [AnswerSession, AnswerSession]) => {
+        if (activeSession || activeSessionLocal) {
+          return true;
+        }
+        return false;
+      }),
+      first()
+    );
   }
 }

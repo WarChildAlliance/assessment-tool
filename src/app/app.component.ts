@@ -87,5 +87,9 @@ export class AppComponent {
       'competency_star_outline',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/competency_star_outline.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'logout',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/material-icons/logout.svg')
+    );
   }
 }
