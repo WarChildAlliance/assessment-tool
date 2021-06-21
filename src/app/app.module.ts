@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpLoaderFactory } from './core/factories/http-loader-translate.factory';
 import { httpInterceptorProviders } from './core/interceptors/index.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { httpInterceptorProviders } from './core/interceptors/index.interceptor'
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MatSnackBarModule
   ],
   providers: [
     httpInterceptorProviders

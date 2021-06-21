@@ -25,21 +25,6 @@ export class AnswerService {
     private userService: UserService
   ) { }
 
-  hasActiveSession(): Observable<boolean> {
-    return forkJoin([
-      from(this.cacheService.getData(this.activeSessionStorage)),
-      from(this.cacheService.getData(this.activeSessionLocalStorage))
-    ]).pipe(
-      map(([activeSession, activeSessionLocal]: [AnswerSession, AnswerSession]) => {
-        if (activeSession || activeSessionLocal) {
-          return true;
-        }
-        return false;
-      }),
-      first()
-    );
-  }
-
   startSession(): Observable<AnswerSession> {
     return this.cacheService.networkStatus.pipe(
       switchMap(online => {
