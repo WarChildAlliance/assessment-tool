@@ -1,15 +1,24 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+    AfterContentChecked,
+    AfterContentInit,
+    AfterViewInit, ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AnswerInput } from 'src/app/core/models/answer.model';
 import { QuestionInput } from 'src/app/core/models/question.model';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-question-input',
     templateUrl: './question-input.component.html',
     styleUrls: ['./question-input.component.scss']
 })
-export class QuestionInputComponent implements OnInit, OnDestroy {
+export class QuestionInputComponent implements OnInit {
     @Input() question: QuestionInput;
     @Input() answer: AnswerInput;
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
@@ -22,8 +31,6 @@ export class QuestionInputComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        console.log('HOLI input');
-        this.displayCorrectAnswer.next(false);
         this.valueForm.valueChanges.subscribe(value => {
             if (value) {
                 if (!this.answer) {
@@ -44,10 +51,5 @@ export class QuestionInputComponent implements OnInit, OnDestroy {
 
     isValid(): boolean {
         return this.valueForm.value === this.question.valid_answer;
-    }
-
-    ngOnDestroy(): void {
-        this.answer = null;
-        this.displayCorrectAnswer.next(false);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -7,7 +7,6 @@ import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
-import { FeedbackComponent } from '../feedback/feedback.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -41,6 +40,12 @@ export class QuestionComponent implements OnInit {
     ) {
     }
 
+    // we need to reset the answer when user navigate to previous question
+    @HostListener('window:popstate', ['$event'])
+    onPopState(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
+    }
 
     ngOnInit(): void {
         this.dateStart = moment();
@@ -64,7 +69,7 @@ export class QuestionComponent implements OnInit {
 
     submitAnswer(): void {
         const duration = moment.duration(moment().diff(this.dateStart));
-        if (this.answer) {
+        if (this.answer !== null) {
             this.answer.duration = duration.asMilliseconds();
             if (this.canShowFeedback()) {
                 this.displayCorrectAnswer.next(true);
@@ -78,8 +83,8 @@ export class QuestionComponent implements OnInit {
 
     submitAndGoNextPage(): void {
         this.answerService.submitAnswer(this.answer).subscribe(res => {
-            this.goToNextPage();
             this.answer = null;
+            this.goToNextPage();
         });
     }
 
@@ -96,7 +101,7 @@ export class QuestionComponent implements OnInit {
 
     private goToNextPage(): void {
         this.displayCorrectAnswer.next(false);
-        this.answer = null;
+
         if (this.questionIndex + 1 < this.topic.questions.length) {
             const nextId = this.topic.questions[this.questionIndex + 1].id;
             this.router.navigate(['../', nextId], {relativeTo: this.route});

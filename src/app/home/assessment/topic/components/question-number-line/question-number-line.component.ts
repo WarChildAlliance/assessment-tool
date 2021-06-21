@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { BehaviorSubject } from "rxjs";
     templateUrl: './question-number-line.component.html',
     styleUrls: ['./question-number-line.component.scss']
 })
-export class QuestionNumberLineComponent implements OnInit, OnDestroy {
+export class QuestionNumberLineComponent implements OnInit {
     @Input() question: QuestionNumberLine;
     @Input() answer: AnswerNumberLine;
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
@@ -23,8 +23,6 @@ export class QuestionNumberLineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        console.log('HOLI number line');
-        this.displayCorrectAnswer.next(false);
         this.valueForm.valueChanges.subscribe(value => {
             this.submit(value);
         });
@@ -54,10 +52,5 @@ export class QuestionNumberLineComponent implements OnInit, OnDestroy {
             return true;
         }
         return false;
-    }
-
-    ngOnDestroy(): void {
-        this.displayCorrectAnswer.next(false);
-        this.answer = null;
     }
 }
