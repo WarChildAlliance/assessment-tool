@@ -44,7 +44,7 @@
           "options": {
             "aot": true,
             "assets": [
-              "src/favicon.ico",
+              "src/Bee-no-circle.svg",
               "src/assets",
               "src/manifest.webmanifest"
             ],
@@ -105,7 +105,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "assets": [
-              "src/favicon.ico",
+              "src/Bee-no-circle.svg",
               "src/assets",
               "src/manifest.webmanifest"
             ],
