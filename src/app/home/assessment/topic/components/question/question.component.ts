@@ -109,11 +109,11 @@ export class QuestionComponent implements OnInit {
 
   private goToNextPage(): void {
 
-    this.invalidAnswersStreak = (this.answer && this.answer.valid) ? 0 : this.invalidAnswersStreak + 1;
+    this.invalidAnswersStreak = (!this.topic.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
+
     this.answer = null;
 
-    if (this.invalidAnswersStreak > 4) {
-
+    if (this.topic.max_wrong_answers && (this.invalidAnswersStreak > this.topic.max_wrong_answers)) {
       this.router.navigate(['']);
     } else if (this.questionIndex + 1 < this.topic.questions.length) {
       const nextId = this.topic.questions[this.questionIndex + 1].id;
