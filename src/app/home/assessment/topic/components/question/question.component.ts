@@ -77,9 +77,6 @@ export class QuestionComponent implements OnInit {
         });
       } else {
         const randomNumber = Math.floor(Math.random() * (this.topic.praise + 1));
-        console.log(this.topic);
-        console.log('this.topic.praise', this.topic.praise);
-        console.log('randomNumber', randomNumber);
         if (randomNumber === 1) {
           const dialogRef = this.dialog.open(PraiseComponent);
           dialogRef.afterClosed().subscribe(_ => {
