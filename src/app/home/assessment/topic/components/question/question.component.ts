@@ -1,13 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
-import { FeedbackComponent } from '../feedback/feedback.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -23,12 +22,19 @@ export class QuestionComponent implements OnInit {
   question: GeneralQuestion;
   questionIndex: number;
 
+  displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  // TODO Check what's that doing here ?
   answer: GeneralAnswer;
 
   private questionTimeStart: Moment;
 
+  private dateStart: Moment;
+
+  private assessment: Assessment;
   firstTry: boolean;
   invalidAnswersStreak = 0;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +45,6 @@ export class QuestionComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) { }
 
-
   ngOnInit(): void {
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
@@ -49,6 +54,7 @@ export class QuestionComponent implements OnInit {
           this.question = null;
           this.changeDetector.detectChanges();
           this.assessmentService.getAssessment(data.topic.assessment).subscribe(res => {
+            this.assessment = res;
             this.isFirst(this.topic.id);
           });
           this.topic = data.topic;
@@ -65,20 +71,10 @@ export class QuestionComponent implements OnInit {
 
     if (this.answer) {
       this.answer.duration = duration;
-      // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
-      if (this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry)) {
-        const dialogRef = this.dialog.open(FeedbackComponent, {
-          data: { answer: this.answer, solution: this.question, valid: this.answer.valid }
-        });
-        dialogRef.afterClosed().subscribe(_ => {
-          this.answerService.submitAnswer(this.answer).subscribe(res => {
-            this.goToNextPage();
-          });
-        });
+      if (this.canShowFeedback()) {
+        this.displayCorrectAnswer.next(true);
       } else {
-        this.answerService.submitAnswer(this.answer).subscribe(res => {
-          this.goToNextPage();
-        });
+        this.submitAndGoNextPage();
       }
     } else if (!this.answer && this.topic.allow_skip) {
 
@@ -90,9 +86,7 @@ export class QuestionComponent implements OnInit {
           skipped: true
         };
 
-        this.answerService.submitAnswer(this.answer).subscribe(res => {
-          this.goToNextPage();
-        });
+        this.submitAndGoNextPage();
       }
 
     } else {
@@ -101,13 +95,27 @@ export class QuestionComponent implements OnInit {
     }
   }
 
+  canShowFeedback(): boolean {
+    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
+    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
+  }
+
   isFirst(topicId): any {
     return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
       this.firstTry = topics.length === 0;
     });
   }
 
+  submitAndGoNextPage(): void {
+    this.answerService.submitAnswer(this.answer).subscribe(res => {
+      this.goToNextPage();
+    });
+  }
+
   private goToNextPage(): void {
+
+    // TODO Check what's that doing here ?
+    this.displayCorrectAnswer.next(false);
 
     this.invalidAnswersStreak = (!this.topic.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
 

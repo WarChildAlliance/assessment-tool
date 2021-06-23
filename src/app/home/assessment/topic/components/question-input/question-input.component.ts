@@ -1,7 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewInit, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AnswerInput } from 'src/app/core/models/answer.model';
 import { QuestionInput } from 'src/app/core/models/question.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-question-input',
@@ -11,11 +21,14 @@ import { QuestionInput } from 'src/app/core/models/question.model';
 export class QuestionInputComponent implements OnInit {
   @Input() question: QuestionInput;
   @Input() answer: AnswerInput;
+  @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+
   @Output() answerChange = new EventEmitter<AnswerInput>();
 
   valueForm = new FormControl(null);
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.valueForm.valueChanges.subscribe(value => {
@@ -36,7 +49,7 @@ export class QuestionInputComponent implements OnInit {
     });
   }
 
-  private isValid(): boolean {
+  isValid(): boolean {
     return this.valueForm.value === this.question.valid_answer;
   }
 }

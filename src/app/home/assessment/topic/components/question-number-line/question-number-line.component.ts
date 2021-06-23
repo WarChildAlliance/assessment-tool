@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { QuestionNumberLine } from 'src/app/core/models/question.model';
 export class QuestionNumberLineComponent implements OnInit {
   @Input() question: QuestionNumberLine;
   @Input() answer: AnswerNumberLine;
+  @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
   valueForm = new FormControl(null);
@@ -24,7 +26,7 @@ export class QuestionNumberLineComponent implements OnInit {
     });
   }
 
-  private submit(value): void{
+  private submit(value): void {
     if (value) {
       if (!this.answer) {
         this.answer = {

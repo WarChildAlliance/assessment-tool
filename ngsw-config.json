@@ -6,7 +6,7 @@
       "name": "app",
       "resources": {
         "files": [
-          "/favicon.ico",
+          "/Bee-no-circle.svg",
           "/index.html",
           "/manifest.webmanifest",
           "/*.scss",
