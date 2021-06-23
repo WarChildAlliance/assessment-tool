@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
-import { ConfirmExitDialogComponent } from '../confirm-exit-dialog/confirm-exit-dialog.component';
+import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { TopicComponent } from '../../topic.component';
 
 @Component({
     selector: 'app-question',
@@ -47,10 +48,19 @@ export class QuestionComponent implements OnInit {
     canDeactivate(): Observable<boolean> | boolean {
         if (this.topic.evaluated) {
             if (!this.goNextQuestion) {
-                const dialogRef = this.dialog.open(ConfirmExitDialogComponent);
+                const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+                    disableClose: true,
+                    data: {
+                        title: 'Exit confirmation',
+                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the topics list</p>',
+                        contentAsInnerHTML: true,
+                        confirmBtnText: 'Exit',
+                        confirmBtnColor: 'warn',
+                    }
+                });
                 return dialogRef.afterClosed().pipe(map(value => {
                     if (value) {
-                        this.router.navigate(['../../../../'], {});
+                        this.router.navigate([TopicComponent], {});
                         this.goNextQuestion = true;
                     }
                     return false;

@@ -24,7 +24,6 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
-import { ConfirmExitDialogComponent } from './components/confirm-exit-dialog/confirm-exit-dialog.component';
 
 
 @NgModule({
@@ -37,8 +36,7 @@ import { ConfirmExitDialogComponent } from './components/confirm-exit-dialog/con
     QuestionNumberLineComponent,
     AttachmentsComponent,
     CompletedTopicComponent,
-    FeedbackComponent,
-    ConfirmExitDialogComponent
+    FeedbackComponent
   ],
   imports: [
     SharedModule,
