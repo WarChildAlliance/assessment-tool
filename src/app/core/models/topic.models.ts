@@ -10,4 +10,5 @@ export interface Topic {
   questions?: GeneralQuestion[];
   competency?: any;
   show_feedback?: number;
+  praise: number;
 }

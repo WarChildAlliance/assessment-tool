@@ -8,6 +8,7 @@ import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { FeedbackComponent } from '../feedback/feedback.component';
+import { PraiseComponent } from '../praise/praise.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -75,10 +76,19 @@ export class QuestionComponent implements OnInit {
           });
         });
       } else {
-        this.answerService.submitAnswer(this.answer).subscribe(res => {
-          this.goToNextPage();
-          this.answer = null;
-        });
+        const randomNumber = Math.floor(Math.random() * (this.topic.praise + 1));
+        console.log(this.topic);
+        console.log('this.topic.praise', this.topic.praise);
+        console.log('randomNumber', randomNumber);
+        if (randomNumber === 1) {
+          const dialogRef = this.dialog.open(PraiseComponent);
+          dialogRef.afterClosed().subscribe(_ => {
+            this.answerService.submitAnswer(this.answer).subscribe(res => {
+              this.goToNextPage();
+              this.answer = null;
+            });
+          });
+        }
       }
     } else {
       this.goToNextPage();

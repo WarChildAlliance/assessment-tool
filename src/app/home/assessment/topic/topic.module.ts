@@ -24,6 +24,7 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
+import { PraiseComponent } from './components/praise/praise.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {MatDividerModule} from '@angular/material/divider';
     QuestionNumberLineComponent,
     AttachmentsComponent,
     CompletedTopicComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    PraiseComponent
   ],
   imports: [
     SharedModule,
