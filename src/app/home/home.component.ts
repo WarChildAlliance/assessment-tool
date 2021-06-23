@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     for (const attachment of attachments) {
       // TODO: Fix CORS error to successfully get the attachments
-      this.http.get(attachment.file).subscribe();
+      this.http.get(attachment.file, {responseType: 'arraybuffer'}).subscribe();
     }
   }
 
