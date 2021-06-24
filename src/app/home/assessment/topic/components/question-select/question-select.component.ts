@@ -10,25 +10,15 @@ import { BehaviorSubject } from 'rxjs';
     styleUrls: ['./question-select.component.scss']
 })
 export class QuestionSelectComponent implements OnInit, OnDestroy {
+
     @Input() answer: AnswerSelect;
 
-    private receivedQuestion: QuestionSelect;
-
-    @Input() set question(value: QuestionSelect) {
-        this.receivedQuestion = value;
-
-        if (this.receivedQuestion.multiple) {
-            this.generateMultipleSelectForm();
-        }
-    }
-
-    get question(): QuestionSelect {
-        return this.receivedQuestion;
-    }
+    @Input() question: QuestionSelect;
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
+
 
     valueForm = new FormControl(null);
     multipleSelectForm: FormGroup = new FormGroup({
@@ -42,23 +32,32 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.displayCorrectAnswer.subscribe((value: boolean) => {
-                if (value && this.question.multiple) {
-                    this.multipleSelectForm.disable();
-                }
+            if (value && this.question.multiple) {
+                this.multipleSelectForm.disable();
             }
+        }
         );
         if (this.question.multiple) {
+            this.generateMultipleSelectForm();
+
             this.multipleSelectForm.valueChanges.subscribe(value => {
                 this.selectedOptions = [];
                 value.selectedOptions.forEach((val, index) => {
                     if (val.selected) {
                         this.selectedOptions.push(this.question.options[index]);
-                        this.answer = {
-                            selected_options: this.formatSelectedOptions(this.question.options[index]),
-                            question: this.question.id,
-                            duration: 0,
-                            valid: this.isValid()
-                        };
+
+                        if (!this.answer) {
+                            this.answer = {
+                                selected_options: this.formatSelectedOptions(this.question.options[index]),
+                                question: this.question.id,
+                                duration: '',
+                                valid: this.isValid()
+                            };
+                        } else {
+                            this.answer.selected_options = this.formatSelectedOptions(this.question.options[index]);
+                            this.answer.valid = this.isValid();
+                        }
+
                         this.answerChange.emit(this.answer);
                     }
                 });
@@ -66,12 +65,18 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
         } else {
             this.valueForm.valueChanges.subscribe(value => {
                 if (value) {
-                    this.answer = {
-                        selected_options: this.formatSelectedOptions(value),
-                        question: this.question.id,
-                        duration: 0,
-                        valid: this.isValid()
-                    };
+                    if (!this.answer) {
+                        this.answer = {
+                            selected_options: this.formatSelectedOptions(value),
+                            question: this.question.id,
+                            duration: '',
+                            valid: this.isValid()
+                        };
+                    } else {
+                        this.answer.selected_options = this.formatSelectedOptions(value);
+                        this.answer.valid = this.isValid();
+                    }
+
                     this.answerChange.emit(this.answer);
                 }
             });
