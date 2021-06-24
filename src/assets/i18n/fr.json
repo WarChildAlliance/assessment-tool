@@ -1,7 +1,13 @@
 {
-  "Hello": "Bonjour",
-  "No assessments": "Aucune évaluation",
-  "No topics": "Aucun sujet",
-  "Start": "Démarrer",
-  "Submit": "Soumettre"
+  "hello": "Bonjour",
+  "noAssessments": "Aucune évaluation",
+  "noTopics": "Aucun sujet",
+  "start": "Démarrer",
+  "submit": "Envoyer",
+  "skip": "Passer",
+
+  "topics": {
+    "noSkipQuestions": "Les questions ne peuvent pas être passées",
+    "skipQuestions": "Les questions peuvent être passées"
+  }
 }
