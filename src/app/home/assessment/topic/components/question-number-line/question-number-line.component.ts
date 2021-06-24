@@ -6,51 +6,49 @@ import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
-    selector: 'app-question-number-line',
-    templateUrl: './question-number-line.component.html',
-    styleUrls: ['./question-number-line.component.scss']
+  selector: 'app-question-number-line',
+  templateUrl: './question-number-line.component.html',
+  styleUrls: ['./question-number-line.component.scss']
 })
 export class QuestionNumberLineComponent implements OnInit {
-    @Input() question: QuestionNumberLine;
-    @Input() answer: AnswerNumberLine;
-    @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+  @Input() question: QuestionNumberLine;
+  @Input() answer: AnswerNumberLine;
+  @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+  @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
-    @Output() answerChange = new EventEmitter<AnswerNumberLine>();
+  valueForm = new FormControl(null);
 
-    valueForm = new FormControl(null);
+  constructor() { }
 
-    constructor() {
+  ngOnInit(): void {
+    this.valueForm.valueChanges.subscribe(value => {
+      this.submit(value);
+    });
+  }
+
+  private submit(value): void {
+    if (value) {
+      if (!this.answer) {
+        this.answer = {
+          value,
+          question: this.question.id,
+          duration: '',
+          valid: this.isValid()
+        };
+      } else {
+        this.answer.value = value;
+        this.answer.valid = this.isValid();
+      }
+      this.answerChange.emit(this.answer);
     }
+  }
 
-    ngOnInit(): void {
-        this.valueForm.valueChanges.subscribe(value => {
-            this.submit(value);
-        });
+  private isValid(): boolean {
+    const errorMargin = (this.question.end * 9) / 100;
+    if (this.question.expected_value - errorMargin < this.valueForm.value
+      && this.valueForm.value < this.question.expected_value + errorMargin) {
+      return true;
     }
-
-    private submit(value): void {
-        if (value) {
-            if (!this.answer) {
-                this.answer = {
-                    value,
-                    question: this.question.id,
-                    duration: 0,
-                    valid: this.isValid()
-                };
-            } else {
-                this.answer.value = value;
-                this.answer.valid = this.isValid();
-            }
-            this.answerChange.emit(this.answer);
-        }
-    }
-
-    private isValid(): boolean {
-        const errorMargin = (this.question.end * 9) / 100;
-        if (this.question.expected_value - errorMargin < this.valueForm.value
-            && this.valueForm.value < this.question.expected_value + errorMargin) {
-            return true;
-        }
-        return false;
-    }
+    return false;
+  }
 }

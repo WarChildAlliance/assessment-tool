@@ -5,7 +5,7 @@ export interface Answer {
   id?: number;
   topic_answer?: TopicAnswer | number;
   question: GeneralQuestion | number;
-  duration: number;
+  duration: string;
   valid: boolean;
 }
 
@@ -26,4 +26,8 @@ export interface AnswerSort extends Answer {
   category_B: SortOption[] | number[];
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort;
+export interface SkippedAnswer extends Answer {
+  skipped: true;
+}
+
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | SkippedAnswer;

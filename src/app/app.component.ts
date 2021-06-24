@@ -35,7 +35,7 @@ export class AppComponent {
         this.inactiveTimeout = setTimeout(
           () => {
             this.endSession().subscribe(
-              _ =>  this.router.navigate([''])
+              _ => this.router.navigate([''])
             );
           },
           1000 * 60 * 5
