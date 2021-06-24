@@ -53,7 +53,7 @@ export class QuestionComponent implements OnInit {
                     disableClose: true,
                     data: {
                         title: 'Exit confirmation',
-                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the topics list</p>',
+                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the Assessment list</p>',
                         contentAsInnerHTML: true,
                         confirmBtnText: 'Exit',
                         confirmBtnColor: 'warn',
