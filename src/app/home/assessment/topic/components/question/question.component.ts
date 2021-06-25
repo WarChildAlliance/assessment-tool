@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -15,34 +15,29 @@ import { GenericConfirmationDialogComponent } from '../../../../../shared/compon
 import { TopicComponent } from '../../topic.component';
 
 @Component({
-    selector: 'app-question',
-    templateUrl: './question.component.html',
-    styleUrls: ['./question.component.scss']
+  selector: 'app-question',
+  templateUrl: './question.component.html',
+  styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-    topic: Topic;
+  topic: Topic;
 
     question: GeneralQuestion;
     questionIndex: number;
     goNextQuestion = false;
 
-    displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    answer: GeneralAnswer;
+  // TODO Check what's that doing here ?
+  answer: GeneralAnswer;
 
-    private dateStart: Moment;
+  private questionTimeStart: Moment;
 
-    private assessment: Assessment;
-    firstTry: boolean;
+  private dateStart: Moment;
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private answerService: AnswerService,
-        public dialog: MatDialog,
-        private assessmentService: AssessmentService
-    ) {
-    }
+  private assessment: Assessment;
+  firstTry: boolean;
+  invalidAnswersStreak = 0;
 
     /* Shows modal confirmation before leave the page if is evluated topic
     */
@@ -82,68 +77,104 @@ export class QuestionComponent implements OnInit {
         this.answer = null;
     }
 
-    ngOnInit(): void {
-        this.dateStart = moment();
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private answerService: AnswerService,
+    public dialog: MatDialog,
+    private assessmentService: AssessmentService,
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
-        combineLatest([this.route.data, this.route.paramMap]).subscribe(
-            ([data, params]: [{ topic: any }, ParamMap]) => {
-                if (data && params) {
-                    this.assessmentService.getAssessment(data.topic.assessment).subscribe(res => {
-                        this.assessment = res;
-                        this.isFirst(this.topic.id);
-                    });
-                    this.topic = data.topic;
-                    const questionId = parseInt(params.get('question_id'), 10);
-                    this.questionIndex = data.topic.questions.findIndex(q => q.id === questionId);
-                    this.question = data.topic.questions[this.questionIndex];
-                }
-            }
-        );
+  ngOnInit(): void {
+    combineLatest([this.route.data, this.route.paramMap]).subscribe(
+      ([data, params]: [{ topic: any }, ParamMap]) => {
+        this.questionTimeStart = moment();
 
-    }
-
-    submitAnswer(): void {
-        const duration = moment.duration(moment().diff(this.dateStart));
-        if (this.answer) {
-            this.answer.duration = duration.asMilliseconds();
-            if (this.canShowFeedback()) {
-                this.displayCorrectAnswer.next(true);
-            } else {
-                this.submitAndGoNextPage();
-            }
-        } else {
-            this.goToNextPage();
+        if (data && params) {
+          this.question = null;
+          this.changeDetector.detectChanges();
+          this.assessmentService.getAssessment(data.topic.assessment).subscribe(res => {
+            this.assessment = res;
+            this.isFirst(this.topic.id);
+          });
+          this.topic = data.topic;
+          const questionId = parseInt(params.get('question_id'), 10);
+          this.questionIndex = data.topic.questions.findIndex(q => q.id === questionId);
+          this.question = data.topic.questions[this.questionIndex];
         }
-    }
+      }
+    );
+  }
 
-    submitAndGoNextPage(): void {
-        this.answerService.submitAnswer(this.answer).subscribe(res => {
-            this.answer = null;
-            this.goToNextPage();
-        });
-    }
+  submitAnswer(): void {
+    const duration = moment.utc(moment().diff(this.questionTimeStart)).format('HH:mm:ss');
 
-    isFirst(topicId): any {
-        return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
-            this.firstTry = topics.length === 0;
-        });
-    }
+    if (this.answer) {
+      this.answer.duration = duration;
+      if (this.canShowFeedback()) {
+        this.displayCorrectAnswer.next(true);
+      } else {
+        this.submitAndGoNextPage();
+      }
+    } else if (!this.answer && this.topic.allow_skip) {
 
-    canShowFeedback(): boolean {
-        // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
-        return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
-    }
+      if (confirm('Skip the question?')) {
+        this.answer = {
+          question: this.question.id,
+          duration,
+          valid: false,
+          skipped: true
+        };
 
-    private goToNextPage(): void {
-        this.goNextQuestion = true;
-        this.displayCorrectAnswer.next(false);
+        this.submitAndGoNextPage();
+      }
 
-        if (this.questionIndex + 1 < this.topic.questions.length) {
-            const nextId = this.topic.questions[this.questionIndex + 1].id;
-            this.router.navigate(['../', nextId], {relativeTo: this.route});
-        } else {
-            this.router.navigate(['../../', 'completed'], {relativeTo: this.route});
-            // this.router.navigate(['../../../../'], { relativeTo: this.route });
-        }
+    } else {
+      console.warn('Unexpected behaviour while submitting answer');
+      this.goToNextPage();
     }
+  }
+
+  canShowFeedback(): boolean {
+    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
+    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
+  }
+
+  isFirst(topicId): any {
+    return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
+      this.firstTry = topics.length === 0;
+    });
+  }
+
+  submitAndGoNextPage(): void {
+    this.answerService.submitAnswer(this.answer).subscribe(res => {
+      this.goToNextPage();
+    });
+  }
+
+  private goToNextPage(): void {
+
+    this.goNextQuestion = true;
+
+
+    // TODO Check what's that doing here ?
+    // this is to hide the correct answer feedback and display it only if the topic has show feedback activated
+    // and after the user submit their answer
+    this.displayCorrectAnswer.next(false);
+
+    this.invalidAnswersStreak = (!this.topic.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
+
+    this.answer = null;
+
+    if (this.topic.max_wrong_answers && (this.invalidAnswersStreak > this.topic.max_wrong_answers)) {
+      this.router.navigate(['']);
+    } else if (this.questionIndex + 1 < this.topic.questions.length) {
+      const nextId = this.topic.questions[this.questionIndex + 1].id;
+      this.router.navigate(['../', nextId], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+      // this.router.navigate(['../../../../'], { relativeTo: this.route });
+    }
+  }
 }

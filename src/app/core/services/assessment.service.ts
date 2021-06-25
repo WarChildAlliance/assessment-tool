@@ -38,11 +38,11 @@ export class AssessmentService {
           assessmentsList.map(assessment => {
             assessment.locked = false;
           });
-          preSelAssessment.locked = true;
+          if (preSelAssessment) { preSelAssessment.locked = true; }
         }
 
         // If there's a postSel assessment, unlock it only if all other assessments are complete
-        if (postSelAssessment) {
+        if (!!postSelAssessment) {
           let uncompleteTopicLeft = false;
           assessmentsList.forEach(assessment => {
             if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') { uncompleteTopicLeft = true; return; }
@@ -62,7 +62,7 @@ export class AssessmentService {
 
   getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
 
-    return forkJoin ( {
+    return forkJoin({
       topics: this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`),
       competencies: this.http.get<any[]>(`${environment.API_URL}/gamification/topic-competencies/`)
     }).pipe(
@@ -73,7 +73,7 @@ export class AssessmentService {
             topic.competency = matchingCompetency ? matchingCompetency.competency : null;
           }
           return res.topics;
-      })
+        })
     );
   }
 

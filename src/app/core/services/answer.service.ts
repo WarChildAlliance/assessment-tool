@@ -221,7 +221,7 @@ export class AnswerService {
   private createSession(): Observable<AnswerSession> {
     return this.http.post<AnswerSession>(
       `${environment.API_URL}/answers/${this.userService.user.id}/sessions/`,
-      { student: this.userService.user.id, duration: 0 }
+      { student: this.userService.user.id, duration: '' }
     ).pipe(
       tap(session => this.cacheService.setData(this.activeSessionStorage, session))
     );
