@@ -6,13 +6,13 @@
             </li>
 
             <li *ngIf="assessment.locked" class="assessment-card -locked">
-                <a >{{assessment.title}} (locked)</a>
+                <a>{{assessment.title}} (locked)</a>
             </li>
         </ng-container>
     </ul>
 
     <ng-template #noAssessments>
-        <p>{{ 'No assessments' | translate }}</p>
+        <p>{{ 'noAssessments' | translate }}</p>
     </ng-template>
-    
+
 </div>
