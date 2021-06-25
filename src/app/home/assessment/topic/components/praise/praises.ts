@@ -1,4 +1,4 @@
-export const Praises = [
+export const PraiseTexts = [
     {
         text: 'Great job!',
         image: './src/assets/praise-icons/bee-honey.png',

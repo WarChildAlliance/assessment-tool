@@ -6,6 +6,7 @@ interface DialogData {
     title: string;
     content?: string;
     contentAsInnerHTML?: boolean;
+    cancelBtn?: boolean;
     cancelBtnText?: string;
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
@@ -21,6 +22,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public title = '';
     public content = '';
     public contentAsInnerHTML = false;
+    public cancelBtn = false;
     public cancelBtnText = 'Cancel';
     public confirmBtnText = 'Confirm';
     public confirmBtnColor: ThemePalette = 'primary';
@@ -31,6 +33,9 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
         if (data.content) {
             this.content = data.content;
+        }
+        if (data.cancelBtn) {
+            this.cancelBtn = data.cancelBtn;
         }
         if (data.cancelBtnText) {
             this.cancelBtnText = data.cancelBtnText;
@@ -44,6 +49,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
         if (data.contentAsInnerHTML) {
             this.contentAsInnerHTML = data.contentAsInnerHTML;
         }
+
     }
 
     ngOnInit(): void {

@@ -6,7 +6,7 @@
         <div *ngIf="!contentAsInnerHTML"> {{content}}</div>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button mat-button cdkfocusinitial [mat-dialog-close]="false">{{ cancelBtnText }}</button>
+        <button *ngIf="cancelBtn" mat-button cdkfocusinitial [mat-dialog-close]="false">{{ cancelBtnText }}</button>
         <button mat-button mat-stroked-button [color]="confirmBtnColor"
                 [mat-dialog-close]="true">{{ confirmBtnText }}</button>
     </mat-dialog-actions>

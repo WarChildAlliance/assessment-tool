@@ -6,7 +6,7 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
-import { PraiseComponent } from '../praise/praise.component';
+import { PraiseTexts } from '../praise/praises';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -51,6 +51,7 @@ export class QuestionComponent implements OnInit {
                         title: 'Exit confirmation',
                         content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the Assessment list</p>',
                         contentAsInnerHTML: true,
+                        cancelBtn: true,
                         confirmBtnText: 'Exit',
                         confirmBtnColor: 'warn',
                     }
@@ -154,8 +155,18 @@ export class QuestionComponent implements OnInit {
 
     // determine if we show praise or not by a 1/topic.praise chance
     const showPraise = Math.floor(Math.random() * (this.topic.praise + 1));
+    const randIndex = Math.floor(Math.random() * PraiseTexts.length);
+    const praise = PraiseTexts[randIndex];
     if (showPraise === 1) {
-      const dialogRef = this.dialog.open(PraiseComponent);
+      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        disableClose: true,
+        data: {
+            content: praise.text,
+            confirmBtnText: 'Continue',
+            confirmBtnColor: 'primary',
+            cancelBtn: false,
+        }
+    });
       dialogRef.afterClosed().subscribe(_ => {
         this.answerService.submitAnswer(this.answer).subscribe(res => {
           this.goToNextPage();
