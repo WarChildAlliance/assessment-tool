@@ -1,16 +1,81 @@
-<mat-radio-group class="select-content" [formControl]="valueForm" *ngIf="!question.multiple">
-    <ng-container *ngFor="let option of question.options">
-        <div [style.background]="setAnswerBackground(option)"
-             [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']">
-            <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                {{ option.value }}
-            </mat-radio-button>
-            <div class="attachments-style">
-                <app-attachments [attachments]="option.attachments"></app-attachments>
+<section>
+    <mat-radio-group [formControl]="valueForm" *ngIf="!question.multiple">
+        <ng-container *ngFor="let option of question.options">
+            <div *ngIf="option.attachments.length > 0; else noAttachmentQuestion" id="card-container"
+                 [style.background]="setAnswerBackground(option)">
+                <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
+                    <mat-card-content>
+                        <div *ngFor="let attachment of option.attachments">
+
+                            <img *ngIf="attachment.attachment_type === 'IMAGE'"
+                                 [src]="attachment.file"
+                                 alt="">
+
+                            <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
+                                    [appAudioPlay]="attachment.file">
+                                <mat-icon svgIcon="volume_up"></mat-icon>
+                            </button>
+
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions align="center">
+                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()"
+                                          [value]="option">
+                            {{ option.value }}
+                        </mat-radio-button>
+
+                    </mat-card-actions>
+                </mat-card>
             </div>
-        </div>
-    </ng-container>
-</mat-radio-group>
+            <ng-template #noAttachmentQuestion>
+                <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
+                     [style.background]="setAnswerBackground(option)" class="no-attachment">
+                    <mat-radio-button [disabled]="displayCorrectAnswer.getValue()"
+                                      [value]="option">
+                        {{ option.value }}
+                    </mat-radio-button>
+                </div>
+            </ng-template>
+        </ng-container>
+    </mat-radio-group>
+</section>
+<!--<mat-grid-list cols="2">-->
+<!--    <div>-->
+
+<!--        <mat-radio-group [formControl]="valueForm" *ngIf="!question.multiple">-->
+<!--            &lt;!&ndash;    <mat-grid-list cols="4">&ndash;&gt;-->
+<!--            <div *ngFor="let option of question.options" [style.background]="setAnswerBackground(option)">-->
+<!--                &lt;!&ndash;            <mat-grid-tile>&ndash;&gt;-->
+<!--                <mat-grid-tile>-->
+
+<!--                    <mat-grid-tile-header>-->
+<!--                        <ng-container *ngIf="option.attachments.length > 0">-->
+<!--                            <div (click)="valueForm.setValue(option)"-->
+<!--                                 *ngFor="let attachement of option.attachments">-->
+<!--                                <img height="120px" *ngIf="attachement.attachment_type === 'IMAGE'"-->
+<!--                                     [src]="attachement.file"-->
+<!--                                     alt="">-->
+<!--                            </div>-->
+<!--                        </ng-container>-->
+<!--                    </mat-grid-tile-header>-->
+
+<!--                    <mat-grid-tile-footer>-->
+<!--                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">-->
+<!--                            {{ option.value }}-->
+<!--                        </mat-radio-button>-->
+<!--                    </mat-grid-tile-footer>-->
+
+<!--                </mat-grid-tile>-->
+<!--                &lt;!&ndash;            </mat-grid-tile>&ndash;&gt;-->
+<!--                &lt;!&ndash;            <div class="attachments-style">&ndash;&gt;-->
+<!--                &lt;!&ndash;                &lt;!&ndash;                <app-attachments [attachments]="option.attachments"></app-attachments>&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash;    </mat-grid-list>&ndash;&gt;-->
+<!--        </mat-radio-group>-->
+<!--    </div>-->
+<!--</mat-grid-list>-->
 
 <section [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-content">
     <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">

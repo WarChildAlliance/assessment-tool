@@ -32,10 +32,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.displayCorrectAnswer.subscribe((value: boolean) => {
-            if (value && this.question.multiple) {
-                this.multipleSelectForm.disable();
+                if (value && this.question.multiple) {
+                    this.multipleSelectForm.disable();
+                }
             }
-        }
         );
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
@@ -64,6 +64,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
             });
         } else {
             this.valueForm.valueChanges.subscribe(value => {
+                console.log('VA', value);
+                console.log('FORM', this.valueForm);
                 if (value) {
                     if (!this.answer) {
                         this.answer = {
@@ -113,7 +115,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     setAnswerBackground(option: any): string {
         return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : '';
+            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : option.attachments.length > 0 ? '' : 'white';
     }
 
     ngOnDestroy(): void {
