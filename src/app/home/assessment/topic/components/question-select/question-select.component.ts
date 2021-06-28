@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
@@ -19,7 +19,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
-
     valueForm = new FormControl(null);
     multipleSelectForm: FormGroup = new FormGroup({
         selectedOptions: new FormArray([]),
@@ -39,6 +38,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
         );
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
+
+            // we disabled the checkboxes because we handler the selection using (click) event
+            // that calls the method setCheckboxSelection(index: number)
+            this.multipleSelectForm.disable();
 
             this.multipleSelectForm.valueChanges.subscribe(value => {
                 this.selectedOptions = [];
@@ -64,8 +67,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
             });
         } else {
             this.valueForm.valueChanges.subscribe(value => {
-                console.log('VA', value);
-                console.log('FORM', this.valueForm);
                 if (value) {
                     if (!this.answer) {
                         this.answer = {
@@ -115,11 +116,27 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     setAnswerBackground(option: any): string {
         return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : option.attachments.length > 0 ? '' : 'white';
+            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : 'white';
     }
 
     ngOnDestroy(): void {
         this.displayCorrectAnswer.next(false);
         this.answer = null;
+    }
+
+    setCheckboxSelection(index: number): void {
+        if (this.displayCorrectAnswer.getValue()) {
+            return;
+        }
+        const selectedOptionsForm = this.multipleSelectForm.get('selectedOptions') as FormArray;
+
+        const optionalValue = selectedOptionsForm.controls[index].value.selected;
+
+        selectedOptionsForm.controls[index].setValue({selected: !optionalValue});
+    }
+
+
+    hasImageAttached(option: SelectOption): boolean {
+        return option.attachments.some((attachment) => attachment.attachment_type === 'IMAGE');
     }
 }
