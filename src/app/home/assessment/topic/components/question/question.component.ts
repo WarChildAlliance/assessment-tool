@@ -148,7 +148,7 @@ export class QuestionComponent implements OnInit {
   }
 
   submitAndGoNextPage(): void {
-    this.answerService.submitAnswer(this.answer).subscribe(res => {
+    this.answerService.submitAnswer(this.answer, this.topic.id).subscribe(res => {
       this.goToNextPage();
     });
   }
