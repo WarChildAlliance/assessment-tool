@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/cor
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -10,6 +10,9 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
+import { map } from 'rxjs/operators';
+import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { TopicComponent } from '../../topic.component';
 
 @Component({
   selector: 'app-question',
@@ -19,8 +22,9 @@ import { Assessment } from 'src/app/core/models/assessment.model';
 export class QuestionComponent implements OnInit {
   topic: Topic;
 
-  question: GeneralQuestion;
-  questionIndex: number;
+    question: GeneralQuestion;
+    questionIndex: number;
+    goNextQuestion = false;
 
   displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -35,6 +39,43 @@ export class QuestionComponent implements OnInit {
   firstTry: boolean;
   invalidAnswersStreak = 0;
 
+    /* Shows modal confirmation before leave the page if is evluated topic
+    */
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.topic.evaluated) {
+            if (!this.goNextQuestion) {
+                const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+                    disableClose: true,
+                    data: {
+                        title: 'Exit confirmation',
+                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the Assessment list</p>',
+                        contentAsInnerHTML: true,
+                        confirmBtnText: 'Exit',
+                        confirmBtnColor: 'warn',
+                    }
+                });
+                return dialogRef.afterClosed().pipe(map(value => {
+                    if (value) {
+                        this.router.navigate([TopicComponent], {});
+                        this.goNextQuestion = true;
+                    }
+                    return false;
+                }));
+            } else {
+                this.goNextQuestion = false;
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    // we need to reset the answer when user navigate to previous question
+    @HostListener('window:popstate', ['$event'])
+    onPopState(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
+    }
 
   constructor(
     private route: ActivatedRoute,
@@ -114,7 +155,12 @@ export class QuestionComponent implements OnInit {
 
   private goToNextPage(): void {
 
+    this.goNextQuestion = true;
+
+
     // TODO Check what's that doing here ?
+    // this is to hide the correct answer feedback and display it only if the topic has show feedback activated
+    // and after the user submit their answer
     this.displayCorrectAnswer.next(false);
 
     this.invalidAnswersStreak = (!this.topic.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
