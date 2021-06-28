@@ -118,17 +118,31 @@ export class QuestionComponent implements OnInit {
         this.submitAndGoNextPage();
       }
     } else if (!this.answer && this.topic.allow_skip) {
+      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        disableClose: true,
+        data: {
+            content: 'Are you sure you want to skip this question?',
+            contentAsInnerHTML: true,
+            cancelBtn: true,
+            confirmBtnText: 'Confirm',
+            confirmBtnColor: 'warn',
+        }
+    });
+      dialogRef.afterClosed().subscribe(value => {
+      if (value === false) {
+        dialogRef.close();
+      } else if (value === true) {
+      this.answer = {
+        question: this.question.id,
+        duration,
+        valid: false,
+        skipped: true
+      };
 
-      if (confirm('Skip the question?')) {
-        this.answer = {
-          question: this.question.id,
-          duration,
-          valid: false,
-          skipped: true
-        };
-
+      this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.submitAndGoNextPage();
-      }
+      }); }
+    });
 
     } else {
       console.warn('Unexpected behaviour while submitting answer');
