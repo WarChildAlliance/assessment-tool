@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/core/models/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericConfirmationDialogComponent } from '../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+
+
 
 @Component({
   selector: 'app-assessment-header',
@@ -11,7 +15,8 @@ export class HeaderComponent implements OnInit {
   user: User;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -20,4 +25,17 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+      disableClose: true,
+      data: {
+          title: 'Hi!',
+          content: '<p>Info here is coming up</p>',
+          contentAsInnerHTML: true,
+          confirmBtnText: 'OK',
+          confirmBtnColor: 'primary',
+      }
+  });
+  }
 }
