@@ -5,7 +5,8 @@ import { AssessmentComponent } from './assessment.component';
 import { HeaderComponent } from './components/header/header.component';
 import { TopicsComponent } from './components/topics/topics.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { BeeAssisstantComponent } from '../assessment/components/bee-assisstant/bee-assisstant.component';
 
 
 
@@ -13,7 +14,8 @@ import {MatCardModule} from '@angular/material/card';
   declarations: [
     AssessmentComponent,
     HeaderComponent,
-    TopicsComponent
+    TopicsComponent,
+    BeeAssisstantComponent,
   ],
   imports: [
     SharedModule,
