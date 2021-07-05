@@ -6,7 +6,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-
+import {GuidedTourModule, GuidedTourService} from 'ngx-guided-tour';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,10 @@ import { MatCardModule } from '@angular/material/card';
     HomeRoutingModule,
     MatIconModule,
     MatCardModule,
+    GuidedTourModule
+  ],
+  providers: [
+    GuidedTourService
   ]
 })
 export class HomeModule { }
