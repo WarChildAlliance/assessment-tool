@@ -6,7 +6,7 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
-import { PraiseTexts } from '../praise/praises';
+import { PraiseTexts } from '../praise/praises.dictionary';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -23,9 +23,10 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 export class QuestionComponent implements OnInit {
   topic: Topic;
 
-    question: GeneralQuestion;
-    questionIndex: number;
-    goNextQuestion = false;
+  question: GeneralQuestion;
+  questionIndex: number;
+  goNextQuestion = false;
+  private skipped = false;
 
   displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -35,14 +36,13 @@ export class QuestionComponent implements OnInit {
   private questionTimeStart: Moment;
 
   private dateStart: Moment;
-
   private assessment: Assessment;
+
   firstTry: boolean;
   invalidAnswersStreak = 0;
 
-    /* Shows modal confirmation before leave the page if is evluated topic
-    */
-    canDeactivate(): Observable<boolean> | boolean {
+  // Shows modal confirmation before leave the page if is evaluated topic
+  canDeactivate(): Observable<boolean> | boolean {
         if (this.topic.evaluated) {
             if (!this.goNextQuestion) {
                 const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
@@ -72,12 +72,12 @@ export class QuestionComponent implements OnInit {
         }
     }
 
-    // we need to reset the answer when user navigate to previous question
-    @HostListener('window:popstate', ['$event'])
+  // we need to reset the answer when user navigate to previous question
+  @HostListener('window:popstate', ['$event'])
     onPopState(): void {
         this.displayCorrectAnswer.next(false);
         this.answer = null;
-    }
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -120,7 +120,6 @@ export class QuestionComponent implements OnInit {
         this.submitAndGoNextPage();
       }
     } else if (!this.answer && this.topic.allow_skip) {
-
       if (confirm('Skip the question?')) {
         this.answer = {
           question: this.question.id,
@@ -128,19 +127,17 @@ export class QuestionComponent implements OnInit {
           valid: false,
           skipped: true
         };
-
+        this.skipped = true;
         this.submitAndGoNextPage();
       }
-
     } else {
       console.warn('Unexpected behaviour while submitting answer');
       this.goToNextPage();
     }
   }
 
-
   canShowFeedback(): boolean {
-    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY
+    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
     return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
   }
 
@@ -150,29 +147,36 @@ export class QuestionComponent implements OnInit {
     });
   }
 
+  showPraise(): void{
+  // determine if we show praise or not by a 1/topic.praise chance
+  const showPraise = Math.ceil(Math.random() * (this.topic.praise));
+  const randIndex = Math.ceil(Math.random() * PraiseTexts.length);
+  const praise = PraiseTexts[randIndex];
+  if (showPraise === 1) {
+    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+      disableClose: true,
+      data: {
+          content: praise.text,
+          confirmBtnText: 'Continue',
+          confirmBtnColor: 'primary',
+          cancelBtn: false,
+      }
+      });
 
-  submitAndGoNextPage(): void {
-
-    // determine if we show praise or not by a 1/topic.praise chance
-    const showPraise = Math.floor(Math.random() * (this.topic.praise + 1));
-    const randIndex = Math.floor(Math.random() * PraiseTexts.length);
-    const praise = PraiseTexts[randIndex];
-    if (showPraise === 1) {
-      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-            content: praise.text,
-            confirmBtnText: 'Continue',
-            confirmBtnColor: 'primary',
-            cancelBtn: false,
-        }
-    });
-      dialogRef.afterClosed().subscribe(_ => {
+    dialogRef.afterClosed().subscribe(_ => {
         this.answerService.submitAnswer(this.answer).subscribe(res => {
           this.goToNextPage();
           this.answer = null;
         });
       });
+    } else {
+      this.submitAndGoNextPage();
+    }
+  }
+
+  submitAndGoNextPage(): void {
+    if (!this.skipped){
+      this.showPraise();
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
@@ -184,8 +188,6 @@ export class QuestionComponent implements OnInit {
 
     this.goNextQuestion = true;
 
-
-    // TODO Check what's that doing here ?
     // this is to hide the correct answer feedback and display it only if the topic has show feedback activated
     // and after the user submit their answer
     this.displayCorrectAnswer.next(false);
@@ -193,6 +195,7 @@ export class QuestionComponent implements OnInit {
     this.invalidAnswersStreak = (!this.topic.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
 
     this.answer = null;
+    this.skipped = false;
 
     if (this.topic.max_wrong_answers && (this.invalidAnswersStreak > this.topic.max_wrong_answers)) {
       this.router.navigate(['']);
