@@ -149,10 +149,10 @@ export class QuestionComponent implements OnInit {
 
   showPraise(): void{
   // determine if we show praise or not by a 1/topic.praise chance
-  const showPraise = Math.ceil(Math.random() * (this.topic.praise));
-  const randIndex = Math.ceil(Math.random() * PraiseTexts.length);
+  const praiseProbability = Math.ceil(Math.random() * (this.topic.praise));
+  const randIndex = Math.floor(Math.random() * PraiseTexts.length);
   const praise = PraiseTexts[randIndex];
-  if (showPraise === 1) {
+  if (praiseProbability === 1) {
     const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
       disableClose: true,
       data: {
@@ -166,11 +166,12 @@ export class QuestionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_ => {
         this.answerService.submitAnswer(this.answer).subscribe(res => {
           this.goToNextPage();
-          this.answer = null;
         });
       });
     } else {
-      this.submitAndGoNextPage();
+      this.answerService.submitAnswer(this.answer).subscribe(res => {
+        this.goToNextPage();
+      });
     }
   }
 

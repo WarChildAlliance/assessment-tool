@@ -44,7 +44,7 @@ export class QuestionNumberLineComponent implements OnInit {
   }
 
   private isValid(): boolean {
-    const errorMargin = (this.question.end * 9) / 100;
+    const errorMargin = (this.question.end * 10) / 100;
     if (this.question.expected_value - errorMargin < this.valueForm.value
       && this.valueForm.value < this.question.expected_value + errorMargin) {
       return true;
