@@ -1,4 +1,4 @@
-export interface AssisstantContent {
+export interface AssisstantContentModel {
     pageID: string;
     content: string;
     pictureURL: string;

@@ -4,13 +4,12 @@ import { GenericConfirmationDialogComponent } from '../../../../shared/component
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
-  selector: 'app-bee-assisstant',
-  templateUrl: './bee-assisstant.component.html',
-  styleUrls: ['./bee-assisstant.component.scss']
+  selector: 'app-assisstant',
+  templateUrl: './assisstant.component.html',
+  styleUrls: ['./assisstant.component.scss']
 })
-export class BeeAssisstantComponent implements OnInit {
+export class AssisstantComponent implements OnInit {
 
-beeContent: string;
 currentPageContent: any = {};
 
   constructor(

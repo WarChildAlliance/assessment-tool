@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GenericConfirmationDialogComponent } from './components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { BeeAssisstantComponent } from '../home/assessment/components/bee-assisstant/bee-assisstant.component';
+import { AssisstantComponent } from '../home/assessment/components/assisstant/assisstant.component';
 
 
 @NgModule({
@@ -15,7 +15,7 @@ import { BeeAssisstantComponent } from '../home/assessment/components/bee-assiss
         AudioPlayDirective,
         StudentPointsComponent,
         GenericConfirmationDialogComponent,
-        BeeAssisstantComponent
+        AssisstantComponent
     ],
     imports: [
         CommonModule,
@@ -29,7 +29,7 @@ import { BeeAssisstantComponent } from '../home/assessment/components/bee-assiss
         TranslateModule,
         AudioPlayDirective,
         StudentPointsComponent,
-        BeeAssisstantComponent
+        AssisstantComponent
     ]
 })
 export class SharedModule {

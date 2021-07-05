@@ -1,4 +1,4 @@
-export const BeeContent = [
+export const AssisstantContent = [
     {
     pageID: 'assessments-page',
     content: 'You\'re in the assessments page! Friendly bee says hi.',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BeeContent } from 'src/app/constants/bee-content.dictionary';
-import { AssisstantContent } from '../models/assisstent-content.model';
+import { AssisstantContent } from 'src/app/constants/assisstant-content.dictionary';
+import { AssisstantContentModel } from '../models/assisstant-content.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,15 @@ export class AssisstantService {
   constructor() { }
 
   pageID: string;
-  pageContent: AssisstantContent;
-  beeContent = BeeContent;
+  pageContent: AssisstantContentModel;
+  assisstantContent = AssisstantContent;
 
   setPageID(currentPageID: string): void {
     this.pageID = currentPageID;
-    this.pageContent = this.beeContent.filter(item => item.pageID === this.pageID).pop();
+    this.pageContent = this.assisstantContent.filter(item => item.pageID === this.pageID).pop();
   }
 
-  getPageContent(): AssisstantContent {
+  getPageContent(): AssisstantContentModel {
     return this.pageContent;
   }
 

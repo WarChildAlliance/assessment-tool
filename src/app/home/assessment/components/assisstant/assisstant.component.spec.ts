@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AssisstantComponent } from './assisstant.component';
 
-import { BeeAssisstantComponent } from './bee-assisstant.component';
-
-describe('BeeAssisstantComponent', () => {
-  let component: BeeAssisstantComponent;
-  let fixture: ComponentFixture<BeeAssisstantComponent>;
+describe('AssisstantComponent', () => {
+  let component: AssisstantComponent;
+  let fixture: ComponentFixture<AssisstantComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BeeAssisstantComponent ]
+      declarations: [ AssisstantComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BeeAssisstantComponent);
+    fixture = TestBed.createComponent(AssisstantComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
