@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 
 @Component({
@@ -17,10 +18,12 @@ export class QuestionNumberLineComponent implements OnInit {
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
   valueForm = new FormControl(null);
+  private readonly pageID = 'question-number-line-page';
 
-  constructor() { }
+  constructor(private assisstantService: AssisstantService) { }
 
   ngOnInit(): void {
+    this.assisstantService.setPageID(this.pageID);
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });

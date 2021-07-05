@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { AnswerInput } from 'src/app/core/models/answer.model';
 import { QuestionInput } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-question-input',
@@ -26,11 +27,13 @@ export class QuestionInputComponent implements OnInit {
   @Output() answerChange = new EventEmitter<AnswerInput>();
 
   valueForm = new FormControl(null);
+  private readonly pageID = 'question-input-page';
 
-  constructor() {
+  constructor(private assisstantService: AssisstantService) {
   }
 
   ngOnInit(): void {
+    this.assisstantService.setPageID(this.pageID);
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {
         if (!this.answer) {

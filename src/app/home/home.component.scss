@@ -16,8 +16,11 @@ mat-card {
 
     .logout {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 0px;
+      right: 0px;
+      padding: 10px;
+      display:flex;
+      flex-direction: column;
     }
   
     .user-icon {
