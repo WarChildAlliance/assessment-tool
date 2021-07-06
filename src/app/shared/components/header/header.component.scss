@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   font-weight: bold;
   text-align: center;
+  position: relative;
 
   .profile {
     &__link {
@@ -19,6 +20,13 @@
 
       &:hover {
         color: #353535;
+      }
+
+      position: relative;
+      app-assisstant {
+        position: absolute;
+        right: 10px;
+        top: 10px;
       }
     }
 

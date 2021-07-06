@@ -28,6 +28,13 @@ mat-card {
     background-color: white;
     border-bottom: 1px solid #c0c0c0;
     display: flex;
+
+    position: relative;
+    app-assisstant {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   }
 
   &__student-points {

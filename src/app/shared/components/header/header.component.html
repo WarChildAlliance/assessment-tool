@@ -1,11 +1,12 @@
 <div class="header" [class]="style">
-    <app-assisstant></app-assisstant>
 
     <a class="profile__link" [routerLink]="['/profile']">
         <img class="profile__avatar" src="{{ getImageUrl() }}" />
         <h3 class="profile__name">
             <span class="profile__hello">{{ 'hello' | translate }}</span>
-            {{ user?.first_name }}</h3>
+            {{ user?.first_name }}
+        </h3>
+        <app-assisstant></app-assisstant>
     </a>
 
     <span class="profile__effort">

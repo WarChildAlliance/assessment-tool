@@ -55,4 +55,11 @@ export const AssisstantContent = [
      audioURL: '',
      tutorialID: ''
     },
-    ];
+    {
+    pageID: 'profile-page',
+     content: 'You\'re in the profile topic page!',
+     pictureURL: '',
+     audioURL: '',
+     tutorialID: ''
+    },
+];

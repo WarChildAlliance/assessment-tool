@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  private readonly pageID = 'profile-page';
 
   user: User;
   avatars: Avatar[];
@@ -21,10 +23,12 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     public cacheService: CacheService,
     private profileService: ProfileService,
-    private userService: UserService
+    private userService: UserService,
+    private assisstantService: AssisstantService,
   ) { }
 
   ngOnInit(): void {
+    this.assisstantService.setPageID(this.pageID);
     this.route.data.subscribe(
       (data: { user: User }) => this.user = data.user
     );
