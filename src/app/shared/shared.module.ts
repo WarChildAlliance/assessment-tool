@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GenericConfirmationDialogComponent } from './components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { AssisstantComponent } from '../home/assessment/components/assisstant/assisstant.component';
+import { AssisstantComponent } from './components/assisstant/assisstant.component';
 
 
 @NgModule({
