@@ -27,6 +27,6 @@ export class AlertService {
     if (action) {
       config.duration = undefined;
     }
-    this.snackbar.open(message, action, config);
+    this.snackbar.open('Unknown username. Contact your teacher in case you forgot your code', action, config);
   }
 }
