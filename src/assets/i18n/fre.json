@@ -9,5 +9,14 @@
   "topics": {
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "skipQuestions": "Les questions peuvent être passées"
+  },
+
+  "profile": {
+    "competency": "Compétence",
+    "effort": "Effort",
+    "shop": "Magasin",
+    "noShopOffline": "Il te faut une connexion internet pour accéder au magasin !",
+    "unlocked": "Déverouillé",
+    "selected": "Sélectionné"
   }
 }

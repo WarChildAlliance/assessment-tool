@@ -1,12 +1,8 @@
 <mat-card>
-    <div class="username-header">
-        <div class="logout">
-            <app-assisstant></app-assisstant>
-            <mat-icon svgIcon="logout" (click)="logout()"></mat-icon>     
-        </div>
-        <img class="user-icon" src="./../assets/icons/Bee.svg"/>
-        <h3>{{ 'hello' | translate }} {{ user?.first_name }}</h3>
+    <div class="logout">
+        <mat-icon svgIcon="logout" (click)="logout()"></mat-icon>
     </div>
-    <app-student-points></app-student-points>
+
+    <app-header [style]="'fullsize'" ></app-header>
     <app-assessments></app-assessments>
 </mat-card>
