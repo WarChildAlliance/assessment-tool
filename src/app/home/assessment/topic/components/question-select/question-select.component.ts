@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
     selector: 'app-question-select',
@@ -24,13 +25,17 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     multipleSelectForm: FormGroup = new FormGroup({
         selectedOptions: new FormArray([]),
     });
+    private readonly pageID = 'question-select-page';
 
     selectedOptions = [];
 
-    constructor(private formBuilder: FormBuilder) {
-    }
+    constructor(
+        private formBuilder: FormBuilder,
+        private assisstantService: AssisstantService
+    ) { }
 
     ngOnInit(): void {
+        this.assisstantService.setPageID(this.pageID);
         this.displayCorrectAnswer.subscribe((value: boolean) => {
             if (value && this.question.multiple) {
                 this.multipleSelectForm.disable();
