@@ -21,6 +21,8 @@ interface DialogData {
 })
 export class GenericConfirmationDialogComponent implements OnInit {
 
+    // TODO add small explanation on usage here
+
     public title = '';
     public content = '';
     public contentAsInnerHTML = false;
@@ -28,8 +30,8 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public cancelBtnText = 'Cancel';
     public confirmBtnText = 'Confirm';
     public confirmBtnColor: ThemePalette = 'primary';
-    public imageURL = '../../../../assets/bee-wabe.png';
-    public audioURL = '';
+    public imageURL = '../../../../assets/bee-wabe.png'; // if customized, add the path here relative to assets folder
+    public audioURL = '';  // if customized, add the path here relative to assets folder
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
         if (data.title) {
@@ -54,10 +56,10 @@ export class GenericConfirmationDialogComponent implements OnInit {
             this.contentAsInnerHTML = data.contentAsInnerHTML;
         }
         if (data.imageURL) {
-            this.imageURL = '../../../../' + data.imageURL;
+            this.imageURL = '../../../../assets/' + data.imageURL;
         }
         if (data.audioURL) {
-            this.audioURL = '../../../../' + data.audioURL ;
+            this.audioURL = '../../../../assets/' + data.audioURL ;
         }
 
     }
