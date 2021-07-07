@@ -97,7 +97,7 @@ export class AnswerService {
     );
   }
 
-  submitAnswer(answer: GeneralAnswer): Observable<GeneralAnswer> {
+  submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<GeneralAnswer> {
     return combineLatest([
       this.cacheService.networkStatus,
       from(this.cacheService.getData(this.activeSessionLocalStorage)),
@@ -135,7 +135,23 @@ export class AnswerService {
           activeTopicAnswerLocal.answers.push(answer);
           this.cacheService.setData(this.activeTopicAnswerLocalStorage, activeTopicAnswerLocal);
           return of(answer);
-        } else {
+        } else if (!online && !activeTopicAnswerLocal) {
+
+          return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
+            map((data: AnswerSession) => {
+              const topicAnswer: TopicAnswer = {
+                topic: topicId,
+                start_date: moment().format(),
+                end_date: null,
+                session: data.id,
+                answers: [answer]
+              };
+              this.cacheService.setData(this.activeTopicAnswerLocalStorage, topicAnswer);
+              return answer;
+            }),
+          );
+        }
+        else {
           // Send request with active topic answer (online or offline)
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
             switchMap((data: TopicAnswer) => this.createAnswer({ ...answer, topic_answer: data.id }))
