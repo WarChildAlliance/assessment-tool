@@ -1,0 +1,94 @@
+// This is default mobile-first styling
+.header {
+  background-color: #00a28b;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+
+  .profile {
+    &__link {
+      align-items: center;
+      box-sizing: border-box;
+      color: initial;
+      cursor: pointer;
+      display: flex;
+      padding: 6px;
+      text-decoration: initial;
+      width: 50%;
+
+      &:hover {
+        color: #353535;
+      }
+
+      position: relative;
+      app-assisstant {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+    }
+
+    &__avatar {
+      height: 6vh;
+      width: 6vh;
+    }
+
+    &__name {
+      font-size: 16px;
+    }
+
+    &__name {
+      margin: 0 6px;
+    }
+
+    &__hello {
+      display: none;
+    }
+
+    &__effort,
+    &__competency {
+      align-items: center;
+      background-color: #358c7f;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      width: 25%;
+
+      mat-icon {
+        color: #f9c74f;
+        margin: 0 6px;
+      }
+    }
+  }
+
+  // When "fullsize" class is added to header, those properties apply
+  &.fullsize {
+    .profile {
+      &__link {
+        display: block;
+        width: 100%;
+      }
+
+      &__avatar {
+        height: 9vh;
+        width: 9vh;
+      }
+
+      &__name {
+        height: initial;
+      }
+
+      &__hello {
+        display: initial;
+      }
+
+      &__effort,
+      &__competency {
+        width: 50%;
+      }
+    }
+  }
+}

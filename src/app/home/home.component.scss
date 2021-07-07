@@ -6,30 +6,10 @@ mat-card {
   margin-right: auto;
   padding: 0px;
 
-  .username-header {
-    font-weight: bold;
-    text-align: center;
-    background-color: #00A28B;
-    padding: 20px 10px 10px 10px;
-    margin: 0px;
-    position: relative;
-
-    .logout {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      padding: 10px;
-      display:flex;
-      flex-direction: column;
-    }
-  
-    .user-icon {
-      height: 9vh;
-    }
-
-    h3 {
-      margin: 0px;
-    }
+  .logout {
+    position: absolute;
+    top: 5px;
+    right: 5px;
   }
 }
 
