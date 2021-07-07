@@ -1,5 +1,10 @@
 <div id="container">
-    <img src="assets/bee-wabe.png" width="90" alt="">
+    <div class="media">
+    <img src="{{imageURL}}" width="70" alt="">
+    <button  class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL"> 
+        <mat-icon svgIcon="volume_up"></mat-icon>
+    </button>
+    </div>
     <h1 mat-dialog-title>{{ title }}</h1>
     <mat-dialog-content *ngIf="content">
         <div *ngIf="contentAsInnerHTML" [innerHTML]="content"></div>

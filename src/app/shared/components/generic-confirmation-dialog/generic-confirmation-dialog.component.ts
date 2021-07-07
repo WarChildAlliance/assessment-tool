@@ -10,6 +10,8 @@ interface DialogData {
     cancelBtnText?: string;
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
+    imageURL: string;
+    audioURL?: string;
 }
 
 @Component({
@@ -26,6 +28,8 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public cancelBtnText = 'Cancel';
     public confirmBtnText = 'Confirm';
     public confirmBtnColor: ThemePalette = 'primary';
+    public imageURL = '../../../../assets/bee-wabe.png';
+    public audioURL = '';
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
         if (data.title) {
@@ -48,6 +52,12 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
         if (data.contentAsInnerHTML) {
             this.contentAsInnerHTML = data.contentAsInnerHTML;
+        }
+        if (data.imageURL) {
+            this.imageURL = '../../../../' + data.imageURL;
+        }
+        if (data.audioURL) {
+            this.audioURL = '../../../../' + data.audioURL ;
         }
 
     }
