@@ -15,7 +15,7 @@ export class LanguageService {
     private http: HttpClient,
     private translateService: TranslateService
   ) {
-    this.translateService.setDefaultLang('en');
+    this.translateService.setDefaultLang('eng');
   }
 
   getLanguages(): Observable<Language[]> {
