@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { HttpLoaderFactory } from './core/factories/http-loader-translate.factory';
 import { httpInterceptorProviders } from './core/interceptors/index.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import {GuidedTourModule, GuidedTourService} from 'ngx-guided-tour';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    GuidedTourModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -37,7 +38,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    GuidedTourService
   ],
   bootstrap: [AppComponent]
 })
