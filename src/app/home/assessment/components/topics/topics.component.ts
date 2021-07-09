@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { PageNames } from 'src/app/core/utils/constants';
 
 @Component({
   selector: 'app-topics',
   templateUrl: './topics.component.html',
   styleUrls: ['./topics.component.scss']
 })
-export class TopicsComponent implements OnInit {
+export class TopicsComponent implements OnInit, AfterViewInit {
   topics: Topic[];
 
   constructor(
     private route: ActivatedRoute,
-    private assessmentService: AssessmentService
+    private assessmentService: AssessmentService,
+    private tutorialSerice: TutorialService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +47,10 @@ export class TopicsComponent implements OnInit {
         this.topics = topics;
       }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.tutorialSerice.currentPage.next(PageNames.topics);
   }
 
 }

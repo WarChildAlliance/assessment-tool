@@ -1,3 +1,5 @@
-export enum PageNames{
-    assessment = 'assessment'
+export enum PageNames {
+  assessment = 'assessment',
+  topics = 'topics',
+  topic = 'topic'
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { GuidedTour, GuidedTourService, Orientation, TourStep } from 'ngx-guided-tour';
 import { BehaviorSubject } from 'rxjs';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -15,7 +16,8 @@ export class TutorialService {
 
   constructor(
     private guidedTourService: GuidedTourService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.currentPage.subscribe( pageName => {
       if (pageName in this.tourDict && this.tutorialIsEnabled){
@@ -34,6 +36,8 @@ export class TutorialService {
 
   createAllTours(): void {
     this.createTourAssessment();
+    this.createTourTopics();
+    this.createTourTopic();
   }
 
   createTourAssessment(): void {
@@ -64,9 +68,44 @@ export class TutorialService {
       content: 'See how many points you have earned so far <img class="tutorialImg" src="assets/tutorial/images/step3.png">',
       orientation: Orientation.Bottom,
       action: () => {this.playAudio('assets/tutorial/audio/step2.aac'); },
+      closeAction: () => { // redirects the user for the next page where the tutorial happens
+        this.router.navigate(['/assessments/7']);
+      }
     });
 
     this.tourDict[PageNames.assessment] = this.defineTour(steps, PageNames.assessment);
+  }
+
+
+  createTourTopics(): void{
+    const steps: TourStep[] = [];
+    steps.push({
+      content: 'Here the tutorial continues in a different page',
+    });
+
+    steps.push({
+      selector: 'ul',
+      content: 'I can highligh an HTML element in this page as well',
+      orientation: Orientation.Bottom,
+      closeAction: () => { // redirects the user for the next page where the tutorial happens
+        this.router.navigate(['/assessments/7/topics/14']);
+      }
+    });
+
+    this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
+  }
+
+  createTourTopic(): void{
+    const steps: TourStep[] = [];
+    steps.push({
+      content: 'Here the tutorial continues in a THIRD page !!!',
+    });
+    steps.push({
+      selector: '.start-button',
+      content: 'This is the button to start answering questions',
+      orientation: Orientation.Bottom
+    });
+    this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
   }
 
   defineTour(steps: TourStep[], tourId: string): GuidedTour{
@@ -82,7 +121,7 @@ export class TutorialService {
   playAudio(path: string): void {
     const audio = new Audio();
     audio.src = path;
-    audio.load();
-    audio.play();
+    // audio.load();
+    // audio.play();
   }
 }
