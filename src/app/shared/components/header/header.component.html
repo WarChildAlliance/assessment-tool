@@ -6,16 +6,17 @@
             <span class="profile__hello">{{ 'hello' | translate }}</span>
             {{ user?.first_name }}
         </h3>
-        <app-assisstant></app-assisstant>
     </a>
-
+    
     <span class="profile__effort">
         <mat-icon svgIcon="effort"></mat-icon>
         {{ user.profile.effort }}
     </span>
-
+    
     <span class="profile__competency">
         <mat-icon svgIcon="competency_star"></mat-icon>
         {{ user.profile.total_competency }}
     </span>
+
+    <app-assisstant></app-assisstant>
 </div>

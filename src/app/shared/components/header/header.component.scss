@@ -13,36 +13,27 @@
       box-sizing: border-box;
       color: initial;
       display: flex;
-      padding: 6px;
+      padding: 12px;
       text-decoration: initial;
-      width: 50%;
+      width: 32%;
 
       &:hover {
         color: #353535;
       }
 
-      position: relative;
-      app-assisstant {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-      }
-
-      img{
+      img {
         cursor: pointer;
       }
     }
 
     &__avatar {
-      height: 6vh;
-      width: 6vh;
+      height: 5vh;
+      width: 5vh;
     }
 
     &__name {
-      font-size: 16px;
-    }
-
-    &__name {
+      line-height: 1;
+      color: white;
       margin: 0 6px;
     }
 
@@ -53,18 +44,23 @@
     &__effort,
     &__competency {
       align-items: center;
-      background-color: #358c7f;
       color: white;
       display: flex;
       justify-content: center;
       padding: 10px 0;
-      width: 25%;
+      width: 18%;
 
       mat-icon {
+        margin: 0 2px;
         color: #f9c74f;
-        margin: 0 6px;
       }
     }
+  }
+
+  app-assisstant {
+    position: absolute;
+    right: 10px;
+    top: 10px;
   }
 
   // When "fullsize" class is added to header, those properties apply
@@ -90,7 +86,13 @@
 
       &__effort,
       &__competency {
+        border: none;
+        background-color: #358c7f;
         width: 50%;
+
+        mat-icon {
+          margin: 0 6px;
+        }
       }
     }
   }
