@@ -117,6 +117,7 @@ export class AnswerService {
           );
         } else if (online && activeTopicAnswerLocal) {
           // If network on and local topic answer exists, add topic answer to API and then add answer to API
+          // TODO: Check here if we need createTopicAnswer instead
           return this.createTopicAnswerFull(activeTopicAnswerLocal).pipe(
             switchMap(topicAnswer => {
               this.cacheService.deleteData(this.activeTopicAnswerLocalStorage);
@@ -188,9 +189,19 @@ export class AnswerService {
           }
         } else if (activeTopicAnswerLocal) {
           // If local topic answer exists, add end_date to topic answer and add topic answer to API
-          activeTopicAnswerLocal.end_date = moment().format();
-          this.cacheService.deleteData(this.activeSessionLocalStorage);
-          return this.createTopicAnswerFull(activeTopicAnswerLocal);
+          // TODO Refactor - this is a ugly solution. activeTopicAnswerLocal seems not to have the latest value
+          return from(this.cacheService.getData(this.activeTopicAnswerLocalStorage)).pipe(
+            switchMap((topicAnswer: TopicAnswer) => {
+              if (topicAnswer) {
+                activeTopicAnswerLocal.end_date = moment().format();
+                this.cacheService.deleteData(this.activeSessionLocalStorage);
+                this.cacheService.deleteData(this.activeTopicAnswerLocalStorage);
+                return this.createTopicAnswerFull(activeTopicAnswerLocal);
+              } else {
+                return of(null);
+              }
+            })
+          );
         } else {
           // If no local data exists, update topic_answer in API
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
