@@ -1,14 +1,46 @@
 {
+  "assessmentTool": "XXXX",
   "hello": "Bonjour",
   "noAssessments": "Aucune évaluation",
   "noTopics": "Aucun sujet",
   "start": "Démarrer",
   "submit": "Envoyer",
   "skip": "Passer",
+  "continue": "Continuer",
+  "next": "XXXX",
+  "backToAssessments": "Retour aux évaluations",
+  "backToTopics": "Retour aux sujets",
+  "topicCompleted": "XXXX",
+  "assessmentLocked": "(XXXX)",
+  "hi": "Salut!",
+  "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",
+  "topicsAssisstant": "XXXX",
+  "profileAssisstant": "XXXX",
+  "topicAssisstant": "XXXX",
+  "questionAssisstant": "XXXX",
+  "questionNumberLineAssisstant": "XXXX",
+  "questionSelectAssisstant": "XXXX",
+  "questionSortPage": "XXXX",
+  "completedTopicAssisstant": "XXXX",
+  "OK": "OK",
+  "exitConfirmation": "Es-tu sûr de vouloir quitter?",
+  "exit": "Quitter",
+  "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page d'accueil.",
+  "skipSure": "Es-tu sûr de vouloir sauter cette question ?",
+  "info": "XXXX",
+  "praise1": "Bon travail!",
+  "praise2": "XXXX",
+  "praise3": "Plus tu essaies, plus tu apprends!",
+  "praise4": "Tu vas y arriver!",
 
   "topics": {
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "skipQuestions": "Les questions peuvent être passées"
+  },
+
+  "question": {
+    "questionNotAvailable": "XXXX",
+    "correctAnswer": "XXXX:"
   },
 
   "profile": {

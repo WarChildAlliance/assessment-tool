@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from '../generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { TranslationWidth } from '@angular/common';
 
 @Component({
   selector: 'app-assisstant',
@@ -21,15 +22,16 @@ currentPageContent: any = {};
   }
 
   openDialog(): void {
+    console.log(this.currentPageContent.content);
 
     this.currentPageContent = this.assisstantService.getPageContent();
 
     const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
       disableClose: true,
       data: {
-          title: 'Hi!',
+          title: 'hi',
           content: this.currentPageContent.content,
-          contentAsInnerHTML: true,
+          contentType: 'translation',
           confirmBtnText: 'OK',
           confirmBtnColor: 'primary',
       }
