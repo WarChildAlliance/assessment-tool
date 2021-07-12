@@ -12,7 +12,6 @@
       align-items: center;
       box-sizing: border-box;
       color: initial;
-      cursor: pointer;
       display: flex;
       padding: 6px;
       text-decoration: initial;
@@ -27,6 +26,10 @@
         position: absolute;
         right: 10px;
         top: 10px;
+      }
+
+      img{
+        cursor: pointer;
       }
     }
 

@@ -1,7 +1,7 @@
 <div class="header" [class]="style">
 
-    <a class="profile__link" [routerLink]="['/profile']">
-        <img class="profile__avatar" src="{{ getImageUrl() }}" />
+    <a class="profile__link">
+        <img class="profile__avatar" src="{{ getImageUrl() }}" [routerLink]="['/profile']"/>
         <h3 class="profile__name">
             <span class="profile__hello">{{ 'hello' | translate }}</span>
             {{ user?.first_name }}
