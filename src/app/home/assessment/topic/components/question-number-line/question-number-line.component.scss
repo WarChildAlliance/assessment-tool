@@ -32,24 +32,13 @@
             .mat-slider-thumb-label {
                 background-color: #607d8b !important;
             }
+
+            .mat-slider-thumb-label {
+                right: -10px !important;
+                top: -32px !important;
+                height: 20px !important;
+                width: 20px !important;
+            }
         }
     }
 }
-
-/*
-::ng-deep {
-    .mat-slider-min-value:not(.mat-slider-thumb-label-showing) {
-        .mat-slider-thumb {
-            background-color: white !important;
-        }
-    }
-
-    .mat-slider-min-value.mat-slider-thumb-label-showing {
-
-        .mat-slider-thumb,
-        .mat-slider-thumb-label {
-            background-color: #607d8b !important;
-        }
-    }
-}
-*/
