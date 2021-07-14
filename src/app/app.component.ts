@@ -27,9 +27,14 @@ export class AppComponent {
     this.registerIcons();
   }
 
+
   @HostListener('document:visibilitychange', ['$event'])
   @HostListener('window:beforeunload', ['$event'])
-  async canDeactivate(event: Event): Promise<boolean | void> {
+  canDeactivate(event: Event): boolean | void {
+    this.endSession().toPromise();
+    return true;
+
+    // TODO check if this is necessary
     if (event.type === 'visibilitychange') {
       if (document.hidden) {
         this.inactiveTimeout = setTimeout(
@@ -45,7 +50,7 @@ export class AppComponent {
         this.inactiveTimeout = null;
       }
     } else {
-      await this.endSession().toPromise();
+      this.endSession().toPromise();
       return false;
     }
   }

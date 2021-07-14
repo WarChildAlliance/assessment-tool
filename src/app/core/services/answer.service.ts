@@ -211,6 +211,7 @@ export class AnswerService {
                   tap(_ => this.cacheService.deleteData(this.activeTopicAnswerStorage))
                 );
               } else {
+                this.endSession();
                 return of(null);
               }
             })
