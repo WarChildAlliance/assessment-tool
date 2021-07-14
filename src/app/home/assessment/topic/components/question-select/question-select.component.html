@@ -3,25 +3,22 @@
     <mat-radio-group [formControl]="valueForm">
         <ng-container *ngFor="let option of question.options">
             <div *ngIf="hasImageAttached(option); else noImageAttached" class="card-container"
-                 [style.background]="setAnswerBackground(option)">
+                [style.background]="setAnswerBackground(option)">
                 <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
                     <mat-card-content>
                         <div *ngFor="let attachment of option.attachments">
 
-                            <img *ngIf="attachment.attachment_type === 'IMAGE'"
-                                 [src]="attachment.file"
-                                 alt="">
+                            <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="attachment.file" alt="">
 
                         </div>
                     </mat-card-content>
                     <mat-card-actions align="center">
-                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()"
-                                          [value]="option">
+                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
                             {{ option.value }}
                         </mat-radio-button>
                         <ng-container *ngFor="let attachment of option.attachments">
                             <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                    [appAudioPlay]="attachment.file">
+                                [appAudioPlay]="attachment.file">
                                 <mat-icon svgIcon="volume_up"></mat-icon>
                             </button>
                         </ng-container>
@@ -30,13 +27,12 @@
             </div>
             <ng-template #noImageAttached>
                 <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
-                     [style.background]="setAnswerBackground(option)" class="no-attachment">
-                    <mat-radio-button [disabled]="displayCorrectAnswer.getValue()"
-                                      [value]="option">
+                    [style.background]="setAnswerBackground(option)" class="no-attachment">
+                    <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
                         {{ option.value }}
                         <ng-container *ngFor="let attachment of option.attachments">
                             <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                    [appAudioPlay]="attachment.file">
+                                [appAudioPlay]="attachment.file">
                                 <mat-icon svgIcon="volume_up"></mat-icon>
                             </button>
                         </ng-container>
@@ -51,14 +47,11 @@
 <section [formGroup]="multipleSelectForm" *ngIf="question.multiple">
     <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
         <div *ngIf="hasImageAttached(option); else noImageAttachmentOption"
-             [style.background]="setAnswerBackground(option)"
-             [formGroupName]="i" class="card-container">
+            [style.background]="setAnswerBackground(option)" [formGroupName]="i" class="card-container">
             <mat-card>
                 <mat-card-content (click)="setCheckboxSelection(i)">
                     <div *ngFor="let attachment of option.attachments">
-                        <img *ngIf="attachment.attachment_type === 'IMAGE'"
-                             [src]="attachment.file"
-                             alt="">
+                        <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="attachment.file" alt="">
                     </div>
                 </mat-card-content>
                 <mat-card-actions align="center">
@@ -70,7 +63,7 @@
 
                     <ng-container *ngFor="let attachment of option.attachments">
                         <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                [appAudioPlay]="attachment.file">
+                            [appAudioPlay]="attachment.file">
                             <mat-icon svgIcon="volume_up"></mat-icon>
                         </button>
                     </ng-container>
@@ -79,16 +72,15 @@
             </mat-card>
         </div>
         <ng-template #noImageAttachmentOption>
-            <div (click)="setCheckboxSelection(i)" [formGroupName]="i"
-                 [style.background]="setAnswerBackground(option)"
-                 class="no-attachment">
+            <div (click)="setCheckboxSelection(i)" [formGroupName]="i" [style.background]="setAnswerBackground(option)"
+                class="no-attachment">
                 <mat-checkbox formControlName="selected" class="pointer">
                     <span class="pointer">
                         {{ option.value }}
                     </span>
                     <ng-container *ngFor="let attachment of option.attachments">
                         <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                [appAudioPlay]="attachment.file">
+                            [appAudioPlay]="attachment.file">
                             <mat-icon svgIcon="volume_up"></mat-icon>
                         </button>
                     </ng-container>

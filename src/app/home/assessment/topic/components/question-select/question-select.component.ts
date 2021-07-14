@@ -26,8 +26,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     });
     private readonly pageID = 'question-select-page';
 
-    selectedOptions = [];
-
     constructor(
         private formBuilder: FormBuilder,
         private assisstantService: AssisstantService
@@ -36,10 +34,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.displayCorrectAnswer.subscribe((value: boolean) => {
-                if (value && this.question.multiple) {
-                    this.multipleSelectForm.disable();
-                }
+            if (value && this.question.multiple) {
+                this.multipleSelectForm.disable();
             }
+        }
         );
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
@@ -49,39 +47,40 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
             this.multipleSelectForm.disable();
 
             this.multipleSelectForm.valueChanges.subscribe(value => {
-                this.selectedOptions = [];
-                value.selectedOptions.forEach((val, index) => {
-                    if (val.selected) {
-                        this.selectedOptions.push(this.question.options[index]);
 
-                        if (!this.answer) {
-                            this.answer = {
-                                selected_options: this.formatSelectedOptions(this.question.options[index]),
-                                question: this.question.id,
-                                duration: '',
-                                valid: this.isValid()
-                            };
-                        } else {
-                            this.answer.selected_options = this.formatSelectedOptions(this.question.options[index]);
-                            this.answer.valid = this.isValid();
-                        }
+                const formattedSelectedOptions = value.selectedOptions.map(
+                    (checked, index) => checked.selected ? this.question.options[index].id : null
+                ).filter(
+                    option => !!option
+                );
 
-                        this.answerChange.emit(this.answer);
-                    }
-                });
+                if (!this.answer) {
+                    this.answer = {
+                        selected_options: formattedSelectedOptions,
+                        question: this.question.id,
+                        duration: '',
+                        valid: false
+                    };
+                    this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
+                } else {
+                    this.answer.selected_options = formattedSelectedOptions;
+                    this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
+                }
+                this.answerChange.emit(this.answer);
+
             });
         } else {
             this.valueForm.valueChanges.subscribe(value => {
                 if (value) {
                     if (!this.answer) {
                         this.answer = {
-                            selected_options: this.formatSelectedOptions(value),
+                            selected_options: [value.id],
                             question: this.question.id,
                             duration: '',
                             valid: this.isValid()
                         };
                     } else {
-                        this.answer.selected_options = this.formatSelectedOptions(value);
+                        this.answer.selected_options = [value.id];
                         this.answer.valid = this.isValid();
                     }
 
@@ -103,20 +102,20 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     }
 
     private isValid(): boolean {
-        if (!this.question.multiple) {
-            return this.valueForm.value.valid;
-        }
-        const validOptionsLength = this.question.options.filter(option => option.valid).length;
-        const validSelectedOptionsLength = this.selectedOptions.filter(option => option.valid).length;
-        return validOptionsLength === validSelectedOptionsLength;
+        return this.valueForm.value.valid;
     }
 
-    private formatSelectedOptions(value: SelectOption | SelectOption[]): number[] {
-        if (Array.isArray(value)) {
-            return value.map(option => option.id);
-        }
+    private isMultipleValid(selectedOptionsIds: number[]): boolean {
 
-        return [value.id];
+        const valid = this.question.options.every(
+            option => (
+                (option.valid && selectedOptionsIds.includes(option.id))
+                ||
+                (!option.valid && !selectedOptionsIds.includes(option.id))
+            )
+        );
+
+        return valid;
     }
 
     setAnswerBackground(option: any): string {
@@ -137,7 +136,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
         const optionalValue = selectedOptionsForm.controls[index].value.selected;
 
-        selectedOptionsForm.controls[index].setValue({selected: !optionalValue});
+        selectedOptionsForm.controls[index].setValue({ selected: !optionalValue });
     }
 
 
