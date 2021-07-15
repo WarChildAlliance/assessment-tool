@@ -32,6 +32,8 @@ export class ProfileComponent implements OnInit {
     this.route.data.subscribe(
       (data: { user: User }) => this.user = data.user
     );
+
+    // TODO check if this is necessary. We can use the stored avatars in the user cache
     this.profileService.getAvatarsList().subscribe(avatars => {
       this.avatars = avatars;
     });

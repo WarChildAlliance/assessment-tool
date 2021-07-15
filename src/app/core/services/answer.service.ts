@@ -22,7 +22,7 @@ export class AnswerService {
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   startSession(): Observable<AnswerSession> {
@@ -44,6 +44,7 @@ export class AnswerService {
       first()
     );
   }
+
 
   startTopicAnswer(topicId: number): Observable<TopicAnswer> {
     return combineLatest([
