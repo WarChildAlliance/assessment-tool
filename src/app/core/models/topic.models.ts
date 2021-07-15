@@ -10,6 +10,7 @@ export interface Topic {
   questions?: GeneralQuestion[];
   competency?: any;
   show_feedback?: number;
+  praise: number;
   allow_skip?: boolean;
   evaluated?: boolean;
   max_wrong_answers?: number;

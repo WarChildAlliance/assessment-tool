@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { AnswerSort } from 'src/app/core/models/answer.model';
 import { QuestionSort, SortOption } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
     selector: 'app-question-sort',
@@ -19,11 +20,13 @@ export class QuestionSortComponent implements OnInit, OnDestroy {
     optionsCopy: SortOption[] = [];
     selectedCategoryA: SortOption[] = [];
     selectedCategoryB: SortOption[] = [];
+    private readonly pageID = 'question-sort-page';
 
-    constructor() {
+    constructor(private assisstantService: AssisstantService) {
     }
 
     ngOnInit(): void {
+        this.assisstantService.setPageID(this.pageID);
         this.optionsCopy = [].concat(this.question.options);
     }
 

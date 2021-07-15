@@ -6,9 +6,12 @@ interface DialogData {
     title: string;
     content?: string;
     contentAsInnerHTML?: boolean;
+    cancelBtn?: boolean;
     cancelBtnText?: string;
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
+    imageURL: string;
+    audioURL?: string;
 }
 
 @Component({
@@ -18,12 +21,17 @@ interface DialogData {
 })
 export class GenericConfirmationDialogComponent implements OnInit {
 
+    // TODO add small explanation on usage here
+
     public title = '';
     public content = '';
     public contentAsInnerHTML = false;
+    public cancelBtn = false;
     public cancelBtnText = 'Cancel';
     public confirmBtnText = 'Confirm';
     public confirmBtnColor: ThemePalette = 'primary';
+    public imageURL = '../../../../assets/bee-wabe.png'; // if customized, add the path here relative to assets folder
+    public audioURL = '';  // if customized, add the path here relative to assets folder
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
         if (data.title) {
@@ -31,6 +39,9 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
         if (data.content) {
             this.content = data.content;
+        }
+        if (data.cancelBtn) {
+            this.cancelBtn = data.cancelBtn;
         }
         if (data.cancelBtnText) {
             this.cancelBtnText = data.cancelBtnText;
@@ -44,6 +55,13 @@ export class GenericConfirmationDialogComponent implements OnInit {
         if (data.contentAsInnerHTML) {
             this.contentAsInnerHTML = data.contentAsInnerHTML;
         }
+        if (data.imageURL) {
+            this.imageURL = '../../../../assets/' + data.imageURL;
+        }
+        if (data.audioURL) {
+            this.audioURL = '../../../../assets/' + data.audioURL ;
+        }
+
     }
 
     ngOnInit(): void {

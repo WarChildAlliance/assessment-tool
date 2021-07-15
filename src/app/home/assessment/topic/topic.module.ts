@@ -22,7 +22,7 @@ import { TopicRoutingModule } from './topic-routing.module';
 import { TopicComponent } from './topic.component';
 import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import {MatDividerModule} from '@angular/material/divider';
     QuestionSortComponent,
     QuestionNumberLineComponent,
     AttachmentsComponent,
-    CompletedTopicComponent
+    CompletedTopicComponent,
   ],
   imports: [
     SharedModule,

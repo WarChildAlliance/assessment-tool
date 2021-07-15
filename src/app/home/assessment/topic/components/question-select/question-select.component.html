@@ -1,26 +1,91 @@
-<mat-radio-group class="select-content" [formControl]="valueForm" *ngIf="!question.multiple">
-    <ng-container *ngFor="let option of question.options">
-        <div [style.background]="setAnswerBackground(option)"
-             [ngClass]="[option.attachments.length ? 'select-radio-options-attachments' : 'select-radio-options']">
-            <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                {{ option.value }}
-            </mat-radio-button>
-            <div class="attachments-style">
-                <app-attachments [attachments]="option.attachments"></app-attachments>
-            </div>
-        </div>
-    </ng-container>
-</mat-radio-group>
+<!-- Options with only one choice -->
+<section *ngIf="!question.multiple">
+    <mat-radio-group [formControl]="valueForm">
+        <ng-container *ngFor="let option of question.options">
+            <div *ngIf="hasImageAttached(option); else noImageAttached" class="card-container"
+                [style.background]="setAnswerBackground(option)">
+                <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
+                    <mat-card-content>
+                        <div *ngFor="let attachment of option.attachments">
 
-<section [formGroup]="multipleSelectForm" *ngIf="question.multiple" class="select-content">
+                            <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="attachment.file" alt="">
+
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions align="center">
+                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
+                            {{ option.value }}
+                        </mat-radio-button>
+                        <ng-container *ngFor="let attachment of option.attachments">
+                            <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
+                                [appAudioPlay]="attachment.file">
+                                <mat-icon svgIcon="volume_up"></mat-icon>
+                            </button>
+                        </ng-container>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <ng-template #noImageAttached>
+                <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
+                    [style.background]="setAnswerBackground(option)" class="no-attachment">
+                    <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
+                        {{ option.value }}
+                        <ng-container *ngFor="let attachment of option.attachments">
+                            <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
+                                [appAudioPlay]="attachment.file">
+                                <mat-icon svgIcon="volume_up"></mat-icon>
+                            </button>
+                        </ng-container>
+                    </mat-radio-button>
+                </div>
+            </ng-template>
+        </ng-container>
+    </mat-radio-group>
+</section>
+
+<!-- Options with multiple choices -->
+<section [formGroup]="multipleSelectForm" *ngIf="question.multiple">
     <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
-        <div [style.background]="setAnswerBackground(option)"
-             [ngClass]="[option.attachments.length ? 'select-checkbox-options-attachment' : 'select-checkbox-options']"
-             [formGroupName]="i">
-            <mat-checkbox [disabled]="displayCorrectAnswer.getValue()" formControlName="selected">
-                {{ option.value }}
-            </mat-checkbox>
-            <app-attachments [attachments]="option.attachments"></app-attachments>
+        <div *ngIf="hasImageAttached(option); else noImageAttachmentOption"
+            [style.background]="setAnswerBackground(option)" [formGroupName]="i" class="card-container">
+            <mat-card>
+                <mat-card-content (click)="setCheckboxSelection(i)">
+                    <div *ngFor="let attachment of option.attachments">
+                        <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="attachment.file" alt="">
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="center">
+                    <mat-checkbox (click)="setCheckboxSelection(i)" formControlName="selected" class="pointer">
+                        <span class="pointer">
+                            {{ option.value }}
+                        </span>
+                    </mat-checkbox>
+
+                    <ng-container *ngFor="let attachment of option.attachments">
+                        <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
+                            [appAudioPlay]="attachment.file">
+                            <mat-icon svgIcon="volume_up"></mat-icon>
+                        </button>
+                    </ng-container>
+
+                </mat-card-actions>
+            </mat-card>
         </div>
+        <ng-template #noImageAttachmentOption>
+            <div (click)="setCheckboxSelection(i)" [formGroupName]="i" [style.background]="setAnswerBackground(option)"
+                class="no-attachment">
+                <mat-checkbox formControlName="selected" class="pointer">
+                    <span class="pointer">
+                        {{ option.value }}
+                    </span>
+                    <ng-container *ngFor="let attachment of option.attachments">
+                        <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
+                            [appAudioPlay]="attachment.file">
+                            <mat-icon svgIcon="volume_up"></mat-icon>
+                        </button>
+                    </ng-container>
+                </mat-checkbox>
+            </div>
+        </ng-template>
     </ng-container>
 </section>

@@ -1,0 +1,22 @@
+<div class="header" [class]="style">
+
+    <a class="profile__link">
+        <img class="profile__avatar" src="{{ getImageUrl() }}" [routerLink]="['/profile']"/>
+        <h3 class="profile__name">
+            <span class="profile__hello">{{ 'hello' | translate }}</span>
+            {{ user?.first_name }}
+        </h3>
+    </a>
+    
+    <span class="profile__effort">
+        <mat-icon svgIcon="effort"></mat-icon>
+        {{ user.profile.effort }}
+    </span>
+    
+    <span class="profile__competency">
+        <mat-icon svgIcon="competency_star"></mat-icon>
+        {{ user.profile.total_competency }}
+    </span>
+
+    <app-assisstant></app-assisstant>
+</div>

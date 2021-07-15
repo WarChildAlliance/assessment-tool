@@ -1,7 +1,60 @@
-<p>profile works!</p>
+<mat-card class="profile">
+    <div class="profile__header">
 
-<app-student-points></app-student-points>
+        <button mat-icon-button [routerLink]="['/home']">
+            <mat-icon svgIcon="cancel"></mat-icon>
+        </button>
 
-<p>Shop</p>
+        <h3>{{ 'hello' | translate }} {{ user.first_name }}</h3>
+        <app-assisstant></app-assisstant>
+    </div>
 
-<p>Badges</p>
+    <div class="profile__student-points">
+
+        <span class="competency">
+            <p class="title">{{ 'profile.competency' | translate }}</p>
+            <div class="points-container">
+                <mat-icon svgIcon="competency_star"></mat-icon>
+                {{ user.profile.total_competency }}
+            </div>
+        </span>
+
+        <span class="effort">
+            <p class="title">{{ 'profile.effort' | translate }}</p>
+            <div class="points-container">
+                <mat-icon svgIcon="effort"></mat-icon>
+                {{ user.profile.effort }}
+            </div>
+        </span>
+    </div>
+
+    <div class="profile__avatars-shop">
+        <p class="title">{{ 'profile.shop' | translate }}</p>
+
+        <div class="avatars-list" *ngIf="cacheService.networkStatus.getValue(); else offlineShop">
+            <div *ngFor="let avatar of avatars" class="avatar">
+                <img class="avatar__image" src="{{ getAvatarUrl(avatar) }}" />
+
+                <button mat-button *ngIf="avatar.unlocked && avatar.selected" class="avatar__button -selected">
+                    {{ 'profile.selected' | translate }}
+                </button>
+                <button mat-stroked-button *ngIf="avatar.unlocked && !avatar.selected" (click)="selectAvatar(avatar)"
+                    class="avatar__button -unlocked">
+                    {{ 'profile.unlocked' | translate }}
+                </button>
+                <button mat-stroked-button *ngIf="!avatar.unlocked" (click)="unlockAvatar(avatar)"
+                    class="avatar__button -locked">
+                    <mat-icon svgIcon="effort"></mat-icon>
+                    {{ avatar.effort_cost }}
+                </button>
+            </div>
+        </div>
+
+        <ng-template #offlineShop>
+            <div>
+                {{ 'profile.noShopOffline' | translate }}
+            </div>
+        </ng-template>
+    </div>
+
+</mat-card>

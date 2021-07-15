@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-topics',
@@ -12,10 +13,12 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 })
 export class TopicsComponent implements OnInit {
   topics: Topic[];
+  private readonly pageID = 'topics-page';
 
   constructor(
     private route: ActivatedRoute,
-    private assessmentService: AssessmentService
+    private assessmentService: AssessmentService,
+    private assisstantService: AssisstantService,
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class TopicsComponent implements OnInit {
         this.topics = topics;
       }
     );
+    this.assisstantService.setPageID(this.pageID);
   }
 
 }

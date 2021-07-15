@@ -9,5 +9,14 @@
   "topics": {
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
     "skipQuestions": "يمكن تخطي الأسئلة"
+  },
+
+  "profile": {
+    "competency": "كفاءة",
+    "effort": "جهد",
+    "shop": "محل",
+    "noShopOffline": "تحتاج إلى اتصال بالإنترنت للوصول إلى المتجر!",
+    "unlocked": "مفتوحة",
+    "selected": "المحدد"
   }
 }
