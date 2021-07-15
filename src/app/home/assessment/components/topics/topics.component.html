@@ -1,7 +1,7 @@
 <div>
 
     <div mat-icon-button class="back-banner" [routerLink]="['../../home']">
-        <mat-icon svgIcon="arrow_back"></mat-icon> Back to assessments
+        <mat-icon svgIcon="arrow_back"></mat-icon> {{ 'backToAssessments' | translate }}
     </div>
 
     <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">

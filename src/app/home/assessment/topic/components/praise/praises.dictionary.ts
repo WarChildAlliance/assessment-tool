@@ -1,21 +1,21 @@
 export const PraiseTexts = [
     {
-        text: 'Great job!',
+        text: 'praise1',
         image: './src/assets/praise-icons/bee-honey.png',
         audio: ''
     },
     {
-        text: 'There you go!',
+        text: 'praise2',
         image: './src/assets/praise-icons/bee-wabe.png',
         audio: ''
     },
     {
-        text: 'The more you try, the more you learn!',
+        text: 'praise3',
         image: '',
         audio: ''
     },
     {
-        text: 'You got this!',
+        text: 'praise4',
         image: '',
         audio: ''
         }

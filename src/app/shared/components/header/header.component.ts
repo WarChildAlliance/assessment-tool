@@ -40,9 +40,8 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
       disableClose: true,
       data: {
-          title: 'Hi!',
-          content: '<p>Info here is coming up</p>',
-          contentAsInnerHTML: true,
+          title: 'hi',
+          content: 'info',
           confirmBtnText: 'OK',
           confirmBtnColor: 'primary',
       }

@@ -5,14 +5,15 @@
         <mat-icon svgIcon="volume_up"></mat-icon>
     </button>
     </div>
-    <h1 mat-dialog-title>{{ title }}</h1>
-    <mat-dialog-content *ngIf="content">
-        <div *ngIf="contentAsInnerHTML" [innerHTML]="content"></div>
-        <div *ngIf="!contentAsInnerHTML"> {{content}}</div>
+    <h1 mat-dialog-title>{{ title | translate }}</h1>
+    <mat-dialog-content [ngSwitch]="contentType">
+<div *ngSwitchCase="'innerHTML'"[innerHTML]="content"></div>
+<div *ngSwitchCase="'translation'">{{ content | translate }}</div>
+<div *ngSwitchCase="'text'">{{content}}</div>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button *ngIf="cancelBtn" mat-button cdkfocusinitial [mat-dialog-close]="false">{{ cancelBtnText }}</button>
+        <button *ngIf="cancelBtn" mat-button cdkfocusinitial [mat-dialog-close]="false">{{ cancelBtnText | translate }}</button>
         <button mat-button mat-stroked-button [color]="confirmBtnColor"
-                [mat-dialog-close]="true">{{ confirmBtnText }}</button>
+                [mat-dialog-close]="true">{{ confirmBtnText | translate }}</button>
     </mat-dialog-actions>
 </div>

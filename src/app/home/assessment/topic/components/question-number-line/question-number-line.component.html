@@ -13,5 +13,5 @@
     <span>{{ question.end }}</span>
 </div>
 <div class="correct-answer" *ngIf="displayCorrectAnswer.getValue()">
-    Correct answer: {{question.expected_value}}
+    {{ "question.correctAnswer" | translate }} {{question.expected_value}}
 </div>
