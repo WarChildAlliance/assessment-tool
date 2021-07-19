@@ -52,10 +52,10 @@ mat-card {
         border-radius: 5px;
         display: flex;
         justify-content: center;
+        margin: 5px;
 
-        mat-icon {
-          color: #f9c74f;
-          margin-right: 6px;
+        img {
+          margin: 6px;
         }
       }
     }

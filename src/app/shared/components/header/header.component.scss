@@ -47,12 +47,11 @@
       color: white;
       display: flex;
       justify-content: center;
-      padding: 10px 0;
+      padding: 10px 5px;
       width: 18%;
 
-      mat-icon {
-        margin: 0 2px;
-        color: #f9c74f;
+      img {
+          padding: 0px 10px;
       }
     }
   }
@@ -90,9 +89,6 @@
         background-color: #358c7f;
         width: 50%;
 
-        mat-icon {
-          margin: 0 6px;
-        }
       }
     }
   }
