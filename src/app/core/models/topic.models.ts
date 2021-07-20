@@ -14,4 +14,5 @@ export interface Topic {
   allow_skip?: boolean;
   evaluated?: boolean;
   max_wrong_answers?: number;
+  icon: string;
 }

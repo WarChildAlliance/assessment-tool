@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assessments',
@@ -28,4 +29,11 @@ export class AssessmentsComponent implements OnInit {
     this.assisstantService.setPageID(this.pageID);
   }
 
+  getAssessmentIcon(assessment: Assessment): string {
+    const imageUrl = assessment.icon ?
+      (environment.API_URL + assessment.icon) :
+      'assets/icons/Bee.svg';
+
+    return imageUrl;
+  }
 }

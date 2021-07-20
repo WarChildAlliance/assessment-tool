@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-topics',
@@ -48,6 +49,17 @@ export class TopicsComponent implements OnInit {
       }
     );
     this.assisstantService.setPageID(this.pageID);
+  }
+
+
+
+  getTopicIcon(topic: Topic): string {
+
+    const imageUrl = topic.icon ?
+      (environment.API_URL + topic.icon) :
+      'assets/icons/Bee.svg';
+
+    return imageUrl;
   }
 
 }
