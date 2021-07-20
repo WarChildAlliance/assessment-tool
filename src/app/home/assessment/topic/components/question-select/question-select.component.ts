@@ -1,15 +1,17 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { PageNames } from 'src/app/core/utils/constants';
 
 @Component({
     selector: 'app-question-select',
     templateUrl: './question-select.component.html',
     styleUrls: ['./question-select.component.scss']
 })
-export class QuestionSelectComponent implements OnInit, OnDestroy {
+export class QuestionSelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() answer: AnswerSelect;
 
@@ -27,7 +29,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     selectedOptions = [];
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder,
+                private tutorialSerice: TutorialService) {
     }
 
     ngOnInit(): void {
@@ -120,4 +123,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
         this.displayCorrectAnswer.next(false);
         this.answer = null;
     }
+
+    ngAfterViewInit(): void {
+        this.tutorialSerice.currentPage.next(PageNames.questionSelect);
+      }
 }

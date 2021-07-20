@@ -38,38 +38,25 @@ export class TutorialService {
     this.createTourAssessment();
     this.createTourTopics();
     this.createTourTopic();
+    this.createTourQuestions();
+    // this.createTourQuestionSelect();
   }
 
   createTourAssessment(): void {
     const steps: TourStep[] = [];
     steps.push({
       title: 'Welcome',
-      content: 'welcome to the tour of the accessment tool',
+      content: 'Hello, nice to meet you. My name is Bee. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let\'s get started',
       action: () => {this.playAudio('assets/tutorial/audio/step0.aac'); }
     });
 
     steps.push({
-      selector: '#beeLogo',
-      content: 'Here you can access your profile <img class="tutorialImg" src="assets/tutorial/images/step1.png">',
-      orientation: Orientation.Bottom,
-        action: () => {this.playAudio('assets/tutorial/audio/step1.aac'); },
-      }
-    );
-
-    steps.push({
       selector: 'ul',
-      content: 'Click here to go to an assessment <img class="tutorialImg" src="assets/tutorial/images/step2.png">',
-      orientation: Orientation.Bottom,
-      action: () => {this.playAudio('assets/tutorial/audio/step2.aac'); },
-    });
-
-    steps.push({
-      selector: '.points-flex-container',
-      content: 'See how many points you have earned so far <img class="tutorialImg" src="assets/tutorial/images/step3.png">',
+      content: 'Click the flower/button to start',
       orientation: Orientation.Bottom,
       action: () => {this.playAudio('assets/tutorial/audio/step2.aac'); },
       closeAction: () => { // redirects the user for the next page where the tutorial happens
-        this.router.navigate(['/assessments/7']);
+        this.router.navigate(['/assessments/9']);
       }
     });
 
@@ -80,15 +67,10 @@ export class TutorialService {
   createTourTopics(): void{
     const steps: TourStep[] = [];
     steps.push({
-      content: 'Here the tutorial continues in a different page',
-    });
-
-    steps.push({
-      selector: 'ul',
-      content: 'I can highligh an HTML element in this page as well',
-      orientation: Orientation.Bottom,
+      selector: '.topic-card',
+      content: 'Click the picture',
       closeAction: () => { // redirects the user for the next page where the tutorial happens
-        this.router.navigate(['/assessments/7/topics/14']);
+        this.router.navigate(['/assessments/9/topics/18']);
       }
     });
 
@@ -98,14 +80,31 @@ export class TutorialService {
   createTourTopic(): void{
     const steps: TourStep[] = [];
     steps.push({
-      content: 'Here the tutorial continues in a THIRD page !!!',
-    });
-    steps.push({
       selector: '.start-button',
-      content: 'This is the button to start answering questions',
+      content: 'You will get some practise questions now. Click the green button',
       orientation: Orientation.Bottom
     });
     this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
+  }
+
+  createTourQuestions(): void{
+    const steps: TourStep[] = [];
+    steps.push({
+      selector: '.submit-button',
+      content: 'Press the green button to send your answer',
+      orientation: Orientation.Bottom
+    });
+    this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.topic);
+
+  }
+
+  createTourQuestionSelect(): void{
+    const steps: TourStep[] = [];
+    steps.push({
+      content: 'Press the green button to send your answer',
+      orientation: Orientation.Bottom
+    });
+    this.tourDict[PageNames.questionSelect] = this.defineTour(steps, PageNames.questionSelect);
   }
 
   defineTour(steps: TourStep[], tourId: string): GuidedTour{

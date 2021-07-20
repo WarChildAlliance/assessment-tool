@@ -1,5 +1,7 @@
 export enum PageNames {
   assessment = 'assessment',
   topics = 'topics',
-  topic = 'topic'
+  topic = 'topic',
+  question = 'question',
+  questionSelect = 'questionSelect'
 }
