@@ -50,11 +50,10 @@ export class QuestionComponent implements OnInit, AfterViewInit {
                 const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
                     disableClose: true,
                     data: {
-                        title: 'Exit confirmation',
-                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the Assessment list</p>',
-                        contentAsInnerHTML: true,
+                        title: 'exitConfirmation',
+                        content: 'exitInfo',
                         cancelBtn: true,
-                        confirmBtnText: 'Exit',
+                        confirmBtnText: 'exit',
                         confirmBtnColor: 'warn',
                     }
                 });
@@ -123,16 +122,33 @@ export class QuestionComponent implements OnInit, AfterViewInit {
         this.submitAndGoNextPage();
       }
     } else if (!this.answer && this.topic.allow_skip) {
-      if (confirm('Skip the question?')) {
-        this.answer = {
-          question: this.question.id,
-          duration,
-          valid: false,
-          skipped: true
-        };
-        this.skipped = true;
-        this.submitAndGoNextPage();
-      }
+      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        disableClose: true,
+        data: {
+            content: 'skipSure',
+            cancelBtn: true,
+            confirmBtnText: 'skip',
+            confirmBtnColor: 'warn',
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(value => {
+        if (value === false) {
+          dialogRef.close();
+        } else if (value === true) {
+          this.answer = {
+            question: this.question.id,
+            duration,
+            valid: false,
+            skipped: true
+          };
+
+          this.answerService.submitAnswer(this.answer).subscribe(res => {
+            this.submitAndGoNextPage();
+          });
+        }
+    });
+
     } else {
       console.warn('Unexpected behaviour while submitting answer');
       this.goToNextPage();
@@ -160,7 +176,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       disableClose: true,
       data: {
           content: praise.text,
-          confirmBtnText: 'Continue',
+          confirmBtnText: 'continue',
           confirmBtnColor: 'primary',
           cancelBtn: false,
       }

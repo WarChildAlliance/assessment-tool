@@ -5,11 +5,13 @@ import { ThemePalette } from '@angular/material/core';
 interface DialogData {
     title: string;
     content?: string;
-    contentAsInnerHTML?: boolean;
+    contentType?: 'text' | 'innerHTML' | 'translation';
     cancelBtn?: boolean;
     cancelBtnText?: string;
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
+    imageURL: string;
+    audioURL?: string;
 }
 
 @Component({
@@ -19,13 +21,17 @@ interface DialogData {
 })
 export class GenericConfirmationDialogComponent implements OnInit {
 
+    // TODO add small explanation on usage here
+
     public title = '';
     public content = '';
-    public contentAsInnerHTML = false;
+    public contentType = 'translation';
     public cancelBtn = false;
     public cancelBtnText = 'Cancel';
     public confirmBtnText = 'Confirm';
     public confirmBtnColor: ThemePalette = 'primary';
+    public imageURL = '../../../../assets/bee-wabe.png'; // if customized, add the path here relative to assets folder
+    public audioURL = '';  // if customized, add the path here relative to assets folder
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
         if (data.title) {
@@ -33,6 +39,9 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
         if (data.content) {
             this.content = data.content;
+        }
+        if (data.contentType) {
+            this.contentType = data.contentType;
         }
         if (data.cancelBtn) {
             this.cancelBtn = data.cancelBtn;
@@ -46,8 +55,11 @@ export class GenericConfirmationDialogComponent implements OnInit {
         if (data.confirmBtnColor) {
             this.confirmBtnColor = data.confirmBtnColor;
         }
-        if (data.contentAsInnerHTML) {
-            this.contentAsInnerHTML = data.contentAsInnerHTML;
+        if (data.imageURL) {
+            this.imageURL = '../../../../assets/' + data.imageURL;
+        }
+        if (data.audioURL) {
+            this.audioURL = '../../../../assets/' + data.audioURL ;
         }
 
     }

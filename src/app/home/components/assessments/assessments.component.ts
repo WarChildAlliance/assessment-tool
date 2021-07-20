@@ -4,6 +4,7 @@ import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
+import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-assessments',
@@ -14,10 +15,12 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
 
   pageName = PageNames.assessment;
   assessments: Assessment[];
+  private readonly pageID = 'assessments-page';
 
   constructor(
     private assessmentService: AssessmentService,
-    private tutorialSerice: TutorialService
+    private tutorialSerice: TutorialService,
+    private assisstantService: AssisstantService,
   ) { }
 
   ngOnInit(): void {
@@ -26,6 +29,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
         this.assessments = assessments;
       }
     );
+    this.assisstantService.setPageID(this.pageID);
   }
 
   ngAfterViewInit(): void {
