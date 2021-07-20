@@ -30,7 +30,7 @@ export class UserService {
       map(
         res => {
           res.user.profile = res.profile;
-          res.user.avatars = res.avatars;
+          res.user.profile.unlocked_avatars = res.avatars;
           return res.user;
       }),
       tap(user => {
@@ -39,6 +39,10 @@ export class UserService {
         this.languageService.setLanguage(user.language);
       })
     );
+  }
+
+  updateUser(user: User): void {
+    this.user = user;
   }
 
   resetUser(): void {

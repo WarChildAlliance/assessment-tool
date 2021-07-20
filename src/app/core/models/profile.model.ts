@@ -6,4 +6,5 @@ export interface Profile {
     effort: number;
     total_competency: number;
     current_avatar: Avatar;
+    unlocked_avatars: Avatar[];
 }

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, forkJoin, from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Avatar } from '../models/avatar.model';
+import { Profile } from '../models/profile.model';
 import { CacheService } from './cache.service';
 
 @Injectable({
@@ -41,6 +42,17 @@ export class ProfileService {
     );
   }*/
 
+  public updateProfile(profile: Profile): Observable<Profile> {
+    const formatProfile: any = {...profile};
+    formatProfile.current_avatar = profile.current_avatar.id;
+    formatProfile.unlocked_avatars = profile.unlocked_avatars.map(x => {
+      if (x.unlocked) { return x.id; }
+    });
+    return this.http.put<Profile>(`${environment.API_URL}/gamification/profiles/`, {
+      profile: formatProfile
+    });
+  }
+
   public getAvatarsList(): Observable<Avatar[]> {
     return this.http.get<Avatar[]>(`${environment.API_URL}/gamification/avatars/`);
   }
@@ -52,7 +64,6 @@ export class ProfileService {
   }
 
   public unlockAvatar(avatarId: number): Observable<Avatar> {
-
     return this.http.post<Avatar>(`${environment.API_URL}/gamification/avatars/unlock/`, {
       avatar_id : avatarId
     });
