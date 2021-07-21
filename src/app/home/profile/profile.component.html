@@ -31,7 +31,7 @@
     <div class="profile__avatars-shop">
         <p class="title">{{ 'profile.shop' | translate }}</p>
 
-        <div class="avatars-list" *ngIf="cacheService.networkStatus.getValue(); else offlineShop">
+        <div class="avatars-list">
             <div *ngFor="let avatar of avatars" class="avatar">
                 <img class="avatar__image" src="{{ getAvatarUrl(avatar) }}" />
 
@@ -50,11 +50,6 @@
             </div>
         </div>
 
-        <ng-template #offlineShop>
-            <div>
-                {{ 'profile.noShopOffline' | translate }}
-            </div>
-        </ng-template>
     </div>
 
 </mat-card>

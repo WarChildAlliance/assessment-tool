@@ -12,7 +12,9 @@ import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
 import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
+import { ProfileService } from '../core/services/profile.service';
 import { UserService } from '../core/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +33,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private http: HttpClient,
     private cacheService: CacheService,
-    private userService: UserService
+    private userService: UserService,
+    private profileService: ProfileService,
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +87,11 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
           }
         });
+      }
+    });
+    this.profileService.getAvatarsList().subscribe(avatars => {
+      for (const avatar of avatars){
+        this.http.get(`${environment.API_URL}`+avatar.image, {responseType: 'arraybuffer'}).subscribe();
       }
     });
   }

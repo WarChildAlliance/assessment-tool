@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { from } from 'rxjs';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -74,7 +73,7 @@ export class ProfileComponent implements OnInit {
           });
           const newUser = this.user;
           newUser.profile.effort = remainingEffort;
-          newUser.avatars = newAvatars;
+          newUser.profile.unlocked_avatars = newAvatars;
 
           this.cacheService.setData('active-user', newUser);
           this.profileService.updateProfile(newUser.profile).subscribe (response => {
