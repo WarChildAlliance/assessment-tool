@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     this.profileService.getAvatarsList().subscribe(avatars => {
       for (const avatar of avatars){
-        this.http.get(`${environment.API_URL}`+avatar.image, {responseType: 'arraybuffer'}).subscribe();
+        this.http.get(`${environment.API_URL}` + avatar.image, {responseType: 'arraybuffer'}).subscribe();
       }
     });
   }

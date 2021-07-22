@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Avatar } from '../models/avatar.model';
@@ -13,6 +13,11 @@ import { LanguageService } from './language.service';
   providedIn: 'root'
 })
 export class UserService {
+
+
+  private userSource = new BehaviorSubject<User>(null);
+  currentUser = this.userSource.asObservable();
+
   user: User;
 
   constructor(
@@ -35,7 +40,10 @@ export class UserService {
       }),
       tap(user => {
         this.user = user;
-        this.cacheService.setData('active-user', user);
+        if(this.cacheService.networkStatus.getValue()){
+          this.cacheService.setData('active-user', user);
+        };
+        this.userSource.next(user);
         this.languageService.setLanguage(user.language);
       })
     );
@@ -43,9 +51,11 @@ export class UserService {
 
   updateUser(user: User): void {
     this.user = user;
+    this.userSource.next(user);
   }
 
   resetUser(): void {
     this.user = null;
+    this.userSource.next(null);
   }
 }

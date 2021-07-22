@@ -45,8 +45,7 @@ export class ProfileService {
   public updateProfile(profile: Profile): Observable<Profile> {
     const formatProfile: any = {...profile};
     formatProfile.current_avatar = profile.current_avatar.id;
-    console.log(formatProfile)
-    formatProfile.unlocked_avatars = profile.unlocked_avatars.filter(x => x.unlocked).map(x => x.id)
+    formatProfile.unlocked_avatars = profile.unlocked_avatars.filter(x => x.unlocked).map(x => x.id);
     return this.http.put<Profile>(`${environment.API_URL}/gamification/profiles/`, {
       profile: formatProfile
     });

@@ -37,6 +37,18 @@ export class ProfileComponent implements OnInit {
         this.avatars = this.user.profile.unlocked_avatars;
       }
     );
+    this.userService.currentUser.subscribe( res => {
+      if (this.cacheService.networkStatus.getValue()) {
+        this.user = res;
+        this.avatars = res.profile.unlocked_avatars;
+      } else {
+        this.cacheService.getData('active-user').then( user => {
+          this.user = user;
+          this.avatars = user.profile.unlocked_avatars;
+        })
+      }
+    })
+    
   }
 
   getAvatarUrl(avatar: Avatar): string {
@@ -49,13 +61,22 @@ export class ProfileComponent implements OnInit {
   }
 
   selectAvatar(avatar: Avatar): void {
+    let newUser = {...this.user};
+    newUser.profile.current_avatar = avatar;
+    newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
+    newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
+
+    this.cacheService.setData('active-user', newUser);
+    this.userService.updateUser(newUser);
+    this.profileService.updateProfile(newUser.profile).subscribe (response => {
+      console.log('TODO show success message', response);
+    });
+
     this.profileService.selectNewAvatar(avatar.id).subscribe(
       (newAvatar) => {
-        this.avatars.find(av => (av.selected)).selected = false;
-        this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
-        this.userService.getSelf().subscribe((user) => { this.user = user; });
+        console.log("TODO remove this part. should be taken care of in update profile.", newAvatar)
       }
-    );
+    ); 
   }
 
   unlockAvatar(avatar: Avatar): void {
