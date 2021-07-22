@@ -40,9 +40,9 @@ export class UserService {
       }),
       tap(user => {
         this.user = user;
-        if(this.cacheService.networkStatus.getValue()){
+        if (this.cacheService.networkStatus.getValue()) {
           this.cacheService.setData('active-user', user);
-        };
+        }
         this.userSource.next(user);
         this.languageService.setLanguage(user.language);
       })

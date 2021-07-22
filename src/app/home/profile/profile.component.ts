@@ -45,10 +45,10 @@ export class ProfileComponent implements OnInit {
         this.cacheService.getData('active-user').then( user => {
           this.user = user;
           this.avatars = user.profile.unlocked_avatars;
-        })
+        });
       }
-    })
-    
+    });
+
   }
 
   getAvatarUrl(avatar: Avatar): string {
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
   }
 
   selectAvatar(avatar: Avatar): void {
-    let newUser = {...this.user};
+    const newUser = {...this.user};
     newUser.profile.current_avatar = avatar;
     newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
     newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
@@ -74,9 +74,9 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.selectNewAvatar(avatar.id).subscribe(
       (newAvatar) => {
-        console.log("TODO remove this part. should be taken care of in update profile.", newAvatar)
+        console.log('TODO remove this part. should be taken care of in update profile.', newAvatar);
       }
-    ); 
+    );
   }
 
   unlockAvatar(avatar: Avatar): void {

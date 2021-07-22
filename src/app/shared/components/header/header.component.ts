@@ -35,9 +35,9 @@ export class HeaderComponent implements OnInit {
       } else {
         this.cacheService.getData('active-user').then( user => {
           this.user = user;
-        })
+        });
       }
-    })
+    });
   }
 
   getImageUrl(): string {
