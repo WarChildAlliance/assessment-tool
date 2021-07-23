@@ -1,5 +1,21 @@
-<div  class="completed-banner">
-    <p>Topic completed!</p>
+<div class="topic-completed-page">
+<div class="completed-banner">
+   <img src="../../../../../../assets/bee-wabe.png" width="150px">
+    <p>{{ 'topicCompleted' | translate }}</p>
+  <div class="points-container">
+  <h5>{{ 'gainedPoints' | translate }}</h5>
+  <div class="effort">
+  <span>15</span>
+  <img src="../../../../../../assets/icons/honeypot.svg" width="30px">
   </div>
-
-<button mat-button class="next-button" (click)="goToTopicPage()">Next</button>
+  <div class="competency">
+  <span>23</span>
+  <img src="../../../../../../assets/icons/star.svg" width="30px">
+  </div>
+  </div>
+</div>
+<div class="buttons">
+  <button mat-flat-button class="next-button" color="primary" (click)="goToTopicPage()">{{ 'backToTopics' | translate }}</button>
+  <button mat-flat-button class="home-button" color="primary" (click)="goToHomePage()">{{ 'home' | translate }}</button>
+</div>
+</div>

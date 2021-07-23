@@ -5,8 +5,9 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Avatar } from '../models/avatar.model';
 import { Profile } from '../models/profile.model';
-import { User } from '../models/user.model';
 import { CacheService } from './cache.service';
+import { User, UserRoles } from '../models/user.model';
+import { AuthService } from './auth.service';
 import { LanguageService } from './language.service';
 
 @Injectable({
@@ -24,6 +25,7 @@ export class UserService {
     private http: HttpClient,
     private languageService: LanguageService,
     private cacheService: CacheService,
+    private authService: AuthService
   ) { }
 
   getSelf(): Observable<User> {
@@ -34,6 +36,7 @@ export class UserService {
     }).pipe(
       map(
         res => {
+          if (res.user.role !== UserRoles.Student) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
           return res.user;

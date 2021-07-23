@@ -1,14 +1,48 @@
 {
+  "assessmentTool": "Assessment Tool",
   "hello": "Hello",
   "noAssessments": "No assessments",
   "noTopics": "No topics",
   "start": "Start",
   "submit": "Submit",
   "skip": "Skip",
+  "home": "Home",
+  "continue": "Continue",
+  "next": "Next",
+  "backToAssessments": "Back to assessments",
+  "backToTopics": "Back to topics",
+  "topicCompleted": "Well done! You completed the topic.",
+  "assessmentLocked": "(locked)",
+  "hi": "Hi!",
+  "assessmentsAssisstant": "You're in the assessments page. Friendly bee says hi!",
+  "topicsAssisstant": "You're in the topics page! Friendly bee says hello",
+  "profileAssisstant": "You're in the profile topic page! Buzzz",
+  "topicAssisstant": "You're in the topic page! Friendly bee says ho ho ho!",
+  "questionAssisstant": "You're in the question input page!",
+  "questionNumberLineAssisstant": "You're in the question number line page!",
+  "questionSelectAssisstant": "You're in the question select page!",
+  "questionSortPage": "You're in the question sort page!",
+  "completedTopicAssisstant": "You're in the question completed topic page!",
+  "OK": "OK",
+  "exitConfirmation": "Exit confirmation",
+  "exit": "Exit",
+  "exitInfo": "If you exit now, you will be redirected to the Home page.",
+  "skipSure": "Are you sure you want to skip this question?",
+  "info": "Info here is coming up",
+  "praise1": "Great job!",
+  "praise2": "There you go!",
+  "praise3": "The more you try, the more you learn!",
+  "praise4": "You got this!",
+  "gainedPoints": "You got",
 
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",
     "skipQuestions": "Questions can be skipped"
+  },
+
+  "question": {
+    "questionNotAvailable": "This question is not available",
+    "correctAnswer": "Correct answer:"
   },
 
   "profile": {

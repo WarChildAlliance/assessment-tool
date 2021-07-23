@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -28,6 +28,7 @@ export class CompletedTopicComponent implements OnInit {
         private userService: UserService,
         private profileService: ProfileService,
 
+        private route: ActivatedRoute,
     ) {
 
     }
@@ -59,7 +60,7 @@ export class CompletedTopicComponent implements OnInit {
             });
 
             // TODO show in anias design
-            // this.answerService.endTopicAnswer().subscribe();
+            this.answerService.endTopicAnswer().subscribe();
             }
         );
     }
@@ -74,8 +75,13 @@ export class CompletedTopicComponent implements OnInit {
         return true;
     }
 
-    goToTopicPage(): void {
+    goToHomePage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../../']);
+    }
+
+    goToTopicPage(): void {
+        this.blockNavigation = false;
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }

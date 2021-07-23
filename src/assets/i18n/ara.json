@@ -1,14 +1,48 @@
 {
+  "assessmentTool": "XXXX",
   "hello": "مرحبا",
   "noAssessments": "لا تقييمات",
   "noTopics": "لا مواضيع",
   "start": "بداية",
   "submit": "إرسال",
   "skip": "يتخطى",
+  "home": "XXXX",
+  "continue": "XXXX",
+  "next": "XXXX",
+  "backToAssessments": "XXXX",
+  "backToTopics": "XXXX",
+  "topicCompleted": "XXXX",
+  "assessmentLocked": "(XXXX)",
+  "hi": "XXXX",
+  "assessmentsAssisstant": "XXXX",
+  "topicsAssisstant": "XXXX",
+  "profileAssisstant": "XXXX",
+  "topicAssisstant": "XXXX",
+  "questionAssisstant": "XXXX",
+  "questionNumberLineAssisstant": "XXXX",
+  "questionSelectAssisstant": "XXXX",
+  "questionSortPage": "XXXX",
+  "completedTopicAssisstant": "XXXX",
+  "OK": "XXXX",
+  "exitConfirmation": "XXXX",
+  "exit": "XXXX",
+  "exitInfo": "XXXX",
+  "skipSure": "XXXX",
+  "info": "XXXX",
+  "praise1": "XXXX",
+  "praise2": "XXXX",
+  "praise3": "XXXX",
+  "praise4": "XXXX",
+  "gainedPoints": "XXX",
 
   "topics": {
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
     "skipQuestions": "يمكن تخطي الأسئلة"
+  },
+
+  "question": {
+   "questionNotAvailable": "XXXX",
+   "correctAnswer": "XXXX:"
   },
 
   "profile": {

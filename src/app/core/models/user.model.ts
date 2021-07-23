@@ -18,7 +18,7 @@ export interface User {
   avatars?: Avatar[];
 }
 
-enum UserRoles {
+export enum UserRoles {
   Supervisor = 'SUPERVISOR',
   Student = 'STUDENT'
 }

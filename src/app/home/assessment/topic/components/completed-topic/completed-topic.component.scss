@@ -1,7 +1,52 @@
+.topic-completed-page {
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+align-items: space-evenly;
+
+
+
 .completed-banner {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
     font-size: 1.3rem;
     font-weight: bolder;
-    background-color: #7EBF9A;
 
+    .points-container {
+
+h5 {
+    padding: 5px;
+    margin: 0px;
+}
+
+img {
+    padding: 2px;
+    margin: 0px;
+}
+
+.effort, .competency {
+    display: flex;
+    justify-content: center;
+    align-items:inherit;
+}
+    }
+
+    img {
+        padding:20px 0px;
+    }
+
+    p {
+        padding: 0px 0px 30px 0px ;
+        margin: 0px;
+       
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content:space-evenly;
+    padding:15px;
+}
 }

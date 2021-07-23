@@ -41,7 +41,7 @@
         mat-flat-button color="primary" (click)="submitAnswer()">{{ (!this.answer && this.topic.allow_skip)? ('skip' | translate) : ('submit' | translate) }}</button>
 
     <button *ngIf="displayCorrectAnswer.getValue()" class="submit-button" mat-flat-button color="primary"
-        (click)="this.submitAndGoNextPage()">{{ 'Continue' | translate }}</button>
+        (click)="this.submitAndGoNextPage()">{{ 'continue' | translate }}</button>
 
 
 </div>
@@ -49,6 +49,6 @@
 <ng-template #questionNotAvailable>
 
     <div>
-        This question is not available
+        {{ 'question.questionNotAvailable' | translate }}
     </div>
 </ng-template>

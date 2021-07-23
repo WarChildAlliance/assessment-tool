@@ -48,11 +48,10 @@ export class QuestionComponent implements OnInit {
                 const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
                     disableClose: true,
                     data: {
-                        title: 'Exit confirmation',
-                        content: '<p>Are you sure you want to exit?</p><p>You will be redirected to the Assessment list</p>',
-                        contentAsInnerHTML: true,
+                        title: 'exitConfirmation',
+                        content: 'exitInfo',
                         cancelBtn: true,
-                        confirmBtnText: 'Exit',
+                        confirmBtnText: 'exit',
                         confirmBtnColor: 'warn',
                     }
                 });
@@ -123,10 +122,9 @@ export class QuestionComponent implements OnInit {
       const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
         disableClose: true,
         data: {
-            content: 'Are you sure you want to skip this question?',
-            contentAsInnerHTML: true,
+            content: 'skipSure',
             cancelBtn: true,
-            confirmBtnText: 'Confirm',
+            confirmBtnText: 'skip',
             confirmBtnColor: 'warn',
         }
       });
@@ -175,7 +173,7 @@ export class QuestionComponent implements OnInit {
       disableClose: true,
       data: {
           content: praise.text,
-          confirmBtnText: 'Continue',
+          confirmBtnText: 'continue',
           confirmBtnColor: 'primary',
           cancelBtn: false,
       }

@@ -7,9 +7,10 @@ mat-card {
   padding: 0px;
 
   .logout {
+    z-index: 1;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 10px;
+    left: 10px;
   }
 }
 
