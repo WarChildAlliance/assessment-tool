@@ -66,6 +66,7 @@ export class ProfileComponent implements OnInit {
     newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
     newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
 
+    // TODO this shoud be done in a single step through the user service!
     this.cacheService.setData('active-user', newUser);
     this.userService.updateUser(newUser);
     this.profileService.updateProfile(newUser.profile).subscribe (response => {
@@ -108,3 +109,4 @@ export class ProfileComponent implements OnInit {
 
   }
 }
+

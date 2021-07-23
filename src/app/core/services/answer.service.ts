@@ -138,7 +138,6 @@ export class AnswerService {
           this.cacheService.setData(this.activeTopicAnswerLocalStorage, activeTopicAnswerLocal);
           return of(answer);
         } else if (!online && !activeTopicAnswerLocal) {
-
           return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
             map((data: AnswerSession) => {
               const topicAnswer: TopicAnswer = {
@@ -154,6 +153,14 @@ export class AnswerService {
           );
         }
         else {
+
+          // TODO here we set the answers always to the activeTopicAnswerStorage but doesnt seem to be the best solution
+          this.cacheService.getData(this.activeTopicAnswerStorage).then( activeTopicAnswer => {
+            const updatedActiveTopicAnswer = activeTopicAnswer;
+            updatedActiveTopicAnswer.answers.push(answer);
+            this.cacheService.setData(this.activeTopicAnswerStorage, updatedActiveTopicAnswer);
+          });
+
           // Send request with active topic answer (online or offline)
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
             switchMap((data: TopicAnswer) => this.createAnswer({ ...answer, topic_answer: data.id }))
@@ -273,7 +280,9 @@ export class AnswerService {
       `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
       { topic: topicId, session: sessionId }
     ).pipe(
-      tap(topicAnswer => this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer))
+      tap(topicAnswer => {
+        this.cacheService.setData(this.activeTopicAnswerStorage, {...topicAnswer, answers: []});
+      })
     );
   }
 
