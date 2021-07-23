@@ -16,7 +16,7 @@ export interface User {
   profile?: Profile;
 }
 
-enum UserRoles {
+export enum UserRoles {
   Supervisor = 'SUPERVISOR',
   Student = 'STUDENT'
 }
