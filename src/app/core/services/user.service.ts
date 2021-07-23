@@ -21,7 +21,7 @@ export class UserService {
   ) { }
 
   getSelf(): Observable<User> {
-    return forkJoin({
+    return forkJoin ( {
       user: this.http.get<User>(`${environment.API_URL}/users/get_self/`),
       profile: this.http.get<Profile>(`${environment.API_URL}/gamification/profiles/get_self/`)
     }).pipe(
@@ -30,7 +30,7 @@ export class UserService {
           if (res.user.role !== UserRoles.Student) { this.authService.logout(); }
           res.user.profile = res.profile;
           return res.user;
-        }),
+      }),
       tap(user => {
         this.user = user;
         this.languageService.setLanguage(user.language);
