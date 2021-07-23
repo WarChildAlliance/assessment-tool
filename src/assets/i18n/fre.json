@@ -6,6 +6,7 @@
   "start": "Démarrer",
   "submit": "Envoyer",
   "skip": "Passer",
+  "home": "XXXX",
   "continue": "Continuer",
   "next": "XXXX",
   "backToAssessments": "Retour aux évaluations",
@@ -32,6 +33,7 @@
   "praise2": "XXXX",
   "praise3": "Plus tu essaies, plus tu apprends!",
   "praise4": "Tu vas y arriver!",
+  "gainedPoints": "XXX",
 
   "topics": {
     "noSkipQuestions": "Les questions ne peuvent pas être passées",

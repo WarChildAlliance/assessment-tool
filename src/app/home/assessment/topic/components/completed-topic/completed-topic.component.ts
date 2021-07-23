@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class CompletedTopicComponent implements OnInit {
         private answerService: AnswerService,
         private router: Router,
         private assisstantService: AssisstantService,
+        private route: ActivatedRoute,
     ) {
 
     }
@@ -25,6 +26,7 @@ export class CompletedTopicComponent implements OnInit {
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.answerService.endTopicAnswer().subscribe();
+        console.log(this.answerService, this.answerService.endTopicAnswer() );
     }
 
     /* Shows modal confirmation before leave the page if is evluated topic
@@ -37,8 +39,13 @@ export class CompletedTopicComponent implements OnInit {
         return true;
     }
 
-    goToTopicPage(): void {
+    goToHomePage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../../']);
+    }
+
+    goToTopicPage(): void {
+        this.blockNavigation = false;
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }
