@@ -50,5 +50,27 @@
     "noShopOffline": "You need internet connection to access the shop!",
     "unlocked": "Unlocked",
     "selected": "Selected"
+  },
+
+  "tutorial": {
+    "welcome": "Welcome",
+    "introduction": "Hello, nice to meet you. My name is Bee. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started",
+    "startAssessment": "Click the flower/button to start",
+    "startTopic": "Click the picture",
+    "startQuestion": "You will get some practise questions now. Click the green button",
+    "selectQuestionTitle": "On top you see the question",
+    "selectQuestionOptions": "Below are possible answers. Choose the one that you think is correct and press the green button.",
+    "numberLineQuestionIntroduction": "This is a numberline.",
+    "numberLineQuestionTitle": "On top you see the number one.",
+    "numberLineQuestionAnswer": "Drag the slider to number one",
+    "answerSubmit": "Press the green button to send your answer",
+    "starsCollection": "You collect stars with correct answer",
+    "honeypotCollection": "You got a honeypot, well done! You earn honey pots when you answer questions.",
+    "toProfilePage": "Let's fly to your profile page to find out what you can do with the honeypots.",
+    "avatarShop": "With honeypots you can get new characters.",
+    "unlockingAvatars": "You can unlock a character now",
+    "theFriendlyBee": "If you dont know what to do on a page, click on me I will repeat the instruction",
+    "end": "Great work! You have finished the practise area",
+    "redirection": "Click here to go to the beginning"
   }
 }

@@ -4,23 +4,26 @@
         <mat-icon svgIcon="arrow_back"></mat-icon> {{ 'backToAssessments' | translate }}
     </div>
 
-    <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
-        <li class="topic-card" *ngFor="let topic of topics">
-            
-            <a [routerLink]="['./topics', topic.id]">
-            <img src="../../../../../assets/basketball.png"/>
-            <div class="ribbon" *ngIf="topic.competency.length">
-                <div class="ribbon-one"></div>
-                <div class="ribbon-two"></div>
-                <div *ngFor="let competency of topic.competency">
-                    <mat-icon *ngIf="competency" svgIcon="competency_star"></mat-icon>
-                    <mat-icon *ngIf="!competency" svgIcon="competency_star_outline"></mat-icon>
+    <div class="topics-container">
+        <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
+            <li class="topic-card" *ngFor="let topic of topics">
+                
+                <a [routerLink]="['./topics', topic.id]">
+                <img src="../../../../../assets/basketball.png" id="topicIcon"/>
+                <div class="ribbon" *ngIf="topic.competency.length">
+                    <div class="ribbon-one"></div>
+                    <div class="ribbon-two"></div>
+                    <div *ngFor="let competency of topic.competency">
+                        <mat-icon *ngIf="competency" svgIcon="competency_star"></mat-icon>
+                        <mat-icon *ngIf="!competency" svgIcon="competency_star_outline"></mat-icon>
+                    </div>
                 </div>
-            </div>
-            <p>{{topic.name}}</p>
-            </a>
-        </li>
-    </ul>
+                <p>{{topic.name}}</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
 
     <ng-template #noTopics>
         <p>{{ 'noTopics' | translate }}</p>

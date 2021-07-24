@@ -3,5 +3,8 @@ export enum PageNames {
   topics = 'topics',
   topic = 'topic',
   question = 'question',
-  questionSelect = 'questionSelect'
+  questionSelect = 'questionSelect',
+  questionNumberLine = 'questionNumberLine',
+  topicCompleted = 'topicCompleted',
+  profile = 'profile'
 }

@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { PageNames } from 'src/app/core/utils/constants';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
   private readonly pageID = 'profile-page';
 
   user: User;
@@ -25,6 +27,7 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private userService: UserService,
     private assisstantService: AssisstantService,
+    private tutorialSerice: TutorialService
   ) { }
 
   ngOnInit(): void {
@@ -66,5 +69,9 @@ export class ProfileComponent implements OnInit {
         this.userService.getSelf().subscribe((user) => { this.user = user; });
       }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.tutorialSerice.currentPage.next(PageNames.profile);
   }
 }

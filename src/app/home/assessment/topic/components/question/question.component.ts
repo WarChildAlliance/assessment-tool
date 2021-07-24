@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -14,15 +14,13 @@ import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
-import { PageNames } from 'src/app/core/utils/constants';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit, AfterViewInit {
+export class QuestionComponent implements OnInit {
   topic: Topic;
 
   question: GeneralQuestion;
@@ -86,7 +84,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     private answerService: AnswerService,
     public dialog: MatDialog,
     private assessmentService: AssessmentService,
-    private tutorialSerice: TutorialService,
     private changeDetector: ChangeDetectorRef
   ) { }
 
@@ -225,10 +222,5 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     } else {
       this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
     }
-  }
-
-  ngAfterViewInit(): void {
-    console.log('hi');
-    this.tutorialSerice.currentPage.next(PageNames.question);
   }
 }

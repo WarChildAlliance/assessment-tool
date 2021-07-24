@@ -1,5 +1,5 @@
 <!-- Options with only one choice -->
-<section *ngIf="!question.multiple">
+<section id="multipleSelect" *ngIf="!question.multiple">
     <mat-radio-group [formControl]="valueForm">
         <ng-container *ngFor="let option of question.options">
             <div *ngIf="hasImageAttached(option); else noImageAttached" class="card-container"

@@ -12,7 +12,7 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
     templateUrl: './question-select.component.html',
     styleUrls: ['./question-select.component.scss']
 })
-export class QuestionSelectComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit{
 
     @Input() answer: AnswerSelect;
 
@@ -66,6 +66,7 @@ export class QuestionSelectComponent implements OnInit, AfterViewInit, OnDestroy
                     };
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 } else {
+                    this.tutorialSerice.currentPage.next(PageNames.question);
                     this.answer.selected_options = formattedSelectedOptions;
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 }
