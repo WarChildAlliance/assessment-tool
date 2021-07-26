@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
@@ -17,6 +17,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     @Input() question: QuestionSelect;
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+
+    @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
@@ -37,8 +39,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
             if (value && this.question.multiple) {
                 this.multipleSelectForm.disable();
             }
-        }
-        );
+        });
+
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
 
@@ -118,9 +120,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
         return valid;
     }
 
-    setAnswerBackground(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : 'white';
+    getAnswerBackground(option: any): string {
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
+            : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
     }
 
     ngOnDestroy(): void {

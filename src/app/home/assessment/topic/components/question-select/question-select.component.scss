@@ -1,35 +1,53 @@
-section {
-  text-align: center;
-}
+.options-container {
+  overflow: auto;
+  width: 100%;
+  gap: 12px;
 
-mat-card {
-  margin: 0.5rem;
-  cursor: pointer;
-}
+  &.grid {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr;
+    // TODO verify if we need a media query
+  }
 
-img {
-  height: 160px;
-}
+  &.vertical {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr;
+  }
 
-.card-container {
-  display: inline-grid;
-  margin: 0.5rem;
-}
+  &.horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
-.no-attachment {
-  display: flex;
-  margin: 1rem;
-  padding: 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  .option {
+    padding: 0.5rem;
+    border-radius: 5px;
 
-.pointer {
-  cursor: pointer;
-}
+    mat-checkbox {
+      cursor: pointer;
 
-mat-checkbox {
-  span {
-    color: black;
+      span {
+        color: black;
+      }
+    }
+
+    mat-card img {
+      cursor: pointer;
+      height: 160px;
+    }
+
+    &:not(.-card) {
+      background-color: white;
+    }
+
+    &.invalid {
+      background-color: #F2836B;
+    }
+
+    &.valid {
+      background-color: #7EBF9A;
+    }
   }
 }
