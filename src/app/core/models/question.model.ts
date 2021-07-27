@@ -25,6 +25,7 @@ export interface QuestionNumberLine extends Question {
 export interface QuestionSelect extends Question {
   multiple: boolean;
   options: SelectOption[];
+  displayType: 'grid' | 'horizontal' | 'vertical';
 }
 
 export interface QuestionSort extends Question {
