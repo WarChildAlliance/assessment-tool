@@ -12,7 +12,7 @@
 
   &.vertical {
     display: grid;
-    place-items: center;
+    align-items: center;
     grid-template-columns: 1fr;
   }
 
@@ -24,6 +24,7 @@
   .option {
     padding: 0.5rem;
     border-radius: 5px;
+    margin: 0.5rem;
 
     mat-checkbox {
       cursor: pointer;
