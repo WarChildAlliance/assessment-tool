@@ -19,10 +19,45 @@ $assessment-tool-typography: mat-typography-config(
 // Be sure that you only ever include this mixin once!
 @include mat-core($assessment-tool-typography);
 
+
+// Assessment-tool palette
+$assessment-tool-palette: (
+        50 : #FFFDE7,
+        100 : #FFF9C4,
+        200 : #FFF59D,
+        300 : #FFF176,
+        400 : #FFEE58,
+        500 : #FFDC64,
+        600 : #FDD835,
+        700 : #FBC02D,
+        800 : #F9A825,
+        900 : #F57F17,
+        A100 : #FFFF8D,
+        A200 : #FFFF00,
+        A400 : #FFEA00,
+        A700 : #FFD600,
+        contrast: (
+                50: #000000,
+                100: #000000,
+                200: #000000,
+                300: #000000,
+                400: #000000,
+                500: #70504A,
+                600: #ffffff,
+                700: #ffffff,
+                800: #ffffff,
+                900: #ffffff,
+                A100: #000000,
+                A200: #000000,
+                A400: #000000,
+                A700: #000000,
+        ),
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$assessment-tool-primary: mat-palette($mat-blue-gray);
+$assessment-tool-primary: mat-palette($assessment-tool-palette);
 $assessment-tool-accent: mat-palette($mat-gray);
 
 // The warn palette is optional (defaults to red).
@@ -47,6 +82,31 @@ $assessment-tool-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+// ******** Pages backgrounds *********
+
+.light-yellow-bg {
+  background: #FFFBEB;
+}
+
+.yellow-gradient-bg {
+  background-image: linear-gradient(82.84deg, #FFDE70, #FFF5D9);
+}
+
+.purple-gradient-bg {
+  background-image: linear-gradient(20.33deg, #9766FF, #CFE8FF);
+}
+
+.cyan-gradient-bg {
+  background-image: linear-gradient(82.84deg, #4AAFCF, #75EDDF);
+}
+
+.green-gradient-bg {
+  background-image: linear-gradient(82.84deg, #4ACF8C, #A4EDC2);
+}
+
+// ******** End of Pages backgrounds *********
+
+
 html,
 body {
   height: 100%;
@@ -55,6 +115,7 @@ body {
 body {
   font-family: "Cairo", sans-serif;
   background-color: rgb(213, 232, 238);
+  color: #70504A;
   width: 100%;
   margin: 0px;
   padding-top: 0px;
@@ -67,7 +128,7 @@ body {
     border-radius: 1rem;
     background-color: #7EBF9A;
   }
-  
+
   .incorrect-answer {
     color: white;
     padding: 1rem 0 0 0.5rem;
