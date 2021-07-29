@@ -82,6 +82,7 @@ $assessment-tool-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+
 // ******** Pages backgrounds *********
 
 .light-yellow-bg {
@@ -106,19 +107,13 @@ $assessment-tool-theme: mat-light-theme(
 
 // ******** End of Pages backgrounds *********
 
-
-html,
-body {
-  height: 100%;
-}
-
 body {
   font-family: "Cairo", sans-serif;
   background-color: rgb(213, 232, 238);
-  color: #70504A;
-  width: 100%;
-  margin: 0px;
-  padding-top: 0px;
+  color: #70504a;
+  max-width: 1024px;
+  min-width: 360px;
+  margin: 0 auto;
 }
 
 .question-container {
@@ -137,10 +132,50 @@ body {
   }
 }
 
-@media only screen and (min-width: 800px) {
-  body {
-    margin: 0;
-    padding-top: 40px;
-    width: auto;
+// ******** Style for button of login, dialog confirmation and question submit/continue ********
+
+.main-btn {
+  border-radius: 6.25rem !important;
+  padding: 0.5rem !important;
+  font-size: 28px;
+
+  img {
+    position: absolute;
+    right: 1rem;
+    top: 0.9rem;
   }
+}
+
+// ******** End of main button ********
+
+
+button:disabled,
+button[disabled] {
+  background: #FFDC64 !important;
+  opacity: 0.7 !important;
+}
+
+mat-form-field {
+  background: white !important;
+  border-radius: 1.30rem !important;
+  margin-bottom: 1.56rem !important;
+}
+
+input.mat-input-element {
+  text-align: center;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+/* Border */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+}
+
+/* Font color */
+input.mat-input-element, input.mat-input-element::placeholder {
+  color: #70504A;
+  font-size: 20px;
 }

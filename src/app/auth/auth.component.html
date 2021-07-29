@@ -1,14 +1,22 @@
-<mat-card>
-    <img id="bee-icon" src="../../assets/bee-wabe.png"/>
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline" class="form-group">
-        <mat-label for="code">Code</mat-label>
-        <input matInput formControlName="code" class="form-control" placeholder="Your username"/>
-    </mat-form-field>
-    <div class="button-group">
-        <button class="login-button" mat-flat-button color="primary" type="submit" [disabled]="authForm.invalid">
-            Login
-        </button>
-    </div>
-</form>
-</mat-card>
+<img src="assets/flower_green.svg"/>
+<div class="light-yellow-bg">
+    <mat-grid-list cols="1">
+        <mat-grid-tile>
+            <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+                <img src="assets/bee_100.svg"/>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <input matInput formControlName="code" placeholder="Code"/>
+                    </mat-form-field>
+                    <button class="main-btn" mat-flat-button color="primary" type="submit"
+                            [disabled]="authForm.invalid">
+                        Login
+                        <img src="assets/icons/right_arrow_24.svg"/>
+                    </button>
+                </div>
+            </form>
+        </mat-grid-tile>
+        <img src="assets/flower_purple.svg"/>
+    </mat-grid-list>
+</div>
+<img src="assets/flower_cyan.svg"/>
