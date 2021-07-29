@@ -39,6 +39,23 @@ img:nth-child(3) {
   z-index: 1;
 }
 
+
+mat-form-field {
+  background: white !important;
+  border-radius: 1.30rem !important;
+  margin-bottom: 1.56rem !important;
+}
+
+input.mat-input-element {
+  text-align: center;
+}
+
+/* Font color */
+input.mat-input-element, input.mat-input-element::placeholder {
+  color: #70504A;
+  font-size: 20px;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

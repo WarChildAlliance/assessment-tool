@@ -4,14 +4,14 @@
 // Plus imports for other components in your app.
 
 @font-face {
-  font-family: "Cairo";
-  src: url("/assets/fonts/Cairo-Regular.ttf") format("truetype");
+  font-family: "Mada";
+  src: url("/assets/fonts/Mada-Medium.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 $assessment-tool-typography: mat-typography-config(
-        $font-family: "Cairo",
+        $font-family: "Mada",
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -155,27 +155,13 @@ button[disabled] {
   opacity: 0.7 !important;
 }
 
-mat-form-field {
-  background: white !important;
-  border-radius: 1.30rem !important;
-  margin-bottom: 1.56rem !important;
-}
-
-input.mat-input-element {
-  text-align: center;
-}
 
 .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
 
+
 /* Border */
 .mat-form-field-appearance-outline .mat-form-field-outline {
   color: transparent;
-}
-
-/* Font color */
-input.mat-input-element, input.mat-input-element::placeholder {
-  color: #70504A;
-  font-size: 20px;
 }
