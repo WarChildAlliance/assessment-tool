@@ -22,8 +22,6 @@ currentPageContent: any = {};
   }
 
   openDialog(): void {
-    console.log(this.currentPageContent.content);
-
     this.currentPageContent = this.assisstantService.getPageContent();
 
     const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {

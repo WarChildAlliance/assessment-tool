@@ -15,6 +15,7 @@ export class TutorialService {
   private tourDict = {};
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public translatedTxt: string;
+  public hasCompleted = false;
 
 
   constructor(
@@ -24,7 +25,7 @@ export class TutorialService {
     private translateService: TranslateService
   ) {
     this.currentPage.subscribe(pageName => {
-      if (pageName in this.tourDict && this.tutorialIsEnabled) {
+      if (pageName in this.tourDict && !this.hasCompleted) {
         this.guidedTourService.startTour(this.tourDict[pageName]);
       }
     });
@@ -35,12 +36,17 @@ export class TutorialService {
     //
     // This method should return true if the tutorial has to be shown to that specific user and false otherwise
     // Right now this is just a placeholder
+    return true;
     return this.userService.user.first_name === 'Harry';
+  }
+
+  enableTutorial(completed: boolean): void {
+    this.hasCompleted = completed;
   }
 
   createAllTours(): void {
     this.translateService.setDefaultLang(this.translateService.currentLang);
-    this.translateService.use('en').subscribe(
+    this.translateService.use('eng').subscribe(
       () => {
         this.createTourAssessment();
         this.createTourTopics();
@@ -54,8 +60,6 @@ export class TutorialService {
   }
 
   createTourAssessment(): void {
-
-
     const steps: TourStep[] = [];
     steps.push({
       title: this.translateService.instant('tutorial.welcome'),
@@ -71,8 +75,6 @@ export class TutorialService {
     });
 
     this.tourDict[PageNames.assessment] = this.defineTour(steps, PageNames.assessment);
-
-
   }
 
 
@@ -92,7 +94,7 @@ export class TutorialService {
     steps.push({
       selector: '.start-button',
       content:  this.translateService.instant('tutorial.startQuestion'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Top
     });
     this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
   }

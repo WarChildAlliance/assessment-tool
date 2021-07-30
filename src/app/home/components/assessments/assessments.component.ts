@@ -26,7 +26,9 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.assessmentService.getAssessments().subscribe(
       assessments => {
-        this.assessments = assessments;
+        const tutorialCompleted = assessments.find(a => a.subject === 'TUTORIAL').all_topics_complete;
+        this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
+        this.tutorialSerice.enableTutorial(tutorialCompleted);
       }
     );
     this.assisstantService.setPageID(this.pageID);
