@@ -13,7 +13,7 @@
   "backToTopics": "Back to topics",
   "topicCompleted": "Well done! You completed the topic.",
   "assessmentLocked": "(locked)",
-  "hi": "Hi!",
+  "hi": "Hi",
   "assessmentsAssisstant": "You're in the assessments page. Friendly bee says hi!",
   "topicsAssisstant": "You're in the topics page! Friendly bee says hello",
   "profileAssisstant": "You're in the profile topic page! Buzzz",
@@ -34,17 +34,14 @@
   "praise3": "The more you try, the more you learn!",
   "praise4": "You got this!",
   "gainedPoints": "You got",
-
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",
     "skipQuestions": "Questions can be skipped"
   },
-
   "question": {
     "questionNotAvailable": "This question is not available",
     "correctAnswer": "Correct answer:"
   },
-
   "profile": {
     "competency": "Competency",
     "effort": "Effort",
@@ -52,5 +49,9 @@
     "noShopOffline": "You need internet connection to access the shop!",
     "unlocked": "Unlocked",
     "selected": "Selected"
+  },
+  "auth": {
+    "login": "Log in",
+    "code": "Code"
   }
 }
