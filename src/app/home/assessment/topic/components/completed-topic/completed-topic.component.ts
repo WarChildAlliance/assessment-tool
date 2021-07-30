@@ -26,7 +26,6 @@ export class CompletedTopicComponent implements OnInit {
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.answerService.endTopicAnswer().subscribe();
-        console.log(this.answerService, this.answerService.endTopicAnswer() );
     }
 
     /* Shows modal confirmation before leave the page if is evluated topic

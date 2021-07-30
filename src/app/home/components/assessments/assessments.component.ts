@@ -24,7 +24,6 @@ export class AssessmentsComponent implements OnInit {
         this.assessmentService.getAssessments().subscribe(
             assessments => {
                 this.assessments = assessments;
-                console.log('ASDASD', this.assessments);
             }
         );
         this.assisstantService.setPageID(this.pageID);

@@ -23,8 +23,6 @@ export class AssisstantComponent implements OnInit {
     }
 
     openDialog(): void {
-        console.log(this.currentPageContent.content);
-
         this.currentPageContent = this.assisstantService.getPageContent();
 
         this.dialog.open(GenericConfirmationDialogComponent, {
