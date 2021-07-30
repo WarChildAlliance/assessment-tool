@@ -1,22 +1,4 @@
-mat-card {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0px;
-
-  .logout {
-    z-index: 1;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-}
-
-@media only screen and (min-width: 800px) {
-  mat-card {
-    width: 60%;
-    height: auto;
-  }
+h2 {
+  margin-bottom: 7rem;
+  font-weight: normal;
 }

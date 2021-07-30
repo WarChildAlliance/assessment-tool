@@ -3,14 +3,14 @@
     <mat-grid-list cols="1">
         <mat-grid-tile>
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                <img src="assets/bee_100.svg"/>
+                <img src="../../assets/icons/bee_100.svg"/>
                 <div>
                     <mat-form-field appearance="outline">
-                        <input matInput formControlName="code" placeholder="Code"/>
+                        <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}"/>
                     </mat-form-field>
                     <button class="main-btn" mat-flat-button color="primary" type="submit"
                             [disabled]="authForm.invalid">
-                        Log in
+                        {{'auth.login' | translate}}
                         <img src="assets/icons/right_arrow_24.svg"/>
                     </button>
                 </div>

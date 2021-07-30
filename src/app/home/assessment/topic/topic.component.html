@@ -1,20 +1,18 @@
-<div mat-icon-button class="back-banner" [routerLink]="['../../']">
-    <mat-icon svgIcon="arrow_back"></mat-icon> {{ 'backToTopics' | translate }}
-</div>
+<app-back-navigation text="backToTopics" [routerLink]="['../../']"></app-back-navigation>
 
-<div class="topic-content" *ngIf="topic">
+<div class="light-yellow-bg topic-content" *ngIf="topic">
     <p class="topic-name">{{ topic?.name }}</p>
 
-    <p *ngIf="topic.description">{{ topic.description }}</p>
+    <p *ngIf="topic.description">{{ topic.description }}</p>
 
-    <p *ngIf="topic.allow_skip">{{ 'topics.skipQuestions' | translate }}</p>
-    <p *ngIf="!topic.allow_skip">{{ 'topics.noSkipQuestions' | translate }}</p>
+    <p *ngIf="topic.allow_skip">{{ 'topics.skipQuestions' | translate }}</p>
+    <p *ngIf="!topic.allow_skip">{{ 'topics.noSkipQuestions' | translate }}</p>
 
     <app-attachments [attachments]="topic.attachments"></app-attachments>
 
 
     <button class="start-button" [disabled]="!topic || !topic.questions || !topic.questions.length"
-        [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
+            [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
         {{ 'start' | translate }}
     </button>
 </div>

@@ -34,17 +34,14 @@
   "praise3": "XXXX",
   "praise4": "XXXX",
   "gainedPoints": "XXX",
-
   "topics": {
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
     "skipQuestions": "يمكن تخطي الأسئلة"
   },
-
   "question": {
-   "questionNotAvailable": "XXXX",
-   "correctAnswer": "XXXX:"
+    "questionNotAvailable": "XXXX",
+    "correctAnswer": "XXXX:"
   },
-
   "profile": {
     "competency": "كفاءة",
     "effort": "جهد",
@@ -52,5 +49,9 @@
     "noShopOffline": "تحتاج إلى اتصال بالإنترنت للوصول إلى المتجر!",
     "unlocked": "مفتوحة",
     "selected": "المحدد"
+  },
+  "auth": {
+    "login": "",
+    "code": ""
   }
 }

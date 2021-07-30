@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/core/models/user.model';
@@ -6,45 +6,52 @@ import { environment } from 'src/environments/environment';
 import { GenericConfirmationDialogComponent } from '../generic-confirmation-dialog/generic-confirmation-dialog.component';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  user: User;
+    public user: User;
 
-  @Input() style: 'smallsize' | 'fullsize' = 'smallsize';
+    /*
+       this input sets the content of the header depending on the value
+       the value refers to which page we are
+     */
+    @Input()
+    headerConfig?: 'home' | 'profile';
 
-  constructor(
-    private route: ActivatedRoute,
-    public dialog: MatDialog
-  ) { }
+    @Output()
+    logout: EventEmitter<void> = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    this.route.data.subscribe(
-      (data: { user: User }) => this.user = data.user
-    );
-  }
+    // @Input() style: 'smallsize' | 'fullsize' = 'smallsize';
 
-  getImageUrl(): string {
+    constructor(
+        private route: ActivatedRoute,
+        public dialog: MatDialog
+    ) {
+    }
 
-    // TODO We should replace by a real default image so the students can understand it's not the expected one
-    const imageUrl = this.user.profile.current_avatar?.image ?
-      (environment.API_URL + this.user.profile.current_avatar.image) :
-      'assets/icons/Bee.svg';
+    ngOnInit(): void {
+        this.route.data.subscribe(
+            (data: { user: User }) => this.user = data.user
+        );
+    }
 
-    return imageUrl;
-  }
+    getImageUrl(): string {
+        return this.user.profile.current_avatar?.image ?
+            (environment.API_URL + this.user.profile.current_avatar.image) :
+            'assets/avatars/award_120.svg';
+    }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-      disableClose: true,
-      data: {
-          title: 'hi',
-          content: 'info',
-          confirmBtnText: 'OK',
-          confirmBtnColor: 'primary',
-      }
-  });
-  }
+    openDialog(): void {
+        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: true,
+            data: {
+                title: 'hi',
+                content: 'info',
+                confirmBtnText: 'OK',
+                confirmBtnColor: 'primary',
+            }
+        });
+    }
 }
