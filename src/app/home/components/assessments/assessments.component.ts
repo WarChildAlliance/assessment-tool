@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assessments',
@@ -36,5 +36,13 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
 
   ngAfterViewInit(): void {
     this.tutorialSerice.currentPage.next(this.pageName);
+  }
+
+  getAssessmentIcon(assessment: Assessment): string {
+    const imageUrl = assessment.icon ?
+      (environment.API_URL + assessment.icon) :
+      'assets/icons/Bee.svg';
+
+    return imageUrl;
   }
 }

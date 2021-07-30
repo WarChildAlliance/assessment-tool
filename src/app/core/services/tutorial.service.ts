@@ -25,9 +25,13 @@ export class TutorialService {
     private translateService: TranslateService
   ) {
     this.currentPage.subscribe(pageName => {
-      if (pageName in this.tourDict && !this.hasCompleted) {
-        this.guidedTourService.startTour(this.tourDict[pageName]);
-      }
+      const timeout = pageName === 'assessment' ? 3000 : 0;
+      setTimeout( x => {
+        if (pageName in this.tourDict && !this.hasCompleted) {
+          this.guidedTourService.startTour(this.tourDict[pageName]);
+        }
+      }, timeout);
+
     });
   }
 

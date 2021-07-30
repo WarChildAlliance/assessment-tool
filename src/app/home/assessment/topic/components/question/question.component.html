@@ -1,7 +1,7 @@
 <div class="question-container" *ngIf="question; else questionNotAvailable">
     <div class="question-header">
         <div class="questions-progress">
-            <button mat-icon-button [routerLink]="['../../../../']">
+            <button mat-icon-button [routerLink]="['/home']">
                 <mat-icon svgIcon="cancel"></mat-icon>
             </button>
             <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">

@@ -1,7 +1,8 @@
-<div>
+<div class="assessments-container">
     <ul class="assessment-cards-list" *ngIf="assessments && assessments.length; else noAssessments">
         <ng-container *ngFor="let assessment of assessments">
             <li *ngIf="!assessment.locked" class="assessment-card">
+                <img class="assessment-icon" src="{{ getAssessmentIcon(assessment) }}"/>
                 <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
             </li>
 

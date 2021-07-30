@@ -1,15 +1,13 @@
 <!-- Options with only one choice -->
-<section id="multipleSelect" *ngIf="!question.multiple">
-    <mat-radio-group [formControl]="valueForm">
+<section *ngIf="!question.multiple">
+    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="question.displayType | lowercase">
         <ng-container *ngFor="let option of question.options">
-            <div *ngIf="hasImageAttached(option); else noImageAttached" class="card-container"
-                [style.background]="setAnswerBackground(option)">
+            <div *ngIf="hasImageAttached(option); else noImageAttached" class="option -card"
+                [class]="getAnswerBackground(option)">
                 <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
                     <mat-card-content>
                         <div *ngFor="let attachment of option.attachments">
-
                             <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="attachment.file" alt="">
-
                         </div>
                     </mat-card-content>
                     <mat-card-actions align="center">
@@ -27,7 +25,7 @@
             </div>
             <ng-template #noImageAttached>
                 <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
-                    [style.background]="setAnswerBackground(option)" class="no-attachment">
+                    [class]="getAnswerBackground(option)" class="option">
                     <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
                         {{ option.value }}
                         <ng-container *ngFor="let attachment of option.attachments">
@@ -44,10 +42,11 @@
 </section>
 
 <!-- Options with multiple choices -->
-<section [formGroup]="multipleSelectForm" *ngIf="question.multiple">
+<section class="options-container" [class]="question.displayType | lowercase" [formGroup]="multipleSelectForm"
+    *ngIf="question.multiple">
     <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
         <div *ngIf="hasImageAttached(option); else noImageAttachmentOption"
-            [style.background]="setAnswerBackground(option)" [formGroupName]="i" class="card-container">
+            [class]="getAnswerBackground(option)" [formGroupName]="i" class="option -card">
             <mat-card>
                 <mat-card-content (click)="setCheckboxSelection(i)">
                     <div *ngFor="let attachment of option.attachments">
@@ -55,8 +54,8 @@
                     </div>
                 </mat-card-content>
                 <mat-card-actions align="center">
-                    <mat-checkbox (click)="setCheckboxSelection(i)" formControlName="selected" class="pointer">
-                        <span class="pointer">
+                    <mat-checkbox (click)="setCheckboxSelection(i)" formControlName="selected">
+                        <span>
                             {{ option.value }}
                         </span>
                     </mat-checkbox>
@@ -72,10 +71,10 @@
             </mat-card>
         </div>
         <ng-template #noImageAttachmentOption>
-            <div (click)="setCheckboxSelection(i)" [formGroupName]="i" [style.background]="setAnswerBackground(option)"
-                class="no-attachment">
-                <mat-checkbox formControlName="selected" class="pointer">
-                    <span class="pointer">
+            <div (click)="setCheckboxSelection(i)" [formGroupName]="i" [class]="getAnswerBackground(option)"
+                class="option">
+                <mat-checkbox formControlName="selected">
+                    <span>
                         {{ option.value }}
                     </span>
                     <ng-container *ngFor="let attachment of option.attachments">

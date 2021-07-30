@@ -7,6 +7,7 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-topics',
@@ -55,6 +56,15 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.tutorialSerice.currentPage.next(PageNames.topics);
+  }
+
+  getTopicIcon(topic: Topic): string {
+
+    const imageUrl = topic.icon ?
+      (environment.API_URL + topic.icon) :
+      'assets/icons/Bee.svg';
+
+    return imageUrl;
   }
 
 }

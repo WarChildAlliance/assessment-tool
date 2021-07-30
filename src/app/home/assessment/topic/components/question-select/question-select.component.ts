@@ -20,6 +20,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
+    @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
+
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
     valueForm = new FormControl(null);
@@ -40,8 +42,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
             if (value && this.question.multiple) {
                 this.multipleSelectForm.disable();
             }
-        }
-        );
+        });
+
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
 
@@ -122,9 +124,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         return valid;
     }
 
-    setAnswerBackground(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : 'white';
+    getAnswerBackground(option: any): string {
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
+            : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
     }
 
     ngOnDestroy(): void {

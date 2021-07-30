@@ -20,6 +20,7 @@ export class AssessmentService {
   getAssessments(): Observable<Assessment[]> {
     return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/`).pipe(
 
+      /*
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
         assessmentsList.map(assessment => {
@@ -53,7 +54,9 @@ export class AssessmentService {
         return assessmentsList;
       })
       // END OF TEMPORARY
-    );
+      */
+
+      );
   }
 
   getAssessment(assessmentId: number): Observable<Assessment> {

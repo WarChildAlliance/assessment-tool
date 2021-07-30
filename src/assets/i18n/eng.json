@@ -6,11 +6,12 @@
   "start": "Start",
   "submit": "Submit",
   "skip": "Skip",
+  "home": "Home",
   "continue": "Continue",
   "next": "Next",
   "backToAssessments": "Back to assessments",
   "backToTopics": "Back to topics",
-  "topicCompleted": "Topic completed!",
+  "topicCompleted": "Well done! You completed the topic.",
   "assessmentLocked": "(locked)",
   "hi": "Hi!",
   "assessmentsAssisstant": "You're in the assessments page. Friendly bee says hi!",
@@ -32,6 +33,7 @@
   "praise2": "There you go!",
   "praise3": "The more you try, the more you learn!",
   "praise4": "You got this!",
+  "gainedPoints": "You got",
 
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",

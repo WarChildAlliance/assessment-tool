@@ -42,12 +42,17 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         return true;
     }
 
-    goToTopicPage(): void {
+    goToHomePage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../../']);
     }
 
     ngAfterViewInit(): void {
         this.tutorialSerice.currentPage.next(PageNames.topicCompleted);
-      }
+    }
+
+    goToTopicPage(): void {
+        this.blockNavigation = false;
+        this.router.navigate(['../../'], { relativeTo: this.route });
+    }
 }

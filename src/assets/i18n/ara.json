@@ -6,6 +6,7 @@
   "start": "بداية",
   "submit": "إرسال",
   "skip": "يتخطى",
+  "home": "XXXX",
   "continue": "XXXX",
   "next": "XXXX",
   "backToAssessments": "XXXX",
@@ -32,6 +33,7 @@
   "praise2": "XXXX",
   "praise3": "XXXX",
   "praise4": "XXXX",
+  "gainedPoints": "XXX",
 
   "topics": {
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
