@@ -44,8 +44,9 @@ export class HeaderComponent implements OnInit {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
+            autoFocus: true,
             data: {
                 title: 'hi',
                 content: 'info',

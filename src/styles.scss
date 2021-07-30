@@ -85,6 +85,15 @@ $assessment-tool-theme: mat-light-theme(
 
 // ******** Pages backgrounds *********
 
+.white-opacity-bg {
+  background: #FFFFFF;
+  opacity: 0.9;
+}
+
+.white-bg {
+  background: #FFFFFF;
+}
+
 .light-yellow-bg {
   background: #FFFBEB;
 }
@@ -105,6 +114,15 @@ $assessment-tool-theme: mat-light-theme(
   background-image: linear-gradient(82.84deg, #4ACF8C, #A4EDC2);
 }
 
+div.light-yellow-bg,
+div.yellow-gradient-bg,
+div.purple-gradient-bg,
+div.cyan-gradient-bg,
+div.green-gradient-bg {
+  height: 100vh;
+  text-align: center;
+}
+
 // ******** End of Pages backgrounds *********
 
 body {
@@ -116,20 +134,18 @@ body {
   margin: 0 auto;
 }
 
-.question-container {
-  .correct-answer {
-    color: white;
-    padding: 0 15px;
-    border-radius: 1rem;
-    background-color: #7EBF9A;
-  }
+.correct-answer {
+  color: white;
+  padding: 0 15px;
+  border-radius: 1rem;
+  background-color: #7EBF9A;
+}
 
-  .incorrect-answer {
-    color: white;
-    padding: 1rem 0 0 0.5rem;
-    border-radius: 1rem;
-    background-color: #F2836B;
-  }
+.incorrect-answer {
+  color: white;
+  padding: 1rem 0 0 0.5rem;
+  border-radius: 1rem;
+  background-color: #F2836B;
 }
 
 // ******** Style for button of login, dialog confirmation and question submit/continue ********
@@ -155,6 +171,9 @@ button[disabled] {
   opacity: 0.7 !important;
 }
 
+.pointer {
+  cursor: pointer;
+}
 
 .mat-form-field-wrapper {
   padding-bottom: 0 !important;
@@ -164,4 +183,8 @@ button[disabled] {
 /* Border */
 .mat-form-field-appearance-outline .mat-form-field-outline {
   color: transparent;
+}
+
+mat-dialog-container {
+  background: #FFFBEB !important;
 }

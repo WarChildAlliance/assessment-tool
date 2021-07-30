@@ -1,4 +1,4 @@
-<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="number-line">
+<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''">
     <span>{{ question.start }}</span>
     <mat-slider class="number-line-slider"
                 [color]="displayCorrectAnswer.getValue() && !!answer && !answer.valid ? 'warn' : 'primary'"

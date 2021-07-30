@@ -1,16 +1,13 @@
-<div class="question-container" *ngIf="question; else questionNotAvailable">
-    <div class="question-header">
-        <div class="questions-progress">
-            <button mat-icon-button [routerLink]="['/home']">
-                <mat-icon svgIcon="cancel"></mat-icon>
-            </button>
-            <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
-            </mat-progress-bar>
-        </div>
-        <h2>{{ question.title }}</h2>
-        <div class="question-attachment">
-            <app-attachments [attachments]="question.attachments"></app-attachments>
-        </div>
+<!--<app-header></app-header>-->
+<div class="light-yellow-bg" *ngIf="question; else questionNotAvailable">
+    <div class="progress_bar">
+        <img class="pointer" [routerLink]="['/home']" src="assets/icons/left_arrow_24.svg">
+        <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
+        </mat-progress-bar>
+    </div>
+    <h2>{{ question.title }}</h2>
+    <div class="question-attachment">
+        <app-attachments [attachments]="question.attachments"></app-attachments>
     </div>
 
     <div class="question-content">
@@ -22,12 +19,12 @@
 
         <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
             <app-question-number-line [question]="question" [(answer)]="answer"
-                [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
+                                      [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
         </ng-container>
 
         <ng-container *ngIf="question.question_type === 'SELECT'">
             <app-question-select [question]="question" [(answer)]="answer"
-                [displayCorrectAnswer]="displayCorrectAnswer"></app-question-select>
+                                 [displayCorrectAnswer]="displayCorrectAnswer"></app-question-select>
         </ng-container>
 
         <ng-container *ngIf="question.question_type === 'SORT'">
@@ -37,14 +34,70 @@
 
     </div>
 
-    <button *ngIf="!displayCorrectAnswer.getValue()" [disabled]="!topic.allow_skip && !answer" class="submit-button"
-        mat-flat-button color="primary" (click)="submitAnswer()">{{ (!this.answer && this.topic.allow_skip)? ('skip' | translate) : ('submit' | translate) }}</button>
+    <button *ngIf="!displayCorrectAnswer.getValue()" [disabled]="!topic.allow_skip && !answer" class="main-btn"
+            mat-flat-button color="primary"
+            (click)="submitAnswer()">
+        {{ (!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate) }}
+        <img src="assets/icons/check_24.svg">
+    </button>
 
-    <button *ngIf="displayCorrectAnswer.getValue()" class="submit-button" mat-flat-button color="primary"
-        (click)="this.submitAndGoNextPage()">{{ 'continue' | translate }}</button>
-
+    <button *ngIf="displayCorrectAnswer.getValue()" class="main-btn" mat-flat-button color="primary"
+            (click)="this.submitAndGoNextPage()">
+        {{ 'continue' | translate }}
+        <img src="assets/icons/right_arrow_24.svg">
+    </button>
 
 </div>
+
+
+<!--<div class="question-container" *ngIf="question; else questionNotAvailable">-->
+<!--    <div class="question-header">-->
+<!--        <div class="questions-progress">-->
+<!--            <button mat-icon-button [routerLink]="['/home']">-->
+<!--                <mat-icon svgIcon="cancel"></mat-icon>-->
+<!--            </button>-->
+<!--            <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">-->
+<!--            </mat-progress-bar>-->
+<!--        </div>-->
+<!--        <h2>{{ question.title }}</h2>-->
+<!--        <div class="question-attachment">-->
+<!--            <app-attachments [attachments]="question.attachments"></app-attachments>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="question-content">-->
+
+<!--        <ng-container *ngIf="question.question_type === 'INPUT'">-->
+<!--            <app-question-input [question]="question" [(answer)]="answer" [displayCorrectAnswer]="displayCorrectAnswer">-->
+<!--            </app-question-input>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">-->
+<!--            <app-question-number-line [question]="question" [(answer)]="answer"-->
+<!--                                      [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container *ngIf="question.question_type === 'SELECT'">-->
+<!--            <app-question-select [question]="question" [(answer)]="answer"-->
+<!--                                 [displayCorrectAnswer]="displayCorrectAnswer"></app-question-select>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container *ngIf="question.question_type === 'SORT'">-->
+<!--            <app-question-sort [question]="question" [(answer)]="answer" [displayCorrectAnswer]="displayCorrectAnswer">-->
+<!--            </app-question-sort>-->
+<!--        </ng-container>-->
+
+<!--    </div>-->
+
+<!--    <button *ngIf="!displayCorrectAnswer.getValue()" [disabled]="!topic.allow_skip && !answer" class="submit-button"-->
+<!--            mat-flat-button color="primary"-->
+<!--            (click)="submitAnswer()">{{ (!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate) }}</button>-->
+
+<!--    <button *ngIf="displayCorrectAnswer.getValue()" class="submit-button" mat-flat-button color="primary"-->
+<!--            (click)="this.submitAndGoNextPage()">{{ 'continue' | translate }}</button>-->
+
+
+<!--</div>-->
 
 <ng-template #questionNotAvailable>
 

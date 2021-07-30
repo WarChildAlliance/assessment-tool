@@ -1,5 +1,4 @@
 <div [class]="subject === 'sel' ? 'cyan-gradient-bg' : subject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
-
     <app-back-navigation text="backToAssessments" [routerLink]="['../../home']"></app-back-navigation>
 
     <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
