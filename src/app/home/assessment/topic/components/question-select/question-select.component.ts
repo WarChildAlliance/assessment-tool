@@ -34,6 +34,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
+        console.log(this.question);
         this.assisstantService.setPageID(this.pageID);
         this.displayCorrectAnswer.subscribe((value: boolean) => {
             if (value && this.question.multiple) {
