@@ -9,30 +9,34 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { AssisstantComponent } from './components/assisstant/assisstant.component';
 import { RouterModule } from '@angular/router';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { BackNavigationComponent } from './components/back-navigation/back-navigation.component';
 
 @NgModule({
-  declarations: [
-    AudioPlayDirective,
-    GenericConfirmationDialogComponent,
-    HeaderComponent,
-    AssisstantComponent
-  ],
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatIconModule,
-    MatDialogModule,
-    MatButtonModule,
-    RouterModule
-
-  ],
-  exports: [
-    CommonModule,
-    TranslateModule,
-    AudioPlayDirective,
-    HeaderComponent,
-    AssisstantComponent
-  ]
+    declarations: [
+        AudioPlayDirective,
+        GenericConfirmationDialogComponent,
+        HeaderComponent,
+        AssisstantComponent,
+        BackNavigationComponent
+    ],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        MatIconModule,
+        MatDialogModule,
+        MatButtonModule,
+        RouterModule,
+        MatGridListModule
+    ],
+    exports: [
+        CommonModule,
+        TranslateModule,
+        AudioPlayDirective,
+        HeaderComponent,
+        AssisstantComponent,
+        BackNavigationComponent
+    ]
 })
 export class SharedModule {
 }

@@ -34,17 +34,14 @@
   "praise3": "Plus tu essaies, plus tu apprends!",
   "praise4": "Tu vas y arriver!",
   "gainedPoints": "XXX",
-
   "topics": {
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "skipQuestions": "Les questions peuvent être passées"
   },
-
   "question": {
     "questionNotAvailable": "XXXX",
     "correctAnswer": "XXXX:"
   },
-
   "profile": {
     "competency": "Compétence",
     "effort": "Effort",
@@ -52,5 +49,9 @@
     "noShopOffline": "Il te faut une connexion internet pour accéder au magasin !",
     "unlocked": "Déverouillé",
     "selected": "Sélectionné"
+  },
+  "auth": {
+    "login": "",
+    "code": ""
   }
 }

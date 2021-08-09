@@ -24,36 +24,36 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 
-
 @NgModule({
-  declarations: [
-    TopicComponent,
-    QuestionComponent,
-    QuestionInputComponent,
-    QuestionSelectComponent,
-    QuestionSortComponent,
-    QuestionNumberLineComponent,
-    AttachmentsComponent,
-    CompletedTopicComponent,
-  ],
-  imports: [
-    SharedModule,
-    TopicRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DragDropModule,
-    MatProgressBarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSliderModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCheckboxModule
-  ]
+    declarations: [
+        TopicComponent,
+        QuestionComponent,
+        QuestionInputComponent,
+        QuestionSelectComponent,
+        QuestionSortComponent,
+        QuestionNumberLineComponent,
+        AttachmentsComponent,
+        CompletedTopicComponent,
+    ],
+    imports: [
+        SharedModule,
+        TopicRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        MatProgressBarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSliderModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatCheckboxModule
+    ]
 })
-export class TopicModule { }
+export class TopicModule {
+}

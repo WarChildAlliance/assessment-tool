@@ -1,19 +1,19 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import "~@angular/material/theming";
-@import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';
+
 
 // Plus imports for other components in your app.
 
 @font-face {
-  font-family: "Cairo";
-  src: url("/assets/fonts/Cairo-Regular.ttf") format("truetype");
+  font-family: "Mada";
+  src: url("/assets/fonts/Mada-Medium.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 $assessment-tool-typography: mat-typography-config(
-        $font-family: "Cairo",
+        $font-family: "Mada",
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -21,10 +21,45 @@ $assessment-tool-typography: mat-typography-config(
 // Be sure that you only ever include this mixin once!
 @include mat-core($assessment-tool-typography);
 
+
+// Assessment-tool palette
+$assessment-tool-palette: (
+        50 : #FFFDE7,
+        100 : #FFF9C4,
+        200 : #FFF59D,
+        300 : #FFF176,
+        400 : #FFEE58,
+        500 : #FFDC64,
+        600 : #FDD835,
+        700 : #FBC02D,
+        800 : #F9A825,
+        900 : #F57F17,
+        A100 : #FFFF8D,
+        A200 : #FFFF00,
+        A400 : #FFEA00,
+        A700 : #FFD600,
+        contrast: (
+                50: #000000,
+                100: #000000,
+                200: #000000,
+                300: #000000,
+                400: #000000,
+                500: #70504A,
+                600: #ffffff,
+                700: #ffffff,
+                800: #ffffff,
+                900: #ffffff,
+                A100: #000000,
+                A200: #000000,
+                A400: #000000,
+                A700: #000000,
+        ),
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$assessment-tool-primary: mat-palette($mat-blue-gray);
+$assessment-tool-primary: mat-palette($assessment-tool-palette);
 $assessment-tool-accent: mat-palette($mat-gray);
 
 // The warn palette is optional (defaults to red).
@@ -49,45 +84,121 @@ $assessment-tool-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
-  height: 100%;
+
+// ******** Pages backgrounds *********
+
+.white-opacity-bg {
+  background: #FFFFFF;
+  opacity: 0.9;
 }
+
+.white-bg {
+  background: #FFFFFF;
+}
+
+.light-yellow-bg {
+  background: #FFFBEB;
+}
+
+.yellow-gradient-bg {
+  background-image: linear-gradient(82.84deg, #FFDE70, #FFF5D9);
+}
+
+.purple-gradient-bg {
+  background-image: linear-gradient(20.33deg, #9766FF, #CFE8FF);
+}
+
+.cyan-gradient-bg {
+  background-image: linear-gradient(82.84deg, #4AAFCF, #75EDDF);
+}
+
+.green-gradient-bg {
+  background-image: linear-gradient(82.84deg, #4ACF8C, #A4EDC2);
+}
+
+div.light-yellow-bg,
+div.yellow-gradient-bg,
+div.purple-gradient-bg,
+div.cyan-gradient-bg,
+div.green-gradient-bg {
+  height: 100vh;
+  text-align: center;
+}
+
+// ******** End of Pages backgrounds *********
 
 body {
   font-family: "Cairo", sans-serif;
-  background-color: rgb(213, 232, 238);
-  width: 100%;
-  margin: 0px;
-  padding-top: 0px;
+  background-color: white-bg;
+  color: #70504a;
+  max-width: 1024px;
+  min-width: 360px;
+  margin: 0 auto;
 }
 
-.question-container {
-  .correct-answer {
-    color: white;
-    padding: 0 15px;
-    border-radius: 1rem;
-    background-color: #7EBF9A;
-  }
-  
-  .incorrect-answer {
-    color: white;
-    padding: 1rem 0 0 0.5rem;
-    border-radius: 1rem;
-    background-color: #F2836B;
+.correct-answer {
+  color: white;
+  padding: 0 15px;
+  border-radius: 1rem;
+  background-color: #7EBF9A;
+}
+
+.incorrect-answer {
+  color: white;
+  padding: 1rem 0 0 0.5rem;
+  border-radius: 1rem;
+  background-color: #F2836B;
+}
+
+// ******** Style for button of login, dialog confirmation and question submit/continue ********
+
+.main-btn {
+  border-radius: 6.25rem !important;
+  padding: 0.5rem !important;
+  font-size: 28px;
+
+  img {
+    position: absolute;
+    right: 1rem;
+    top: 0.9rem;
   }
 }
 
-@media only screen and (min-width: 800px) {
-  body {
-    margin: 0;
-    padding-top: 40px;
-    width: auto;
-  }
+// ******** End of main button ********
+
+
+button:disabled,
+button[disabled] {
+  background: #FFDC64 !important;
+  opacity: 0.7 !important;
 }
 
-// TUTORIAL STYLES
-.tutorialImg{
-  width: 100%;
-  padding-top:10px;
+.pointer {
+  cursor: pointer;
 }
+
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+
+/* Border */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+}
+
+mat-dialog-container {
+  background: #FFFBEB !important;
+}
+
+// These styles are specific to the tutorial and the import has to be applied after the style changes
+
+$tour-text-color: assessment-tool-accent;
+$tour-next-text-color: white;
+$tour-next-button-color: #FBC02D;
+$tour-next-button-hover: #FFF59D;
+$tour-back-button-color : #FFDC64;
+$tour-skip-link-color: #a5a5a5;
+
+
+@import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';

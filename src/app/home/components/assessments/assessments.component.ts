@@ -7,9 +7,9 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-assessments',
-  templateUrl: './assessments.component.html',
-  styleUrls: ['./assessments.component.scss']
+    selector: 'app-assessments',
+    templateUrl: './assessments.component.html',
+    styleUrls: ['./assessments.component.scss']
 })
 export class AssessmentsComponent implements OnInit, AfterViewInit{
 
@@ -39,10 +39,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
   }
 
   getAssessmentIcon(assessment: Assessment): string {
-    const imageUrl = assessment.icon ?
-      (environment.API_URL + assessment.icon) :
-      'assets/icons/Bee.svg';
-
-    return imageUrl;
+        return assessment.icon ?
+            (environment.API_URL + assessment.icon) :
+            'assets/icons/flowers/purple_64.svg';
   }
 }

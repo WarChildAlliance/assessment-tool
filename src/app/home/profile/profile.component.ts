@@ -11,15 +11,15 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, AfterViewInit {
   private readonly pageID = 'profile-page';
 
-  user: User;
-  avatars: Avatar[];
+    user: User;
+    avatars: Avatar[];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,39 +27,41 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private profileService: ProfileService,
     private userService: UserService,
     private assisstantService: AssisstantService,
-    private tutorialSerice: TutorialService
+    private tutorialService: TutorialService
   ) { }
 
-  ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
-    this.route.data.subscribe(
-      (data: { user: User }) => this.user = data.user
-    );
-    this.profileService.getAvatarsList().subscribe(avatars => {
-      this.avatars = avatars;
-    });
-  }
+    ngOnInit(): void {
+        this.assisstantService.setPageID(this.pageID);
+        this.route.data.subscribe(
+            (data: { user: User }) => this.user = data.user
+        );
+        this.profileService.getAvatarsList().subscribe(avatars => {
+            this.avatars = avatars;
+        });
+    }
 
-  getAvatarUrl(avatar: Avatar): string {
+    getAvatarUrl(avatar: Avatar): string {
 
-    // TODO We should replace by a real default image so the students can understand it's not the expected one
-    const imageUrl = avatar.image ?
-      (environment.API_URL + avatar.image) :
-      'assets/icons/Bee.svg';
+        // TODO We should replace by a real default image so the students can understand it's not the expected one
+        return avatar.image ?
+            (environment.API_URL + avatar.image) :
+            'assets/icons/Bee.svg';
+    }
 
-    return imageUrl;
-  }
+    selectAvatar(avatar: Avatar): void {
+        this.profileService.selectNewAvatar(avatar.id).subscribe(
+            (newAvatar) => {
+                this.avatars.find(av => (av.selected)).selected = false;
+                this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
 
-  selectAvatar(avatar: Avatar): void {
-    this.profileService.selectNewAvatar(avatar.id).subscribe(
-      (newAvatar) => {
-        this.avatars.find(av => (av.selected)).selected = false;
-        this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
+                this.userService.getSelf().subscribe((user) => {
+                    this.user = user;
+                });
+            }
+        );
+    }
 
-        this.userService.getSelf().subscribe((user) => { this.user = user; });
-      }
-    );
-  }
+
 
   unlockAvatar(avatar: Avatar): void {
     this.profileService.unlockAvatar(avatar.id).subscribe(
@@ -72,6 +74,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.tutorialSerice.currentPage.next(PageNames.profile);
+    this.tutorialService.currentPage.next(PageNames.profile);
   }
 }

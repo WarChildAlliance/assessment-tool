@@ -69,7 +69,7 @@ export class TutorialService {
     });
 
     steps.push({
-      selector: 'ul',
+      selector: '.assessment-btn',
       content: this.translateService.instant('tutorial.startAssessment'),
       orientation: Orientation.Bottom,
       action: () => { this.playAudio('assets/tutorial/audio/step2.aac'); }
@@ -104,7 +104,7 @@ export class TutorialService {
     const steps: TourStep[] = [];
 
     steps.push({
-      selector: 'h2',
+      selector: '.question-title',
       content: this.translateService.instant('tutorial.selectQuestionTitle'),
       orientation: Orientation.Bottom
     });
@@ -125,7 +125,7 @@ export class TutorialService {
     });
 
     steps.push({
-      selector: 'h2',
+      selector: '.question-title',
       content: this.translateService.instant('tutorial.numberLineQuestionTitle'),
       orientation: Orientation.Bottom
     });
@@ -138,7 +138,6 @@ export class TutorialService {
 
     this.tourDict[PageNames.questionNumberLine] = this.defineTour(steps, PageNames.questionNumberLine);
 
-
   }
 
   createTourQuestionSelectNonEvaluated(): void {
@@ -148,7 +147,7 @@ export class TutorialService {
   createTourSubmitAnswer(): void {
     const steps: TourStep[] = [];
     steps.push({
-      selector: '.submit-button',
+      selector: '.main-btn',
       content: this.translateService.instant('tutorial.answerSubmit'),
       orientation: Orientation.Top
     });
@@ -161,6 +160,7 @@ export class TutorialService {
   createTourCompletedTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
+      selector: '.points-container',
       content: this.translateService.instant('tutorial.honeypotCollection'),
     });
     steps.push({
@@ -178,14 +178,14 @@ export class TutorialService {
       content: this.translateService.instant('tutorial.avatarShop'),
     });
     steps.push({
-      selector: '.profile__avatars-shop',
+      selector: '.avatars',
       content: this.translateService.instant('tutorial.unlockingAvatars'),
       orientation: Orientation.Bottom
     });
     steps.push({
-      selector: '.character',
+      selector: '.info',
       content: this.translateService.instant('tutorial.theFriendlyBee'),
-      orientation: Orientation.Left
+      orientation: Orientation.Bottom
     });
     steps.push({
       content:  this.translateService.instant('tutorial.end')

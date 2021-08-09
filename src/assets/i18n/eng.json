@@ -13,7 +13,7 @@
   "backToTopics": "Back to topics",
   "topicCompleted": "Well done! You completed the topic.",
   "assessmentLocked": "(locked)",
-  "hi": "Hi!",
+  "hi": "Hi",
   "assessmentsAssisstant": "You're in the assessments page. Friendly bee says hi!",
   "topicsAssisstant": "You're in the topics page! Friendly bee says hello",
   "profileAssisstant": "You're in the profile topic page! Buzzz",
@@ -34,17 +34,14 @@
   "praise3": "The more you try, the more you learn!",
   "praise4": "You got this!",
   "gainedPoints": "You got",
-
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",
     "skipQuestions": "Questions can be skipped"
   },
-
   "question": {
     "questionNotAvailable": "This question is not available",
     "correctAnswer": "Correct answer:"
   },
-
   "profile": {
     "competency": "Competency",
     "effort": "Effort",
@@ -53,10 +50,9 @@
     "unlocked": "Unlocked",
     "selected": "Selected"
   },
-
   "tutorial": {
     "welcome": "Welcome",
-    "introduction": "Hello, nice to meet you. My name is Bee. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started",
+    "introduction": "<img src='assets/icons/bee_100.svg'/> <br> Hello, nice to meet you. My name is <b>Bee</b>. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started.",
     "startAssessment": "Click the flower/button to start",
     "startTopic": "Click the picture",
     "startQuestion": "You will get some practise questions now. Click the green button",
@@ -74,5 +70,9 @@
     "theFriendlyBee": "If you dont know what to do on a page, click on me I will repeat the instruction",
     "end": "Great work! You have finished the practise area",
     "redirection": "Click here to go to the beginning"
+  },
+  "auth": {
+    "login": "Log in",
+    "code": "Code"
   }
 }

@@ -1,8 +1,5 @@
-<div>
-
-    <div mat-icon-button class="back-banner" [routerLink]="['../../home']">
-        <mat-icon svgIcon="arrow_back"></mat-icon> {{ 'backToAssessments' | translate }}
-    </div>
+<div [class]="subject === 'sel' ? 'cyan-gradient-bg' : subject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
+    <app-back-navigation text="backToAssessments" [routerLink]="['../../home']"></app-back-navigation>
 
     <div class="topics-container">
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
