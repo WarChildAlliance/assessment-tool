@@ -4,10 +4,10 @@ import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
     selector: 'app-topics',

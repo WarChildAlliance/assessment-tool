@@ -27,7 +27,6 @@ export class AppComponent {
   ) {
     this.checkAppUpdates();
     this.registerIcons();
-    this.tutorialService.createAllTours();
   }
 
   @HostListener('document:visibilitychange', ['$event'])

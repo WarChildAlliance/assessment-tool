@@ -72,7 +72,7 @@
     "redirection": "XXXX"
   },
   "auth": {
-    "login": "",
-    "code": ""
+    "login": "XXXX",
+    "code": "XXXX"
   }
 }

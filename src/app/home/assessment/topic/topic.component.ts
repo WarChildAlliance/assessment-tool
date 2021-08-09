@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
   selector: 'app-topic',

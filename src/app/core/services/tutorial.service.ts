@@ -44,22 +44,20 @@ export class TutorialService {
       this.hasCompleted.next(completed);
   }
 
-  async createAllTours(): Promise<void> {
-    this.translateService.setDefaultLang(this.translateService.currentLang);
-    await this.userService.getSelf().subscribe( user =>
-      {
-        this.translateService.use((this.userService.user.language.code).toLowerCase()).subscribe(
-          () => {
-            this.createTourAssessment();
-            this.createTourTopics();
-            this.createTourTopic();
-            this.createTourQuestionSelectGeneral();
-            this.createTourQuestionNumberLineGeneral();
-            this.createTourSubmitAnswer();
-            this.createTourCompletedTopic();
-            this.createTourProfile();
-          });
+  createAllTours(): void {
+    this.translateService.setDefaultLang((this.userService.user.language.code).toLowerCase());
+    this.translateService.use((this.userService.user.language.code).toLowerCase()).subscribe(
+      () => {
+        this.createTourAssessment();
+        this.createTourTopics();
+        this.createTourTopic();
+        this.createTourQuestionSelectGeneral();
+        this.createTourQuestionNumberLineGeneral();
+        this.createTourSubmitAnswer();
+        this.createTourCompletedTopic();
+        this.createTourProfile();
       });
+
 
   }
 
@@ -163,7 +161,7 @@ export class TutorialService {
   createTourCompletedTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
-      selector: '.points-container',
+      selector: '.completed-banner',
       orientation: Orientation.Bottom,
       content: this.translateService.instant('tutorial.honeypotCollection'),
     });
@@ -195,9 +193,10 @@ export class TutorialService {
       content:  this.translateService.instant('tutorial.end')
     });
     steps.push({
+      selector: '.top-left-logo',
+      orientation: Orientation.Right,
       content: this.translateService.instant('tutorial.redirection'),
-      closeAction: () => { // redirects the user for the next page where the tutorial happens
-        this.router.navigate(['/']);
+      closeAction: () => {
         this.setCompleted(true);
       }
     });

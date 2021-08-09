@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
     selector: 'app-assessments',

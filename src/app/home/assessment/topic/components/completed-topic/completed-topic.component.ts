@@ -3,8 +3,8 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
     selector: 'app-completed-topic',

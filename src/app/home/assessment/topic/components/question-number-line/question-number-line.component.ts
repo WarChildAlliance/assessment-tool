@@ -4,8 +4,8 @@ import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 
 @Component({
@@ -22,7 +22,9 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   valueForm = new FormControl(null);
   private readonly pageID = 'question-number-line-page';
 
-  constructor(private assisstantService: AssisstantService, private tutorialSerice: TutorialService) { }
+  constructor(
+    private assisstantService: AssisstantService,
+    private tutorialSerice: TutorialService) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
