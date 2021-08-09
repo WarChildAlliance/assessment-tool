@@ -20,7 +20,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private answerService: AnswerService,
         private router: Router,
         private assisstantService: AssisstantService,
-        private tutorialSerice: TutorialService,
+        private tutorialService: TutorialService,
         private route: ActivatedRoute
     ) {
 
@@ -48,7 +48,8 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.tutorialSerice.currentPage.next(PageNames.topicCompleted);
+        this.blockNavigation = false;
+        this.tutorialService.currentPage.next(PageNames.topicCompleted);
     }
 
     goToTopicPage(): void {

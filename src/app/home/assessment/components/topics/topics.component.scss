@@ -1,112 +1,118 @@
 .topic-cards-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0px;
-    padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
 
-    .topic-card {
-        list-style-type: none;
-        margin: 10px;
-        padding: 20px;
-        width: 85vw;
-        max-width: 200px;
+  .topic-card {
+    list-style-type: none;
+    margin: 10px;
+    padding: 20px;
+    width: 85vw;
+    max-width: 200px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
 
-        a {
-        color:black;
-        text-decoration: none;
+    a {
+      color: black;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      img {
+        max-width: 65%;
+        padding: 0px 5px;
+        position: relative;
+      }
+
+      p {
+        margin: 5px;
+        padding: 0px;
+        font-size: 1.3rem;
+      }
+
+      .ribbon {
+        position: relative;
+        top: -20px;
+        box-sizing: border-box;
+        border-radius: 2px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+
+        .ribbon-one {
+          position: absolute;
+          border-top: 10px solid transparent;
+          border-right: 12px solid transparent;
+          border-bottom: 10px solid transparent;
+          border-left: 6px solid transparent;
+          z-index: initial;
+          top: 18px;
+          left: -10px;
+          transform: rotate(-5deg);
+
+        }
+
+        .ribbon-two {
+          position: absolute;
+          border-top: 10px solid transparent;
+          border-right: 6px solid transparent;
+          border-bottom: 10px solid transparent;
+          border-left: 12px solid transparent;
+          top: 18px;
+          z-index: initial;
+          right: -10px;
+          transform: rotate(5deg);
+        }
+      }
+
+      .ribbon:before {
+        position: absolute;
+        content: '';
+        left: -28px;
+        top: 27px;
+        border-top: 0px solid transparent;
+        border-right: 12px solid #117969;
+        border-bottom: 12px solid transparent;
+        border-left: 27px solid transparent;
+        z-index: 9999;
+      }
+
+      .ribbon:after {
+        position: absolute;
+        content: '';
+        right: -28px;
+        top: 27px;
+        border-top: 0px solid transparent;
+        border-right: 27px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 12px solid #117969;
+        z-index: 9999;
+      }
+
+      div {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        
-        img {
-            max-width: 65%;
-            padding: 0px 5px;
-            position: relative;
-        }
+        justify-content: right;
+        background-color: #00A28B;
+        padding: 1px;
+        z-index: 9;
 
-        p {
-           margin: 5px;
-           padding: 0px;
-           font-size: 1.3rem;
+        mat-icon {
+          color: #f9c74f;
         }
-
-        .ribbon {
-            position: relative;
-            top: -20px;
-            box-sizing: border-box;
-            border-radius: 2px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
-
-            .ribbon-one {
-                position: absolute;
-                border-top: 10px solid transparent;
-                border-right: 12px solid transparent;
-                border-bottom: 10px solid transparent;
-                border-left: 6px solid transparent;
-                z-index: initial;
-                top: 18px;
-                left: -10px;
-                transform: rotate(-5deg);
-
-            }
-
-            .ribbon-two {
-                position: absolute;
-                border-top: 10px solid transparent;
-                border-right: 6px solid transparent;
-                border-bottom: 10px solid transparent;
-                border-left: 12px solid transparent;
-                top: 18px;
-                z-index: initial;
-                right: -10px;
-                transform: rotate(5deg);
-            }
-        }
-        .ribbon:before {
-            position: absolute;
-            content: '';
-            left: -28px;
-            top: 27px;
-            border-top: 0px solid transparent;
-            border-right: 12px solid #117969;
-            border-bottom: 12px solid transparent;
-            border-left: 27px solid transparent;
-            z-index: 9999;
-        }
-        .ribbon:after {
-            position: absolute;
-            content: '';
-            right: -28px;
-            top: 27px;
-            border-top: 0px solid transparent;
-            border-right: 27px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-left: 12px solid #117969;
-            z-index: 9999;
-        }
-        div {
-            display: flex;
-            justify-content: right;
-            background-color:  #00A28B;
-            padding: 1px;
-            z-index: 9;
-            mat-icon {
-               color:#f9c74f;
-            }      
-        }
-        }
+      }
     }
+  }
 }
 
 .back-banner {
-    border: 0px;
-    padding: 10px;
-    margin: initial;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: rgba(210, 235, 248, 0.897);
+  border: 0px;
+  padding: 10px;
+  margin: initial;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: rgba(210, 235, 248, 0.897);
 }

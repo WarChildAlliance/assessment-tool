@@ -19,7 +19,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
 
   constructor(
     private assessmentService: AssessmentService,
-    private tutorialSerice: TutorialService,
+    private tutorialService: TutorialService,
     private assisstantService: AssisstantService,
   ) { }
 
@@ -28,14 +28,14 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
       assessments => {
         const tutorialCompleted = assessments.find(a => a.subject === 'TUTORIAL').all_topics_complete;
         this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
-        this.tutorialSerice.enableTutorial(tutorialCompleted);
+        this.tutorialService.setCompleted(tutorialCompleted);
       }
     );
     this.assisstantService.setPageID(this.pageID);
   }
 
   ngAfterViewInit(): void {
-    this.tutorialSerice.currentPage.next(this.pageName);
+    this.tutorialService.currentPage.next(this.pageName);
   }
 
   getAssessmentIcon(assessment: Assessment): string {

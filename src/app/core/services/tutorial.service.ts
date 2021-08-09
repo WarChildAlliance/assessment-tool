@@ -15,7 +15,7 @@ export class TutorialService {
   private tourDict = {};
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public translatedTxt: string;
-  public hasCompleted = false;
+  public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
 
   constructor(
@@ -25,13 +25,11 @@ export class TutorialService {
     private translateService: TranslateService
   ) {
     this.currentPage.subscribe(pageName => {
-      const timeout = pageName === 'assessment' ? 3000 : 0;
-      setTimeout( x => {
-        if (pageName in this.tourDict && !this.hasCompleted) {
+      this.hasCompleted.subscribe( complete => {
+        if (pageName in this.tourDict && !complete) {
           this.guidedTourService.startTour(this.tourDict[pageName]);
         }
-      }, timeout);
-
+      });
     });
   }
 
@@ -41,11 +39,10 @@ export class TutorialService {
     // This method should return true if the tutorial has to be shown to that specific user and false otherwise
     // Right now this is just a placeholder
     return true;
-    return this.userService.user.first_name === 'Harry';
   }
 
-  enableTutorial(completed: boolean): void {
-    this.hasCompleted = completed;
+  setCompleted(completed: boolean): void {
+      this.hasCompleted.next(completed);
   }
 
   createAllTours(): void {
@@ -197,6 +194,7 @@ export class TutorialService {
       content: this.translateService.instant('tutorial.redirection'),
       closeAction: () => { // redirects the user for the next page where the tutorial happens
         this.router.navigate(['/']);
+        this.setCompleted(true);
       }
     });
     this.tourDict[PageNames.profile] = this.defineTour(steps, PageNames.profile);
