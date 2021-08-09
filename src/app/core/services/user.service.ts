@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Profile } from '../models/profile.model';
 import { User, UserRoles } from '../models/user.model';
 import { AuthService } from './auth.service';
-import { LanguageService } from './language.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +15,6 @@ export class UserService {
 
     constructor(
         private http: HttpClient,
-        private languageService: LanguageService,
         private authService: AuthService
     ) {
     }

@@ -21,18 +21,18 @@ export class AssisstantComponent implements OnInit {
     ngOnInit(): void {
     }
 
-  openDialog(): void {
-    this.currentPageContent = this.assisstantService.getPageContent();
+    openDialog(): void {
+        this.currentPageContent = this.assisstantService.getPageContent();
 
-    this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-            title: 'hi',
-            content: this.currentPageContent.content,
-            contentType: 'translation',
-            confirmBtnText: 'OK',
-            confirmBtnColor: 'primary',
+        this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: true,
+            data: {
+                title: 'hi',
+                content: this.currentPageContent.content,
+                contentType: 'translation',
+                confirmBtnText: 'OK',
+                confirmBtnColor: 'primary',
+            }
+        });
         }
-    });
-    }
 }

@@ -17,7 +17,6 @@ export class TutorialService {
   public translatedTxt: string;
   public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-
   constructor(
     private guidedTourService: GuidedTourService,
     private userService: UserService,
@@ -45,19 +44,23 @@ export class TutorialService {
       this.hasCompleted.next(completed);
   }
 
-  createAllTours(): void {
+  async createAllTours(): Promise<void> {
     this.translateService.setDefaultLang(this.translateService.currentLang);
-    this.translateService.use('eng').subscribe(
-      () => {
-        this.createTourAssessment();
-        this.createTourTopics();
-        this.createTourTopic();
-        this.createTourQuestionSelectGeneral();
-        this.createTourQuestionNumberLineGeneral();
-        this.createTourSubmitAnswer();
-        this.createTourCompletedTopic();
-        this.createTourProfile();
+    await this.userService.getSelf().subscribe( user =>
+      {
+        this.translateService.use((this.userService.user.language.code).toLowerCase()).subscribe(
+          () => {
+            this.createTourAssessment();
+            this.createTourTopics();
+            this.createTourTopic();
+            this.createTourQuestionSelectGeneral();
+            this.createTourQuestionNumberLineGeneral();
+            this.createTourSubmitAnswer();
+            this.createTourCompletedTopic();
+            this.createTourProfile();
+          });
       });
+
   }
 
   createTourAssessment(): void {
@@ -161,6 +164,7 @@ export class TutorialService {
     const steps: TourStep[] = [];
     steps.push({
       selector: '.points-container',
+      orientation: Orientation.Bottom,
       content: this.translateService.instant('tutorial.honeypotCollection'),
     });
     steps.push({
@@ -180,7 +184,7 @@ export class TutorialService {
     steps.push({
       selector: '.avatars',
       content: this.translateService.instant('tutorial.unlockingAvatars'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Top
     });
     steps.push({
       selector: '.info',
@@ -205,6 +209,11 @@ export class TutorialService {
       tourId,
       steps,
       useOrb: false,
+      minimumScreenSize: 320,
+      resizeDialog: {
+          title: 'Screen size error.',
+          content: 'Please ensure your screen is large enough to display the tutorial correctly.',
+    }
     };
     return tour;
   }
