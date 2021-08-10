@@ -14,6 +14,7 @@ import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
 import { UserService } from '../core/services/user.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from '../core/services/tutorial.service';
 
 @Component({
     selector: 'app-home',
@@ -33,13 +34,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         private http: HttpClient,
         private cacheService: CacheService,
         private userService: UserService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private tutorialService: TutorialService
     ) {
     }
 
     ngOnInit(): void {
         const userSubscription = this.route.data.subscribe(
-            (data: { user: User }) => this.user = data.user
+            (data: { user: User }) => {
+                this.user = data.user;
+                this.tutorialService.createAllTours();
+            }
         );
 
         this.cacheService.hasActiveSession().pipe(

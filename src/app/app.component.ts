@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
+import { TutorialService } from './core/services/tutorial.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
     private router: Router,
     private swUpdate: SwUpdate,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private tutorialService: TutorialService
   ) {
     this.checkAppUpdates();
     this.registerIcons();

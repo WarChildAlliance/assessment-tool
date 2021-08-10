@@ -50,8 +50,29 @@
     "unlocked": "مفتوحة",
     "selected": "المحدد"
   },
+  "tutorial": {
+    "welcome": "XXXX",
+    "introduction": "<img src='assets/icons/bee_100.svg'/> <br> XXXX",
+    "startAssessment": "XXXX",
+    "startTopic": "XXXX",
+    "startQuestion": "XXXX",
+    "selectQuestionTitle": "XXXX",
+    "selectQuestionOptions": "XXXX",
+    "numberLineQuestionIntroduction": "XXXX.",
+    "numberLineQuestionTitle": "XXXX",
+    "numberLineQuestionAnswer": "XXXX",
+    "answerSubmit": "XXXX",
+    "starsCollection": "XXXX",
+    "honeypotCollection": "XXXX",
+    "toProfilePage": "XXXX",
+    "avatarShop": "XXXX",
+    "unlockingAvatars": "XXXX",
+    "theFriendlyBee": "XXXX",
+    "end": "XXXX",
+    "redirection": "XXXX"
+  },
   "auth": {
-    "login": "",
-    "code": ""
+    "login": "XXXX",
+    "code": "XXXX"
   }
 }

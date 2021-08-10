@@ -1,10 +1,11 @@
 <div [class]="subject === 'sel' ? 'cyan-gradient-bg' : subject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
     <app-back-navigation text="backToAssessments" [routerLink]="['../../home']"></app-back-navigation>
 
-    <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
-        <li class="topic-card" *ngFor="let topic of topics">
-
-            <a [routerLink]="['./topics', topic.id]">
+    <div class="topics-container">
+        <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
+            <li class="topic-card" *ngFor="let topic of topics">
+                
+                <a [routerLink]="['./topics', topic.id]">
                 <img src="{{ getTopicIcon(topic) }}"/>
                 <div class="ribbon" *ngIf="topic.competency.length">
                     <div class="ribbon-one"></div>
@@ -15,9 +16,12 @@
                     </div>
                 </div>
                 <p>{{topic.name}}</p>
-            </a>
-        </li>
-    </ul>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
 
     <ng-template #noTopics>
         <p>{{ 'noTopics' | translate }}</p>
