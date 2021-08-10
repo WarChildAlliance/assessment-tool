@@ -85,7 +85,7 @@ export class TutorialService {
     steps.push({
       selector: '.topics-container',
       content: this.translateService.instant('tutorial.startTopic'),
-      orientation: Orientation.Top
+      orientation: Orientation.Bottom
     });
 
     this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
