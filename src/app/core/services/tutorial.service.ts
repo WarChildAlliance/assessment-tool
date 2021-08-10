@@ -85,7 +85,7 @@ export class TutorialService {
     steps.push({
       selector: '.topics-container',
       content: this.translateService.instant('tutorial.startTopic'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Top
     });
 
     this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
@@ -161,6 +161,7 @@ export class TutorialService {
   createTourCompletedTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
+      orientation: Orientation.Top,
       selector: '.points-container',
       content: this.translateService.instant('tutorial.honeypotCollection'),
     });
