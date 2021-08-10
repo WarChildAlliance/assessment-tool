@@ -96,7 +96,7 @@ export class TutorialService {
     steps.push({
       selector: '.start-button',
       content:  this.translateService.instant('tutorial.startQuestion'),
-      orientation: Orientation.Top
+      orientation: Orientation.Bottom
     });
     this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
   }
@@ -113,7 +113,7 @@ export class TutorialService {
     steps.push({
       selector: 'section',
       content: this.translateService.instant('tutorial.selectQuestionOptions'),
-      orientation: Orientation.Left
+      orientation: Orientation.Bottom
     });
     this.tourDict[PageNames.questionSelect] = this.defineTour(steps, PageNames.questionSelect);
   }
