@@ -1,8 +1,7 @@
-<mat-card>
-    <div class="logout">
-        <mat-icon svgIcon="logout" (click)="logout()"></mat-icon>
-    </div>
-
-    <app-header [style]="'fullsize'" ></app-header>
+<div class="yellow-gradient-bg">
+    <app-header headerConfig="home" (logout)="logout()"></app-header>
+    <h2>
+       {{'hi' | translate}}, {{ user?.first_name }}!
+    </h2>
     <app-assessments></app-assessments>
-</mat-card>
+</div>

@@ -8,15 +8,16 @@ import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
-  declarations: [
-    AssessmentComponent,
-    TopicsComponent
-  ],
-  imports: [
-    SharedModule,
-    AssessmentRoutingModule,
-    MatIconModule,
-    MatCardModule,
-  ]
+    declarations: [
+        AssessmentComponent,
+        TopicsComponent,
+    ],
+    imports: [
+        SharedModule,
+        AssessmentRoutingModule,
+        MatIconModule,
+        MatCardModule
+    ]
 })
-export class AssessmentModule { }
+export class AssessmentModule {
+}

@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
@@ -10,13 +12,15 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
     templateUrl: './question-select.component.html',
     styleUrls: ['./question-select.component.scss']
 })
-export class QuestionSelectComponent implements OnInit, OnDestroy {
+export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit{
 
     @Input() answer: AnswerSelect;
 
     @Input() question: QuestionSelect;
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+
+    @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
@@ -28,7 +32,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private assisstantService: AssisstantService
+        private assisstantService: AssisstantService,
+        private tutorialSerice: TutorialService
     ) { }
 
     ngOnInit(): void {
@@ -37,8 +42,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
             if (value && this.question.multiple) {
                 this.multipleSelectForm.disable();
             }
-        }
-        );
+        });
+
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
 
@@ -63,6 +68,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
                     };
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 } else {
+                    this.tutorialSerice.currentPage.next(PageNames.question);
                     this.answer.selected_options = formattedSelectedOptions;
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 }
@@ -118,9 +124,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
         return valid;
     }
 
-    setAnswerBackground(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? '#F2836B'
-            : this.displayCorrectAnswer.getValue() && option.valid ? '#7EBF9A' : 'white';
+    getAnswerBackground(option: any): string {
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
+            : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
     }
 
     ngOnDestroy(): void {
@@ -142,5 +148,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     hasImageAttached(option: SelectOption): boolean {
         return option.attachments.some((attachment) => attachment.attachment_type === 'IMAGE');
+    }
+
+    ngAfterViewInit(): void {
+        this.tutorialSerice.currentPage.next(PageNames.questionSelect);
     }
 }

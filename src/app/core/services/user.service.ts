@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 import { LanguageService } from './language.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserService {
 
@@ -56,6 +56,7 @@ export class UserService {
     this.user = user;
     this.userSource.next(user);
   }
+
 
   resetUser(): void {
     this.user = null;

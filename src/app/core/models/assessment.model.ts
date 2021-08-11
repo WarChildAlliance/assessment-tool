@@ -24,5 +24,6 @@ enum SubjectEnum {
   PostSel = 'POSTSEL',
   // END OF TEMPORARY
   Math = 'MATH',
-  Literacy = 'LITERACY'
+  Literacy = 'LITERACY',
+  Tutorial = 'TUTORIAL'
 }

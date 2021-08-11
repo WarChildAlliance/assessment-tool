@@ -1,111 +1,30 @@
-mat-card {
-  display: block;
-  height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0px;
-  width: 100vw;
+h2 {
+  font-weight: normal;
+  margin-bottom: 4rem;
 }
 
-@media only screen and (min-width: 800px) {
-  mat-card {
-    height: auto;
-    width: 60%;
+.avatars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+
+  div {
+    display: grid;
   }
 }
 
-.profile {
-  box-sizing: border-box;
-  padding: 0 24px;
+.avatar {
+  margin: 0 2rem;
+}
 
-  .title {
-    color: grey;
-    font-size: 14px;
-  }
+button {
+  border-radius: 6.25rem;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
 
-  &__header {
-    align-items: center;
-    background-color: white;
-    border-bottom: 1px solid #c0c0c0;
-    display: flex;
-
-    position: relative;
-    app-assisstant {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-    }
-  }
-
-  &__student-points {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-
-    .competency,
-    .effort {
-      width: 46%;
-
-      .points-container {
-        align-items: center;
-        border: 1px solid #c0c0c0;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        margin: 5px;
-
-        img {
-          margin: 6px;
-        }
-      }
-    }
-  }
-
-  &__avatars-shop {
-    .avatars-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: -10px -10px;
-
-      .avatar {
-        margin: 10px 10px;
-        text-align: center;
-        width: 26%;
-
-        @media only screen and (min-width: 600px) {
-          width: 20%;
-        }
-
-        &__image {
-          width: 12vh;
-        }
-
-        &__button {
-          align-items: center;
-          display: flex;
-          font-weight: bold;
-          justify-content: center;
-          margin: 0 auto;
-
-          &.-selected {
-            background-color: #00a28b;
-            color: white;
-          }
-
-          &.-locked {
-            mat-icon {
-              color: #f9c74f;
-              margin-right: 6px;
-            }
-          }
-
-          transition: all 100ms linear;
-          &:hover {
-            transform: scale(120%);
-          }
-        }
-      }
-    }
-  }
+span {
+  font-size: 24px;
 }

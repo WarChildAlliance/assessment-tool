@@ -1,19 +1,15 @@
-<div>
-    <ul class="assessment-cards-list" *ngIf="assessments && assessments.length; else noAssessments">
-        <ng-container *ngFor="let assessment of assessments">
-            <li *ngIf="!assessment.locked" class="assessment-card">
-                <img class="assessment-icon" src="{{ getAssessmentIcon(assessment) }}"/>
-                <a [routerLink]="['../assessments', assessment.id]">{{assessment.title}}</a>
-            </li>
-
-            <li *ngIf="assessment.locked" class="assessment-card -locked">
-                <a>{{assessment.title}} {{ 'assessmentLocked' | translate }}</a>
-            </li>
-        </ng-container>
-    </ul>
-
-    <ng-template #noAssessments>
-        <p>{{ 'noAssessments' | translate }}</p>
-    </ng-template>
-
+<div *ngIf="assessments && assessments.length">
+    <ng-container class="assessments-container" *ngFor="let assessment of assessments">
+        <button mat-button class="assessment-btn"
+                [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
+            <img class="assessment-icon" src="{{ getAssessmentIcon(assessment) }}" width="64" height="64">
+            <h1>
+                {{assessment.title}}
+            </h1>
+        </button>
+    </ng-container>
 </div>
+
+<ng-container *ngIf="!assessments || assessments.length === 0">
+    <p>{{ 'noAssessments' | translate }}</p>
+</ng-container>

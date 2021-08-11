@@ -10,7 +10,7 @@ const routes: Routes = [
     loadChildren: () => ProfileModule
   },
   {
-    path: 'assessments/:assessment_id',
+    path: 'assessments/:subject/:assessment_id',
     loadChildren: () => AssessmentModule
   },
   {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
@@ -6,19 +6,21 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { PageNames } from 'src/app/core/utils/constants';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
   private readonly pageID = 'profile-page';
 
-  user: User;
-  avatars: Avatar[];
+    user: User;
+    avatars: Avatar[];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +29,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private assisstantService: AssisstantService,
     private alertService: AlertService,
-  ) { }
+    private tutorialService: TutorialService,
+    ) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
@@ -51,34 +54,28 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  getAvatarUrl(avatar: Avatar): string {
 
-    // TODO We should replace by a real default image so the students can understand it's not the expected one
-    const imageUrl = avatar.image ?
-      (environment.API_URL + avatar.image) :
-      'assets/icons/Bee.svg';
-    return imageUrl;
-  }
+    getAvatarUrl(avatar: Avatar): string {
+      // TODO We should replace by a real default image so the students can understand it's not the expected one
+      return avatar.image ?
+          (environment.API_URL + avatar.image) :
+          'assets/icons/Bee.svg';
+    }
 
-  selectAvatar(avatar: Avatar): void {
-    const newUser = {...this.user};
-    newUser.profile.current_avatar = avatar;
-    newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
-    newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
+    selectAvatar(avatar: Avatar): void {
+        this.profileService.selectNewAvatar(avatar.id).subscribe(
+            (newAvatar) => {
+                this.avatars.find(av => (av.selected)).selected = false;
+                this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
 
-    // TODO this shoud be done in a single step through the user service!
-    this.cacheService.setData('active-user', newUser);
-    this.userService.updateUser(newUser);
-    this.profileService.updateProfile(newUser.profile).subscribe (response => {
-      console.log('TODO show success message', response);
-    });
+                this.userService.getSelf().subscribe((user) => {
+                    this.user = user;
+                });
+            }
+        );
+    }
 
-    this.profileService.selectNewAvatar(avatar.id).subscribe(
-      (newAvatar) => {
-        console.log('TODO remove this part. should be taken care of in update profile.', newAvatar);
-      }
-    );
-  }
+
 
   unlockAvatar(avatar: Avatar): void {
     this.cacheService.getData('active-user').then( res => {
@@ -107,6 +104,10 @@ export class ProfileComponent implements OnInit {
 
     });
 
+  }
+
+  ngAfterViewInit(): void {
+    this.tutorialService.currentPage.next(PageNames.profile);
   }
 }
 

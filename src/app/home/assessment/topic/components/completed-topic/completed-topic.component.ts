@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,13 +6,15 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { PageNames } from 'src/app/core/utils/constants';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
     selector: 'app-completed-topic',
     templateUrl: './completed-topic.component.html',
     styleUrls: ['./completed-topic.component.scss']
 })
-export class CompletedTopicComponent implements OnInit {
+export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
     public competency = 1;
     public effort = 2; // TODO should be 5 for the first try and 2 for other one -> change serializer!
@@ -27,8 +29,8 @@ export class CompletedTopicComponent implements OnInit {
         private cacheService: CacheService,
         private userService: UserService,
         private profileService: ProfileService,
-
         private route: ActivatedRoute,
+        private tutorialService: TutorialService,
     ) {
 
     }
@@ -61,8 +63,10 @@ export class CompletedTopicComponent implements OnInit {
 
             // TODO show in anias design
             this.answerService.endTopicAnswer().subscribe();
+            this.route.data.subscribe(res => res.topic.id === 18 ? this.blockNavigation = false : this.blockNavigation = true);
             }
         );
+
     }
 
     /* Shows modal confirmation before leave the page if is evluated topic
@@ -78,6 +82,11 @@ export class CompletedTopicComponent implements OnInit {
     goToHomePage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../../']);
+    }
+
+    ngAfterViewInit(): void {
+        this.blockNavigation = false;
+        this.tutorialService.currentPage.next(PageNames.topicCompleted);
     }
 
     goToTopicPage(): void {

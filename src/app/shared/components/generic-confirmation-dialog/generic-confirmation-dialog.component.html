@@ -1,19 +1,26 @@
 <div id="container">
     <div class="media">
-    <img src="{{imageURL}}" width="70" alt="">
-    <button  class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL"> 
-        <mat-icon svgIcon="volume_up"></mat-icon>
-    </button>
+        <img src="{{imageURL}}" alt="">
+        <button class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL">
+            <mat-icon svgIcon="volume_up"></mat-icon>
+        </button>
     </div>
-    <h1 mat-dialog-title>{{ title | translate }}</h1>
-    <mat-dialog-content [ngSwitch]="contentType">
-<div *ngSwitchCase="'innerHTML'"[innerHTML]="content"></div>
-<div *ngSwitchCase="'translation'">{{ content | translate }}</div>
-<div *ngSwitchCase="'text'">{{content}}</div>
+    <!--    <h1 mat-dialog-title>{{ title | translate }}</h1>-->
+    <mat-dialog-content cdkfocusinitial [ngSwitch]="contentType">
+        <div *ngSwitchCase="'innerHTML'" [innerHTML]="content"></div>
+        <div *ngSwitchCase="'translation'">{{ content | translate }}</div>
+        <div *ngSwitchCase="'text'">{{content}}</div>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button *ngIf="cancelBtn" mat-button cdkfocusinitial [mat-dialog-close]="false">{{ cancelBtnText | translate }}</button>
-        <button mat-button mat-stroked-button [color]="confirmBtnColor"
-                [mat-dialog-close]="true">{{ confirmBtnText | translate }}</button>
+        <button class="main-btn" color="primary" *ngIf="cancelBtn" mat-flat-button cdkfocusinitial
+                [mat-dialog-close]="false">
+            {{ cancelBtnText | translate }}
+            <img width="24" height="24" src="assets/icons/cross_32.svg" alt="">
+        </button>
+        <button class="main-btn" mat-flat-button color="primary"
+                [mat-dialog-close]="true">
+            {{ confirmBtnText | translate }}
+            <img src="assets/icons/check_24.svg" alt="">
+        </button>
     </mat-dialog-actions>
 </div>
