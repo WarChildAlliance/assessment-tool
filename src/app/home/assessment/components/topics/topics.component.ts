@@ -40,17 +40,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         ).subscribe(
             topics => {
                 topics.forEach(topic => {
-                    let competencyArr = [];
-                    if (topic.competency === 1) {
-                        competencyArr = [true, false, false];
-                    } else if (topic.competency === 2) {
-                        competencyArr = [true, true, false];
-                    } else if (topic.competency === 3) {
-                        competencyArr = [true, true, true];
-                    }
-                    topic.competency = competencyArr;
+                    topic.competency = [false, false, false].map((value, index) => index + 1 <= topic.competency ? true : false);
                 });
-
                 this.topics = topics;
             }
         );

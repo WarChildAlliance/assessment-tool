@@ -25,9 +25,11 @@ export class AuthService {
   }
 
   login(username: string): void {
-    combineLatest([this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
-    this.cacheService.hasActiveSession(),
-    from(this.cacheService.getData('active-session'))]).subscribe(
+    combineLatest(
+      [this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
+      this.cacheService.hasActiveSession(),
+      from(this.cacheService.getData('active-session'))])
+    .subscribe(
       ([res, hasActiveSession, activeSession]) => {
         if (hasActiveSession) {
           if (activeSession.student !== res.user_id) {

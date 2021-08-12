@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.http.get(`${environment.API_URL}` + avatar.image, {responseType: 'arraybuffer'}).subscribe();
         }
         });
-        
         this.subscriptions = [userSubscription, onlineSubscription];
     }
 
@@ -84,6 +83,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.assessmentService.getAssessments().subscribe((assessments: Assessment[]) => {
             for (const assessment of assessments) {
                 this.assessmentService.getAssessmentTopics(assessment.id).subscribe((topics: Topic[]) => {
+                    this.cacheService.getData('active-user').then( user => {
+                        const competencies = topics.map( topic  => {
+                            const t: any = topic;
+                            return {assessmentId : t.assessment, topicId: t.id, competency: t.competency};
+                        });
+                        user.competencies = competencies;
+                        this.cacheService.setData('active-user', user);
+                    });
                     for (const topic of topics) {
                         this.getAttachments(topic.attachments);
                         this.assessmentService.getAssessmentTopicWithQuestions(assessment.id, topic.id).subscribe((t: Topic) => {
@@ -112,7 +119,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
 
         for (const attachment of attachments) {
-            // TODO: Fix CORS error to successfully get the attachments
             this.http.get(attachment.file, {responseType: 'arraybuffer'}).subscribe();
         }
     }

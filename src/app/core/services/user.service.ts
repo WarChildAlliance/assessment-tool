@@ -15,7 +15,6 @@ import { LanguageService } from './language.service';
 })
 export class UserService {
 
-
   private userSource = new BehaviorSubject<User>(null);
   currentUser = this.userSource.asObservable();
 
@@ -56,7 +55,6 @@ export class UserService {
     this.user = user;
     this.userSource.next(user);
   }
-
 
   resetUser(): void {
     this.user = null;
