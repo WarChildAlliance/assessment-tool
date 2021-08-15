@@ -29,14 +29,16 @@ export class HeaderComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private userService: UserService,
     ) {
     }
 
     ngOnInit(): void {
-        this.route.data.subscribe(
+/*         this.route.data.subscribe(
             (data: { user: User }) => this.user = data.user
-        );
+        ); */
+        this.userService.currentUser.subscribe(user => this.user = user);
     }
 
     getImageUrl(): string {

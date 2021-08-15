@@ -46,7 +46,6 @@ export class ProfileService {
     const formatProfile: any = {...profile};
     formatProfile.current_avatar = profile.current_avatar.id;
     formatProfile.unlocked_avatars = profile.unlocked_avatars.filter(x => x.unlocked).map(x => x.id);
-    console.log(formatProfile);
     return this.http.put<Profile>(`${environment.API_URL}/gamification/profiles/`, {
       profile: formatProfile
     });
@@ -68,9 +67,4 @@ export class ProfileService {
     });
   }
 
-  public updateTopicCompetency(assessmentId: number, topicId: number, competency: number): Observable<any>  {
-    return this.http.put<number>(`${environment.API_URL}/gamification/topic-competencies/${topicId}/`, {
-      competency
-    });
-  }
 }

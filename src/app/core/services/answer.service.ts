@@ -213,9 +213,9 @@ export class AnswerService {
         } else {
           // If no local data exists, update topic_answer in API
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
-            switchMap((topicAnswer: TopicAnswer) => {
+            switchMap((topicAnswer: any) => {
               if (topicAnswer) {
-                return this.updateTopicAnswer(topicAnswer.id, moment()).pipe(
+                return this.updateTopicAnswer(topicAnswer.id, moment(), topicAnswer.topic_competency).pipe(
                   tap(_ => this.cacheService.deleteData(this.activeTopicAnswerStorage))
                 );
               } else {
@@ -290,9 +290,9 @@ export class AnswerService {
     return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
   }
 
-  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment): Observable<TopicAnswer> {
+  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment, topicCompetency?: number): Observable<TopicAnswer> {
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
-      { end_date: endDate.format() });
+      { end_date: endDate.format(), topic_competency: topicCompetency ? topicCompetency : 0 });
   }
 
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {

@@ -8,7 +8,6 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
-import { AssessmentService } from 'src/app/core/services/assessment.service';
 
 @Component({
     selector: 'app-completed-topic',
@@ -20,6 +19,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     public competency = 1;
     public effort = 2;
     private topic = null;
+    private user;
 
     blockNavigation = true;
     private readonly pageID = 'completed-topic-page';
@@ -51,38 +51,49 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             const correctAnswers = answers.filter( ans => ans.valid);
             this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
             this.competency = this.competency === 0 ? 1 : this.competency;
+            this.cacheService.getData('active-user').then(user => {
+                this.user = user;
+                console.log(this.user);
+            });
+            this.cacheService.getData('active-user').then(user => {
+                const newUser = {...this.user};
+                console.log(newUser);
+                const oldCompetency = (user.competencies?.find( competency => competency.assessmentId === this.topic.assessment
+                    && competency.topicId === this.topic.id))?.competency;
 
-            this.cacheService.getData('active-user').then( user => {
-                const newUser = user;
-                const currentCompetency = (user.competencies?.find( competency => competency.assessmentId === this.topic.assessment
-                    && competency.topicId === this.topic.id)).competency;
                 let newCompetency = 0;
                 let difference = 0;
-                if (currentCompetency) {
-                    newCompetency = currentCompetency < this.competency ? this.competency : currentCompetency;
-                    difference = currentCompetency < this.competency ? this.competency - currentCompetency : 0;
+
+                if (oldCompetency) {
+                    newCompetency = oldCompetency < this.competency ? this.competency : oldCompetency;
+                    difference = oldCompetency < this.competency ? this.competency - oldCompetency : 0;
                 } else {
                     newCompetency = this.competency;
                     this.effort = 5;
                 }
 
+                console.log(difference);
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
-
-                // TODO this shoud be done in a single step through the user service!
-                this.cacheService.setData('active-user', newUser);
-                this.userService.updateUser(newUser);
-                this.profileService.updateTopicCompetency(this.topic.assessment, this.topic.is, newCompetency).subscribe( res =>
-                    {
-                        console.log(res);
-                    });
-                this.profileService.updateProfile(newUser.profile).subscribe (profile => {
-                    console.log('TODO show success message', profile);
+                newUser.competencies.forEach(element => {
+                    if (element.assessmentId === this.topic.assessment && element.topicId === this.topic.id) {
+                        element.competency = newCompetency;
+                    }
                 });
+
+                // this.cacheService.setData('active-user', newUser);
+                this.userService.updateUser(newUser);
+
+                this.profileService.updateProfile(newUser.profile).subscribe();
+
+                const test = response;
+                test.topic_competency = newCompetency;
+
+                this.cacheService.setData(searchString, test);
+
+                this.answerService.endTopicAnswer().subscribe();
             });
 
-
-            this.answerService.endTopicAnswer().subscribe();
             this.route.data.subscribe(res => res.topic.id === 18 ? this.blockNavigation = false : this.blockNavigation = true);
             }
         );
@@ -113,4 +124,5 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         this.blockNavigation = false;
         this.router.navigate(['../../'], { relativeTo: this.route });
     }
+
 }

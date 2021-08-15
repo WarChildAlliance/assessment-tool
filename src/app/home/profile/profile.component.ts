@@ -63,7 +63,20 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     selectAvatar(avatar: Avatar): void {
-        this.profileService.selectNewAvatar(avatar.id).subscribe(
+      this.cacheService.getData('active-user').then( user => {
+        const newUser = user;
+        newUser.profile.current_avatar = avatar;
+        newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
+        newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
+        this.cacheService.setData('active-user', newUser);
+
+        this.profileService.updateProfile(newUser.profile).subscribe (response => {
+          console.log('TODO show success message', response);
+        });
+        this.userService.updateUser(newUser);
+      });
+
+/*         this.profileService.selectNewAvatar(avatar.id).subscribe(
             (newAvatar) => {
                 this.avatars.find(av => (av.selected)).selected = false;
                 this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
@@ -72,7 +85,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                     this.user = user;
                 });
             }
-        );
+        ); */
     }
 
 

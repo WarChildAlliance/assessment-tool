@@ -25,6 +25,8 @@ import { TutorialService } from '../core/services/tutorial.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
     user: User;
+    loading = true;
+    competencies = [];
 
     private subscriptions: Subscription[] = [];
 
@@ -50,30 +52,32 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
 
         this.cacheService.hasActiveSession().pipe(
-        switchMap((hasActiveSession: boolean) => {
-            if (!hasActiveSession) {
-            return this.answerService.startSession();
-            }
-            return EMPTY;
-        })
+            switchMap((hasActiveSession: boolean) => {
+                if (!hasActiveSession) {
+                    return this.answerService.startSession();
+                }
+                return EMPTY;
+            })
         ).subscribe();
 
-        const onlineSubscription = this.cacheService.networkStatus.subscribe((online: boolean) => {
-        if (online) {
-            this.getAllData();
-            this.sendStoredMutations();
-        }
-        });
+        const onlineSubscription = this.cacheService.networkStatus
+            .subscribe((online: boolean) => {
+                if (online) {
+                    this.getAllData();
+                    this.sendStoredMutations();
+                }
+            });
 
         this.subscriptions = [userSubscription, onlineSubscription];
 
         this.profileService.getAvatarsList().subscribe(avatars => {
         for (const avatar of avatars){
             this.http.get(`${environment.API_URL}` + avatar.image, {responseType: 'arraybuffer'}).subscribe();
-        }
+            }
         });
         this.subscriptions = [userSubscription, onlineSubscription];
     }
+
 
     ngOnDestroy(): void {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -83,13 +87,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.assessmentService.getAssessments().subscribe((assessments: Assessment[]) => {
             for (const assessment of assessments) {
                 this.assessmentService.getAssessmentTopics(assessment.id).subscribe((topics: Topic[]) => {
+                    const assessmentCompetencies = topics.map( topic  => {
+                        const t: any = topic;
+                        return {assessmentId : t.assessment, topicId: t.id, competency: t.competency};
+                    });
+                    this.competencies.push(...assessmentCompetencies);
                     this.cacheService.getData('active-user').then( user => {
-                        const competencies = topics.map( topic  => {
-                            const t: any = topic;
-                            return {assessmentId : t.assessment, topicId: t.id, competency: t.competency};
-                        });
-                        user.competencies = competencies;
-                        this.cacheService.setData('active-user', user);
+                        const newUser = {...user};
+                        newUser.competencies = this.competencies;
+                        this.cacheService.setData('active-user', newUser);
                     });
                     for (const topic of topics) {
                         this.getAttachments(topic.attachments);

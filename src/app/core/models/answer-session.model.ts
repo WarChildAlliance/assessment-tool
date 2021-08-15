@@ -8,4 +8,5 @@ export interface AnswerSession {
     end_date: Moment | string;
     student: User | number;
     assessment_topic_answers?: TopicAnswer[];
+    topic_competency?: number;
 }
