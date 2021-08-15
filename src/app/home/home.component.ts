@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             for (const assessment of assessments) {
                 this.assessmentService.getAssessmentTopics(assessment.id).subscribe((topics: Topic[]) => {
                     const assessmentCompetencies = topics.map( topic  => {
-                        const t: any = topic;
+                        const t: any = {...topic};
                         return {assessmentId : t.assessment, topicId: t.id, competency: t.competency};
                     });
                     this.competencies.push(...assessmentCompetencies);

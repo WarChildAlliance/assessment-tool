@@ -43,6 +43,7 @@ export class ProfileService {
   }*/
 
   public updateProfile(profile: Profile): Observable<Profile> {
+    console.log('profile', profile);
     const formatProfile: any = {...profile};
     formatProfile.current_avatar = profile.current_avatar.id;
     formatProfile.unlocked_avatars = profile.unlocked_avatars.filter(x => x.unlocked).map(x => x.id);

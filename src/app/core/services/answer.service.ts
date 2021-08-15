@@ -276,6 +276,7 @@ export class AnswerService {
   }
 
   private createTopicAnswer(topicId: number, sessionId: number): Observable<TopicAnswer> {
+    console.log(1);
     return this.http.post<TopicAnswer>(
       `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
       { topic: topicId, session: sessionId }
@@ -287,10 +288,12 @@ export class AnswerService {
   }
 
   private createTopicAnswerFull(data: TopicAnswer): Observable<TopicAnswer> {
+    console.log(2);
     return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
   }
 
   private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment, topicCompetency?: number): Observable<TopicAnswer> {
+    console.log('Result', topicCompetency);
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
       { end_date: endDate.format(), topic_competency: topicCompetency ? topicCompetency : 0 });
   }

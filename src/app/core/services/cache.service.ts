@@ -56,7 +56,6 @@ export class CacheService {
   }
 
   setData(storeName: string, data: any): void {
-    console.log('set data', storeName);
     this.indexedDbContext().then(db => db.put(storeName, data, 0));
   }
 
