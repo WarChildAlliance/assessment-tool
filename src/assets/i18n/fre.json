@@ -69,10 +69,13 @@
     "unlockingAvatars": "XXXX",
     "theFriendlyBee": "XXXX",
     "end": "XXXX",
-    "redirection": "XXXX"
+    "redirection": "XXXX",
+    "done": "Terminé"
   },
   "auth": {
     "login": "",
     "code": ""
-  }
+  },
+  "back": "Retour",
+  "cancel": "Annuler"
 }
