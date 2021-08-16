@@ -11,4 +11,5 @@ export interface TopicAnswer {
     end_date: Moment | string;
     session?: AnswerSession | number;
     answers?: GeneralAnswer[];
+    competency?: number;
 }

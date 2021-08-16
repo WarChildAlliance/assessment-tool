@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
+import { TopicComponent } from 'src/app/home/assessment/topic/topic.component';
 import { environment } from 'src/environments/environment';
 import { AnswerSession } from '../models/answer-session.model';
 import { GeneralAnswer } from '../models/answer.model';
@@ -204,7 +205,8 @@ export class AnswerService {
                 activeTopicAnswerLocal.end_date = moment().format();
                 this.cacheService.deleteData(this.activeSessionLocalStorage);
                 this.cacheService.deleteData(this.activeTopicAnswerLocalStorage);
-                return this.createTopicAnswerFull(activeTopicAnswerLocal);
+                const competency: any = {...activeTopicAnswerLocal};
+                return this.createTopicAnswerFull(activeTopicAnswerLocal, competency.topic_competency);
               } else {
                 return of(null);
               }
@@ -276,7 +278,6 @@ export class AnswerService {
   }
 
   private createTopicAnswer(topicId: number, sessionId: number): Observable<TopicAnswer> {
-    console.log(1);
     return this.http.post<TopicAnswer>(
       `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
       { topic: topicId, session: sessionId }
@@ -287,13 +288,12 @@ export class AnswerService {
     );
   }
 
-  private createTopicAnswerFull(data: TopicAnswer): Observable<TopicAnswer> {
-    console.log(2);
-    return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
+  private createTopicAnswerFull(data: TopicAnswer, topicCompetency?: number): Observable<TopicAnswer> {
+    return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`,
+    { data, topic_competency: topicCompetency});
   }
 
   private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment, topicCompetency?: number): Observable<TopicAnswer> {
-    console.log('Result', topicCompetency);
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
       { end_date: endDate.format(), topic_competency: topicCompetency ? topicCompetency : 0 });
   }
