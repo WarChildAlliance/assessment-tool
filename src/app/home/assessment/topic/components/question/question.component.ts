@@ -90,7 +90,7 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
-        
+
         this.questionTimeStart = moment();
 
         if (data && params) {
