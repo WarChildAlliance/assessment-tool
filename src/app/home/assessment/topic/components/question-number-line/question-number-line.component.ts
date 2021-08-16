@@ -39,7 +39,6 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
         this.answer = {
           value,
           question: this.question.id,
-          duration: '',
           valid: this.isValid()
         };
       } else {
