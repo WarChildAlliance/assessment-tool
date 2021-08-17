@@ -161,8 +161,6 @@ export class TutorialService {
   createTourCompletedTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
-      orientation: Orientation.Top,
-      selector: '.points-container',
       content: this.translateService.instant('tutorial.honeypotCollection'),
     });
     steps.push({
