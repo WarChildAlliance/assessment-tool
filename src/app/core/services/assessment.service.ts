@@ -25,7 +25,7 @@ export class AssessmentService {
       map(assessmentsList => {
         assessmentsList.map(assessment => {
           // Lock all assessments by default
-          assessment.locked = true;
+          // assessment.locked = true;
         });
 
         // Find preSel and postSel assessments if they exist

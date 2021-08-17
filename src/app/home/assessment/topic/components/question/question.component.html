@@ -5,7 +5,7 @@
         <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
         </mat-progress-bar>
     </div>
-    <h2>{{ question.title }}</h2>
+    <h2 class="question-title">{{ question.title }}</h2>
     <div class="question-attachment">
         <app-attachments [attachments]="question.attachments"></app-attachments>
     </div>

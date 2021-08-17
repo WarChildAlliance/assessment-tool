@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Profile } from '../models/profile.model';
@@ -16,8 +16,8 @@ export class UserService {
 
     constructor(
         private http: HttpClient,
-        private languageService: LanguageService,
-        private authService: AuthService
+        private authService: AuthService,
+        private languageService: LanguageService
     ) {
     }
 
@@ -37,7 +37,7 @@ export class UserService {
             tap(user => {
                 this.user = user;
                 // TODO: we have to fix this line
-                // this.languageService.setLanguage(user.language);
+                this.languageService.setLanguage(user.language);
             })
         );
     }

@@ -11,7 +11,8 @@
     <app-attachments [attachments]="topic.attachments"></app-attachments>
 
 
-    <button class="start-button" [disabled]="!topic || !topic.questions || !topic.questions.length"
+    <p *ngIf="!topic || !topic.questions || !topic.questions.length "> No topics in this assessment</p>
+    <button *ngIf="topic && topic.questions && topic.questions.length"  class="start-button"
             [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
         {{ 'start' | translate }}
     </button>

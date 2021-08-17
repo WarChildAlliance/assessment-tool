@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
+import { TutorialService } from './core/services/tutorial.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,9 @@ export class AppComponent {
     private router: Router,
     private swUpdate: SwUpdate,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private tutorialService: TutorialService,
+    public translate: TranslateService
   ) {
     this.checkAppUpdates();
     this.registerIcons();

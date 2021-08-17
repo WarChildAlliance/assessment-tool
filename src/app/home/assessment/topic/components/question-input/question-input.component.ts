@@ -40,7 +40,6 @@ export class QuestionInputComponent implements OnInit {
           this.answer = {
             value,
             question: this.question.id,
-            duration: '',
             valid: this.isValid()
           };
         } else {

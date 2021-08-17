@@ -1,12 +1,14 @@
-<ng-container *ngFor="let assessment of assessments">
-    <button mat-button class="assessment-btn"
-            [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
-        <img class="assessment-icon" src="{{ getAssessmentIcon(assessment) }}" width="64" height="64">
-        <h1>
-            {{assessment.title}}
-        </h1>
-    </button>
-</ng-container>
+<div *ngIf="assessments && assessments.length">
+    <ng-container class="assessments-container" *ngFor="let assessment of assessments">
+        <button mat-button class="assessment-btn"
+                [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
+            <img class="assessment-icon" src="{{ getAssessmentIcon(assessment) }}" width="64" height="64">
+            <h1>
+                {{assessment.title}}
+            </h1>
+        </button>
+    </ng-container>
+</div>
 
 <ng-container *ngIf="!assessments || assessments.length === 0">
     <p>{{ 'noAssessments' | translate }}</p>

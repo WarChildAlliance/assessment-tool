@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
 import { BehaviorSubject } from 'rxjs';
+import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
     templateUrl: './question-select.component.html',
     styleUrls: ['./question-select.component.scss']
 })
-export class QuestionSelectComponent implements OnInit, OnDestroy {
+export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Input() answer: AnswerSelect;
 
@@ -30,8 +32,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private assisstantService: AssisstantService
-    ) { }
+        private assisstantService: AssisstantService,
+        private tutorialSerice: TutorialService
+    ) {
+    }
 
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
@@ -40,6 +44,14 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
                 this.multipleSelectForm.disable();
             }
         });
+
+        // shuffle options
+        if (this.question.display_type.toLowerCase() === 'grid') {
+            this.question.options = this.question.options.map(question => ({
+                question,
+                sort: Math.random()
+            })).sort((a, b) => a.sort - b.sort).map((value) => value.question);
+        }
 
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
@@ -60,11 +72,11 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
                     this.answer = {
                         selected_options: formattedSelectedOptions,
                         question: this.question.id,
-                        duration: '',
                         valid: false
                     };
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 } else {
+                    this.tutorialSerice.currentPage.next(PageNames.question);
                     this.answer.selected_options = formattedSelectedOptions;
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 }
@@ -78,7 +90,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
                         this.answer = {
                             selected_options: [value.id],
                             question: this.question.id,
-                            duration: '',
                             valid: this.isValid()
                         };
                     } else {
@@ -138,11 +149,15 @@ export class QuestionSelectComponent implements OnInit, OnDestroy {
 
         const optionalValue = selectedOptionsForm.controls[index].value.selected;
 
-        selectedOptionsForm.controls[index].setValue({ selected: !optionalValue });
+        selectedOptionsForm.controls[index].setValue({selected: !optionalValue});
     }
 
 
     hasImageAttached(option: SelectOption): boolean {
         return option.attachments.some((attachment) => attachment.attachment_type === 'IMAGE');
+    }
+
+    ngAfterViewInit(): void {
+        this.tutorialSerice.currentPage.next(PageNames.questionSelect);
     }
 }
