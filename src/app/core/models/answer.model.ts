@@ -1,11 +1,13 @@
 import { GeneralQuestion, SelectOption, SortOption } from './question.model';
 import { TopicAnswer } from './topic-answer.model';
+import { Moment } from 'moment';
 
 export interface Answer {
   id?: number;
   topic_answer?: TopicAnswer | number;
   question: GeneralQuestion | number;
-  duration: string;
+  start_datetime?: Moment | string;
+  end_datetime?: Moment | string;
   valid: boolean;
 }
 

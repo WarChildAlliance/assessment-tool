@@ -72,7 +72,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     this.answer = {
                         selected_options: formattedSelectedOptions,
                         question: this.question.id,
-                        duration: '',
                         valid: false
                     };
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
@@ -91,7 +90,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                         this.answer = {
                             selected_options: [value.id],
                             question: this.question.id,
-                            duration: '',
                             valid: this.isValid()
                         };
                     } else {

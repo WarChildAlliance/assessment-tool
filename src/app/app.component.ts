@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
 import { TutorialService } from './core/services/tutorial.service';
-import { TranslateService } from  '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',

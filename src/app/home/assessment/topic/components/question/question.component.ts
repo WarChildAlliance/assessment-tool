@@ -33,7 +33,7 @@ export class QuestionComponent implements OnInit {
   // TODO Check what's that doing here ?
   answer: GeneralAnswer;
 
-  private questionTimeStart: Moment;
+  private questionTimeStart: string;
 
   private dateStart: Moment;
   private assessment: Assessment;
@@ -48,13 +48,13 @@ export class QuestionComponent implements OnInit {
         const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
           disableClose: true,
           data: {
-              title: 'exitConfirmation',
-              content: 'exitInfo',
-              cancelBtn: true,
-              confirmBtnText: 'exit',
-              confirmBtnColor: 'warn',
+            title: 'exitConfirmation',
+            content: 'exitInfo',
+            cancelBtn: true,
+            confirmBtnText: 'exit',
+            confirmBtnColor: 'warn',
           }
-      });
+        });
         return dialogRef.afterClosed().pipe(map(value => {
           if (value) {
             this.router.navigate([TopicComponent], {});
@@ -90,8 +90,7 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {
     combineLatest([this.route.data, this.route.paramMap]).subscribe(
       ([data, params]: [{ topic: any }, ParamMap]) => {
-
-        this.questionTimeStart = moment();
+        this.questionTimeStart = moment().format();
 
         if (data && params) {
           this.question = null;
@@ -110,11 +109,10 @@ export class QuestionComponent implements OnInit {
   }
 
   submitAnswer(): void {
-    const duration = moment.utc(moment().diff(this.questionTimeStart)).format('HH:mm:ss');
-
     if (this.answer) {
       this.skipped = false;
-      this.answer.duration = duration;
+      this.answer.end_datetime = moment().format();
+      this.answer.start_datetime = this.questionTimeStart;
       if (this.canShowFeedback()) {
         this.displayCorrectAnswer.next(true);
       } else {
@@ -124,10 +122,10 @@ export class QuestionComponent implements OnInit {
       const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
         disableClose: true,
         data: {
-            content: 'skipSure',
-            cancelBtn: true,
-            confirmBtnText: 'skip',
-            confirmBtnColor: 'warn',
+          content: 'skipSure',
+          cancelBtn: true,
+          confirmBtnText: 'skip',
+          confirmBtnColor: 'warn',
         }
       });
 
@@ -139,7 +137,8 @@ export class QuestionComponent implements OnInit {
 
           this.answer = {
             question: this.question.id,
-            duration,
+            start_datetime: this.questionTimeStart,
+            end_datetime: moment().format(),
             valid: false,
             skipped: true
           };
@@ -226,7 +225,8 @@ export class QuestionComponent implements OnInit {
       questionsLeft.forEach(question => {
         const skippedAnswer: SkippedAnswer = {
           question: question.id,
-          duration: '',
+          start_datetime: moment().format(),
+          end_datetime: moment().format(),
           valid: false,
           skipped: true
         };
