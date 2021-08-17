@@ -54,7 +54,6 @@ export class QuestionSortComponent implements OnInit, OnDestroy {
         if (!this.answer) {
             this.answer = {
                 question: this.question.id,
-                duration: '',
                 valid: this.isValid(),
                 category_A: this.selectedCategoryA.map(option => option.id),
                 category_B: this.selectedCategoryB.map(option => option.id)
