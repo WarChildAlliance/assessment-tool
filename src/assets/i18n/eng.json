@@ -13,7 +13,7 @@
   "backToTopics": "Back to topics",
   "topicCompleted": "Well done! You completed the topic.",
   "assessmentLocked": "(locked)",
-  "hi": "Hi",
+  "hi": "Hi, {{name}} !",
   "assessmentsAssisstant": "You're in the assessments page. Friendly bee says hi!",
   "topicsAssisstant": "You're in the topics page! Friendly bee says hello",
   "profileAssisstant": "You're in the profile topic page! Buzzz",
@@ -69,10 +69,13 @@
     "unlockingAvatars": "You can unlock a character now",
     "theFriendlyBee": "If you dont know what to do on a page, click on me I will repeat the instruction",
     "end": "Great work! You have finished the practise area",
-    "redirection": "Click here if you want to go to the beginning"
+    "redirection": "Click here if you want to go to the beginning",
+    "done": "Done"
   },
   "auth": {
     "login": "Log in",
     "code": "Enter code"
-  }
+  },
+  "back": "Back",
+  "cancel": "Cancel"
 }

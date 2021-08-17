@@ -9,9 +9,9 @@
                 <img *ngIf="!avatar.unlocked && !avatar.selected" width="42" height="42"
                      src="assets/icons/honey_pot_btn.svg">
                 <span *ngIf="!avatar.unlocked" (click)="unlockAvatar(avatar)">{{avatar.effort_cost}}</span>
-                <span *ngIf="avatar.unlocked && avatar.selected">{{'selected' | translate}}</span>
+                <span *ngIf="avatar.unlocked && avatar.selected">{{'profile.selected' | translate}}</span>
                 <span *ngIf="avatar.unlocked && !avatar.selected"
-                      (click)="selectAvatar(avatar)">{{'unlocked' | translate}}</span>
+                      (click)="selectAvatar(avatar)">{{'profile.unlocked' | translate}}</span>
             </button>
         </div>
     </div>

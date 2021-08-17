@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
 
   constructor(
     private assisstantService: AssisstantService,
-    private tutorialSerice: TutorialService) { }
+    private tutorialSerice: TutorialService,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
@@ -39,7 +41,6 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
         this.answer = {
           value,
           question: this.question.id,
-          duration: '',
           valid: this.isValid()
         };
       } else {
@@ -53,8 +54,8 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
 
   private isValid(): boolean {
     const errorMargin = (this.question.end * 10) / 100;
-    if (this.question.expected_value - errorMargin < this.valueForm.value
-      && this.valueForm.value < this.question.expected_value + errorMargin) {
+    if (this.valueForm.value >= this.question.expected_value - errorMargin
+      && this.valueForm.value <= this.question.expected_value + errorMargin) {
       return true;
     }
     return false;
