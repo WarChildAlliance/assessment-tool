@@ -14,7 +14,6 @@ export class TutorialService {
 
   private tourDict = {};
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public translatedTxt: string;
   public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(
@@ -46,19 +45,17 @@ export class TutorialService {
 
   createAllTours(): void {
     this.translateService.setDefaultLang((this.userService.user.language.code).toLowerCase());
-    this.translateService.use((this.userService.user.language.code).toLowerCase()).subscribe(
-      () => {
-        this.createTourAssessment();
-        this.createTourTopics();
-        this.createTourTopic();
-        this.createTourQuestionSelectGeneral();
-        this.createTourQuestionNumberLineGeneral();
-        this.createTourSubmitAnswer();
-        this.createTourCompletedTopic();
-        this.createTourProfile();
+    this.translateService.use((this.userService.user.language.code).toLowerCase());
+    this.translateService.onLangChange.subscribe(() => {
+          this.createTourAssessment();
+          this.createTourTopics();
+          this.createTourTopic();
+          this.createTourQuestionSelectGeneral();
+          this.createTourQuestionNumberLineGeneral();
+          this.createTourSubmitAnswer();
+          this.createTourCompletedTopic();
+          this.createTourProfile();
       });
-
-
   }
 
   createTourAssessment(): void {
