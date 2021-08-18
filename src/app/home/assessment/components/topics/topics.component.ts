@@ -8,6 +8,7 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
     selector: 'app-topics',
@@ -17,43 +18,40 @@ import { TutorialService } from 'src/app/core/services/tutorial.service';
 export class TopicsComponent implements OnInit, AfterViewInit {
     topics: Topic[];
     private readonly pageID = 'topics-page';
+    private user = null;
 
     constructor(
         private route: ActivatedRoute,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
+        private cacheService: CacheService
     ) { }
 
     subject: string;
 
     ngOnInit(): void {
-        this.route.paramMap.pipe(
-            switchMap((params: ParamMap) => {
-                this.subject = params.get('subject');
-                if (params.has('assessment_id')) {
-                    const id = parseInt(params.get('assessment_id'), 10);
-                    return this.assessmentService.getAssessmentTopics(id);
-                }
-                throwError('No assessment id provided');
-            })
-        ).subscribe(
-            topics => {
-                topics.forEach(topic => {
-                    let competencyArr = [];
-                    if (topic.competency === 1) {
-                        competencyArr = [true, false, false];
-                    } else if (topic.competency === 2) {
-                        competencyArr = [true, true, false];
-                    } else if (topic.competency === 3) {
-                        competencyArr = [true, true, true];
+        this.cacheService.getData('active-user').then( user => {
+            this.user = user;
+            this.route.paramMap.pipe(
+                switchMap((params: ParamMap) => {
+                    this.subject = params.get('subject');
+                    if (params.has('assessment_id')) {
+                        const id = parseInt(params.get('assessment_id'), 10);
+                        return this.assessmentService.getAssessmentTopics(id);
                     }
-                    topic.competency = competencyArr;
-                });
-
-                this.topics = topics;
-            }
-        );
+                    throwError('No assessment id provided');
+                })
+            ).subscribe(
+                topics => {
+                    topics.forEach(topic => {
+                        const cachedCompetency = (user.competencies.find(c => c.topicId === topic.id))?.competency;
+                        topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency ? true : false);
+                    });
+                    this.topics = topics;
+                }
+            );
+        });
         this.assisstantService.setPageID(this.pageID);
     }
 

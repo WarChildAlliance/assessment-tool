@@ -9,7 +9,7 @@ export interface Assessment {
   country?: string;
   private: boolean;
   topics?: Topic[];
-  icon: string;
+  icon?: string;
 
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   locked?: boolean;

@@ -12,7 +12,9 @@ import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
 import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
+import { ProfileService } from '../core/services/profile.service';
 import { UserService } from '../core/services/user.service';
+import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from '../core/services/tutorial.service';
 
@@ -23,6 +25,8 @@ import { TutorialService } from '../core/services/tutorial.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
     user: User;
+    loading = true;
+    competencies = [];
 
     private subscriptions: Subscription[] = [];
 
@@ -34,10 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         private http: HttpClient,
         private cacheService: CacheService,
         private userService: UserService,
+        private profileService: ProfileService,
         public translate: TranslateService,
         private tutorialService: TutorialService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         const userSubscription = this.route.data.subscribe(
@@ -56,15 +60,24 @@ export class HomeComponent implements OnInit, OnDestroy {
             })
         ).subscribe();
 
-        const onlineSubscription = this.cacheService.networkStatus.subscribe((online: boolean) => {
-            if (online) {
-                this.getAllData();
-                this.sendStoredMutations();
-            }
-        });
+        const onlineSubscription = this.cacheService.networkStatus
+            .subscribe((online: boolean) => {
+                if (online) {
+                    this.getAllData();
+                    this.sendStoredMutations();
+                }
+            });
 
         this.subscriptions = [userSubscription, onlineSubscription];
+
+        this.profileService.getAvatarsList().subscribe(avatars => {
+        for (const avatar of avatars){
+            this.http.get(`${environment.API_URL}` + avatar.image, {responseType: 'arraybuffer'}).subscribe();
+            }
+        });
+        this.subscriptions = [userSubscription, onlineSubscription];
     }
+
 
     ngOnDestroy(): void {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -74,6 +87,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.assessmentService.getAssessments().subscribe((assessments: Assessment[]) => {
             for (const assessment of assessments) {
                 this.assessmentService.getAssessmentTopics(assessment.id).subscribe((topics: Topic[]) => {
+                    const assessmentCompetencies = topics.map( topic  => {
+                        const t: any = {...topic};
+                        return {assessmentId : t.assessment, topicId: t.id, competency: t.competency};
+                    });
+                    this.competencies.push(...assessmentCompetencies);
+                    this.cacheService.getData('active-user').then( user => {
+                        const newUser = {...user};
+                        newUser.competencies = this.competencies;
+                        this.cacheService.setData('active-user', newUser);
+                    });
                     for (const topic of topics) {
                         this.getAttachments(topic.attachments);
                         this.assessmentService.getAssessmentTopicWithQuestions(assessment.id, topic.id).subscribe((t: Topic) => {
@@ -102,7 +125,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
 
         for (const attachment of attachments) {
-            // TODO: Fix CORS error to successfully get the attachments
             this.http.get(attachment.file, {responseType: 'arraybuffer'}).subscribe();
         }
     }

@@ -64,7 +64,6 @@ export class AssessmentService {
   }
 
   getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
-
     return forkJoin({
       topics: this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`),
       competencies: this.http.get<any[]>(`${environment.API_URL}/gamification/topic-competencies/`)
@@ -92,6 +91,7 @@ export class AssessmentService {
       )
     );
   }
+
 
   getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
     return this.http.get<GeneralQuestion[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/`);

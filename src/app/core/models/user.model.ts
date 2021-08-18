@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { Language } from './language.model';
 import { Profile } from './profile.model';
+import { Avatar } from '../models/avatar.model';
 
 export interface User {
   id: number;
@@ -14,6 +15,7 @@ export interface User {
   country?: string;
   created_by?: number;
   profile?: Profile;
+  avatars?: Avatar[];
 }
 
 export enum UserRoles {

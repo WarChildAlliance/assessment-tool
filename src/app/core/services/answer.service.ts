@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
+import { TopicComponent } from 'src/app/home/assessment/topic/topic.component';
 import { environment } from 'src/environments/environment';
 import { AnswerSession } from '../models/answer-session.model';
 import { GeneralAnswer } from '../models/answer.model';
@@ -22,7 +23,7 @@ export class AnswerService {
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   startSession(): Observable<AnswerSession> {
@@ -44,6 +45,7 @@ export class AnswerService {
       first()
     );
   }
+
 
   startTopicAnswer(topicId: number): Observable<TopicAnswer> {
     return combineLatest([
@@ -137,7 +139,6 @@ export class AnswerService {
           this.cacheService.setData(this.activeTopicAnswerLocalStorage, activeTopicAnswerLocal);
           return of(answer);
         } else if (!online && !activeTopicAnswerLocal) {
-
           return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
             map((data: AnswerSession) => {
               const topicAnswer: TopicAnswer = {
@@ -153,6 +154,14 @@ export class AnswerService {
           );
         }
         else {
+
+          // TODO here we set the answers always to the activeTopicAnswerStorage but doesnt seem to be the best solution
+          this.cacheService.getData(this.activeTopicAnswerStorage).then( activeTopicAnswer => {
+            const updatedActiveTopicAnswer = activeTopicAnswer;
+            updatedActiveTopicAnswer.answers.push(answer);
+            this.cacheService.setData(this.activeTopicAnswerStorage, updatedActiveTopicAnswer);
+          });
+
           // Send request with active topic answer (online or offline)
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
             switchMap((data: TopicAnswer) => this.createAnswer({ ...answer, topic_answer: data.id }))
@@ -196,7 +205,8 @@ export class AnswerService {
                 activeTopicAnswerLocal.end_date = moment().format();
                 this.cacheService.deleteData(this.activeSessionLocalStorage);
                 this.cacheService.deleteData(this.activeTopicAnswerLocalStorage);
-                return this.createTopicAnswerFull(activeTopicAnswerLocal);
+                const competency: any = {...activeTopicAnswerLocal};
+                return this.createTopicAnswerFull(activeTopicAnswerLocal, competency.topic_competency);
               } else {
                 return of(null);
               }
@@ -205,12 +215,13 @@ export class AnswerService {
         } else {
           // If no local data exists, update topic_answer in API
           return from(this.cacheService.getData(this.activeTopicAnswerStorage)).pipe(
-            switchMap((topicAnswer: TopicAnswer) => {
+            switchMap((topicAnswer: any) => {
               if (topicAnswer) {
-                return this.updateTopicAnswer(topicAnswer.id, moment()).pipe(
+                return this.updateTopicAnswer(topicAnswer.id, moment(), topicAnswer.topic_competency).pipe(
                   tap(_ => this.cacheService.deleteData(this.activeTopicAnswerStorage))
                 );
               } else {
+                this.endSession();
                 return of(null);
               }
             })
@@ -271,17 +282,20 @@ export class AnswerService {
       `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
       { topic: topicId, session: sessionId }
     ).pipe(
-      tap(topicAnswer => this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer))
+      tap(topicAnswer => {
+        this.cacheService.setData(this.activeTopicAnswerStorage, {...topicAnswer, answers: []});
+      })
     );
   }
 
-  private createTopicAnswerFull(data: TopicAnswer): Observable<TopicAnswer> {
-    return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`, data);
+  private createTopicAnswerFull(data: TopicAnswer, topicCompetency?: number): Observable<TopicAnswer> {
+    return this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`,
+    { data, topic_competency: topicCompetency});
   }
 
-  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment): Observable<TopicAnswer> {
+  private updateTopicAnswer(topicAnswerId: number, endDate: moment.Moment, topicCompetency?: number): Observable<TopicAnswer> {
     return this.http.put<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/${topicAnswerId}/`,
-      { end_date: endDate.format() });
+      { end_date: endDate.format(), topic_competency: topicCompetency ? topicCompetency : 0 });
   }
 
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {

@@ -32,6 +32,7 @@ export class CacheService {
         db.createObjectStore('active-session-local');
         db.createObjectStore('active-topic-answer');
         db.createObjectStore('active-topic-answer-local');
+        db.createObjectStore('active-user');
       }
     });
   }
