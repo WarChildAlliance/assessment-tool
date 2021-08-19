@@ -20,24 +20,29 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private readonly pageID = 'topics-page';
     private user = null;
 
+    public assessmentTitle = '';
+
     constructor(
         private route: ActivatedRoute,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
         private cacheService: CacheService
-    ) { }
+    ) {
+    }
 
     subject: string;
 
     ngOnInit(): void {
-        this.cacheService.getData('active-user').then( user => {
+        this.cacheService.getData('active-user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
                 switchMap((params: ParamMap) => {
                     this.subject = params.get('subject');
                     if (params.has('assessment_id')) {
                         const id = parseInt(params.get('assessment_id'), 10);
+                        this.assessmentService.getAssessment(id)
+                            .subscribe(assessment => this.assessmentTitle = assessment.title);
                         return this.assessmentService.getAssessmentTopics(id);
                     }
                     throwError('No assessment id provided');
