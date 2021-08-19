@@ -150,23 +150,6 @@ body {
   background-color: #F2836B;
 }
 
-// ******** Style for button of login, dialog confirmation and question submit/continue ********
-
-.main-btn {
-  border-radius: 6.25rem !important;
-  padding: 0.5rem !important;
-  font-size: 28px;
-
-  img {
-    position: absolute;
-    right: 1rem;
-    top: 0.9rem;
-  }
-}
-
-// ******** End of main button ********
-
-
 button:disabled,
 button[disabled] {
   background: #FFDC64 !important;

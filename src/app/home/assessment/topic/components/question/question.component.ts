@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-question',
@@ -84,7 +85,8 @@ export class QuestionComponent implements OnInit {
     private answerService: AnswerService,
     public dialog: MatDialog,
     private assessmentService: AssessmentService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    public translate: TranslateService
   ) { }
 
   ngOnInit(): void {

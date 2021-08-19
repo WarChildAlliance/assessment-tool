@@ -34,18 +34,20 @@
 
     </div>
 
-    <button *ngIf="!displayCorrectAnswer.getValue()" [disabled]="!topic.allow_skip && !answer" class="main-btn"
-            mat-flat-button color="primary"
-            (click)="submitAnswer()">
-        {{ (!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate) }}
-        <img src="assets/icons/check_24.svg">
-    </button>
+    <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
+                     [text]="(!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate)"
+                     iconUrl="assets/icons/check_24.svg"
+                     width="60%"
+                     (click)="submitAnswer()">
+    </app-primary-btn>
 
-    <button *ngIf="displayCorrectAnswer.getValue()" class="main-btn" mat-flat-button color="primary"
-            (click)="this.submitAndGoNextPage()">
-        {{ 'continue' | translate }}
-        <img src="assets/icons/right_arrow_24.svg">
-    </button>
+    <app-primary-btn *ngIf="displayCorrectAnswer.getValue()"
+                     [text]="'continue' | translate"
+                     [iconUrl]="translate.currentLang === 'ara' ?
+                        'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                     width="60%"
+                     (click)="submitAndGoNextPage()">
+    </app-primary-btn>
 
 </div>
 
