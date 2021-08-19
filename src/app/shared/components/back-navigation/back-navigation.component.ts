@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-back-navigation',
@@ -10,7 +11,7 @@ export class BackNavigationComponent implements OnInit {
     @Input()
     text: string;
 
-    constructor() {
+    constructor(public translate: TranslateService) {
     }
 
     ngOnInit(): void {
