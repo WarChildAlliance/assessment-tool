@@ -5,15 +5,17 @@
 
     <p *ngIf="topic.description">{{ topic.description }}</p>
 
+    <app-attachments [attachments]="topic.attachments"></app-attachments>
+
     <p *ngIf="topic.allow_skip">{{ 'topics.skipQuestions' | translate }}</p>
     <p *ngIf="!topic.allow_skip">{{ 'topics.noSkipQuestions' | translate }}</p>
 
-    <app-attachments [attachments]="topic.attachments"></app-attachments>
-
 
     <p *ngIf="!topic || !topic.questions || !topic.questions.length "> No topics in this assessment</p>
-    <button *ngIf="topic && topic.questions && topic.questions.length"  class="start-button"
-            [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()">
-        {{ 'start' | translate }}
-    </button>
+    <app-primary-btn *ngIf="topic && topic.questions && topic.questions.length"
+                     [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()"
+                     [text]=" 'start' | translate "
+                     [iconUrl]="translate.currentLang === 'ara' ?
+                'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+    ></app-primary-btn>
 </div>
