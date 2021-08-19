@@ -1,7 +1,8 @@
 <!--<app-header></app-header>-->
 <div class="light-yellow-bg" *ngIf="question; else questionNotAvailable">
     <div class="progress_bar">
-        <img class="pointer" [routerLink]="['/home']" src="assets/icons/left_arrow_24.svg">
+        <img class="pointer" [routerLink]="['/home']"
+             [src]=" translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
         <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
         </mat-progress-bar>
     </div>
