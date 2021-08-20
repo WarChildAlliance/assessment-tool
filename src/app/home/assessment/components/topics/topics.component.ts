@@ -50,7 +50,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             ).subscribe(
                 topics => {
                     topics.forEach(topic => {
-                        const cachedCompetency = (user.competencies.find(c => c.topicId === topic.id))?.competency;
+                        const cachedCompetency = (user.competencies?.find(c => c.topicId === topic.id))?.competency;
                         topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency);
                         const stars = topic.competency.filter((item) => item === true).length;
                         topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
