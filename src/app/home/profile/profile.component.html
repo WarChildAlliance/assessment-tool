@@ -4,14 +4,14 @@
     <div class="avatars">
         <div *ngFor="let avatar of avatars">
             <img class="avatar" width="120" height="120" src="{{ getAvatarUrl(avatar) }}"/>
-            <button [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.total_competency" mat-flat-button
+            <button (click)="avatar.unlocked && !avatar.selected ? selectAvatar(avatar) : unlockAvatar(avatar)"
+                    [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.total_competency" mat-flat-button
                     color="primary">
                 <img *ngIf="!avatar.unlocked && !avatar.selected" width="42" height="42"
                      src="assets/icons/honey_pot_btn.svg">
-                <span *ngIf="!avatar.unlocked" (click)="unlockAvatar(avatar)">{{avatar.effort_cost}}</span>
+                <span *ngIf="!avatar.unlocked">{{avatar.effort_cost}}</span>
                 <span *ngIf="avatar.unlocked && avatar.selected">{{'profile.selected' | translate}}</span>
-                <span *ngIf="avatar.unlocked && !avatar.selected"
-                      (click)="selectAvatar(avatar)">{{'profile.unlocked' | translate}}</span>
+                <span *ngIf="avatar.unlocked && !avatar.selected">{{'profile.unlocked' | translate}}</span>
             </button>
         </div>
     </div>

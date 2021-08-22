@@ -8,11 +8,10 @@
                     <mat-form-field appearance="outline">
                         <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}"/>
                     </mat-form-field>
-                    <button class="main-btn" mat-flat-button color="primary" type="submit"
-                            [disabled]="authForm.invalid">
-                        {{ 'auth.login' | translate}}
-                        <img src="assets/icons/right_arrow_24.svg"/>
-                    </button>
+                    <app-primary-btn [text]="'auth.login' | translate"
+                                     [iconUrl]="translate.currentLang === 'ara' ?
+                                        'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                                     [isDisabled]="authForm.invalid"></app-primary-btn>
                 </div>
             </form>
         </mat-grid-tile>

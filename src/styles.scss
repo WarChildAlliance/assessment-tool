@@ -129,7 +129,7 @@ div.green-gradient-bg {
 
 body {
   font-family: "Cairo", sans-serif;
-  background-color: white-bg;
+  background-color: white;
   color: #70504a;
   max-width: 1024px;
   min-width: 360px;
@@ -137,10 +137,10 @@ body {
 }
 
 .correct-answer {
-  color: white;
-  padding: 0 15px;
-  border-radius: 1rem;
-  background-color: #7EBF9A;
+  color: #009688;
+  font-size: 32px;
+  font-weight: normal;
+  margin-top: 2rem;
 }
 
 .incorrect-answer {
@@ -149,23 +149,6 @@ body {
   border-radius: 1rem;
   background-color: #F2836B;
 }
-
-// ******** Style for button of login, dialog confirmation and question submit/continue ********
-
-.main-btn {
-  border-radius: 6.25rem !important;
-  padding: 0.5rem !important;
-  font-size: 28px;
-
-  img {
-    position: absolute;
-    right: 1rem;
-    top: 0.9rem;
-  }
-}
-
-// ******** End of main button ********
-
 
 button:disabled,
 button[disabled] {
@@ -197,7 +180,7 @@ $tour-text-color: assessment-tool-accent;
 $tour-next-text-color: white;
 $tour-next-button-color: #FBC02D;
 $tour-next-button-hover: #FFF59D;
-$tour-back-button-color : #FFDC64;
+$tour-back-button-color: #FFDC64;
 $tour-skip-link-color: #a5a5a5;
 
 

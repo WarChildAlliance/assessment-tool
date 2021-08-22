@@ -1,17 +1,16 @@
 .assessment-btn {
-  margin: 0 auto;
   height: 80px;
   width: 100%;
   max-width: 600px;
   background: white;
   border-radius: 9.25rem;
-  line-height: 0;
   margin-bottom: 20px;
 
   img {
-    position: absolute;
-    left: 0.5rem;
-    top: 0.5rem;
+    float: left;
+    margin-left: -0.5rem;
+    margin-top: 0.15rem;
+    margin-right: 0.5rem;
     border-radius: 5rem;
   }
 }
@@ -19,4 +18,16 @@
 h1 {
   font-size: 2.87rem;
   font-weight: normal;
+  margin: 0;
+  line-height: 1.5;
 }
+
+button h1 {
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+
