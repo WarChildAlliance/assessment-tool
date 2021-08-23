@@ -2,7 +2,7 @@
     <ng-container *ngFor="let attachment of attachments">
         <div class="audio-attachment" *ngIf="attachment.attachment_type === 'AUDIO'">
             <button mat-icon-button [appAudioPlay]="attachment.file">
-                <mat-icon svgIcon="volume_up"></mat-icon>
+                <img src="assets/icons/audio_48.svg" alt="">
             </button>
         </div>
         <div class="img-attachment" *ngIf="attachment.attachment_type === 'IMAGE'">
