@@ -1,4 +1,11 @@
 <div>
-    <img class="pointer" src="assets/icons/left_arrow_24.svg">
-    {{ text | translate }}
+    <ng-container *ngIf="translate.currentLang === 'ara'">
+        {{ text | translate }}
+    </ng-container>
+    <img [ngStyle]="{'float': 'left'}" class="pointer" [src]="translate.currentLang === 'ara' ?
+                                        'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'">
+
+    <ng-container *ngIf="translate.currentLang !== 'ara'">
+        {{ text | translate }}
+    </ng-container>
 </div>

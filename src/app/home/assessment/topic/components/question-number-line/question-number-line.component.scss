@@ -1,44 +1,44 @@
 .number-line {
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 30px;
+  text-align: center;
 
-    .number-line-slider {
-        width: 80%;
+  .number-line-slider {
+    width: 80%;
 
-        ::ng-deep {
-            .mat-slider-ticks-container {
-                display: flex;
-                align-items: center;
-                overflow: visible;
+    ::ng-deep {
+      .mat-slider-ticks-container {
+        display: flex;
+        align-items: center;
+        overflow: visible;
 
-                .mat-slider-ticks {
-                    height: 12px;
+        .mat-slider-ticks {
+          height: 12px;
 
-                    background-image: repeating-linear-gradient(
-                        to right,
-                        rgba(0, 0, 0, 0.2),
-                        rgba(0, 0, 0, 0.4) 1px,
-                        transparent 0,
-                        transparent
-                    );
+          background-image: repeating-linear-gradient(
+                          to right,
+                          rgba(0, 0, 0, 0.2),
+                          rgba(0, 0, 0, 0.4) 1px,
+                          transparent 0,
+                          transparent
+          );
 
-                    // The last tick doesn't display properly on the default styling
-                    // so this is a trick to replace it by a border-right
-                    border-right: 1px solid rgba(0, 0, 0, 0.7);
-                }
-            }
-
-            .mat-slider-thumb,
-            .mat-slider-thumb-label {
-                background-color: #607d8b !important;
-            }
-
-            .mat-slider-thumb-label {
-                right: -10px !important;
-                top: -32px !important;
-                height: 20px !important;
-                width: 20px !important;
-            }
+          // The last tick doesn't display properly on the default styling
+          // so this is a trick to replace it by a border-right
+          border-right: 1px solid rgba(0, 0, 0, 0.7);
         }
+      }
+
+      .mat-slider-thumb,
+      .mat-slider-thumb-label {
+        background-color: #FFC850 !important;
+      }
+
+      .mat-slider-thumb-label {
+        right: -10px !important;
+        top: -32px !important;
+        height: 20px !important;
+        width: 20px !important;
+      }
     }
+  }
 }

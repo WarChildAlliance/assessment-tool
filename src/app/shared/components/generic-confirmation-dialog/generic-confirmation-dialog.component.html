@@ -11,16 +11,30 @@
         <div *ngSwitchCase="'translation'">{{ content | translate }}</div>
         <div *ngSwitchCase="'text'">{{content}}</div>
     </mat-dialog-content>
-    <mat-dialog-actions align="center">
-        <button class="main-btn" color="primary" *ngIf="cancelBtn" mat-flat-button cdkfocusinitial
-                [mat-dialog-close]="false">
-            {{ cancelBtnText | translate }}
-            <img width="24" height="24" src="assets/icons/cross_32.svg" alt="">
-        </button>
-        <button class="main-btn" mat-flat-button color="primary"
-                [mat-dialog-close]="true">
-            {{ confirmBtnText | translate }}
-            <img src="assets/icons/check_24.svg" alt="">
-        </button>
+    <mat-dialog-actions>
+        <app-primary-btn *ngIf="cancelBtn" [mat-dialog-close]="false"
+                         width="180px"
+                         [text]="cancelBtnText | translate"
+                         iconUrl="assets/icons/cross_32.svg">
+
+        </app-primary-btn>
+
+        <app-primary-btn [mat-dialog-close]="true"
+                         width="180px"
+                         [text]="confirmBtnText | translate"
+                         iconUrl="assets/icons/check_24.svg">
+
+        </app-primary-btn>
+
+<!--        <button class="main-btn" color="primary" *ngIf="cancelBtn" mat-flat-button cdkfocusinitial-->
+        <!--                [mat-dialog-close]="false">-->
+        <!--            {{ cancelBtnText | translate }}-->
+        <!--            <img width="24" height="24" src="assets/icons/cross_32.svg" alt="">-->
+        <!--        </button>-->
+        <!--        <button class="main-btn" mat-flat-button color="primary"-->
+        <!--                [mat-dialog-close]="true">-->
+        <!--            {{ confirmBtnText | translate }}-->
+        <!--            <img src="assets/icons/check_24.svg" alt="">-->
+        <!--        </button>-->
     </mat-dialog-actions>
 </div>

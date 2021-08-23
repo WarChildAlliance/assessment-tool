@@ -15,4 +15,5 @@ export interface Topic {
   evaluated?: boolean;
   max_wrong_answers: number;
   icon: string;
+  ribbon?: string;
 }

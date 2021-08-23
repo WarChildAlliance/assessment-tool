@@ -11,6 +11,7 @@ import { AssisstantComponent } from './components/assisstant/assisstant.componen
 import { RouterModule } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BackNavigationComponent } from './components/back-navigation/back-navigation.component';
+import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { BackNavigationComponent } from './components/back-navigation/back-navig
         GenericConfirmationDialogComponent,
         HeaderComponent,
         AssisstantComponent,
-        BackNavigationComponent
+        BackNavigationComponent,
+        PrimaryBtnComponent
     ],
     imports: [
         CommonModule,
@@ -35,7 +37,8 @@ import { BackNavigationComponent } from './components/back-navigation/back-navig
         AudioPlayDirective,
         HeaderComponent,
         AssisstantComponent,
-        BackNavigationComponent
+        BackNavigationComponent,
+        PrimaryBtnComponent
     ]
 })
 export class SharedModule {

@@ -23,10 +23,11 @@ export class AlertService {
     return this.open(message, this.errorConfig, action);
   }
 
-  private open(message: string, config: MatSnackBarConfig, action?: string): void {
+  private open(message: string = 'Unknown username. Contact your teacher in case you forgot your code',
+               config: MatSnackBarConfig, action?: string): void {
     if (action) {
       config.duration = undefined;
     }
-    this.snackbar.open('Unknown username. Contact your teacher in case you forgot your code', action, config);
+    this.snackbar.open(message, action, config);
   }
 }

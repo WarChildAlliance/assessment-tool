@@ -20,24 +20,29 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private readonly pageID = 'topics-page';
     private user = null;
 
+    public assessmentTitle = '';
+
     constructor(
         private route: ActivatedRoute,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
         private cacheService: CacheService
-    ) { }
+    ) {
+    }
 
     subject: string;
 
     ngOnInit(): void {
-        this.cacheService.getData('active-user').then( user => {
+        this.cacheService.getData('active-user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
                 switchMap((params: ParamMap) => {
                     this.subject = params.get('subject');
                     if (params.has('assessment_id')) {
                         const id = parseInt(params.get('assessment_id'), 10);
+                        this.assessmentService.getAssessment(id)
+                            .subscribe(assessment => this.assessmentTitle = assessment.title);
                         return this.assessmentService.getAssessmentTopics(id);
                     }
                     throwError('No assessment id provided');
@@ -45,8 +50,11 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             ).subscribe(
                 topics => {
                     topics.forEach(topic => {
-                        const cachedCompetency = (user.competencies.find(c => c.topicId === topic.id))?.competency;
-                        topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency ? true : false);
+                        const cachedCompetency = (user.competencies?.find(c => c.topicId === topic.id))?.competency;
+                        topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency);
+                        const stars = topic.competency.filter((item) => item === true).length;
+                        topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
+                            stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
                     });
                     this.topics = topics;
                 }
@@ -62,11 +70,9 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     getTopicIcon(topic: Topic): string {
 
-        const imageUrl = topic.icon ?
+        return topic.icon ?
             (environment.API_URL + topic.icon) :
-            'assets/icons/Bee.svg';
-
-        return imageUrl;
+            'assets/yellow_circle.svg';
     }
 
 }

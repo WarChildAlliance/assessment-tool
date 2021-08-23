@@ -2,12 +2,15 @@
   background: white;
   display: flex;
   padding: 1rem;
+
+  img {
+    margin: 0 0.5rem;
+  }
 }
 
 h2 {
   font-weight: 500;
 }
-
 
 button {
   width: 60%;
