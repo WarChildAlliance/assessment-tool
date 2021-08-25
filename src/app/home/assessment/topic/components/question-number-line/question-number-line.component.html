@@ -1,17 +1,19 @@
 <div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="number-line"
      [dir]="translate.currentLang === 'ara' ? 'rtl' : 'ltr'">
-    <span>{{ question.start }}</span>
-    <mat-slider class="number-line-slider"
-                [color]="displayCorrectAnswer.getValue() && !!answer && !answer.valid ? 'warn' : 'primary'"
-                [max]="question.end"
-                [min]="question.start"
-                [step]="question.step"
-                [thumbLabel]="question.show_value"
-                [tickInterval]="question.show_ticks ? question.step : 0"
-                [formControl]="valueForm"
-                aria-labelledby="example-name-label">
+    <span>{{translate.currentLang === 'ara' ? question.end : question.start }}</span>
+    <mat-slider
+            style="overflow-x: hidden"
+            class="number-line-slider"
+            [color]="displayCorrectAnswer.getValue() && !!answer && !answer.valid ? 'warn' : 'primary'"
+            [max]="question.end"
+            [min]="question.start"
+            [step]="question.step"
+            [thumbLabel]="question.show_value"
+            [tickInterval]="question.show_ticks ? question.step : 0"
+            [formControl]="valueForm"
+            [invert]="translate.currentLang === 'ara'">
     </mat-slider>
-    <span>{{ question.end }}</span>
+    <span>{{ translate.currentLang === 'ara' ? question.start : question.end }}</span>
 </div>
 <div class="correct-answer" *ngIf="displayCorrectAnswer.getValue()">
     {{ "question.correctAnswer" | translate }} {{question.expected_value}}
