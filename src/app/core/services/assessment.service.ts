@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Assessment } from '../models/assessment.model';
 import { GeneralQuestion } from '../models/question.model';
 import { Topic } from '../models/topic.models';
+import { CacheService } from './cache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,15 @@ export class AssessmentService {
   activeTopic: Topic;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private cacheService: CacheService
   ) { }
 
   getAssessments(): Observable<Assessment[]> {
-    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/`).pipe(
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments;
+      }
 
       /*
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
@@ -56,44 +60,59 @@ export class AssessmentService {
       // END OF TEMPORARY
       */
 
-      );
+    ));
   }
 
   getAssessment(assessmentId: number): Observable<Assessment> {
-    return this.http.get<Assessment>(`${environment.API_URL}/assessments/${assessmentId}/`);
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments
+          .find(assessment => (assessment.id === assessmentId));
+      }
+    ));
   }
 
   getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
-    return forkJoin({
-      topics: this.http.get<Topic[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/`),
-      competencies: this.http.get<any[]>(`${environment.API_URL}/gamification/topic-competencies/`)
-    }).pipe(
-      map(
-        res => {
-          for (const topic of res.topics) {
-            const matchingCompetency = res.competencies.find(competency => competency.topic === topic.id);
-            topic.competency = matchingCompetency ? matchingCompetency.competency : null;
-          }
-          return res.topics;
-        })
-    );
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments
+          .find(assessment => (assessment.id === assessmentId)).topics;
+      }
+    ));
   }
 
-  getAssessmentTopicWithQuestions(assessmentId: number, topicId: number): Observable<Topic> {
-    return this.http.get<Topic>(`${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/`).pipe(
-      switchMap(
-        topic => this.getAssessmentTopicQuestions(assessmentId, topicId).pipe(
-          map(questions => {
-            topic.questions = questions.sort((a, b) => a.order - b.order);
-            return topic;
-          })
-        )
-      )
-    );
+  getAssessmentTopic(assessmentId: number, topicId: number): Observable<Topic> {
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments
+          .find(assessment => (assessment.id === assessmentId)).topics
+          .find(topic => (topic.id === topicId));
+      }
+    ));
   }
-
 
   getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
-    return this.http.get<GeneralQuestion[]>(`${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/`);
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments
+          .find(assessment => (assessment.id === assessmentId)).topics
+          .find(topic => (topic.id === topicId)).questions;
+      }
+    ));
+  }
+
+  getAssessmentTopicQuestion(assessmentId: number, topicId: number, questionId: number): Observable<GeneralQuestion> {
+    return from(this.cacheService.getData('assessments').then(
+      (assessments) => {
+        return assessments
+          .find(assessment => (assessment.id === assessmentId)).topics
+          .find(topic => (topic.id === topicId)).questions
+          .find(question => (question.id === questionId));
+      }
+    ));
+  }
+
+  getAssessmentsDeep(): Observable<Assessment[]> {
+    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_all/`);
   }
 }
