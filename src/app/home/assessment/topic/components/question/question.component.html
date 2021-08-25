@@ -39,7 +39,8 @@
                      [text]="(!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate)"
                      iconUrl="assets/icons/check_24.svg"
                      width="60%"
-                     (click)="submitAnswer()">
+                     (click)="submitAnswer()"
+                     class="main-btn">
     </app-primary-btn>
 
     <app-primary-btn *ngIf="displayCorrectAnswer.getValue()"
@@ -47,7 +48,8 @@
                      [iconUrl]="translate.currentLang === 'ara' ?
                         'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
                      width="60%"
-                     (click)="submitAndGoNextPage()">
+                     (click)="submitAndGoNextPage()"
+                     class="main-btn">
     </app-primary-btn>
 
 </div>

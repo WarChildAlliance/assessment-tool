@@ -6,7 +6,7 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-topic',

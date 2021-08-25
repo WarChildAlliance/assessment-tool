@@ -63,7 +63,9 @@ export class TutorialService {
     steps.push({
       title: this.translateService.instant('tutorial.welcome'),
       content: this.translateService.instant('tutorial.introduction'),
-      action: () => { this.playAudio('assets/tutorial/audio/step0.aac'); }
+      action: () => {
+        this.playAudio('assets/tutorial/audio/test.ogg');
+      }
     });
 
     steps.push({
@@ -215,7 +217,7 @@ export class TutorialService {
   playAudio(path: string): void {
     const audio = new Audio();
     audio.src = path;
-    // audio.load();
-    // audio.play();
+    audio.load();
+    audio.play();
   }
 }

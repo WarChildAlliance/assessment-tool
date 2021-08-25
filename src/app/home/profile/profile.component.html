@@ -5,7 +5,7 @@
         <div *ngFor="let avatar of avatars">
             <img class="avatar" width="120" height="120" src="{{ getAvatarUrl(avatar) }}"/>
             <button (click)="avatar.unlocked && !avatar.selected ? selectAvatar(avatar) : unlockAvatar(avatar)"
-                    [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.total_competency" mat-flat-button
+                    [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.effort" mat-flat-button
                     color="primary">
                 <img *ngIf="!avatar.unlocked && !avatar.selected" width="42" height="42"
                      src="assets/icons/honey_pot_btn.svg">

@@ -12,6 +12,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Cairo";
+  src: url("/assets/fonts/Cairo-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 $assessment-tool-typography: mat-typography-config(
         $font-family: "Mada",
 );

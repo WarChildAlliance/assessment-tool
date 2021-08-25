@@ -16,6 +16,7 @@
                      [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()"
                      [text]=" 'start' | translate "
                      [iconUrl]="translate.currentLang === 'ara' ?
-                'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                    'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                    class="start-button"
     ></app-primary-btn>
 </div>
