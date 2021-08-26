@@ -1,5 +1,12 @@
 ::ng-deep ngx-guided-tour .tour-step {
-    .tour-content, h2.tour-title  {
-        text-align: center;
-    }
+  .tour-content, h2.tour-title {
+    text-align: center;
+  }
+
+  .tour-block {
+    background: #FFFBEB !important;
+    border-radius: 1.25rem !important;
+    max-width: 550px;
+  }
 }
+

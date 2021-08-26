@@ -1,72 +1,72 @@
 export const PraiseTexts = [
     {
-        text: 'You must have tried hard on this question!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise1',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise1.ogg'
     },
     {
-        text: 'Good job!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise2',
+        image: './src/assets/praise-icons/bee-wabe.png',
+        audio: 'praise/Praise2.ogg'
     },
     {
-        text: 'Great job!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise3',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise3.ogg'
     },
     {
-        text: 'You are doing a great job!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
-        },
-    {
-        text: 'You are making good effort!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise4',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise4.ogg'
     },
     {
-        text: 'You are good at that!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise5',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise5.ogg'
     },
     {
-        text: 'You are very good at this!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
-        },
-    {
-        text: 'Good!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise6',
+        image: './src/assets/praise-icons/bee-wabe.png',
+        audio: 'praise/Praise6.ogg'
     },
     {
-        text: 'Nice!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise7',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise7.ogg'
     },
     {
-        text: 'You got it! ',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise8',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise8.ogg'
     },
     {
-        text: 'Nice picture! ',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise9',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise9.ogg'
     },
     {
-        text: 'You got this!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
-        },
-    {
-        text: 'The more you try, the more you learn',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise10',
+        image: './src/assets/praise-icons/bee-wabe.png',
+        audio: 'praise/Praise10.ogg'
     },
     {
-        text: 'When you work on something, you get better at it!',
-        image: './src/assets/icons/bee-32.svg',
-        audio: ''
+        text: 'praise11',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise11.ogg'
+    },
+    {
+        text: 'praise12',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise12.ogg'
+    },
+    {
+        text: 'praise13',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise13.ogg'
+    },
+    {
+        text: 'praise14',
+        image: './src/assets/praise-icons/bee-honey.png',
+        audio: 'praise/Praise14.ogg'
     }
 ];

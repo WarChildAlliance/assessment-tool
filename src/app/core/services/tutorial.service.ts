@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 export class TutorialService {
 
   private tourDict = {};
+  private audio = new Audio();
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
@@ -63,16 +64,14 @@ export class TutorialService {
     steps.push({
       title: this.translateService.instant('tutorial.welcome'),
       content: this.translateService.instant('tutorial.introduction'),
-      action: () => {
-        this.playAudio('assets/tutorial/audio/test.ogg');
-      }
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialBeeWelcome.ogg'); }
     });
 
     steps.push({
       selector: '.assessment-btn',
       content: this.translateService.instant('tutorial.startAssessment'),
       orientation: Orientation.Bottom,
-      action: () => { this.playAudio('assets/tutorial/audio/step2.aac'); }
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialStartAssessment.ogg'); }
     });
 
     this.tourDict[PageNames.assessment] = this.defineTour(steps, PageNames.assessment);
@@ -84,7 +83,8 @@ export class TutorialService {
     steps.push({
       selector: '.topics-container',
       content: this.translateService.instant('tutorial.startTopic'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialStartTopic.ogg'); }
     });
 
     this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
@@ -95,7 +95,8 @@ export class TutorialService {
     steps.push({
       selector: '.start-button',
       content:  this.translateService.instant('tutorial.startQuestion'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialPractiseQuestions.ogg'); }
     });
     this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
   }
@@ -106,13 +107,15 @@ export class TutorialService {
     steps.push({
       selector: '.question-title',
       content: this.translateService.instant('tutorial.selectQuestionTitle'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/selectQuestionTitle.ogg'); }
     });
 
     steps.push({
       selector: 'section',
       content: this.translateService.instant('tutorial.selectQuestionOptions'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/selectQuestionOptions.ogg'); }
     });
     this.tourDict[PageNames.questionSelect] = this.defineTour(steps, PageNames.questionSelect);
   }
@@ -122,18 +125,21 @@ export class TutorialService {
 
     steps.push({
       content: this.translateService.instant('tutorial.numberLineQuestionIntroduction'),
+      action: () => { this.playAudio('assets/tutorial/audio/numberLineQuestionIntroduction.ogg'); }
     });
 
     steps.push({
       selector: '.question-title',
       content: this.translateService.instant('tutorial.numberLineQuestionTitle'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/numberLineQuestionTitle.ogg'); }
     });
 
     steps.push({
       selector: '.number-line',
       content: this.translateService.instant('tutorial.numberLineQuestionAnswer'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/numberLineQuestionAnswer.ogg'); }
     });
 
     this.tourDict[PageNames.questionNumberLine] = this.defineTour(steps, PageNames.questionNumberLine);
@@ -149,10 +155,12 @@ export class TutorialService {
     steps.push({
       selector: '.main-btn',
       content: this.translateService.instant('tutorial.answerSubmit'),
-      orientation: Orientation.Top
+      orientation: Orientation.Top,
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialSubmitButton.ogg'); }
     });
     steps.push({
       content: this.translateService.instant('tutorial.starsCollection'),
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialStars.ogg'); }
     });
     this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.question);
   }
@@ -161,9 +169,11 @@ export class TutorialService {
     const steps: TourStep[] = [];
     steps.push({
       content: this.translateService.instant('tutorial.honeypotCollection'),
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialHoneypots.ogg'); }
     });
     steps.push({
       content: this.translateService.instant('tutorial.toProfilePage'),
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialProfilePage.ogg'); },
       closeAction: () => { // redirects the user for the next page where the tutorial happens
         this.router.navigate(['../../../profile']);
       }
@@ -175,24 +185,29 @@ export class TutorialService {
     const steps: TourStep[] = [];
     steps.push({
       content: this.translateService.instant('tutorial.avatarShop'),
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialNewCharacter.ogg'); },
     });
     steps.push({
       selector: '.avatars',
       content: this.translateService.instant('tutorial.unlockingAvatars'),
-      orientation: Orientation.Top
+      orientation: Orientation.Top,
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialCollectCharacter.ogg'); },
     });
     steps.push({
       selector: '.info',
       content: this.translateService.instant('tutorial.theFriendlyBee'),
-      orientation: Orientation.Bottom
+      orientation: Orientation.Bottom,
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialBeeClick.ogg'); },
     });
     steps.push({
-      content:  this.translateService.instant('tutorial.end')
+      content:  this.translateService.instant('tutorial.end'),
+      action: () => { this.playAudio('assets/tutorial/audio/Tutorial.ogg'); },
     });
     steps.push({
       selector: '.top-left-logo',
       orientation: Orientation.Right,
       content: this.translateService.instant('tutorial.redirection'),
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialTutorialEnd.ogg'); },
       closeAction: () => {
         this.setCompleted(true);
       }
@@ -215,9 +230,10 @@ export class TutorialService {
   }
 
   playAudio(path: string): void {
-    const audio = new Audio();
-    audio.src = path;
-    audio.load();
-    audio.play();
+    this.audio.src = path;
+    if (this.translateService.currentLang === 'ara') {
+        this.audio.load();
+        this.audio.play();
+    }
   }
 }

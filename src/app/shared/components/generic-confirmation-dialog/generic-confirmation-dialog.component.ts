@@ -59,7 +59,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
             this.imageURL = '../../../../assets/' + data.imageURL;
         }
         if (data.audioURL) {
-            this.audioURL = '../../../../assets/' + data.audioURL ;
+            this.audioURL = 'assets/audios/' + data.audioURL;
         }
 
     }

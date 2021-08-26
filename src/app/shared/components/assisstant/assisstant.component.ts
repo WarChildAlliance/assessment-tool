@@ -30,6 +30,7 @@ export class AssisstantComponent implements OnInit {
                 title: 'hi',
                 content: this.currentPageContent.content,
                 contentType: 'translation',
+                audioURL: this.currentPageContent.audioURL,
                 confirmBtnText: 'OK',
                 confirmBtnColor: 'primary',
             }

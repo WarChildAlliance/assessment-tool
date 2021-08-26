@@ -3,63 +3,63 @@ export const AssisstantContent = [
     pageID: 'assessments-page',
     content: 'assessmentsAssisstant',
     pictureURL: '',
-    audioURL: '',
+    audioURL: 'assessmentsAssisstant.ogg',
     tutorialID: ''
     },
     {
     pageID: 'topics-page',
     content: 'topicsAssisstant',
     pictureURL: '',
-    audioURL: '',
+    audioURL: 'topicsAssisstant.ogg',
     tutorialID: ''
     },
     {
     pageID: 'topic-page',
     content: 'topicAssisstant',
     pictureURL: '',
-     audioURL: '',
+     audioURL: 'topicAssisstant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'question-input-page',
      content: 'questionAssisstant',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'questionInputPageAssistant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'question-number-line-page',
      content: 'questionNumberLineAssisstant',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'questionNumberLineAssisstant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'question-select-page',
      content: 'questionSelectAssisstant',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'questionSelectAssisstant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'question-sort-page',
      content: 'questionSortPage',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'questionSortPageAssisstant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'completed-topic-page',
      content: 'completedTopicAssisstant',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'completedTopicAssisstant.ogg',
      tutorialID: ''
     },
     {
     pageID: 'profile-page',
      content: 'profileAssisstant',
      pictureURL: '',
-     audioURL: '',
+     audioURL: 'profileAssisstant.ogg',
      tutorialID: ''
     },
 ];
