@@ -219,7 +219,7 @@ export class QuestionComponent implements OnInit {
     this.answer = null;
 
     // If the maximum number of invalid answers has been reached
-    if (this.topic.max_wrong_answers && (this.invalidAnswersStreak > this.topic.max_wrong_answers)) {
+    if (this.topic.max_wrong_answers && (this.invalidAnswersStreak >= this.topic.max_wrong_answers)) {
 
       // Get all the questions left unanswered by the student
       const questionsLeft = this.topic.questions.slice(this.questionIndex + 1);

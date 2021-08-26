@@ -38,6 +38,11 @@ export class UserService {
           if (res.user.role !== UserRoles.Student) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
+          // TODO only temporary. Should be set in the BE as default
+          if (!res.user.profile.current_avatar && res.avatars) {
+            res.user.profile.current_avatar = res.avatars[0];
+            res.avatars[0].unlocked = true;
+          }
           return res.user;
       }),
       tap(user => {

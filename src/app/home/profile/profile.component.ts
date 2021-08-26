@@ -70,9 +70,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
         this.cacheService.setData('active-user', newUser);
 
-        this.profileService.updateProfile(newUser.profile).subscribe (response => {
-          console.log('TODO show success message', response);
-        });
+        this.profileService.updateProfile(newUser.profile).subscribe (response => {});
         this.userService.updateUser(newUser);
       });
 
