@@ -90,7 +90,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                 this.answerService.endTopicAnswer().subscribe();
             });
 
-            this.route.data.subscribe(res => res.topic.id === 18 ? this.blockNavigation = false : this.blockNavigation = true);
+            // this.route.data.subscribe(res => res.topic.id === 18 ? this.blockNavigation = false : this.blockNavigation = true);
             }
         );
 
