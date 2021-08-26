@@ -40,10 +40,11 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                 switchMap((params: ParamMap) => {
                     this.subject = params.get('subject');
                     if (params.has('assessment_id')) {
-                        const id = parseInt(params.get('assessment_id'), 10);
-                        this.assessmentService.getAssessment(id)
-                            .subscribe(assessment => this.assessmentTitle = assessment.title);
-                        return this.assessmentService.getAssessmentTopics(id);
+                        const assessmentId = parseInt(params.get('assessment_id'), 10);
+                        this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
+                            this.assessmentTitle = assessment.title;
+                        });
+                        return this.assessmentService.getAssessmentTopics(assessmentId);
                     }
                     throwError('No assessment id provided');
                 })

@@ -7,11 +7,11 @@ import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 
 @Component({
-    selector: 'app-assessments',
-    templateUrl: './assessments.component.html',
-    styleUrls: ['./assessments.component.scss']
+  selector: 'app-assessments',
+  templateUrl: './assessments.component.html',
+  styleUrls: ['./assessments.component.scss']
 })
-export class AssessmentsComponent implements OnInit, AfterViewInit{
+export class AssessmentsComponent implements OnInit, AfterViewInit {
 
   pageName = PageNames.assessment;
   assessments: Assessment[];
@@ -40,8 +40,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit{
   }
 
   getAssessmentIcon(assessment: Assessment): string {
-        return assessment.icon ?
-            (environment.API_URL + assessment.icon) :
-            'assets/icons/flowers/purple_64.svg';
+    return assessment.icon ?
+      (environment.API_URL + assessment.icon) :
+      'assets/icons/flowers/purple_64.svg';
   }
 }

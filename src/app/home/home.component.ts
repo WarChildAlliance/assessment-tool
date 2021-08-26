@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
 
         this.cacheService.networkStatus.subscribe((online: boolean) => {
             if (online) {
-                this.loadAllAssessmentsData();
                 this.sendStoredMutations();
             }
         });
@@ -70,45 +69,8 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    // Fetch all the assessments data at once from the API
-    private loadAllAssessmentsData(): void {
-        this.assessmentService.getAssessmentsDeep().subscribe(assessments => {
-            this.cacheService.setData('assessments', assessments);
-            for (const assessment of assessments) {
-                this.getIcon(assessment.icon);
-                for (const topic of assessment.topics) {
-                    this.getIcon(topic.icon);
-                    for (const question of topic.questions) {
-                        this.getAttachments(question.attachments);
-                        if (question.hasOwnProperty('options')) {
-                            for (const option of (question as QuestionSort | QuestionSelect).options) {
-                                this.getAttachments(option.attachments);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Fetch the icon from the backend to allow accessing it offline
-    private getIcon(icon: string): void {
-        if (!icon) { return; }
-
-        this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
-    }
-
-    // Fetch the attachments from the backend to allow accessing them offline
-    //  (this could probably be refactored in a single function with the above)
-    private getAttachments(attachments: Attachment[]): void {
-        if (!attachments || !attachments.length) { return; }
-
-        for (const attachment of attachments) {
-            this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
-        }
-    }
-
     // Send all the stored requests from the IndexedDb
+    // Why is this done here and not directly in the cacheService ?
     private sendStoredMutations(): void {
         from(this.cacheService.getRequests()).subscribe((requests: { key: number, value: HttpRequest<unknown> }[]) => {
             for (const request of requests) {
