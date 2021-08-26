@@ -176,6 +176,7 @@ export class QuestionComponent implements OnInit {
         disableClose: true,
         data: {
           content: praise.text,
+          audioURL: praise.audio,
           confirmBtnText: 'continue',
           confirmBtnColor: 'primary',
           cancelBtn: false,

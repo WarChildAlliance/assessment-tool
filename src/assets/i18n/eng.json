@@ -29,10 +29,10 @@
   "exitInfo": "If you exit now, you will be redirected to the Home page.",
   "skipSure": "Are you sure you want to skip this question?",
   "info": "Info here is coming up",
-  "praise1": "Great job!",
-  "praise2": "There you go!",
-  "praise3": "The more you try, the more you learn!",
-  "praise4": "You got this!",
+  "praise1": "You must have tried hard on this question!",
+  "praise2": "Good job!",
+  "praise3": "Great job!",
+  "praise4": "You are doing a great job!",
   "gainedPoints": "You got",
   "topics": {
     "noSkipQuestions": "Questions can't be skipped",
@@ -77,5 +77,15 @@
     "code": "Enter code"
   },
   "back": "Back",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "praise5": "You are making good effort!",
+  "praise6": "You are good at that!",
+  "praise7": "You are very good at this!",
+  "praise8": "Good!",
+  "praise9": "Nice!",
+  "praise10": "You got it! ",
+  "praise11": "Nice picture! ",
+  "praise12": "You got this!",
+  "praise13": "The more you try, the more you learn!",
+  "praise14": "When you work on something, you get better at it!"
 }

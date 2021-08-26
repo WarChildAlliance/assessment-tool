@@ -39,7 +39,6 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
         if (data.content) {
             this.content = data.content;
-            console.log('CONTENT', this.content);
         }
         if (data.contentType) {
             this.contentType = data.contentType;
@@ -60,7 +59,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
             this.imageURL = '../../../../assets/' + data.imageURL;
         }
         if (data.audioURL) {
-            this.audioURL = '../../../../assets/audios/' + data.audioURL ;
+            this.audioURL = 'assets/audios/' + data.audioURL;
         }
 
     }
