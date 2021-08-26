@@ -16,7 +16,7 @@ mat-dialog-actions {
 
 #container {
   text-align: center;
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem;
 
   h1 {
     margin: 5px;
@@ -27,10 +27,12 @@ mat-dialog-actions {
     flex-direction: column;
     align-items: center;
 
-    .audio {
-      margin: 10px;
-    }
 
   }
+}
+
+.audio {
+  text-align: right;
+  width: 100%;
 }
 

@@ -1,5 +1,8 @@
-<img src="assets/flower_green.svg"/>
+<img class="flower" src="assets/flower_green.svg"/>
 <div class="light-yellow-bg">
+    <button mat-icon-button appAudioPlay="assets/audios/login.ogg">
+        <img src="assets/icons/audio_48.svg" alt="">
+    </button>
     <mat-grid-list cols="1">
         <mat-grid-tile>
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
@@ -15,7 +18,7 @@
                 </div>
             </form>
         </mat-grid-tile>
-        <img src="assets/flower_purple.svg"/>
+        <img class="flower" src="assets/flower_purple.svg"/>
     </mat-grid-list>
 </div>
-<img src="assets/flower_cyan.svg"/>
+<img class="flower" src="assets/flower_cyan.svg"/>

@@ -27,7 +27,7 @@ form > img {
   position: relative;
 }
 
-img {
+.flower {
   position: absolute;
 }
 
@@ -67,4 +67,11 @@ input:-webkit-autofill:active {
 
 input:-webkit-autofill {
   -webkit-text-fill-color: #70504A !important;
+}
+
+button {
+  float: right;
+  margin-top: 2.5rem;
+  margin-right: 4.5rem;
+  z-index: 99;
 }
