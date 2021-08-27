@@ -61,8 +61,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             this.cacheService.getData('active-user').then(user => {
                 const newUser = { ...user };
 
-                const oldCompetency = (user.competencies?.find(competency => (competency.assessmentId === this.topic.assessment
-                    && competency.topicId === this.topic.id)))?.competency;
+                const oldCompetency = (user.profile.topics_competencies?.find(competency => (competency.assessmentId === this.topic.assessment&& competency.topicId === this.topic.id)))?.competency;
 
                 let newCompetency = 0;
                 let difference = 0;
@@ -77,7 +76,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
-                newUser.competencies.forEach(element => {
+                newUser.profile.topics_competencies.forEach(element => {
                     if (element.assessmentId === this.topic.assessment && element.topicId === this.topic.id) {
                         element.competency = newCompetency;
                     }

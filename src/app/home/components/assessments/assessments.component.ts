@@ -5,6 +5,7 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { AnswerService } from 'src/app/core/services/answer.service';
 
 @Component({
   selector: 'app-assessments',
@@ -21,15 +22,24 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
     private assessmentService: AssessmentService,
     private tutorialService: TutorialService,
     private assisstantService: AssisstantService,
+    private answerService: AnswerService,
   ) { }
 
   ngOnInit(): void {
     this.assessmentService.getAssessments().subscribe(
       assessments => {
-        const tutorialCompleted = assessments.find(a => a.subject === 'TUTORIAL') ?
-          assessments.find(a => a.subject === 'TUTORIAL').all_topics_complete : true;
-        this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
-        this.tutorialService.setCompleted(tutorialCompleted);
+        const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
+        if (tutorial) {
+          this.answerService.getCompleteStudentAnswersForTopic(tutorial.topics[0].id).subscribe( tutorialAnswers => {
+            const tutorialCompleted = tutorialAnswers.length > 0;
+            this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
+            this.tutorialService.setCompleted(tutorialCompleted);
+          });
+        } else {
+          this.tutorialService.setCompleted(true);
+          this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
+        }
+
       }
     );
     this.assisstantService.setPageID(this.pageID);
