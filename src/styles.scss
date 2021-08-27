@@ -172,6 +172,11 @@ button[disabled] {
   padding-bottom: 0 !important;
 }
 
+.mat-form-field-appearance-outline .mat-form-field-infix{
+  padding: 0!important;
+  line-height: 1rem;
+}
+
 
 /* Border */
 .mat-form-field-appearance-outline .mat-form-field-outline {
