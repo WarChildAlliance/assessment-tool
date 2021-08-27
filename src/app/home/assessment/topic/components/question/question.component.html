@@ -39,6 +39,7 @@
                      [text]="(!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate)"
                      iconUrl="assets/icons/check_24.svg"
                      width="60%"
+                     [isDisabled]="!topic.allow_skip && !answer"
                      (click)="submitAnswer()"
                      class="main-btn">
     </app-primary-btn>
