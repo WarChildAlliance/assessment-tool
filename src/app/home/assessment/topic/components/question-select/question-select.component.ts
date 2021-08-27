@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-question-select',
@@ -160,4 +161,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     ngAfterViewInit(): void {
         this.tutorialSerice.currentPage.next(PageNames.questionSelect);
     }
+
+    getSource(path: string): string{
+        console.log(environment.API_URL + path);
+        return environment.API_URL + path;
+      }
 }
