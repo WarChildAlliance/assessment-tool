@@ -90,21 +90,31 @@ export class QuestionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    combineLatest([this.route.data, this.route.paramMap]).subscribe(
-      ([data, params]: [{ topic: any }, ParamMap]) => {
+    this.route.paramMap.subscribe(
+      (params: ParamMap) => {
         this.questionTimeStart = moment().format();
 
-        if (data && params) {
+        if (params) {
           this.question = null;
           this.changeDetector.detectChanges();
-          this.assessmentService.getAssessment(data.topic.assessment).subscribe(res => {
+
+          const assessmentId = parseInt(params.get('assessment_id'), 10);
+          const topicId = parseInt(params.get('topic_id'), 10);
+          const questionId = parseInt(params.get('question_id'), 10);
+
+          this.assessmentService.getAssessment(assessmentId).subscribe(res => {
             this.assessment = res;
+          });
+
+          this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
+            this.topic = topic;
             this.isFirst(this.topic.id);
           });
-          this.topic = data.topic;
-          const questionId = parseInt(params.get('question_id'), 10);
-          this.questionIndex = data.topic.questions.findIndex(q => q.id === questionId);
-          this.question = data.topic.questions[this.questionIndex];
+
+          this.assessmentService.getAssessmentTopicQuestion(assessmentId, topicId, questionId).subscribe(question => {
+            this.question = question;
+            this.questionIndex = this.topic.questions.findIndex(q => q.id === questionId);
+          });
         }
       }
     );

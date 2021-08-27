@@ -35,10 +35,6 @@ export class AppComponent {
   @HostListener('document:visibilitychange', ['$event'])
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(event: Event): boolean | void {
-    this.endSession().toPromise();
-    return true;
-
-    // TODO check if this is necessary
     if (event.type === 'visibilitychange') {
       if (document.hidden) {
         this.inactiveTimeout = setTimeout(

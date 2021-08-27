@@ -8,6 +8,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
+import { AssessmentService } from 'src/app/core/services/assessment.service';
 
 @Component({
     selector: 'app-completed-topic',
@@ -29,6 +30,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private profileService: ProfileService,
         private userService: UserService,
         private answerService: AnswerService,
+        private assessmentService: AssessmentService,
         private cacheService: CacheService,
         private route: ActivatedRoute,
         private tutorialService: TutorialService,
@@ -39,19 +41,25 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
 
-        this.route.data.subscribe( res => {
-            this.topic = res.topic;
+        this.route.paramMap.subscribe((params) => {
+            const assessmentId = parseInt(params.get('assessment_id'), 10);
+            const topicId = parseInt(params.get('topic_id'), 10);
+            this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
+                (topic) => {
+                    this.topic = topic;
+                }
+            );
         });
 
         const searchString = this.cacheService.networkStatus.getValue() ? 'active-topic-answer' : 'active-topic-answer-local';
-        this.cacheService.getData(searchString).then( response => {
+        this.cacheService.getData(searchString).then(response => {
             const answers = response.answers;
-            const correctAnswers = answers.filter( ans => ans.valid);
+            const correctAnswers = answers.filter(ans => ans.valid);
             this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
             this.competency = this.competency === 0 ? 1 : this.competency;
 
             this.cacheService.getData('active-user').then(user => {
-                const newUser = {...user};
+                const newUser = { ...user };
 
                 const oldCompetency = (user.competencies?.find(competency => (competency.assessmentId === this.topic.assessment
                     && competency.topicId === this.topic.id)))?.competency;
@@ -89,11 +97,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                 this.answerService.endTopicAnswer().subscribe();
             });
-
-            // this.route.data.subscribe(res => res.topic.id === 18 ? this.blockNavigation = false : this.blockNavigation = true);
-            }
-        );
-
+        });
     }
 
     /* Shows modal confirmation before leave the page if is evluated topic

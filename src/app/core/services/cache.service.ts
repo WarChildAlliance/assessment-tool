@@ -28,6 +28,7 @@ export class CacheService {
     return openDB(this.dbName, undefined, {
       upgrade(db): void {
         db.createObjectStore('mutations', { autoIncrement: true });
+        db.createObjectStore('assessments');
         db.createObjectStore('active-session');
         db.createObjectStore('active-session-local');
         db.createObjectStore('active-topic-answer');
@@ -61,6 +62,10 @@ export class CacheService {
 
   getData(storeName: string): Promise<any> {
     return this.indexedDbContext().then(db => db.get(storeName, 0));
+  }
+
+  getSingleData(storeName: string, keyPath: string): Promise<any> {
+    return this.indexedDbContext().then(db => db.transaction(storeName).objectStore(storeName).get(keyPath));
   }
 
   deleteData(storeName: string): void {
