@@ -14,4 +14,8 @@ export class AttachmentsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getSource(path: string): string{
+    return 'http://localhost:8002' + path;
+  }
+
 }

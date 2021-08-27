@@ -82,8 +82,6 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                     }
                 });
 
-                console.log(newUser);
-
                 this.cacheService.setData('active-user', newUser);
                 this.userService.updateUser(newUser);
 

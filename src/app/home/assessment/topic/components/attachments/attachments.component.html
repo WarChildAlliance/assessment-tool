@@ -1,12 +1,12 @@
 <ng-container *ngIf="attachments && attachments.length">
     <ng-container *ngFor="let attachment of attachments">
         <div class="audio-attachment" *ngIf="attachment.attachment_type === 'AUDIO'">
-            <button mat-icon-button [appAudioPlay]="attachment.file">
+            <button mat-icon-button [appAudioPlay]="getSource(attachment.file)">
                 <img src="assets/icons/audio_48.svg" alt="">
             </button>
         </div>
         <div class="img-attachment" *ngIf="attachment.attachment_type === 'IMAGE'">
-            <img [src]="attachment.file">
+            <img [src]="getSource(attachment.file)">
         </div>
     </ng-container>
 </ng-container>
