@@ -60,8 +60,8 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
             this.cacheService.getData('active-user').then(user => {
                 const newUser = { ...user };
-
-                const oldCompetency = (user.profile.topics_competencies?.find(competency => (competency.assessmentId === this.topic.assessment&& competency.topicId === this.topic.id)))?.competency;
+                const competencies = user.profile.topics_competencies;
+                const oldCompetency = (competencies?.find(competency => (competency.topicId === this.topic.id)))?.competency;
 
                 let newCompetency = 0;
                 let difference = 0;
