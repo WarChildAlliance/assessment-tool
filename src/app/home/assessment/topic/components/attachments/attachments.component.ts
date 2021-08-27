@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Attachment } from 'src/app/core/models/attachment.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-attachments',
@@ -15,7 +16,7 @@ export class AttachmentsComponent implements OnInit {
   }
 
   getSource(path: string): string{
-    return 'http://localhost:8002' + path;
+    return environment.API_URL + path;
   }
 
 }
