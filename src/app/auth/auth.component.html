@@ -1,4 +1,4 @@
-<img class="flower" src="assets/flower_green.svg"/>
+<img class="flower" src="assets/flower_green.svg" />
 <div class="light-yellow-bg">
     <button mat-icon-button appAudioPlay="assets/audios/login.ogg">
         <img src="assets/icons/audio_48.svg" alt="">
@@ -6,19 +6,25 @@
     <mat-grid-list cols="1">
         <mat-grid-tile>
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                <img src="assets/icons/bee_100.svg"/>
+                <img src="assets/icons/bee_100.svg" />
                 <div>
                     <mat-form-field appearance="outline">
-                        <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}"/>
+                        <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}" />
                     </mat-form-field>
-                    <app-primary-btn [text]="'auth.login' | translate"
-                                     [iconUrl]="translate.currentLang === 'ara' ?
+                    <app-primary-btn [text]="'auth.login' | translate" [iconUrl]="translate.currentLang === 'ara' ?
                                         'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
-                                     [isDisabled]="authForm.invalid"></app-primary-btn>
+                        [isDisabled]="authForm.invalid"></app-primary-btn>
+                    <div class="browser-disclaimer">
+
+                        <p>{{ 'auth.browserDisclaimer' | translate }}</p>
+                        <a class="browser-link" href="https://www.google.com/chrome/" target="_blank" rel="noreferrer noopener">
+                            <mat-icon class="browser-icon">public</mat-icon>
+                        </a>
+                    </div>
                 </div>
             </form>
         </mat-grid-tile>
-        <img class="flower" src="assets/flower_purple.svg"/>
+        <img class="flower" src="assets/flower_purple.svg" />
     </mat-grid-list>
 </div>
-<img class="flower" src="assets/flower_cyan.svg"/>
+<img class="flower" src="assets/flower_cyan.svg" />

@@ -74,7 +74,8 @@
   },
   "auth": {
     "login": "Log in",
-    "code": "Enter code"
+    "code": "Enter code",
+    "browserDisclaimer": "Please use Chrome browser for a better experience"
   },
   "back": "Back",
   "cancel": "Cancel",

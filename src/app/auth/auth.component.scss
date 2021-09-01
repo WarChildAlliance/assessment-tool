@@ -75,3 +75,20 @@ button {
   margin-right: 4.5rem;
   z-index: 99;
 }
+
+.browser-disclaimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > p {
+    font-size: smaller;
+    line-height: normal;
+  }
+  
+  & > .browser-link {
+    margin: 8px;
+    text-decoration: none;
+    color: #70504a; //Same color as text
+  }
+}

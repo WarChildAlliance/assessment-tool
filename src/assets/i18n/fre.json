@@ -73,8 +73,9 @@
     "done": "Terminé"
   },
   "auth": {
-    "login": "",
-    "code": ""
+    "login": "XXXX",
+    "code": "XXXX",
+    "browserDisclaimer": "Veuillez utiliser le naviguateur Chrome pour une meilleure expérience"
   },
   "back": "Retour",
   "cancel": "Annuler"
