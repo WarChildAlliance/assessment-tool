@@ -28,10 +28,21 @@ export class UserService {
   ) { }
 
   getSelf(): Observable<User> {
+    console.log("get Self")
+    if(!this.cacheService.networkStatus.getValue()) {
+      this.cacheService.getData('active-user').then( activeUser => {
+        if(activeUser){
+          console.log("from cache")
+          this.updateUser(activeUser);
+        }
+      })
+      return this.currentUser;
+    }
+
     return forkJoin ( {
       user: this.http.get<User>(`${environment.API_URL}/users/get_self/`),
       profile: this.http.get<Profile>(`${environment.API_URL}/gamification/profiles/get_self/`),
-      avatars: this.http.get<Avatar[]>(`${environment.API_URL}/gamification/avatars/`)
+      avatars: this.http.get<Avatar[]>(`${environment.API_URL}/gamification/avatars/`),
     }).pipe(
       map(
         res => {
@@ -46,6 +57,7 @@ export class UserService {
           return res.user;
       }),
       tap(user => {
+        console.log("from server")
         this.user = user;
         if (this.cacheService.networkStatus.getValue()) {
           this.cacheService.setData('active-user', user);
@@ -55,6 +67,7 @@ export class UserService {
       })
     );
   }
+
 
   updateUser(user: User): void {
     this.user = user;

@@ -51,7 +51,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             );
         });
 
-        const searchString = this.cacheService.networkStatus.getValue() ? 'active-topic-answer' : 'active-topic-answer-local';
+        const searchString = 'active-topic-answer';
         this.cacheService.getData(searchString).then(response => {
             const answers = response.answers;
             const correctAnswers = answers.filter(ans => ans.valid);
@@ -61,23 +61,23 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             this.cacheService.getData('active-user').then(user => {
                 const newUser = { ...user };
                 const competencies = user.profile.topics_competencies;
-                const oldCompetency = (competencies?.find(competency => (competency.topicId === this.topic.id)))?.competency;
+                const oldCompetency = (competencies?.find(competency => (competency.topic === this.topic.id)))?.competency;
 
                 let newCompetency = 0;
                 let difference = 0;
-
                 if (oldCompetency !== undefined) {
                     newCompetency = oldCompetency < this.competency ? this.competency : oldCompetency;
                     difference = oldCompetency < this.competency ? this.competency - oldCompetency : 0;
                 } else {
                     newCompetency = this.competency;
                     this.effort = 5;
+                    difference = this.competency;
                 }
 
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
                 newUser.profile.topics_competencies.forEach(element => {
-                    if (element.assessmentId === this.topic.assessment && element.topicId === this.topic.id) {
+                    if (element.topic === this.topic.id) {
                         element.competency = newCompetency;
                     }
                 });

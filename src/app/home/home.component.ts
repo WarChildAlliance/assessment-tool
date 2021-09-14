@@ -40,12 +40,13 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.route.data.subscribe(
-            (data: { user: User }) => {
-                this.user = data.user;
-                this.tutorialService.createAllTours();
-            }
-        );
+
+        this.userService.currentUser.subscribe( activeUser => {
+            this.user = activeUser;
+        })
+
+        this.tutorialService.createAllTours();
+
 
         this.cacheService.hasActiveSession().pipe(
             switchMap((hasActiveSession: boolean) => {
@@ -61,6 +62,8 @@ export class HomeComponent implements OnInit {
                 this.sendStoredMutations();
             }
         });
+
+        this.assessmentService.loadAllAssessments();
 
         this.profileService.getAvatarsList().subscribe(avatars => {
             for (const avatar of avatars) {

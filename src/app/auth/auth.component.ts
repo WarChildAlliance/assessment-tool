@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from '../core/services/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +19,9 @@ export class AuthComponent implements OnInit {
 
     constructor(
         private authService: AuthService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private userService: UserService,
+        private router: Router,
     ) {
     }
 

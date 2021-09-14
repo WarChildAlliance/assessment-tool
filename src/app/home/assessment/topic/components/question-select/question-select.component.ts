@@ -163,7 +163,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     getSource(path: string): string{
-        console.log(environment.API_URL + path);
         return environment.API_URL + path;
       }
 }

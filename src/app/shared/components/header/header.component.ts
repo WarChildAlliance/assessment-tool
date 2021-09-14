@@ -38,7 +38,9 @@ export class HeaderComponent implements OnInit {
 /*         this.route.data.subscribe(
             (data: { user: User }) => this.user = data.user
         ); */
-        this.userService.currentUser.subscribe(user => this.user = user);
+        this.userService.currentUser.subscribe(user => {
+            this.user = user;
+        });
     }
 
     getImageUrl(): string {

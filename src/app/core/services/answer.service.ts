@@ -27,27 +27,42 @@ export class AnswerService {
   ) { }
 
   startSession(): Observable<AnswerSession> {
-    return this.cacheService.networkStatus.pipe(
+/*     return this.cacheService.networkStatus.pipe(
       switchMap(online => {
-        if (online) {
+        if (online) {{*/
           return this.createSession();
-        } else {
-          const session: AnswerSession = {
+          /*   
+        } else 
+        const session: AnswerSession = {
             student: this.userService.user.id,
             start_date: moment().format(),
             end_date: null,
             assessment_topic_answers: []
           };
-          this.cacheService.setData(this.activeSessionLocalStorage, session);
-          return of(session);
-        }
+          this.cacheService.setData(this.activeSessionStorage, session);
+          return of(session); */
+/*         }
       }),
       first()
-    );
+    ); */
   }
 
 
-  startTopicAnswer(topicId: number): Observable<TopicAnswer> {
+  startTopicAnswer(topicId: number): Observable<any> {
+    this.cacheService.getData(this.activeSessionStorage).then(res => {
+    })
+
+    const topicAnswer: TopicAnswer = {
+      topic: topicId,
+      start_date: moment().format(),
+      end_date: null,
+      answers: [],
+    };
+
+    this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer);
+
+    return from(this.cacheService.getData(this.activeTopicAnswerStorage));
+    /*
     return combineLatest([
       this.cacheService.networkStatus,
       from(this.cacheService.getData(this.activeSessionLocalStorage))
@@ -97,10 +112,15 @@ export class AnswerService {
       }),
       first()
     );
+    */
   }
 
-  submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<GeneralAnswer> {
-    return combineLatest([
+  submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<any> {
+    return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( topicAnswers => {
+      topicAnswers.answers.push(answer);
+      this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswers);
+    }))
+    /* return combineLatest([
       this.cacheService.networkStatus,
       from(this.cacheService.getData(this.activeSessionLocalStorage)),
       from(this.cacheService.getData(this.activeTopicAnswerLocalStorage))
@@ -169,10 +189,21 @@ export class AnswerService {
         }
       }),
       first()
-    );
+    ); */
   }
 
-  endTopicAnswer(): Observable<TopicAnswer> {
+  endTopicAnswer(): Observable<any> {
+    console.log("endTopicAnswer");
+    return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( cachedAnswers => {
+      this.cacheService.getData(this.activeSessionStorage).then( res => {
+        cachedAnswers.session = res.id;
+        this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`,
+        { cachedAnswers, topic_competency: 3}).subscribe();
+        this.cacheService.deleteData(this.activeTopicAnswerStorage);
+      })
+    }));
+    
+    /*
     return combineLatest([
       this.cacheService.networkStatus,
       from(this.cacheService.getData(this.activeSessionLocalStorage)),
@@ -230,6 +261,7 @@ export class AnswerService {
       }),
       first()
     );
+    */
   }
 
   endSession(): Observable<AnswerSession> {
@@ -277,6 +309,7 @@ export class AnswerService {
       { end_date: endDate.format() });
   }
 
+  /*
   private createTopicAnswer(topicId: number, sessionId: number): Observable<TopicAnswer> {
     return this.http.post<TopicAnswer>(
       `${environment.API_URL}/answers/${this.userService.user.id}/topics/`,
@@ -300,7 +333,7 @@ export class AnswerService {
 
   private createAnswer(data: GeneralAnswer): Observable<GeneralAnswer> {
     return this.http.post<GeneralAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/`, data);
-  }
+  } */
 
   public getCompleteStudentAnswersForTopic(topicId: number): Observable<any[]> {
     return this.http.get<any[]>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/?complete=true&topic_access__topic=${topicId}`);
