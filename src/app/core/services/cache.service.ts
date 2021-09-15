@@ -1,8 +1,8 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDBPDatabase, openDB, deleteDB } from 'idb';
-import { BehaviorSubject, forkJoin, from, fromEvent, merge, Observable } from 'rxjs';
-import { first, map, mapTo } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, from, fromEvent, interval, merge, Observable, Observer } from 'rxjs';
+import { first, map, mapTo, throttle } from 'rxjs/operators';
 import { AnswerSession } from '../models/answer-session.model';
 
 @Injectable({
@@ -16,13 +16,19 @@ export class CacheService {
   networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
 
   constructor() {
-    merge(
-      fromEvent(window, 'online').pipe(mapTo(true)),
-      fromEvent(window, 'offline').pipe(mapTo(false))
-    ).subscribe(
-      status => this.networkStatus.next(status)
-    );
+
+    fromEvent(window, 'offline')
+    .pipe(throttle(ev => interval(2000))).subscribe( status => {
+      console.log('network status in cache offline', status);
+      this.networkStatus.next(false);
+    });
+    fromEvent(window, 'online')
+    .pipe(throttle(ev => interval(2000))).subscribe( status => {
+      console.log('network status in cache online', status);
+      this.networkStatus.next(true);
+    });
   }
+
 
   indexedDbContext(): Promise<IDBPDatabase> {
     return openDB(this.dbName, undefined, {
@@ -43,6 +49,7 @@ export class CacheService {
   }
 
   async getRequests(): Promise<{ key: number, value: HttpRequest<unknown> }[]> {
+    const allTest = this.indexedDbContext().then(db => db.getAll('mutations'));
     let cursor = await this.indexedDbContext().then(db => db.transaction('mutations').store.openCursor());
     const requests: { key: number, value: HttpRequest<unknown> }[] = [];
     while (cursor) {

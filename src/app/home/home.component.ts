@@ -1,8 +1,8 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, from, Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { EMPTY, from, interval, Observable, Subscription } from 'rxjs';
+import { switchMap, throttle } from 'rxjs/operators';
 import { Attachment } from '../core/models/attachment.model';
 import { QuestionSelect, QuestionSort } from '../core/models/question.model';
 import { User } from '../core/models/user.model';
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
 
         this.userService.currentUser.subscribe( activeUser => {
             this.user = activeUser;
-        })
+        });
 
         this.tutorialService.createAllTours();
 
@@ -57,11 +57,21 @@ export class HomeComponent implements OnInit {
             })
         ).subscribe();
 
-        this.cacheService.networkStatus.subscribe((online: boolean) => {
+/*         this.cacheService.networkStatus.subscribe((online: boolean) => {
+            console.log("network status", online)
             if (online) {
                 this.sendStoredMutations();
             }
+        }); */
+
+
+        this.cacheService.networkStatus.subscribe( status => {
+            console.log('network status in home', status);
+            if (status) {
+                this.sendStoredMutations();
+            }
         });
+
 
         this.assessmentService.loadAllAssessments();
 
@@ -99,4 +109,5 @@ export class HomeComponent implements OnInit {
         this.userService.resetUser();
         this.authService.logout();
     }
+
 }

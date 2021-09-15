@@ -28,14 +28,12 @@ export class UserService {
   ) { }
 
   getSelf(): Observable<User> {
-    console.log("get Self")
-    if(!this.cacheService.networkStatus.getValue()) {
+    if (!this.cacheService.networkStatus.getValue()) {
       this.cacheService.getData('active-user').then( activeUser => {
-        if(activeUser){
-          console.log("from cache")
+        if (activeUser){
           this.updateUser(activeUser);
         }
-      })
+      });
       return this.currentUser;
     }
 
@@ -57,7 +55,6 @@ export class UserService {
           return res.user;
       }),
       tap(user => {
-        console.log("from server")
         this.user = user;
         if (this.cacheService.networkStatus.getValue()) {
           this.cacheService.setData('active-user', user);
