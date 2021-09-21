@@ -1,10 +1,8 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, from, interval, Observable, Subscription } from 'rxjs';
-import { switchMap, throttle } from 'rxjs/operators';
-import { Attachment } from '../core/models/attachment.model';
-import { QuestionSelect, QuestionSort } from '../core/models/question.model';
+import { EMPTY, from, Observable } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
 import { User } from '../core/models/user.model';
 import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
@@ -15,6 +13,7 @@ import { UserService } from '../core/services/user.service';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from '../core/services/tutorial.service';
+
 
 @Component({
     selector: 'app-home',
@@ -62,15 +61,7 @@ export class HomeComponent implements OnInit {
             if (online) {
                 this.sendStoredMutations();
             }
-        }); */
-
-
-        this.cacheService.networkStatus.subscribe( status => {
-            console.log('network status in home', status);
-            if (status) {
-                this.sendStoredMutations();
-            }
-        });
+        });  */
 
 
         this.assessmentService.loadAllAssessments();
