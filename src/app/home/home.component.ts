@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    // Send all the stored requests from the IndexedDb
+    /* // Send all the stored requests from the IndexedDb
     // Why is this done here and not directly in the cacheService ?
     private sendStoredMutations(): void {
         from(this.cacheService.getRequests()).subscribe((requests: { key: number, value: HttpRequest<unknown> }[]) => {
@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
                 }
             }
         });
-    }
+    } */
 
     logout(): void {
         this.userService.resetUser();

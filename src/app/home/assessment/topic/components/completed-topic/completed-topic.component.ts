@@ -85,7 +85,8 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                 this.cacheService.setData('active-user', newUser);
                 this.userService.updateUser(newUser);
 
-                this.profileService.updateProfile(newUser.profile).subscribe();
+                this.profileService.updateProfile(newUser.profile).subscribe( res => {
+                });
 
                 const test = response;
                 test.topic_competency = newCompetency;
