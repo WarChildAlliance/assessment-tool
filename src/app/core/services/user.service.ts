@@ -29,7 +29,7 @@ export class UserService {
 
   getSelf(): Observable<User> {
     if (!this.cacheService.networkStatus.getValue()) {
-      this.cacheService.getData('active-user').then( activeUser => {
+      this.cacheService.getData('user').then( activeUser => {
         if (activeUser){
           this.updateUser(activeUser);
         }
@@ -47,7 +47,6 @@ export class UserService {
           if (res.user.role !== UserRoles.Student) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
-          // TODO only temporary. Should be set in the BE as default
           if (!res.user.profile.current_avatar && res.avatars) {
             res.user.profile.current_avatar = res.avatars[0];
             res.avatars[0].unlocked = true;
@@ -57,7 +56,7 @@ export class UserService {
       tap(user => {
         this.user = user;
         if (this.cacheService.networkStatus.getValue()) {
-          this.cacheService.setData('active-user', user);
+          this.cacheService.setData('user', user);
         }
         this.userSource.next(user);
         this.languageService.setLanguage(user.language);

@@ -1,7 +1,6 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EMPTY, from, Observable } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 import { User } from '../core/models/user.model';
 import { AnswerService } from '../core/services/answer.service';
@@ -26,7 +25,6 @@ export class HomeComponent implements OnInit {
     competencies = [];
 
     constructor(
-        private route: ActivatedRoute,
         private answerService: AnswerService,
         private assessmentService: AssessmentService,
         private authService: AuthService,
@@ -56,14 +54,6 @@ export class HomeComponent implements OnInit {
             })
         ).subscribe();
 
-/*         this.cacheService.networkStatus.subscribe((online: boolean) => {
-            console.log("network status", online)
-            if (online) {
-                this.sendStoredMutations();
-            }
-        });  */
-
-
         this.assessmentService.loadAllAssessments();
 
         this.profileService.getAvatarsList().subscribe(avatars => {
@@ -72,29 +62,6 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-
-    /* // Send all the stored requests from the IndexedDb
-    // Why is this done here and not directly in the cacheService ?
-    private sendStoredMutations(): void {
-        from(this.cacheService.getRequests()).subscribe((requests: { key: number, value: HttpRequest<unknown> }[]) => {
-            for (const request of requests) {
-                let requestToSend: Observable<any> = null;
-                if (request.value.method === 'POST') {
-                    requestToSend = this.http.post(request.value.urlWithParams, request.value.body);
-                } else if (request.value.method === 'PUT') {
-                    requestToSend = this.http.put(request.value.urlWithParams, request.value.body);
-                } else if (request.value.method === 'DELETE') {
-                    requestToSend = this.http.delete(request.value.urlWithParams);
-                }
-
-                if (requestToSend) {
-                    requestToSend.subscribe((_) => {
-                        this.cacheService.deleteRequest(request.key);
-                    });
-                }
-            }
-        });
-    } */
 
     logout(): void {
         this.userService.resetUser();

@@ -2,16 +2,15 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDBPDatabase, openDB, deleteDB } from 'idb';
 import { BehaviorSubject, forkJoin, from, fromEvent, interval, merge, Observable, Observer } from 'rxjs';
-import { first, map, mapTo, throttle } from 'rxjs/operators';
+import { first, map, throttle } from 'rxjs/operators';
 import { AnswerSession } from '../models/answer-session.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CacheService {
-  private dbName = 'api-storage';
-  private activeSessionStorage = 'active-session';
-  private activeSessionLocalStorage = 'active-session-local';
+  private dbName = 'api-storage-la';
+  private activeSessionStorage = 'session';
 
   networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
 
@@ -52,15 +51,14 @@ export class CacheService {
 
 
   indexedDbContext(): Promise<IDBPDatabase> {
+    deleteDB('api-storage');
     return openDB(this.dbName, undefined, {
       upgrade(db): void {
         db.createObjectStore('mutations', { autoIncrement: true });
         db.createObjectStore('assessments');
-        db.createObjectStore('active-session');
-        db.createObjectStore('active-session-local');
-        db.createObjectStore('active-topic-answer');
-        db.createObjectStore('active-topic-answer-local');
-        db.createObjectStore('active-user');
+        db.createObjectStore('session');
+        db.createObjectStore('topic-answer');
+        db.createObjectStore('user');
       }
     });
   }
@@ -103,7 +101,7 @@ export class CacheService {
   hasActiveSession(): Observable<boolean> {
     return forkJoin([
       from(this.getData(this.activeSessionStorage)),
-      from(this.getData(this.activeSessionLocalStorage))
+      from(this.getData(this.activeSessionStorage))
     ]).pipe(
       map(([activeSession, activeSessionLocal]: [AnswerSession, AnswerSession]) => {
         if (activeSession || activeSessionLocal) {

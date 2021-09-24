@@ -51,14 +51,14 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             );
         });
 
-        const searchString = 'active-topic-answer';
+        const searchString = 'topic-answer';
         this.cacheService.getData(searchString).then(response => {
             const answers = response.answers;
             const correctAnswers = answers.filter(ans => ans.valid);
             this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
             this.competency = this.competency === 0 ? 1 : this.competency;
 
-            this.cacheService.getData('active-user').then(user => {
+            this.cacheService.getData('user').then(user => {
                 const newUser = { ...user };
                 const competencies = user.profile.topics_competencies;
                 const oldCompetency = (competencies?.find(competency => (competency.topic === this.topic.id)))?.competency;
@@ -82,7 +82,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                     }
                 });
 
-                this.cacheService.setData('active-user', newUser);
+                this.cacheService.setData('user', newUser);
                 this.userService.updateUser(newUser);
 
                 this.profileService.updateProfile(newUser.profile).subscribe( res => {
@@ -92,7 +92,6 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                 test.topic_competency = newCompetency;
 
                 this.cacheService.setData(searchString, test);
-
                 this.answerService.endTopicAnswer().subscribe();
             });
         });
