@@ -1,5 +1,5 @@
 <app-spinner *ngIf="displaySpinner"></app-spinner>
-<div dir="ltr" *ngIf="assessments.length">
+<div dir="ltr" *ngIf="assessments?.length">
     <ng-container *ngFor="let assessment of assessments">
         <button mat-button class="assessment-btn"
                 [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
@@ -11,7 +11,7 @@
     </ng-container>
 </div>
 
-<ng-container *ngIf="assessments.length === 0">
+<ng-container *ngIf="assessments && assessments.length === 0">
     <p>{{ 'noAssessments' | translate }}</p>
 </ng-container>
 

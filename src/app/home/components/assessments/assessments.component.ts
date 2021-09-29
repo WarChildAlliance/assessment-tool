@@ -41,7 +41,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
           this.tutorialService.setCompleted(true);
           this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
         }
-
+        this.displaySpinner = false;
       }
     );
     this.assisstantService.setPageID(this.pageID);
