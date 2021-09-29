@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BackNavigationComponent } from './components/back-navigation/back-navigation.component';
 import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -20,7 +22,8 @@ import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.compon
         HeaderComponent,
         AssisstantComponent,
         BackNavigationComponent,
-        PrimaryBtnComponent
+        PrimaryBtnComponent,
+        SpinnerComponent
     ],
     imports: [
         CommonModule,
@@ -29,13 +32,15 @@ import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.compon
         MatDialogModule,
         MatButtonModule,
         RouterModule,
-        MatGridListModule
+        MatGridListModule,
+        MatProgressSpinnerModule
     ],
     exports: [
         CommonModule,
         TranslateModule,
         AudioPlayDirective,
         HeaderComponent,
+        SpinnerComponent,
         AssisstantComponent,
         BackNavigationComponent,
         PrimaryBtnComponent

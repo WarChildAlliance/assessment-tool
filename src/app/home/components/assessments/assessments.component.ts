@@ -18,6 +18,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
   assessments: Assessment[];
   private readonly pageID = 'assessments-page';
 
+  public displaySpinner = true;
+
   constructor(
     private assessmentService: AssessmentService,
     private tutorialService: TutorialService,
