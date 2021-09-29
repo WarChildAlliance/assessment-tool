@@ -16,7 +16,6 @@ export class AttachmentsComponent implements OnInit {
   }
 
   getSource(path: string): string{
-    console.log(environment.API_URL + path);
     return environment.API_URL + path;
   }
 

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/cor
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -31,7 +31,7 @@ export class QuestionComponent implements OnInit {
 
   displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  // TODO Check what's that doing here ?
+
   answer: GeneralAnswer;
 
   private questionTimeStart: string;
@@ -60,6 +60,7 @@ export class QuestionComponent implements OnInit {
           if (value) {
             this.router.navigate([TopicComponent], {});
             this.goNextQuestion = true;
+            this.answerService.endTopicAnswer().subscribe();
           }
           return false;
         }));

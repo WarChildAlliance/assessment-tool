@@ -51,47 +51,47 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             );
         });
 
-        const searchString = this.cacheService.networkStatus.getValue() ? 'active-topic-answer' : 'active-topic-answer-local';
+        const searchString = 'topic-answer';
         this.cacheService.getData(searchString).then(response => {
             const answers = response.answers;
             const correctAnswers = answers.filter(ans => ans.valid);
             this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
             this.competency = this.competency === 0 ? 1 : this.competency;
 
-            this.cacheService.getData('active-user').then(user => {
+            this.cacheService.getData('user').then(user => {
                 const newUser = { ...user };
                 const competencies = user.profile.topics_competencies;
-                const oldCompetency = (competencies?.find(competency => (competency.topicId === this.topic.id)))?.competency;
+                const oldCompetency = (competencies?.find(competency => (competency.topic === this.topic.id)))?.competency;
 
                 let newCompetency = 0;
                 let difference = 0;
-
                 if (oldCompetency !== undefined) {
                     newCompetency = oldCompetency < this.competency ? this.competency : oldCompetency;
                     difference = oldCompetency < this.competency ? this.competency - oldCompetency : 0;
                 } else {
                     newCompetency = this.competency;
                     this.effort = 5;
+                    difference = this.competency;
                 }
 
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
                 newUser.profile.topics_competencies.forEach(element => {
-                    if (element.assessmentId === this.topic.assessment && element.topicId === this.topic.id) {
+                    if (element.topic === this.topic.id) {
                         element.competency = newCompetency;
                     }
                 });
 
-                this.cacheService.setData('active-user', newUser);
+                this.cacheService.setData('user', newUser);
                 this.userService.updateUser(newUser);
 
-                this.profileService.updateProfile(newUser.profile).subscribe();
+                this.profileService.updateProfile(newUser.profile).subscribe( res => {
+                });
 
                 const test = response;
                 test.topic_competency = newCompetency;
 
                 this.cacheService.setData(searchString, test);
-
                 this.answerService.endTopicAnswer().subscribe();
             });
         });

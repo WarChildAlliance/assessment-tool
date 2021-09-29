@@ -18,16 +18,14 @@ export class OfflineInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (request.url.match(environment.API_URL) && request.method !== 'GET') {
-      return this.cacheService.networkStatus.asObservable().pipe(
-        switchMap((online: boolean) => {
+
+          const online = this.cacheService.networkStatus.getValue();
           if (online) {
             return next.handle(request);
           } else {
             this.cacheService.setRequest(request);
             return EMPTY;
           }
-        })
-      );
     }
     return next.handle(request);
   }

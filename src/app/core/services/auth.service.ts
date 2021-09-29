@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, from } from 'rxjs';
+import { combineLatest, from, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
@@ -19,12 +20,12 @@ export class AuthService {
     private alertService: AlertService,
     private cookieService: CookieService,
     private cacheService: CacheService,
-    private router: Router
+    private router: Router,
   ) {
     this.isAuthenticated = this.cookieService.has('auth-token');
   }
 
-  login(username: string): void {
+  login(username: string): any {
     combineLatest(
       [this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
       this.cacheService.hasActiveSession(),
@@ -39,7 +40,6 @@ export class AuthService {
         }
         this.isAuthenticated = true;
         this.cookieService.set('auth-token', res.token);
-
         this.router.navigate(['']);
       },
       (error) => {
@@ -57,4 +57,6 @@ export class AuthService {
   getToken(): string {
     return this.cookieService.get('auth-token');
   }
+
+
 }
