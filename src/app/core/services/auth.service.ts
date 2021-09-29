@@ -29,13 +29,13 @@ export class AuthService {
     combineLatest(
       [this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
       this.cacheService.hasActiveSession(),
-      from(this.cacheService.getData('active-session'))])
+      from(this.cacheService.getData('session'))])
     .subscribe(
       ([res, hasActiveSession, activeSession]) => {
         if (hasActiveSession) {
           if (activeSession.student !== res.user_id) {
-            this.cacheService.deleteData('active-session');
-            this.cacheService.deleteData('active-topic-answer');
+            this.cacheService.deleteData('session');
+            this.cacheService.deleteData('topic-answer');
           }
         }
         this.isAuthenticated = true;
