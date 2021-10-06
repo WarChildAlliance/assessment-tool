@@ -30,7 +30,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public cancelBtnText = 'cancel';
     public confirmBtnText = 'OK';
     public confirmBtnColor: ThemePalette = 'primary';
-    public imageURL = 'assets/icons/bee_100.svg'; // if customized, add the path here relative to assets folder
+    public imageURL = 'assets/icons/flying-bee.svg'; // if customized, add the path here relative to assets folder
     public audioURL = '';  // if customized, add the path here relative to assets folder
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {

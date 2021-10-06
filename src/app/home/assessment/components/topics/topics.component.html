@@ -1,14 +1,14 @@
 <div [class]="subject === 'sel' ? 'cyan-gradient-bg' : subject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
     <app-back-navigation text="backToAssessments" [routerLink]="['../../home']"></app-back-navigation>
 
-    <div class="topics-container">
+    <div>
         <h2>{{assessmentTitle}}</h2>
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
             <li class="topic-card" *ngFor="let topic of topics">
                 <a [routerLink]="['./topics', topic.id]">
-                    <img width="100" height="100" src="{{ getTopicIcon(topic) }}" alt="icon"/>
-                    <img width="116" height="52" [src]="topic.ribbon" alt="ribbon">
-                    <p>{{topic.name}}</p>
+                    <img width="150" height="150" src="{{ getTopicIcon(topic) }}" alt="icon"/>
+                    <img *ngIf="topic.evaluated" width="110" height="45" [src]="topic.ribbon" alt="ribbon">
+                    <p class="topic-title">{{topic.name}}</p>
                 </a>
             </li>
         </ul>

@@ -70,7 +70,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
 
     getTopicIcon(topic: Topic): string {
-
         return topic.icon ?
             (environment.API_URL + topic.icon) :
             'assets/yellow_circle.svg';

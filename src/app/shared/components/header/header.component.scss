@@ -15,6 +15,11 @@ mat-grid-list:nth-child(2) {
   padding-bottom: 1rem;
 }
 
+mat-grid-tile > img {
+  background-color: red;
+  width: 5px;
+}
+
 h1 {
   font-weight: 600;
   margin-left: 0.5rem;
@@ -58,4 +63,9 @@ h3 {
   h3 {
     width: 170px;
   }
+}
+
+.icon{
+  width: 42px;
+  height: 42px;
 }

@@ -1,6 +1,6 @@
 <div>
     <button class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL" disableRipple="true">
-        <img src="assets/icons/audio_48.svg" alt="">
+        <img src="assets/icons/audio-button.svg" alt="">
     </button>
 </div>
 <div id="container">
@@ -28,15 +28,5 @@
 
         </app-primary-btn>
 
-        <!--        <button class="main-btn" color="primary" *ngIf="cancelBtn" mat-flat-button cdkfocusinitial-->
-        <!--                [mat-dialog-close]="false">-->
-        <!--            {{ cancelBtnText | translate }}-->
-        <!--            <img width="24" height="24" src="assets/icons/cross_32.svg" alt="">-->
-        <!--        </button>-->
-        <!--        <button class="main-btn" mat-flat-button color="primary"-->
-        <!--                [mat-dialog-close]="true">-->
-        <!--            {{ confirmBtnText | translate }}-->
-        <!--            <img src="assets/icons/check_24.svg" alt="">-->
-        <!--        </button>-->
     </mat-dialog-actions>
 </div>

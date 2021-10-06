@@ -52,7 +52,7 @@
   },
   "tutorial": {
     "welcome": "Welcome",
-    "introduction": "<img src='assets/icons/bee_100.svg'/> <br> Hello, nice to meet you. My name is <b>Bee</b>. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started.",
+    "introduction": "<img src='assets/icons/flying-bee'/> <br> Hello, nice to meet you. My name is <b>Bee</b>. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started.",
     "startAssessment": "Click the flower/button to start",
     "startTopic": "Click the picture",
     "startQuestion": "You will get some practise questions now. Click the green button",
