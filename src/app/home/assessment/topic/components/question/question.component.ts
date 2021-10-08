@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/cor
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -15,6 +15,7 @@ import { GenericConfirmationDialogComponent } from '../../../../../shared/compon
 import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-question',
@@ -257,5 +258,9 @@ export class QuestionComponent implements OnInit {
     } else {
       this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
     }
+  }
+
+  getSource(path: string): string{
+    return environment.API_URL + path;
   }
 }

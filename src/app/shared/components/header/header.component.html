@@ -4,7 +4,7 @@
     <div *ngSwitchCase="'home'">
 
         <mat-grid-list cols="4" rowHeight="96">
-            <mat-grid-tile>
+            <mat-grid-tile class="test"> 
                 <img class="pointer avatar" width="48" height="48" [src]="getImageUrl()"
                      [routerLink]="['/profile']" alt="avatar">
                 <h3 class="display_name">{{user.first_name}}</h3>
@@ -38,7 +38,7 @@
     <div *ngSwitchCase="'profile'">
 
         <mat-grid-list cols="4" rowHeight="96">
-            <mat-grid-tile>
+            <mat-grid-tile class="test">
                 <img class="pointer avatar" width="48" height="48" [src]="getImageUrl()"
                      [routerLink]="['/profile']" alt="avatar">
                 <h3 class="display_name">{{user.first_name}}</h3>
