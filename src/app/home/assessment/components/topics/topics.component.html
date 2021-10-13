@@ -6,6 +6,7 @@
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
             <li class="topic-card" *ngFor="let topic of topics">
                 <a [routerLink]="['./topics', topic.id]">
+                    <img [ngClass]="topic.completed ? 'complete' : 'incomplete' " src="assets/icons/check_24.svg" alt="completed">
                     <img width="150" height="150" src="{{ getTopicIcon(topic) }}" alt="icon"/>
                     <img *ngIf="topic.evaluated" width="110" height="45" [src]="topic.ribbon" alt="ribbon">
                     <p class="topic-title">{{topic.name}}</p>
