@@ -4,6 +4,7 @@
   .number-line-slider {
     width: 80%;
 
+
     ::ng-deep {
       .mat-slider-ticks-container {
         display: flex;
@@ -11,19 +12,19 @@
         overflow: visible;
 
         .mat-slider-ticks {
-          height: 12px;
+          height: 20px;
 
           background-image: repeating-linear-gradient(
                           to right,
-                          rgba(0, 0, 0, 0.2),
-                          rgba(0, 0, 0, 0.4) 1px,
+                          rgba(0, 0, 0, 0.5),
+                          rgba(0, 0, 0, 0.5) 2px,
                           transparent 0,
                           transparent
           );
 
           // The last tick doesn't display properly on the default styling
           // so this is a trick to replace it by a border-right
-          border-right: 1px solid rgba(0, 0, 0, 0.7);
+          border-right: 2px solid rgba(0, 0, 0, 0.7);
         }
       }
 
@@ -37,6 +38,10 @@
         top: -22px !important;
         height: 20px !important;
         width: 20px !important;
+      }
+
+      .mat-slider-track-wrapper {
+        transform: scaleY(2)
       }
     }
   }

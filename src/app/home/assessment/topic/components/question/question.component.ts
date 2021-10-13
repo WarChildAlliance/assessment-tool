@@ -16,12 +16,26 @@ import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
+import { trigger, animate, transition, style, state } from '@angular/animations';
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss']
+  styleUrls: ['./question.component.scss'],
+  animations: [
+    trigger('popOverState', [
+      state('show', style({
+        opacity: 1
+      })),
+      state('hide', style({
+        opacity: 0
+      })),
+      transition('show => hide', animate('200ms ease-out')),
+      transition('hide => show', animate('200ms ease-in'))
+    ])
+  ]
 })
+
 export class QuestionComponent implements OnInit {
   topic: Topic;
 
@@ -29,6 +43,9 @@ export class QuestionComponent implements OnInit {
   questionIndex: number;
   goNextQuestion = false;
   private skipped = false;
+  show = false;
+
+  timeout = 250;
 
   displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -116,6 +133,10 @@ export class QuestionComponent implements OnInit {
             this.question = question;
             this.questionIndex = this.topic.questions.findIndex(q => q.id === questionId);
           });
+
+          setTimeout(x => {
+            this.show = true;
+          }, this.timeout);
         }
       }
     );
@@ -247,20 +268,43 @@ export class QuestionComponent implements OnInit {
         this.answerService.submitAnswer(skippedAnswer).subscribe();
       });
 
-      this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+      setTimeout(show => {
+        this.show = false;
+        setTimeout( navigate => {
+          this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+        }, this.timeout);
+      }, this.timeout);
 
       // Else, if there are unanswered questions left, navigate to the page corresponding to the question
     } else if (this.questionIndex + 1 < this.topic.questions.length) {
       const nextId = this.topic.questions[this.questionIndex + 1].id;
-      this.router.navigate(['../', nextId], { relativeTo: this.route });
+      setTimeout(show => {
+        this.show = false;
+        setTimeout( navigate => {
+          this.router.navigate(['../', nextId], { relativeTo: this.route });
+        }, this.timeout);
+      }, this.timeout);
 
       // Else, if all questions have been answered, closes the topic on the completed topic component
     } else {
-      this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+      setTimeout(show => {
+        this.show = false;
+        setTimeout( navigate => {
+          this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+        }, this.timeout);
+      }, this.timeout);
+
     }
   }
+
+
 
   getSource(path: string): string{
     return environment.API_URL + path;
   }
+
+  get stateName(): string {
+    return this.show ? 'show' : 'hide';
+  }
+
 }

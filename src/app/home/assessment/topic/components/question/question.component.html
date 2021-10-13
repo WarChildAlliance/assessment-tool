@@ -10,6 +10,7 @@
             <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
         </div>
     </div>
+    <div [@popOverState]="stateName">
     <h2 class="question-title">{{ question.title }}</h2>
     <div class="question-attachment">
         <app-attachments [attachments]="question.attachments"></app-attachments>
@@ -56,6 +57,8 @@
                      (click)="submitAndGoNextPage()"
                      class="main-btn submit">
     </app-primary-btn>
+
+</div>
 
 </div>
 
