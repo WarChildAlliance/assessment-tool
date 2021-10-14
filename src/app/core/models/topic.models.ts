@@ -16,4 +16,5 @@ export interface Topic {
   max_wrong_answers: number;
   icon: string;
   ribbon?: string;
+  completed?: boolean;
 }

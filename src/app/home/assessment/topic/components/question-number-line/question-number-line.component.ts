@@ -21,6 +21,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
   valueForm = new FormControl(null);
+  correctAnswerForm = new FormControl(null);
   private readonly pageID = 'question-number-line-page';
 
   constructor(
@@ -33,6 +34,9 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });
+    if (this.displayCorrectAnswer){
+      this.correctAnswerForm.setValue(this.question.expected_value);
+    }
   }
 
   private submit(value): void {
@@ -53,7 +57,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   }
 
   private isValid(): boolean {
-    const errorMargin = (this.question.end * 10) / 100;
+    const errorMargin = (!this.question.show_ticks || this.question.tick_step !== 1) ? (this.question.end * 10) / 100 : 0;
     if (this.valueForm.value >= this.question.expected_value - errorMargin
       && this.valueForm.value <= this.question.expected_value + errorMargin) {
       return true;

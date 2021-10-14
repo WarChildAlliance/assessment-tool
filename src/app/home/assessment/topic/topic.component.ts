@@ -22,6 +22,8 @@ export class TopicComponent implements OnInit, AfterViewInit {
   firstTry: boolean;
   private readonly pageID = 'topic-page';
 
+  public icons: any = {};
+
   constructor(
     private route: ActivatedRoute,
     private answerService: AnswerService,
@@ -39,8 +41,12 @@ export class TopicComponent implements OnInit, AfterViewInit {
       this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
         (topic) => {
           this.topic = topic;
+          this.icons.topicIcon = topic.icon;
         }
       );
+      this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
+        this.icons.assessmentIcon = assessment.icon;
+    });
     });
   }
 

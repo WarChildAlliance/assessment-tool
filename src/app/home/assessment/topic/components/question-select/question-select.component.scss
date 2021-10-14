@@ -34,9 +34,20 @@
       }
     }
 
+    mat-radio-label-content {
+      padding-left: 8px;
+    }
+
+    mat-card-content {
+      margin-bottom: 0px;
+    }
+
+    mat-card-actions{
+      padding-top: 0px;
+    }
+
     mat-card img {
       cursor: pointer;
-      height: 160px;
     }
 
     &:not(.-card) {

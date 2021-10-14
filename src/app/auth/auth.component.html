@@ -1,12 +1,12 @@
 <img class="flower" src="assets/flower_green.svg" />
 <div class="light-yellow-bg">
     <button mat-icon-button appAudioPlay="assets/audios/login.ogg">
-        <img src="assets/icons/audio_48.svg" alt="">
+        <img src="assets/icons/audio-button.svg" alt="">
     </button>
     <mat-grid-list cols="1">
         <mat-grid-tile>
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                <img src="assets/icons/bee_100.svg" />
+                <img src="assets/icons/flying-bee.svg" />
                 <div>
                     <mat-form-field appearance="outline">
                         <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}" />

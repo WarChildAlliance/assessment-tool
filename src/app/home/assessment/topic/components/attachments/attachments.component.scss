@@ -1,18 +1,22 @@
-.img-attachment {
-    width: 20vw;
-    padding: 10px;
-    margin: auto;
-    img {
-        height: auto;
-        width: 100%;
-        display:block;
-        margin:auto;
-    }
-}
-
-.audio-attachment {
-    display:flex;
-    flex-direction: row;
+.attachments-container {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 10px;
+
+    .img-attachment {
+        width: 15vw;
+        img {
+            height: auto;
+            width: 100%;
+            margin: 0px 10px;
+        }
+    }
+    
+    .audio-attachment {
+        width: 15vw;
+        img {
+            width: 100px;
+            margin: 0px 10px;
+        }
+    }
 }

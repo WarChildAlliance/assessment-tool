@@ -9,11 +9,11 @@
   .topic-card {
     list-style-type: none;
     margin: 10px;
-    padding: 20px;
+    //padding: 10px 0px 0px 0px;
     width: 85vw;
     max-width: 200px;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-radius: 25px;
+    //background-color: rgba(255, 255, 255, 0.3);
+    //border-radius: 10px;
 
     a {
       color: black;
@@ -23,25 +23,38 @@
       justify-content: space-between;
       align-items: center;
 
-      img {
-        padding: 0px 5px;
-        position: relative;
+
+      .complete{
+        z-index: 2;
+        margin-right: -60%;
+        margin-bottom: -2rem;
       }
 
       img:nth-child(2) {
+        padding: 0px 5px;
+        position: relative;
+        z-index: 1;
+      }
+
+      img:nth-child(3) {
         margin-top: -1rem;
+        z-index: 2;
       }
 
       p {
         margin: 5px;
         padding: 0;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 24px;
+        font-weight: 600;
         color: #70504A;
       }
 
     }
   }
+}
+
+h2{
+  margin: 15px 0px 0px 0px;
 }
 
 .back-banner {

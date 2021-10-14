@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { CacheService } from '../core/services/cache.service';
+import { GenericConfirmationDialogComponent } from '../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 import { UserService } from '../core/services/user.service';
 import { Router } from '@angular/router';
 
@@ -20,17 +24,39 @@ export class AuthComponent implements OnInit {
     constructor(
         private authService: AuthService,
         public translate: TranslateService,
+        private cacheService: CacheService,
+        public dialog: MatDialog,
         private userService: UserService,
         private router: Router,
     ) {
     }
 
     ngOnInit(): void {
+        if (!this.cacheService.networkStatus.getValue()){
+            this.showOfflineModal();
+        }
+    }
+
+    showOfflineModal(): void {
+        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: true,
+            data: {
+              title: 'Login not possible',
+              content: 'You need to have an internet connection in order to login.',
+              cancelBtn: false,
+              confirmBtnText: 'Close',
+              confirmBtnColor: 'warn',
+            }
+          });
     }
 
     onSubmit(): void {
-        const code = this.authForm.get('code').value;
-        this.authService.login(code);
+        if (!this.cacheService.networkStatus.getValue()){
+            this.showOfflineModal();
+        } else {
+            const code = this.authForm.get('code').value;
+            this.authService.login(code);
+        }
     }
 
 }

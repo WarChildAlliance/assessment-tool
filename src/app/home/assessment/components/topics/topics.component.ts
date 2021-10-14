@@ -21,6 +21,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private user = null;
 
     public assessmentTitle = '';
+    public icons: any = {};
 
     constructor(
         private route: ActivatedRoute,
@@ -43,6 +44,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
                             this.assessmentTitle = assessment.title;
+                            this.icons.assessmentIcon = assessment.icon;
                         });
                         return this.assessmentService.getAssessmentTopics(assessmentId);
                     }
@@ -56,6 +58,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const stars = topic.competency.filter((item) => item === true).length;
                         topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
                             stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
+                        topic.completed = cachedCompetency ? true : false;
                     });
                     this.topics = topics;
                 }
@@ -70,7 +73,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
 
     getTopicIcon(topic: Topic): string {
-
         return topic.icon ?
             (environment.API_URL + topic.icon) :
             'assets/yellow_circle.svg';

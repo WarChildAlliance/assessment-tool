@@ -22,7 +22,7 @@ export class AuthService {
     private cacheService: CacheService,
     private router: Router,
   ) {
-    this.isAuthenticated = this.cookieService.has('auth-token');
+    this.isAuthenticated = this.cookieService.has('student-auth-token');
   }
 
   login(username: string): any {
@@ -39,7 +39,8 @@ export class AuthService {
           }
         }
         this.isAuthenticated = true;
-        this.cookieService.set('auth-token', res.token);
+        this.cookieService.set('student-auth-token', res.token);
+
         this.router.navigate(['']);
       },
       (error) => {
@@ -50,12 +51,12 @@ export class AuthService {
 
   logout(): void {
     this.isAuthenticated = false;
-    this.cookieService.delete('auth-token');
+    this.cookieService.delete('student-auth-token');
     this.router.navigate(['/auth']);
   }
 
   getToken(): string {
-    return this.cookieService.get('auth-token');
+    return this.cookieService.get('student-auth-token');
   }
 
 
