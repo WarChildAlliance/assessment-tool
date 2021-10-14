@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, from } from 'rxjs';
+import { combineLatest, from, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
@@ -19,22 +20,22 @@ export class AuthService {
     private alertService: AlertService,
     private cookieService: CookieService,
     private cacheService: CacheService,
-    private router: Router
+    private router: Router,
   ) {
     this.isAuthenticated = this.cookieService.has('student-auth-token');
   }
 
-  login(username: string): void {
+  login(username: string): any {
     combineLatest(
       [this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
       this.cacheService.hasActiveSession(),
-      from(this.cacheService.getData('active-session'))])
+      from(this.cacheService.getData('session'))])
     .subscribe(
       ([res, hasActiveSession, activeSession]) => {
         if (hasActiveSession) {
           if (activeSession.student !== res.user_id) {
-            this.cacheService.deleteData('active-session');
-            this.cacheService.deleteData('active-topic-answer');
+            this.cacheService.deleteData('session');
+            this.cacheService.deleteData('topic-answer');
           }
         }
         this.isAuthenticated = true;
@@ -57,4 +58,6 @@ export class AuthService {
   getToken(): string {
     return this.cookieService.get('student-auth-token');
   }
+
+
 }

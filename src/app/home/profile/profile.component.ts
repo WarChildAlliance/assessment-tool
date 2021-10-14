@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.user = res;
         this.avatars = res.profile.unlocked_avatars;
       } else {
-        this.cacheService.getData('active-user').then( user => {
+        this.cacheService.getData('user').then( user => {
           this.user = user;
           this.avatars = user.profile.unlocked_avatars;
         });
@@ -56,40 +56,30 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
 
     getAvatarUrl(avatar: Avatar): string {
-      // TODO We should replace by a real default image so the students can understand it's not the expected one
+
       return avatar.image ?
           (environment.API_URL + avatar.image) :
           'assets/icons/Bee.svg';
     }
 
     selectAvatar(avatar: Avatar): void {
-      this.cacheService.getData('active-user').then( user => {
+      this.cacheService.getData('user').then( user => {
         const newUser = user;
         newUser.profile.current_avatar = avatar;
         newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
         newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
-        this.cacheService.setData('active-user', newUser);
+        this.cacheService.setData('user', newUser);
 
-        this.profileService.updateProfile(newUser.profile).subscribe (response => {});
+        this.profileService.updateProfile(newUser.profile).subscribe();
         this.userService.updateUser(newUser);
       });
 
-/*         this.profileService.selectNewAvatar(avatar.id).subscribe(
-            (newAvatar) => {
-                this.avatars.find(av => (av.selected)).selected = false;
-                this.avatars.find(av => (av.id === newAvatar.id)).selected = true;
-
-                this.userService.getSelf().subscribe((user) => {
-                    this.user = user;
-                });
-            }
-        ); */
     }
 
 
 
   unlockAvatar(avatar: Avatar): void {
-    this.cacheService.getData('active-user').then( res => {
+    this.cacheService.getData('user').then( res => {
       const unlockAvatar = res.profile.unlocked_avatars.find(a => a.id === avatar.id);
       if (!unlockAvatar.unlocked) {
         const effortPoints = this.user.profile.effort;
@@ -105,9 +95,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           newUser.profile.effort = remainingEffort;
           newUser.profile.unlocked_avatars = newAvatars;
 
-          this.cacheService.setData('active-user', newUser);
-          this.profileService.updateProfile(newUser.profile).subscribe (response => {
-          });
+          this.cacheService.setData('user', newUser);
+          this.profileService.updateProfile(newUser.profile).subscribe();
           this.userService.updateUser(newUser);
         }
       }

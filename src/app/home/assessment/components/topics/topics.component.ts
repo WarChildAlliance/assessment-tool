@@ -35,7 +35,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     subject: string;
 
     ngOnInit(): void {
-        this.cacheService.getData('active-user').then(user => {
+        this.cacheService.getData('user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
                 switchMap((params: ParamMap) => {

@@ -6,6 +6,8 @@ import { CacheService } from '../core/services/cache.service';
 import { GenericConfirmationDialogComponent } from '../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
+import { UserService } from '../core/services/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,6 +26,8 @@ export class AuthComponent implements OnInit {
         public translate: TranslateService,
         private cacheService: CacheService,
         public dialog: MatDialog,
+        private userService: UserService,
+        private router: Router,
     ) {
     }
 

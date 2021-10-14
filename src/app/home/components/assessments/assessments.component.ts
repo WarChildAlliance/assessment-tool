@@ -18,6 +18,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
   assessments: Assessment[];
   private readonly pageID = 'assessments-page';
 
+  public displaySpinner = true;
+
   constructor(
     private assessmentService: AssessmentService,
     private tutorialService: TutorialService,
@@ -39,7 +41,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
           this.tutorialService.setCompleted(true);
           this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
         }
-
+        this.displaySpinner = false;
       }
     );
     this.assisstantService.setPageID(this.pageID);
