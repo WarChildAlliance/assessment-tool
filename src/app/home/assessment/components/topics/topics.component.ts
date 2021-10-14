@@ -21,6 +21,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private user = null;
 
     public assessmentTitle = '';
+    public icons: any = {};
 
     constructor(
         private route: ActivatedRoute,
@@ -43,6 +44,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
                             this.assessmentTitle = assessment.title;
+                            this.icons.assessmentIcon = assessment.icon;
                         });
                         return this.assessmentService.getAssessmentTopics(assessmentId);
                     }

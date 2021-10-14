@@ -53,7 +53,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   }
 
   private isValid(): boolean {
-    const errorMargin = (this.question.end * 10) / 100;
+    const errorMargin = (!this.question.show_ticks || this.question.tick_step !== 1) ? (this.question.end * 10) / 100 : 0;
     if (this.valueForm.value >= this.question.expected_value - errorMargin
       && this.valueForm.value <= this.question.expected_value + errorMargin) {
       return true;

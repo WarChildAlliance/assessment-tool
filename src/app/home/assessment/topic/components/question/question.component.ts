@@ -298,7 +298,6 @@ export class QuestionComponent implements OnInit {
   }
 
 
-
   getSource(path: string): string{
     return environment.API_URL + path;
   }
