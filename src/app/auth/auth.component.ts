@@ -29,22 +29,30 @@ export class AuthComponent implements OnInit {
 
     ngOnInit(): void {
         if (!this.cacheService.networkStatus.getValue()){
-            const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-                disableClose: true,
-                data: {
-                  title: 'Login not possible',
-                  content: 'You need to have an internet connection in order to login.',
-                  cancelBtn: false,
-                  confirmBtnText: 'Close',
-                  confirmBtnColor: 'warn',
-                }
-              });
+            this.showOfflineModal();
         }
     }
 
+    showOfflineModal(): void {
+        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: true,
+            data: {
+              title: 'Login not possible',
+              content: 'You need to have an internet connection in order to login.',
+              cancelBtn: false,
+              confirmBtnText: 'Close',
+              confirmBtnColor: 'warn',
+            }
+          });
+    }
+
     onSubmit(): void {
-        const code = this.authForm.get('code').value;
-        this.authService.login(code);
+        if (!this.cacheService.networkStatus.getValue()){
+            this.showOfflineModal();
+        } else {
+            const code = this.authForm.get('code').value;
+            this.authService.login(code);
+        }
     }
 
 }

@@ -107,7 +107,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
           this.cacheService.setData('active-user', newUser);
           this.profileService.updateProfile(newUser.profile).subscribe (response => {
-            console.log('TODO show success message', response);
           });
           this.userService.updateUser(newUser);
         }

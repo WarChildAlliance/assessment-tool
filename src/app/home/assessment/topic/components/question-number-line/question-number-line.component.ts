@@ -21,6 +21,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
   valueForm = new FormControl(null);
+  correctAnswerForm = new FormControl(null);
   private readonly pageID = 'question-number-line-page';
 
   constructor(
@@ -33,6 +34,9 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });
+    if (this.displayCorrectAnswer){
+      this.correctAnswerForm.setValue(this.question.expected_value);
+    }
   }
 
   private submit(value): void {
