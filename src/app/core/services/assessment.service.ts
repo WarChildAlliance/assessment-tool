@@ -71,44 +71,46 @@ export class AssessmentService {
   }
 
   getAssessments(): Observable<Assessment[]> {
-    return this.storedAssessments;
 
-    /*
-    // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
-    map(assessmentsList => {
-      assessmentsList.map(assessment => {
-        // Lock all assessments by default
-        // assessment.locked = true;
-      });
+    return this.storedAssessments.pipe(
 
-      // Find preSel and postSel assessments if they exist
-      const preSelAssessment = assessmentsList.find(assessment => assessment.subject === 'PRESEL');
-      const postSelAssessment = assessmentsList.find(assessment => assessment.subject === 'POSTSEL');
-
-      // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
-      if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
-        preSelAssessment.locked = false;
-      } else {
+      // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
+      map(assessmentsList => {
         assessmentsList.map(assessment => {
-          assessment.locked = false;
+          // Lock all assessments by default
+          assessment.locked = true;
         });
-        if (preSelAssessment) { preSelAssessment.locked = true; }
-      }
 
-      // If there's a postSel assessment, unlock it only if all other assessments are complete
-      if (!!postSelAssessment) {
-        let uncompleteTopicLeft = false;
-        assessmentsList.forEach(assessment => {
-          if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') { uncompleteTopicLeft = true; return; }
-        });
-        postSelAssessment.locked = uncompleteTopicLeft ? true : false;
-      }
+        // Find preSel and postSel assessments if they exist
+        const preSelAssessment = assessmentsList.find(assessment => assessment.subject === 'PRESEL');
+        const postSelAssessment = assessmentsList.find(assessment => assessment.subject === 'POSTSEL');
 
-      return assessmentsList;
-    })
-    // END OF TEMPORARY
-    */
+        // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
+        if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
+          preSelAssessment.locked = false;
+        } else {
+          assessmentsList.map(assessment => {
+            assessment.locked = false;
+          });
+          if (preSelAssessment) { preSelAssessment.locked = true; }
+        }
 
+        // If there's a postSel assessment, unlock it only if all other assessments are complete
+        if (!!postSelAssessment) {
+          let uncompleteTopicLeft = false;
+          assessmentsList.forEach(assessment => {
+            if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') {
+              uncompleteTopicLeft = true;
+              return;
+            }
+          });
+          postSelAssessment.locked = uncompleteTopicLeft ? true : false;
+        }
+
+        return assessmentsList;
+      })
+      // END OF TEMPORARY
+    );
   }
 
   getAssessment(assessmentId: number): Observable<Assessment> {

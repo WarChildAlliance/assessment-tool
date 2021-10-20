@@ -8,7 +8,7 @@
                     [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.effort" mat-flat-button
                     color="primary">
                 <img *ngIf="!avatar.unlocked && !avatar.selected" width="42" height="42"
-                     src="assets/icons/honey_pot_btn.svg">
+                     src="assets/icons/honeypot.svg">
                 <span *ngIf="!avatar.unlocked">{{avatar.effort_cost}}</span>
                 <span *ngIf="avatar.unlocked && avatar.selected">{{'profile.selected' | translate}}</span>
                 <span *ngIf="avatar.unlocked && !avatar.selected">{{'profile.unlocked' | translate}}</span>

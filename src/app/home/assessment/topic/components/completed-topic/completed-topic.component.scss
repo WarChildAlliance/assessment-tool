@@ -29,12 +29,17 @@ img {
 .effort, .competency {
     display: flex;
     justify-content: center;
-    align-items:inherit;
+    align-items:center;
 }
     }
 
     img {
         padding:20px 0px;
+    }
+
+    span {
+        font-size: 20px !important;
+        margin-right: 10px;
     }
 
     p {
