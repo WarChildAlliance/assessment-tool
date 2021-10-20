@@ -66,6 +66,8 @@ export class AssessmentService {
     if (!attachments || !attachments.length) { return; }
 
     for (const attachment of attachments) {
+      console.log('got', attachment);
+      console.log('at', environment.API_URL + attachment.file);
       this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
     }
   }
