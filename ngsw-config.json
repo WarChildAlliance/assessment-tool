@@ -6,7 +6,6 @@
       "name": "app",
       "resources": {
         "files": [
-          "/Bee-no-circle.svg",
           "/index.html",
           "/manifest.webmanifest",
           "/*.scss",
@@ -22,6 +21,7 @@
       "resources": {
         "files": [
           "/assets/**",
+          "/media/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       },
