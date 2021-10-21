@@ -56,7 +56,7 @@ export class AssessmentService {
   // Fetch the icon from the backend to allow accessing it offline
   private getIcon(icon: string): void {
     if (!icon) { return; }
-
+    console.log('got icon', environment.API_URL + icon);
     this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
   }
 
@@ -66,8 +66,7 @@ export class AssessmentService {
     if (!attachments || !attachments.length) { return; }
 
     for (const attachment of attachments) {
-      console.log('got', attachment);
-      console.log('at', environment.API_URL + attachment.file);
+      console.log('got attachment', environment.API_URL + attachment.file);
       this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
     }
   }
