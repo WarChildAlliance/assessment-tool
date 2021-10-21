@@ -12,6 +12,9 @@
           "/*.scss",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://glmt-api.development.humanitarian.tech/media/*"
         ]
       },
       "updateMode": "prefetch"
