@@ -19,7 +19,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
     public competency = 1;
     public effort = 2;
-    private topic = null;
+    public topic = null;
 
     blockNavigation = true;
     private readonly pageID = 'completed-topic-page';
@@ -55,8 +55,12 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         this.cacheService.getData(searchString).then(response => {
             const answers = response.answers;
             const correctAnswers = answers.filter(ans => ans.valid);
-            this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
-            this.competency = this.competency === 0 ? 1 : this.competency;
+            if (this.topic.evaluated) {
+                this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
+                this.competency = this.competency === 0 ? 1 : this.competency;
+            } else {
+                this.competency = 0;
+            }
 
             this.cacheService.getData('user').then(user => {
                 const newUser = { ...user };

@@ -50,6 +50,7 @@ export class UserService {
           if (!res.user.profile.current_avatar && res.avatars) {
             res.user.profile.current_avatar = res.avatars[0];
             res.avatars[0].unlocked = true;
+            res.avatars[0].selected = true;
           }
           return res.user;
       }),

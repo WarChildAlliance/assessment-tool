@@ -50,9 +50,13 @@ export class TopicComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /*
+  MOVED TO TOPICS
   startTopic(): void {
     this.answerService.startTopicAnswer(this.topic.id).subscribe();
   }
+    */
+
 
 
   ngAfterViewInit(): void {

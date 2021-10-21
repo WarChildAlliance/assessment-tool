@@ -65,6 +65,20 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     return false;
   }
 
+  /*
+  getSliderColor(): string {
+    if (this.displayCorrectAnswer.getValue()) {
+      if (this.answer && this.answer.valid) {
+        return 'accent'
+      } else {
+        return 'warn'
+      }
+    } else {
+      return 'primary'
+    }
+  }
+  */
+
   ngAfterViewInit(): void {
     this.tutorialSerice.currentPage.next(PageNames.questionNumberLine);
   }
