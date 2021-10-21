@@ -21,7 +21,6 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/media/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       },
@@ -39,7 +38,7 @@
       "name": "api-queries",
       "urls": [
         "http://localhost:8002",
-        "https://gmlt-api.development.humanitarian.tech"
+        "https://glmt-api.development.humanitarian.tech"
       ]
     }
   ],
