@@ -14,7 +14,8 @@
           "/*.js"
         ],
         "urls": [
-          "https://glmt-api.development.humanitarian.tech/media/*"
+          "https://glmt-api.development.humanitarian.tech/media/*",
+          "http://localhost:8002/media/*"
         ]
       },
       "updateMode": "prefetch"
