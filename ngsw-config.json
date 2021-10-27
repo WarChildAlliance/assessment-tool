@@ -6,12 +6,16 @@
       "name": "app",
       "resources": {
         "files": [
-          "/Bee-no-circle.svg",
           "/index.html",
           "/manifest.webmanifest",
+          "/media/*",
           "/*.scss",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://glmt-api.development.humanitarian.tech/media/*",
+          "http://localhost:8002/media/*"
         ]
       },
       "updateMode": "prefetch"
@@ -39,7 +43,7 @@
       "name": "api-queries",
       "urls": [
         "http://localhost:8002",
-        "https://gmlt-api.development.humanitarian.tech"
+        "https://glmt-api.development.humanitarian.tech"
       ]
     }
   ],

@@ -57,7 +57,6 @@ export class AssessmentService {
   // Fetch the icon from the backend to allow accessing it offline
   private getIcon(icon: string): void {
     if (!icon) { return; }
-
     this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
   }
 

@@ -44,7 +44,6 @@
           "options": {
             "aot": true,
             "assets": [
-              "src/Bee-no-circle.svg",
               "src/assets",
               "src/manifest.webmanifest"
             ],
