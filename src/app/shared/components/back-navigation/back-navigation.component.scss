@@ -1,10 +1,14 @@
 .navigation-container {
-  background: #FFF9C4;;
+  background: white;
   text-align: left;
   display: flex;
   line-height: 2;
   padding: 1rem 1rem;
   justify-content: space-between;
+
+  @media (max-width: 780px) {
+    padding: 1rem 0rem;
+  }
 
   .icons {
     display: flex;

@@ -1,7 +1,8 @@
 <button [ngStyle]="{'width': width}" mat-flat-button
         color="primary"
-        [disabled]="isDisabled">
+        [disabled]="isDisabled"
+        [appAudioPlay]="">
     {{ text }}
-    <img width="24" height="24" [ngClass]="translate.currentLang === 'ara'
+    <img [ngClass]="translate.currentLang === 'ara'
             ? 'pull-left' : 'pull-right'" [src]="iconUrl"/>
 </button>

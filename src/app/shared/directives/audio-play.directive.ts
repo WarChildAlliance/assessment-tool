@@ -1,4 +1,5 @@
 import { Directive, HostListener, Input, OnChanges } from '@angular/core';
+import { from, fromEvent, Observable } from 'rxjs';
 
 @Directive({
     selector: '[appAudioPlay]'
@@ -18,8 +19,15 @@ export class AudioPlayDirective implements OnChanges {
 
     @HostListener('click', ['$event'])
     onClick(): void {
-        this.audio.load();
-        this.audio.play();
+        // const playing = fromEvent(this.audio, 'ended');
+        console.log('1', this.audio);
+        console.log('2', this.appAudioPlay);
+        if (this.appAudioPlay){
+            this.audio.load();
+            this.audio.play();
+        } else if (this.audio && !this.appAudioPlay) {
+            this.audio.pause();
+        }
     }
 
 }

@@ -3,11 +3,11 @@
     <h2>{{ 'profile.shop' | translate }}</h2>
     <div class="avatars">
         <div *ngFor="let avatar of avatars">
-            <img class="avatar" width="120" height="120" src="{{ getAvatarUrl(avatar) }}"/>
+            <img class="avatar" src="{{ getAvatarUrl(avatar) }}"/>
             <button (click)="avatar.unlocked && !avatar.selected ? selectAvatar(avatar) : unlockAvatar(avatar)"
                     [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.effort" mat-flat-button
                     color="primary">
-                <img *ngIf="!avatar.unlocked && !avatar.selected" width="42" height="42"
+                <img class="honeypot-icon" *ngIf="!avatar.unlocked && !avatar.selected"
                      src="assets/icons/honeypot.svg">
                 <span *ngIf="!avatar.unlocked">{{avatar.effort_cost}}</span>
                 <span *ngIf="avatar.unlocked && avatar.selected">{{'profile.selected' | translate}}</span>

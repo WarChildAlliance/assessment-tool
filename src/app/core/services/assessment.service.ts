@@ -21,6 +21,7 @@ export class AssessmentService {
     private http: HttpClient,
     private cacheService: CacheService
   ) {
+    this.loadAllAssessments();
   }
 
   loadAllAssessments(): void {

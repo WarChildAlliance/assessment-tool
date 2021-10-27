@@ -8,15 +8,27 @@
         img {
             height: auto;
             width: 100%;
-            margin: 0px 10px;
+            display:block;
+            margin:auto;
+
+            @media (max-width: 780px) {
+                height: 60px;
+              }
+            
         }
     }
     
     .audio-attachment {
         width: 15vw;
         img {
-            width: 100px;
-            margin: 0px 10px;
+            width: 70px;
+            display:block;
+            margin:auto;
+
+            @media (max-width: 780px) {
+                width: 60px;
+              }
+            
         }
     }
 }

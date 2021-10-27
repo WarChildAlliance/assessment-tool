@@ -2,7 +2,7 @@
     <app-back-navigation text="backToAssessments" [icons]="icons" [routerLink]="['../../home']"></app-back-navigation>
 
     <div>
-        <h2>{{assessmentTitle}}</h2>
+        <h3>{{assessmentTitle}}</h3>
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
             <li class="topic-card" *ngFor="let topic of topics">
                 <a (click)="startTopic(topic.id)">

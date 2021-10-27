@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ThemePalette } from '@angular/material/core';
 
@@ -67,4 +67,30 @@ export class GenericConfirmationDialogComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    /*
+    playAudio(): void {
+        console.log('audio', this.audio);
+        if (this.isAudioPlaying) {
+            const newAudio = new Audio(this.audioURL)
+            this.audio.pause();
+            newAudio.load();
+            newAudio.play();
+            this.audio = newAudio;
+        } else {
+            this.audio = new Audio(this.audioURL)
+            this.audio.load();
+            this.audio.play();
+            this.isAudioPlaying = true;
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.audio) {
+            this.audio.pause()
+        }
+    }*/
+
+    closeModal(): void {
+        console.log('CLOSE');
+    }
 }

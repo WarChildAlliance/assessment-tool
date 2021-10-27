@@ -9,6 +9,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-completed-topic',
@@ -34,6 +35,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private cacheService: CacheService,
         private route: ActivatedRoute,
         private tutorialService: TutorialService,
+        public translate: TranslateService
     ) {
 
     }
@@ -46,6 +48,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             const topicId = parseInt(params.get('topic_id'), 10);
             this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
                 (topic) => {
+                    console.log('topic', topic);
                     this.topic = topic;
                 }
             );
@@ -53,7 +56,9 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
         const searchString = 'topic-answer';
         this.cacheService.getData(searchString).then(response => {
+            console.log('1 topic', this.topic);
             const answers = response.answers;
+            console.log('answer', answers);
             const correctAnswers = answers.filter(ans => ans.valid);
             if (this.topic.evaluated) {
                 this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);
@@ -80,11 +85,28 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
-                newUser.profile.topics_competencies.forEach(element => {
-                    if (element.topic === this.topic.id) {
-                        element.competency = newCompetency;
-                    }
-                });
+                let topicCompetencyExists = false;
+
+                if (newUser.profile.topics_competencies.length) {
+                    newUser.profile.topics_competencies.forEach(element => {
+                        if (element.topic === this.topic.id) {
+                            topicCompetencyExists = true;
+                            element.competency = newCompetency;
+                        }
+                    });
+                } else if (!topicCompetencyExists) {
+                    newUser.profile.topic_competency.push({
+                        competency: newCompetency,
+                        topic: this.topic.id,
+                        profile: newUser.id
+                    });
+                } else {
+                    newUser.profile.topic_competency.push({
+                        competency: null,
+                        topic: this.topic.id,
+                        profile: newUser.id
+                    });
+                }
 
                 this.cacheService.setData('user', newUser);
                 this.userService.updateUser(newUser);

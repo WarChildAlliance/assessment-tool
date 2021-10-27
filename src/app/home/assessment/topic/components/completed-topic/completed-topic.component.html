@@ -6,21 +6,24 @@
             <p>{{ 'topicCompleted' | translate }}</p>
             <div class="points-container">
                 <h5>{{ 'gainedPoints' | translate }}</h5>
-                <div class="effort">
-                    <span><h1>{{this.effort}}</h1></span>
-                    <img src="assets/icons/honeypot.svg" width="50px">
-                </div>
-                <div class="competency" *ngIf="topic.evaluated">
-                    <span><h1>{{this.competency}}</h1></span>
-                    <img src="assets/icons/star.svg" width="50px">
+                <div class="points-display">
+                    <div class="effort">
+                        <img src="assets/icons/honeypot.svg">
+                        <h2>{{this.effort}}</h2>
+                    </div>
+                    <div class="competency" *ngIf="topic.evaluated">
+                        <img src="assets/icons/star.svg">
+                        <h2>{{this.competency}}</h2>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="buttons">
             <button mat-flat-button class="next-button" color="primary"
-                    (click)="goToTopicPage()">{{ 'backToTopics' | translate }}</button>
+                    (click)="goToTopicPage()">{{ 'backToTopics' | translate }}<img width="24" height="24" src="assets/icons/cross_32.svg"></button>
             <button mat-flat-button class="home-button" color="primary"
-                    (click)="goToHomePage()">{{ 'home' | translate }}</button>
+                    (click)="goToHomePage()">{{ 'home' | translate }}<img [src]="translate.currentLang === 'ara' ?
+                    'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'"></button>
         </div>
     </div>
 </div>
