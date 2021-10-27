@@ -1,102 +1,39 @@
 <div dir="ltr" [class]="headerConfig === 'home' ? 'white-opacity-bg' : 'white-bg'" [ngSwitch]="headerConfig">
+    <div class="header-home">
 
-
-    <div *ngSwitchCase="'home'">
-
-        <mat-grid-list cols="4" rowHeight="96">
-            <mat-grid-tile class="test"> 
-                <img class="pointer avatar" width="48" height="48" [src]="getImageUrl()"
+        <div class="header-container">
+            <div class="header-user"> 
+                <img class="pointer avatar" [src]="getImageUrl()"
                      [routerLink]="['/profile']" alt="avatar">
                 <h3 class="display_name">{{user.first_name}}</h3>
-            </mat-grid-tile>
-            <mat-grid-tile>
+            </div>
+            <div>
                 <div class="profile_stats">
                     <img class="icon" src="assets/icons/honeypot.svg">
                     <h2>
                         {{ user.profile.effort }}
                     </h2>
                 </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
+            </div>
+            <div>
                 <div class="profile_stats">
                     <img class="icon" src="assets/icons/star.svg">
                     <h2>
                         {{ user.profile.total_competency }}
                     </h2>
                 </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
+            </div>
+            <div class="header-assistant">
                 <app-assisstant class="info"></app-assisstant>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <img class="pointer top-left-logo" (click)="logout.emit()" src="assets/icons/switch_off_32.svg">
-            </mat-grid-tile>
-        </mat-grid-list>
-
-    </div>
-
-    <div *ngSwitchCase="'profile'">
-
-        <mat-grid-list cols="4" rowHeight="96">
-            <mat-grid-tile class="test">
-                <img class="pointer avatar" width="48" height="48" [src]="getImageUrl()"
-                     [routerLink]="['/profile']" alt="avatar">
-                <h3 class="display_name">{{user.first_name}}</h3>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/honeypot.svg">
-                    <h2>
-                        {{ user.profile.effort }}
-                    </h2>
-                </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/star.svg">
-                    <h2>
-                        {{ user.profile.total_competency }}
-                    </h2>
-                </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <app-assisstant class="info"></app-assisstant>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <img class="pointer top-left-logo" [routerLink]="['/home']" src="assets/icons/cross_32.svg">
-            </mat-grid-tile>
-        </mat-grid-list>
-
-    </div>
-
-    <div class="default" *ngSwitchDefault>
-
-        <mat-grid-list cols="4" rowHeight="96">
-            <mat-grid-tile>
-                <img class="pointer avatar" width="48" height="48" [src]="getImageUrl()"
-                     [routerLink]="['/profile']" alt="avatar">
-                <h3 class="display_name">{{user.first_name}}</h3>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/honeypot.svg">
-                    <h2>
-                        {{ user.profile.effort }}
-                    </h2>
-                </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/star.svg">
-                    <h2>
-                        {{ user.profile.total_competency }}
-                    </h2>
-                </div>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <app-assisstant class="info"></app-assisstant>
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
+        <div class="header-actions" *ngIf="headerConfig === 'home'">
+            <img class="pointer top-left-logo" (click)="logout.emit()" src="assets/icons/switch_off_32.svg">
+        </div>
+        <div class="header-actions" *ngIf="headerConfig === 'profile'">
+            <img class="pointer top-left-logo" [routerLink]="['/home']" [src]="translate.currentLang === 'ara' ?
+            'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'">
+        </div>
 
     </div>
 

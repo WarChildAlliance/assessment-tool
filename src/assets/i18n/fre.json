@@ -78,5 +78,6 @@
     "browserDisclaimer": "Veuillez utiliser le naviguateur Chrome pour une meilleure expérience"
   },
   "back": "Retour",
-  "cancel": "Annuler"
+  "cancel": "Annuler",
+  "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code."
 }

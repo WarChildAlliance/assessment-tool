@@ -6,6 +6,7 @@
 
   img {
     margin: 0 0.5rem;
+    width: 35px;
   }
 }
 
@@ -44,6 +45,10 @@ mat-progress-bar {
 .question-content {
   width: 90%;
   margin: 0rem 2rem;
+
+  @media (max-width: 780px) {
+    margin: auto;
+  }
 }
 
 
@@ -93,5 +98,11 @@ mat-progress-bar {
     margin-left: 5%;
   }
 
+}
+
+.question-title {
+  @media (max-width: 780px) {
+    font-size: 38px !important;
+  }
 }
 

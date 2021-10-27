@@ -91,6 +91,16 @@ $assessment-tool-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+.number-line {
+  $special-primary: mat-palette($assessment-tool-primary);
+  $special-accent: mat-palette($mat-green);
+  $special-warn: mat-palette($mat-red);
+  $special-theme: mat-dark-theme((
+   color: (primary: $special-primary, accent: $special-accent, warn: $special-warn),
+ ));
+ 
+  @include mat-slider-theme($special-theme);
+ }
 
 // ******** Pages backgrounds *********
 

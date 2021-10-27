@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit {
         private route: ActivatedRoute,
         public dialog: MatDialog,
         private userService: UserService,
+        public translate: TranslateService,
     ) {
     }
 

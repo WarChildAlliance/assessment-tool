@@ -6,12 +6,23 @@
   border-radius: 9.25rem;
   margin-bottom: 20px;
 
+  @media (max-width: 780px) {
+    width: 98%;
+  }
+
   img {
     float: left;
     margin-left: -0.5rem;
     margin-top: 0.15rem;
     margin-right: 0.5rem;
     border-radius: 5rem;
+    height: 70px;
+    width: 70px;
+
+    @media (max-width: 780px) {
+      width: 60px;
+      height: 60px;
+    }
   }
 }
 

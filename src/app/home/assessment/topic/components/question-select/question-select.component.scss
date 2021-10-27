@@ -8,6 +8,10 @@
     place-items: center;
     grid-template-columns: 1fr 1fr;
     // TODO verify if we need a media query
+
+    @media (max-width: 780px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &.vertical {

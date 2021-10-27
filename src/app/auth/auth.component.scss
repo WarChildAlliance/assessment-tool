@@ -2,18 +2,35 @@
   direction: ltr !important;
 }
 
+.auth-background {
+  @media (max-width: 780px) {
+    height: 100vh;
+  }
+}
+
 div {
   overflow: hidden;
 }
 
 mat-grid-list {
   line-height: 0;
+
+  .mat-grid-tile {
+
+    @media (max-width: 780px) {
+      margin-top: 40% !important;
+    }
+  }
 }
 
 form {
   width: 600px;
   min-width: 300px;
   z-index: 2;
+
+  @media (max-width: 780px) {
+    width: 98%;
+  }
 }
 
 form > div {
@@ -76,6 +93,11 @@ button {
   margin-top: 2.5rem;
   margin-right: 4.5rem;
   z-index: 99;
+
+  @media (max-width: 780px) {
+    margin-top: 1.5rem;
+    margin-right: 1.5rem;
+  }
 }
 
 .browser-disclaimer {

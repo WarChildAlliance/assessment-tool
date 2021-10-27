@@ -1,10 +1,10 @@
-<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="number-line"
+<div [style.pointerEvents]="displayCorrectAnswer.getValue() ? 'none' : ''" class="number-line my-special-section"
      [dir]="translate.currentLang === 'ara' ? 'rtl' : 'ltr'">
     <span>{{translate.currentLang === 'ara' ? question.end : question.start }}</span>
     <mat-slider
             style="overflow-x: hidden"
             class="number-line-slider"
-            [color]="displayCorrectAnswer.getValue() && !!answer && !answer.valid ? 'warn' : 'primary'"
+            [color]="getSliderColor()"
             [max]="question.end"
             [min]="question.start"
             [step]="question.step"
@@ -14,7 +14,4 @@
             [invert]="translate.currentLang === 'ara'">
     </mat-slider>
     <span>{{ translate.currentLang === 'ara' ? question.start : question.end }}</span>
-</div>
-<div class="correct-answer" *ngIf="displayCorrectAnswer.getValue()">
-    {{ "question.correctAnswer" | translate }} {{question.expected_value}}
 </div>

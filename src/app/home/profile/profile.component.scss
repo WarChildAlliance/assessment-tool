@@ -16,6 +16,14 @@ h2 {
 
 .avatar {
   margin: 0 2rem;
+
+  height: 120px;
+  width: 120px;
+
+  @media (max-width: 780px) {
+    width: 90px;
+    height: 90px;
+  }
 }
 
 button {
@@ -23,6 +31,20 @@ button {
   padding: 0.6rem;
   margin-top: 0.5rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 780px) {
+    padding: 0rem;
+  }
+}
+
+.honeypot-icon {
+  height: 42px;
+  width: 42px;
+
+  @media (max-width: 780px) {
+    height: 30px;
+    width: 30px;
+  }
 }
 
 span {

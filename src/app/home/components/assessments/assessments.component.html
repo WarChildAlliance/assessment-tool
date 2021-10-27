@@ -3,13 +3,13 @@
     <ng-container *ngFor="let assessment of assessments">
         <button *ngIf="!assessment.locked" mat-button class="assessment-btn"
                 [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
-            <img src="{{ getAssessmentIcon(assessment) }}" width="64" height="64">
+            <img src="{{ getAssessmentIcon(assessment) }}">
             <h1>
                 {{assessment.title}}
             </h1>
         </button>
         <button *ngIf="assessment.locked" mat-button class="assessment-btn locked">
-            <img src="{{ getAssessmentIcon(assessment) }}" width="64" height="64">
+            <img src="{{ getAssessmentIcon(assessment) }}">
             <h1>
                 {{assessment.title}}
             </h1>
