@@ -50,16 +50,15 @@ align-items: space-evenly;
 
 .buttons {
     display: flex;
-    justify-content:space-evenly;
+    justify-content: center;
     padding:15px;
 
-    button {
-        display: flex;
-        justify-content: space-between;
+    div {
+        width: 25%;
 
         img {
-            height: 20px;
-            width: 20px;
+            height: 45px;
+            width: 45px;
         }
     }
 }
