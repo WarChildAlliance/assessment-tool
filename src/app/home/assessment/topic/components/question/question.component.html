@@ -3,8 +3,8 @@
     <div class="progress_bar">
         <img class="pointer" [routerLink]="['/home']"
              [src]=" translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
-<!--         <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
-        </mat-progress-bar> -->
+    <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
+        </mat-progress-bar>
         <div class="icons">
             <img *ngIf="assessment.icon" [src]="getSource(assessment.icon)">
             <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
