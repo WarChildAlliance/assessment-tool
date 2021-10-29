@@ -73,7 +73,6 @@ export class AssessmentService {
   getAssessments(): Observable<Assessment[]> {
 
     return this.storedAssessments.pipe(
-
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
         assessmentsList.map(assessment => {
@@ -99,8 +98,10 @@ export class AssessmentService {
         if (!!postSelAssessment) {
           let uncompleteTopicLeft = false;
           assessmentsList.forEach(assessment => {
+            assessment.locked = true;
             if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') {
               uncompleteTopicLeft = true;
+              assessment.locked = false;
               return;
             }
           });

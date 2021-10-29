@@ -56,18 +56,14 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             ).subscribe(
                 topics => {
                     topics.forEach(topic => {
-                        console.log('topic', topic);
                         const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
-                        console.log('cached competency', cachedCompetency);
                         topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency);
-                        console.log('competency', topic.competency);
                         const stars = topic.competency.filter((item) => item === true).length;
                         topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
                             stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
                         topic.completed = cachedCompetency ? true : false;
                     });
                     this.topics = topics;
-                    console.log('topics', this.topics);
                 }
             );
         });

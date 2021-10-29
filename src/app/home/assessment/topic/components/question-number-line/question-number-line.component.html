@@ -11,7 +11,7 @@
             [thumbLabel]="question.show_value"
             [tickInterval]="question.show_ticks ? question.tick_step : 0"
             [formControl]="displayCorrectAnswer.getValue() ? correctAnswerForm : valueForm"
-            [invert]="translate.currentLang === 'ara'">
+        >
     </mat-slider>
     <span>{{ translate.currentLang === 'ara' ? question.start : question.end }}</span>
 </div>

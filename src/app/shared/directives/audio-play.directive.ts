@@ -20,8 +20,6 @@ export class AudioPlayDirective implements OnChanges {
     @HostListener('click', ['$event'])
     onClick(): void {
         // const playing = fromEvent(this.audio, 'ended');
-        console.log('1', this.audio);
-        console.log('2', this.appAudioPlay);
         if (this.appAudioPlay){
             this.audio.load();
             this.audio.play();
