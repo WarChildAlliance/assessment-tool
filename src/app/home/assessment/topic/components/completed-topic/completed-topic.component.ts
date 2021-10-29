@@ -48,7 +48,6 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
             const topicId = parseInt(params.get('topic_id'), 10);
             this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
                 (topic) => {
-                    console.log('topic', topic);
                     this.topic = topic;
                 }
             );
@@ -56,9 +55,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
         const searchString = 'topic-answer';
         this.cacheService.getData(searchString).then(response => {
-            console.log('1 topic', this.topic);
             const answers = response.answers;
-            console.log('answer', answers);
             const correctAnswers = answers.filter(ans => ans.valid);
             if (this.topic.evaluated) {
                 this.competency = Math.ceil(correctAnswers.length * 3 / answers.length);

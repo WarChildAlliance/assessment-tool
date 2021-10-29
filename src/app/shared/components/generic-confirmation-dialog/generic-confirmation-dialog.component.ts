@@ -91,6 +91,5 @@ export class GenericConfirmationDialogComponent implements OnInit {
     }*/
 
     closeModal(): void {
-        console.log('CLOSE');
     }
 }
