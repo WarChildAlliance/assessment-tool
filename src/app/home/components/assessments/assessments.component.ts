@@ -35,11 +35,13 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
       assessments => {
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial) {
-            this.tutorialSlideshowService.startTutorial();
             this.answerService.getCompleteStudentAnswersForTopic(tutorial.topics[0].id).subscribe( tutorialAnswers => {
             const tutorialCompleted = tutorialAnswers.length > 0;
             this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
             // this.tutorialService.setCompleted(tutorialCompleted);
+            if (tutorialCompleted) {
+              this.tutorialSlideshowService.startTutorial();
+            }
             this.tutorialService.setCompleted(true);
           });
         } else {
