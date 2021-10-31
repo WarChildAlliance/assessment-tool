@@ -1,4 +1,4 @@
-image: node:17-alpine3.12
+image: node:17
 stages:
   - test
   - deploy
