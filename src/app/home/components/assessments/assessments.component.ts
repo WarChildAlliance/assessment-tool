@@ -35,7 +35,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
           this.answerService.getCompleteStudentAnswersForTopic(tutorial.topics[0].id).subscribe( tutorialAnswers => {
             const tutorialCompleted = tutorialAnswers.length > 0;
             this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
-            this.tutorialService.setCompleted(tutorialCompleted);
+            this.tutorialService.setCompleted(true);
           });
         } else {
           this.tutorialService.setCompleted(true);
