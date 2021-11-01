@@ -19,11 +19,9 @@
             </div>
         </div>
         <div class="buttons">
-            <button mat-flat-button class="next-button" color="primary"
-                    (click)="goToTopicPage()">{{ 'backToTopics' | translate }}<img width="24" height="24" src="assets/icons/cross_32.svg"></button>
-            <button mat-flat-button class="home-button" color="primary"
-                    (click)="goToHomePage()">{{ 'home' | translate }}<img [src]="translate.currentLang === 'ara' ?
-                    'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'"></button>
+            <div (click)="goToTopicPage()"><img [src]="translate.currentLang === 'ara' ?
+                    'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'"></div>
+            <div (click)="goToHomePage()"><img src="assets/icons/home.svg"></div>
         </div>
     </div>
 </div>
