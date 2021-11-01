@@ -60,22 +60,22 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T11-topics.png',
                 audioURL: 'slideshow_11.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T12-empty-checkmark.png',
                 audioURL: 'slideshow_12.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T13-empty-stars.png',
                 audioURL: 'slideshow_13.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T14-topic-evaluated.png',
                 audioURL: 'slideshow_14.ogg',
                 },
             ]
@@ -86,37 +86,37 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T15-numberline-general.png',
                 audioURL: 'slideshow_15.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T16-numberline-titel.png',
                 audioURL: 'slideshow_16.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T17-numberline-start.png',
                 audioURL: 'slideshow_17.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T18-numberline-end.png',
                 audioURL: 'slideshow_18.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T19-numberline-submit.png',
                 audioURL: 'slideshow_19.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T21-numberline-next.png',
                 audioURL: 'slideshow_20.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T21-numberline-next.png',
                 audioURL: 'slideshow_21.ogg',
                 },
             ]
@@ -127,43 +127,38 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T22-select-audio.png',
                 audioURL: 'slideshow_23.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T23-audio-click.png',
+                audioURL: '',
+                },
+                {
+                text: '',
+                pictureURL: 'T24-select-options.png',
                 audioURL: 'slideshow_24.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
-                audioURL: 'slideshow_25.ogg',
-                },
-                {
-                text: '',
-                pictureURL: '',
+                pictureURL: 'T25-select-correct.png',
                 audioURL: 'slideshow_26.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T26-submit-select.png',
                 audioURL: 'slideshow_27.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T27-correct-submit.png',
                 audioURL: 'slideshow_28.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T28-incorrect-submit.png',
                 audioURL: 'slideshow_29.ogg',
-                },
-                {
-                text: '',
-                pictureURL: '',
-                audioURL: 'slideshow_30.ogg',
                 },
             ]
             },
@@ -173,17 +168,17 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T31-topics-evaluated-ready.png',
                 audioURL: 'slideshow_31.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T32-unevaluated-checkmark.png',
                 audioURL: 'slideshow_32.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T33-select-unevaluated.png',
                 audioURL: 'slideshow_33.ogg',
                 }
             ]
