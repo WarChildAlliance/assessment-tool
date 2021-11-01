@@ -1,8 +1,9 @@
 .progress_bar {
-  background: #FFF9C4;
+  background: white;
   display: flex;
   padding: 1rem;
   justify-content: space-between;
+  align-items: center;
 
   img {
     margin: 0 0.5rem;
@@ -106,3 +107,6 @@ mat-progress-bar {
   }
 }
 
+::ng-deep .mat-progress-bar-buffer {
+  background: white
+}
