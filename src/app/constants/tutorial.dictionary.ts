@@ -44,7 +44,7 @@ export const TutorialContent =
                 },
                 {
                 text: '',
-                pictureURL: 'T8-tutorial.ong',
+                pictureURL: 'T8-tutorial.png',
                 audioURL: 'slideshow_8.ogg',
                 },
                 {

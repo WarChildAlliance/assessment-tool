@@ -3,10 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ThemePalette } from '@angular/material/core';
 
 interface DialogData {
-  title: string;
-  content?: string;
-  imageURL: string;
-  audioURL: string;
+  steps: any;
 }
 
 @Component({
@@ -22,23 +19,36 @@ export class TutorialDialogComponent implements OnInit {
   public content ? = '';
   public imageURL = '';
   public audioURL = '';
+  public index = 0;
+  public steps =  null;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    if (data.title) {
-      this.title = data.title;
-    }
-    if (data.content) {
-        this.content = data.content;
-    }
-    if (data.imageURL) {
-        this.imageURL = 'assets/tutorial/images/' + data.imageURL;
-    }
-    if (data.audioURL) {
-        this.audioURL = 'assets/audios/audio/' + data.audioURL;
+    if (data.steps) {
+      this.steps = data.steps;
     }
    }
 
   ngOnInit(): void {
+  }
+
+  getImage(): string{
+    return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
+  }
+
+  getAudio(): string{
+    return 'assets/tutorial/audio/' + this.steps[this.index].audioURL;
+  }
+
+  clickNext(): void {
+    this.index += 1;
+  }
+
+  clickPrevious(): void {
+    if (this.index > 1) {
+      this.index -= 1;
+    } else {
+      this.index = 0;
+    }
   }
 
 }

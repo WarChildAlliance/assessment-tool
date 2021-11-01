@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private assisstantService: AssisstantService,
     private alertService: AlertService,
     private tutorialService: TutorialService,
+    private tutorialSlideshowService: TutorialSlideshowService,
     ) { }
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         });
       }
     });
-
+    this.tutorialSlideshowService.showTutorialForPage(this.pageID);
   }
 
 

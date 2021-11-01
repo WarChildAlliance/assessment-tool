@@ -23,20 +23,23 @@ export class TutorialSlideshowService {
     }
   }
 
-  showTutorialForPage(pageName: string): void{
+  async showTutorialForPage(pageName: string): Promise<void> {
     const currentPage = this.tutorial.pages.find(page => (page.pageID === pageName && !page.completed));
     if (currentPage) {
       this.tutorial.pages.find(page => page.pageID === pageName && !page.completed).completed = true;
-      currentPage.steps.forEach(step => {
-        const dialogRef = this.dialog.open(TutorialDialogComponent, {
-          disableClose: true,
-          data: {
-            imageURL: step.pictureURL,
-            audioURL: step.audioURL
-          }
-        });
+      const dialogRef = this.dialog.open(TutorialDialogComponent, {
+        disableClose: true,
+        data: {
+          steps: currentPage.steps
+        }
       });
+      dialogRef.afterClosed().subscribe(closed =>
+        {
+        // need to set page as completed?
+        });
 
     }
   }
+
+
 }
