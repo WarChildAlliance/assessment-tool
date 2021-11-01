@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private alertService: AlertService,
     private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -109,6 +110,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.tutorialService.currentPage.next(PageNames.profile);
+  }
+
+  rewatchTutorial(): void {
+    this.tutorialSlideshowService.startTutorial();
+    this.router.navigate(['/']);
   }
 }
 

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
 @Component({
     selector: 'app-topics',
@@ -31,7 +32,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
         private router: Router,
-        private cacheService: CacheService
+        private cacheService: CacheService,
+        private tutorialSlideshowService: TutorialSlideshowService,
     ) {
     }
 
@@ -68,6 +70,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             );
         });
         this.assisstantService.setPageID(this.pageID);
+        this.tutorialSlideshowService.showTutorialForPage(this.pageID);
     }
 
     ngAfterViewInit(): void {
