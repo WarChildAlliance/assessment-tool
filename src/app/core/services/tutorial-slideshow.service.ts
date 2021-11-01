@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TutorialContent } from '../../constants/tutorial.dictionary';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { TutorialDialogComponent } from '../../shared/components/tutorial-dialog/tutorial-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,9 @@ export class TutorialSlideshowService {
 
   public tutorial: any = TutorialContent;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog,
+  ) { }
 
   startTutorial(): void{
     if (this.tutorial.completed) {
@@ -23,7 +27,16 @@ export class TutorialSlideshowService {
     const currentPage = this.tutorial.pages.find(page => (page.pageID === pageName && !page.completed));
     if (currentPage) {
       this.tutorial.pages.find(page => page.pageID === pageName && !page.completed).completed = true;
-      currentPage.steps.forEach(step => console.log(step.text));
+      currentPage.steps.forEach(step => {
+        const dialogRef = this.dialog.open(TutorialDialogComponent, {
+          disableClose: true,
+          data: {
+            imageURL: step.pictureURL,
+            audioURL: step.audioURL
+          }
+        });
+      });
+
     }
   }
 }

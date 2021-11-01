@@ -1,0 +1,25 @@
+<div>
+    <button class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL" disableRipple="true">
+        <img src="assets/icons/audio-button.svg" alt="">
+    </button>
+</div>
+<div id="container">
+    <div class="media">
+        <img src="{{imageURL}}" alt="">
+    </div>
+    <mat-dialog-actions>
+        <app-primary-btn  [mat-dialog-close]="false"
+                         width="250px"
+                         text="next"
+                         iconUrl="assets/icons/left_arrow_24.svg">
+
+        </app-primary-btn>
+
+        <app-primary-btn [mat-dialog-close]="false"
+                         width="250px"
+                         text="previous"
+                         iconUrl="assets/icons/right_arrow_24.svg">
+        </app-primary-btn>
+
+    </mat-dialog-actions>
+</div>

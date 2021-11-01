@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { HttpLoaderFactory } from './core/factories/http-loader-translate.factory';
 import { httpInterceptorProviders } from './core/interceptors/index.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {GuidedTourModule, GuidedTourService} from 'ngx-guided-tour';
+import { GuidedTourModule, GuidedTourService } from 'ngx-guided-tour';
+import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {GuidedTourModule, GuidedTourService} from 'ngx-guided-tour';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     httpInterceptorProviders,

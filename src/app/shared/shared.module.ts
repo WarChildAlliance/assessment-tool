@@ -14,6 +14,7 @@ import { BackNavigationComponent } from './components/back-navigation/back-navig
 import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         AssisstantComponent,
         BackNavigationComponent,
         PrimaryBtnComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        TutorialDialogComponent
     ],
     imports: [
         CommonModule,
