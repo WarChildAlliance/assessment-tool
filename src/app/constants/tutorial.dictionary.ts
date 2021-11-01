@@ -8,15 +8,51 @@ export const TutorialContent =
             completed: true,
             steps: [
                 {
-                text: 'Welcome',
-                pictureURL: '',
-                audioURL: 'assessmentsAssisstant.ogg',
+                text: '',
+                pictureURL: 'T1-helper-bee.svg',
+                audioURL: 'slideshow_1.ogg',
                 },
                 {
-                text: 'to you first assessment',
-                pictureURL: '',
-                audioURL: 'assessmentsAssisstant.ogg',
+                text: '',
+                pictureURL: 'T2-homescreen.png',
+                audioURL: 'slideshow_2.ogg',
                 },
+                {
+                text: '',
+                pictureURL: 'T3-helper-bee.svg',
+                audioURL: 'slideshow_3.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T4-profile.png',
+                audioURL: 'slideshow_4.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T5-honeypot.png',
+                audioURL: 'slideshow_5.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T6-star.png',
+                audioURL: 'slideshow_6.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T7-exit.png',
+                audioURL: 'slideshow_7.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T8-tutorial.ong',
+                audioURL: 'slideshow_8.ogg',
+                },
+                {
+                text: '',
+                pictureURL: 'T9-tutorial-click.png',
+                audioURL: 'slideshow_9.ogg',
+                },
+
             ]
             },
             {
