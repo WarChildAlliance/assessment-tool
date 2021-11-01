@@ -4,6 +4,7 @@
     <mat-slider
             style="overflow-x: hidden"
             class="number-line-slider"
+            [invert]="translate.currentLang === 'ara'"
             [color]="getSliderColor()"
             [max]="question.end"
             [min]="question.start"
@@ -11,7 +12,7 @@
             [thumbLabel]="question.show_value"
             [tickInterval]="question.show_ticks ? question.tick_step : 0"
             [formControl]="displayCorrectAnswer.getValue() ? correctAnswerForm : valueForm"
-            [invert]="translate.currentLang === 'ara'">
+            >
     </mat-slider>
     <span>{{ translate.currentLang === 'ara' ? question.start : question.end }}</span>
 </div>
