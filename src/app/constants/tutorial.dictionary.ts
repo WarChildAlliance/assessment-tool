@@ -189,37 +189,37 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T34-SEL-question.png',
                 audioURL: 'slideshow_34.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T35-SEL-smileys.png',
                 audioURL: 'slideshow_35.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T36-SEL-yes.png',
                 audioURL: 'slideshow_36.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T37-SEL-maybe.png',
                 audioURL: 'slideshow_37.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T38-SEL-np.png',
                 audioURL: 'slideshow_38.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T39-SEL-submit.png',
                 audioURL: 'slideshow_39.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T39-SEL-submit.png',
                 audioURL: 'slideshow_40.ogg',
                 }
             ]
@@ -230,7 +230,7 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T41-stars.png',
                 audioURL: 'slideshow_41.ogg',
                 },
             ]
@@ -241,7 +241,7 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T42-profile.png',
                 audioURL: 'slideshow_42.ogg',
                 },
             ]
@@ -252,22 +252,22 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T43-profil-overview.png',
                 audioURL: 'slideshow_43.ogg',
                 },
                 {
-                text: 'why?',
-                pictureURL: '',
+                text: '',
+                pictureURL: 'T44-unlock-pancakes.png',
                 audioURL: 'slideshow_44.ogg',
                 },
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T45-rewatch-tutorial.png',
                 audioURL: 'slideshow_45.ogg',
                 },
                 {
-                text: 'why?',
-                pictureURL: '',
+                text: '',
+                pictureURL: 'T46-back-home.png',
                 audioURL: 'slideshow_46.ogg',
                 },
             ]
@@ -278,7 +278,7 @@ export const TutorialContent =
             steps: [
                 {
                 text: '',
-                pictureURL: '',
+                pictureURL: 'T1-helper-bee.svg',
                 audioURL: 'slideshow_47.ogg',
                 },
             ]
