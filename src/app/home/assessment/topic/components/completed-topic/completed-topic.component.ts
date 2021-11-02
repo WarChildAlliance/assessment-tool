@@ -75,9 +75,15 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                     newCompetency = oldCompetency < this.competency ? this.competency : oldCompetency;
                     difference = oldCompetency < this.competency ? this.competency - oldCompetency : 0;
                 } else {
+                    // set new competency and effort
                     newCompetency = this.competency;
                     this.effort = 5;
                     difference = this.competency;
+
+                    // update all_topics_complete if necessary
+                    this.cacheService.getData('assessments').then( assessments => {
+                        console.log(assessments);
+                    });
                 }
 
                 newUser.profile.total_competency += difference;
