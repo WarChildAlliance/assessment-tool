@@ -10,6 +10,7 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
 @Component({
     selector: 'app-completed-topic',
@@ -35,13 +36,15 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private cacheService: CacheService,
         private route: ActivatedRoute,
         private tutorialService: TutorialService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private tutorialSlideshowService: TutorialSlideshowService,
     ) {
 
     }
 
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
+        this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         this.route.paramMap.subscribe((params) => {
             const assessmentId = parseInt(params.get('assessment_id'), 10);

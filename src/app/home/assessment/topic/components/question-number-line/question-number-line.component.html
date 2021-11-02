@@ -4,6 +4,7 @@
     <mat-slider
             style="overflow-x: hidden"
             class="number-line-slider"
+            [invert]="translate.currentLang === 'ara'"
             [color]="getSliderColor()"
             [max]="question.end"
             [min]="question.start"

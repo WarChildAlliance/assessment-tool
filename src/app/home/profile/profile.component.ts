@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -30,6 +31,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private assisstantService: AssisstantService,
     private alertService: AlertService,
     private tutorialService: TutorialService,
+    private tutorialSlideshowService: TutorialSlideshowService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -51,7 +54,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         });
       }
     });
-
+    this.tutorialSlideshowService.showTutorialForPage(this.pageID);
   }
 
 
@@ -107,6 +110,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.tutorialService.currentPage.next(PageNames.profile);
+  }
+
+  rewatchTutorial(): void {
+    this.tutorialSlideshowService.startTutorial();
+    this.router.navigate(['/']);
   }
 }
 
