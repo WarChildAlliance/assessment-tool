@@ -37,18 +37,18 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
         if (tutorial) {
           this.tutorialService.setCompleted(true);
           this.answerService.getCompleteStudentAnswersForTopic(tutorial.topics[0].id).subscribe( tutorialAnswers => {
-          const tutorialCompleted = tutorialAnswers.length > 0;
-          this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
-          // this.tutorialService.setCompleted(tutorialCompleted);
-          if (tutorialCompleted) {
-            this.tutorialSlideshowService.startTutorial();
-          }
+            const tutorialCompleted = tutorial.all_topics_complete;
+            this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
+            // this.tutorialService.setCompleted(tutorialCompleted);
+            if (!tutorialCompleted) {
+              this.tutorialSlideshowService.startTutorial();
+              this.tutorialSlideshowService.showTutorialForPage(this.pageID);
+            }
           });
         } else {
           this.tutorialService.setCompleted(true);
           this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
         }
-        this.tutorialSlideshowService.showTutorialForPage(this.pageID);
         this.displaySpinner = false;
       }
     );

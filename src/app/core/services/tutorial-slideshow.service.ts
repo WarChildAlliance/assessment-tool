@@ -23,8 +23,10 @@ export class TutorialSlideshowService {
     }
   }
 
-  async showTutorialForPage(pageName: string): Promise<void> {
+  showTutorialForPage(pageName: string): void {
+    console.log(this.tutorial.pages.find(page => page.pageID = pageName))
     const currentPage = this.tutorial.pages.find(page => (page.pageID === pageName && !page.completed));
+    console.log(this.tutorial)
     if (currentPage) {
       this.tutorial.pages.find(page => page.pageID === pageName && !page.completed).completed = true;
       const dialogRef = this.dialog.open(TutorialDialogComponent, {
