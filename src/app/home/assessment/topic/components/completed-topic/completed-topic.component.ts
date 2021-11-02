@@ -92,13 +92,13 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                         }
                     });
                 } else if (!topicCompetencyExists) {
-                    newUser.profile.topic_competency.push({
+                    newUser.profile.topics_competencies.push({
                         competency: newCompetency,
                         topic: this.topic.id,
                         profile: newUser.id
                     });
                 } else {
-                    newUser.profile.topic_competency.push({
+                    newUser.profile.topics_competencies.push({
                         competency: null,
                         topic: this.topic.id,
                         profile: newUser.id
