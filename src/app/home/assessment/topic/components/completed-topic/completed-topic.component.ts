@@ -22,6 +22,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     public competency = 1;
     public effort = 2;
     public topic = null;
+    public assessmentId = null;
 
     blockNavigation = true;
     private readonly pageID = 'completed-topic-page';
@@ -47,9 +48,10 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         this.route.paramMap.subscribe((params) => {
-            const assessmentId = parseInt(params.get('assessment_id'), 10);
+            const assessmentID = parseInt(params.get('assessment_id'), 10);
+            this.assessmentId = assessmentID;
             const topicId = parseInt(params.get('topic_id'), 10);
-            this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
+            this.assessmentService.getAssessmentTopic(assessmentID, topicId).subscribe(
                 (topic) => {
                     this.topic = topic;
                 }
@@ -85,7 +87,8 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                     // update all_topics_complete if necessary
                     this.cacheService.getData('assessments').then( assessments => {
-                        console.log(assessments);
+                        const assessment = assessments.find( a => a.id = this.assessmentId);
+                        console.log(assessment);
                     });
                 }
 
