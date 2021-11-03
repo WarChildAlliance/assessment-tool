@@ -7,6 +7,7 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
 
 @Component({
@@ -27,10 +28,13 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   constructor(
     private assisstantService: AssisstantService,
     private tutorialSerice: TutorialService,
-    public translate: TranslateService) { }
+    public translate: TranslateService,
+    private tutorialSlideshowService: TutorialSlideshowService
+    ) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
+    this.tutorialSlideshowService.showTutorialForPage(this.pageID);
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });

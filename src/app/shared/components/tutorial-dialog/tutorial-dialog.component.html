@@ -1,0 +1,35 @@
+<div>
+    <button class="audio" mat-icon-button [appAudioPlay]="getAudio()" disableRipple="true">
+        <img src="assets/icons/audio-button.svg" alt="">
+    </button>
+</div>
+<div id="container">
+    <div class="media">
+        <img [src]="getImage()" alt="">
+    </div>
+    <mat-dialog-actions>
+        <app-primary-btn
+            *ngIf="index+1 < steps.length"
+            (click)=clickNext()
+            width="250px"
+            text="next"
+            iconUrl="assets/icons/left_arrow_24.svg">
+        </app-primary-btn>
+        <app-primary-btn 
+                        *ngIf="index+1 >= steps.length"
+                        [mat-dialog-close]="true"
+                         width="250px"
+                         text="close"
+                         iconUrl="assets/icons/left_arrow_24.svg">
+        </app-primary-btn>
+
+        <app-primary-btn 
+                        *ngIf="index != 0"
+                        (click)=clickPrevious()
+                         width="250px"
+                         text="previous"
+                         iconUrl="assets/icons/right_arrow_24.svg">
+        </app-primary-btn>
+
+    </mat-dialog-actions>
+</div>

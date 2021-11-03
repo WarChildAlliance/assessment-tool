@@ -1,0 +1,64 @@
+.light-yellow-bg {
+    height: auto;
+  }
+  
+  img {
+    margin-bottom: 1rem;
+  }
+  
+  app-primary-btn {
+    margin: 1rem;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    @media (max-width: 780px) {
+      flex-direction: column;
+    }
+  }
+
+  
+  #container {
+    text-align: center;
+    padding: 0 2rem 2rem 2rem;
+  
+    @media (max-width: 780px) {
+      padding: 0rem;
+      font-size: 28px;
+    }
+  
+    h1 {
+      margin: 5px;
+    }
+  
+    .media {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px auto;
+  
+      img {
+        width: 80%;
+        // @media (max-width: 780px) {
+        //   width: 150px;
+        //   height: 150px;
+        // }
+      }
+    }
+  }
+  
+  .audio {
+    text-align: right;
+    width: 70px;
+    height: 70px;
+  
+    @media (max-width: 780px) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+  
+  

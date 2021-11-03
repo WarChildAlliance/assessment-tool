@@ -10,6 +10,7 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
 @Component({
     selector: 'app-completed-topic',
@@ -21,6 +22,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     public competency = 1;
     public effort = 2;
     public topic = null;
+    public assessmentId = null;
 
     blockNavigation = true;
     private readonly pageID = 'completed-topic-page';
@@ -35,18 +37,21 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private cacheService: CacheService,
         private route: ActivatedRoute,
         private tutorialService: TutorialService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private tutorialSlideshowService: TutorialSlideshowService,
     ) {
 
     }
 
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
+        this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         this.route.paramMap.subscribe((params) => {
-            const assessmentId = parseInt(params.get('assessment_id'), 10);
+            const assessmentID = parseInt(params.get('assessment_id'), 10);
+            this.assessmentId = assessmentID;
             const topicId = parseInt(params.get('topic_id'), 10);
-            this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
+            this.assessmentService.getAssessmentTopic(assessmentID, topicId).subscribe(
                 (topic) => {
                     this.topic = topic;
                 }
@@ -75,9 +80,16 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                     newCompetency = oldCompetency < this.competency ? this.competency : oldCompetency;
                     difference = oldCompetency < this.competency ? this.competency - oldCompetency : 0;
                 } else {
+                    // set new competency and effort
                     newCompetency = this.competency;
                     this.effort = 5;
                     difference = this.competency;
+
+                    // update all_topics_complete if necessary
+                    this.cacheService.getData('assessments').then( assessments => {
+                        const assessment = assessments.find( a => a.id = this.assessmentId);
+                        console.log(assessment);
+                    });
                 }
 
                 newUser.profile.total_competency += difference;
@@ -92,13 +104,13 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                         }
                     });
                 } else if (!topicCompetencyExists) {
-                    newUser.profile.topic_competency.push({
+                    newUser.profile.topics_competencies.push({
                         competency: newCompetency,
                         topic: this.topic.id,
                         profile: newUser.id
                     });
                 } else {
-                    newUser.profile.topic_competency.push({
+                    newUser.profile.topics_competencies.push({
                         competency: null,
                         topic: this.topic.id,
                         profile: newUser.id
