@@ -75,10 +75,17 @@ export class AssessmentService {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
+
         assessmentsList.map(assessment => {
           // Lock all assessments by default
           assessment.locked = true;
         });
+
+        const tutorial = assessmentsList.find(assessment => assessment.subject === 'TUTORIAL');
+
+        if (!!tutorial && !tutorial.all_topics_complete) {
+          tutorial.locked = false;
+        }
 
         // Find preSel and postSel assessments if they exist
         const preSelAssessment = assessmentsList.find(assessment => assessment.subject === 'PRESEL');

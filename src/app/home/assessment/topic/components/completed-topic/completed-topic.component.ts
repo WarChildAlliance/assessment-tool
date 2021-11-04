@@ -84,44 +84,42 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
                     newCompetency = this.competency;
                     this.effort = 5;
                     difference = this.competency;
-
-                    // update all_topics_complete if necessary
-                    this.cacheService.getData('assessments').then( assessments => {
-                        const assessment = assessments.find( a => a.id = this.assessmentId);
-                        console.log(assessment);
-                    });
                 }
 
                 newUser.profile.total_competency += difference;
                 newUser.profile.effort += this.effort;
-                let topicCompetencyExists = false;
+
 
                 if (newUser.profile.topics_competencies.length) {
                     newUser.profile.topics_competencies.forEach(element => {
                         if (element.topic === this.topic.id) {
-                            topicCompetencyExists = true;
                             element.competency = newCompetency;
                         }
                     });
-                } else if (!topicCompetencyExists) {
-                    newUser.profile.topics_competencies.push({
-                        competency: newCompetency,
-                        topic: this.topic.id,
-                        profile: newUser.id
-                    });
-                } else {
-                    newUser.profile.topics_competencies.push({
-                        competency: null,
-                        topic: this.topic.id,
-                        profile: newUser.id
-                    });
                 }
+                newUser.profile.topics_competencies.push({
+                    competency: newCompetency,
+                    topic: this.topic.id,
+                    profile: newUser.id
+                });
+
+
+                // update all_topics_complete if necessary
+                this.cacheService.getData('assessments').then( assessments => {
+                    const currentAssessment = assessments.find( a => a.id = this.assessmentId);
+                    let allComplete = true;
+                    currentAssessment.topics.forEach(topic => {
+                        const cachedCompetency = newUser.profile.topics_competencies.find(c => c.topic === topic.id)?.competency;
+                        allComplete =  (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
+                    });
+                    assessments.find( a => a.id = this.assessmentId).all_topics_complete = allComplete;
+                    this.cacheService.setData('assessments', assessments);
+                });
 
                 this.cacheService.setData('user', newUser);
                 this.userService.updateUser(newUser);
 
-                this.profileService.updateProfile(newUser.profile).subscribe( res => {
-                });
+                this.profileService.updateProfile(newUser.profile).subscribe();
 
                 const test = response;
                 test.topic_competency = newCompetency;
