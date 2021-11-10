@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Assessment } from '../models/assessment.model';
@@ -8,18 +8,27 @@ import { Attachment } from '../models/attachment.model';
 import { GeneralQuestion, QuestionSelect, QuestionSort } from '../models/question.model';
 import { Topic } from '../models/topic.models';
 import { CacheService } from './cache.service';
+import { TutorialDialogComponent } from '../../shared/components/tutorial-dialog/tutorial-dialog.component';
+import { TutorialService } from './tutorial.service';
+import { TutorialSlideshowService } from './tutorial-slideshow.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssessmentService {
 
-  storedAssessmentsSource: ReplaySubject<Assessment[]> = new ReplaySubject<Assessment[]>();
-  storedAssessments: Observable<Assessment[]> = this.storedAssessmentsSource.asObservable();
+  storedAssessmentsSource: BehaviorSubject<Assessment[]> = new BehaviorSubject<Assessment[]>([]);
+  // storedAssessments: Observable<Assessment[]> = this.storedAssessmentsSource.asObservable();
+
+  get storedAssessments(): Observable<Assessment[]> {
+    return this.storedAssessmentsSource.asObservable();
+  }
 
   constructor(
     private http: HttpClient,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    private tutorialService: TutorialService,
+    private tutorialSlideshowService: TutorialSlideshowService,
   ) {
     this.loadAllAssessments();
   }
@@ -35,6 +44,7 @@ export class AssessmentService {
     }
 
     this.getAssessmentsDeep().subscribe(assessments => {
+      console.log('DEEP', assessments);
       this.cacheService.setData('assessments', assessments);
       this.storedAssessmentsSource.next(assessments);
       for (const assessment of assessments) {
@@ -75,50 +85,64 @@ export class AssessmentService {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
+        const tutorial = assessmentsList.find(a => a.subject === 'TUTORIAL');
+        this.tutorialService.setCompleted(true);
 
-        assessmentsList.map(assessment => {
-          // Lock all assessments by default
-          assessment.locked = true;
-        });
-
-        const tutorial = assessmentsList.find(assessment => assessment.subject === 'TUTORIAL');
-
-        if (!!tutorial && !tutorial.all_topics_complete) {
-          tutorial.locked = false;
-        }
-
-        // Find preSel and postSel assessments if they exist
-        const preSelAssessment = assessmentsList.find(assessment => assessment.subject === 'PRESEL');
-        const postSelAssessment = assessmentsList.find(assessment => assessment.subject === 'POSTSEL');
-
-        // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
-        if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
-          preSelAssessment.locked = false;
+        if (tutorial && !tutorial.all_topics_complete) {
+          this.tutorialSlideshowService.startTutorial();
+          this.tutorialSlideshowService.showTutorialForPage('assessments-page');
+          return assessmentsList.filter(a => a.subject === 'TUTORIAL');
         } else {
-          assessmentsList.map(assessment => {
-            assessment.locked = false;
-          });
-          if (preSelAssessment) { preSelAssessment.locked = true; }
+          const assessments = assessmentsList.filter(a => a.subject !== 'TUTORIAL');
+          return this.getSELUnlocking(assessments);
         }
-
-        // If there's a postSel assessment, unlock it only if all other assessments are complete
-        if (!!postSelAssessment) {
-          let uncompleteTopicLeft = false;
-          assessmentsList.forEach(assessment => {
-            assessment.locked = true;
-            if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') {
-              uncompleteTopicLeft = true;
-              assessment.locked = false;
-              return;
-            }
-          });
-          postSelAssessment.locked = uncompleteTopicLeft ? true : false;
-        }
-
-        return assessmentsList;
       })
       // END OF TEMPORARY
     );
+  }
+
+  getSELUnlocking(assessmentsList): Assessment[] {
+    const parsedAssessmentsList = JSON.parse(JSON.stringify(assessmentsList));
+    parsedAssessmentsList.map(assessment => {
+      // Lock all assessments by default
+      assessment.locked = true;
+    });
+    console.log('FUCKING LOCKING', parsedAssessmentsList);
+    // If tutorial and not complete, just return tutorial
+    const tutorial = parsedAssessmentsList.find(assessment => assessment.subject === 'TUTORIAL');
+
+    if (!!tutorial && !tutorial.all_topics_complete) {
+      tutorial.locked = false;
+    }
+    // If we dont have the tutorial or complete, SEL locking
+    // Find preSel and postSel assessments if they exist
+    const preSelAssessment = parsedAssessmentsList.find(assessment => assessment.subject === 'PRESEL');
+    const postSelAssessment = parsedAssessmentsList.find(assessment => assessment.subject === 'POSTSEL');
+
+    // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
+    if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
+      preSelAssessment.locked = false;
+    } else {
+      parsedAssessmentsList.map(assessment => {
+        assessment.locked = false;
+      });
+      if (preSelAssessment) { preSelAssessment.locked = true; }
+    }
+
+    // If there's a postSel assessment, unlock it only if all other assessments are complete
+    if (!!postSelAssessment) {
+      let uncompleteTopicLeft = false;
+      parsedAssessmentsList.forEach(assessment => {
+        assessment.locked = true;
+        if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') {
+          uncompleteTopicLeft = true;
+          assessment.locked = false;
+          return;
+        }
+      });
+      postSelAssessment.locked = uncompleteTopicLeft ? true : false;
+    }
+    return parsedAssessmentsList;
   }
 
   getAssessment(assessmentId: number): Observable<Assessment> {

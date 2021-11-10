@@ -60,6 +60,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
         const searchString = 'topic-answer';
         this.cacheService.getData(searchString).then(response => {
+            if (!response){this.router.navigate(['../../'], { relativeTo: this.route }); }
             const answers = response.answers;
             const correctAnswers = answers.filter(ans => ans.valid);
             if (this.topic.evaluated) {

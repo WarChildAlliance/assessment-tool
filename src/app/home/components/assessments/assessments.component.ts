@@ -7,7 +7,8 @@ import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   selector: 'app-assessments',
@@ -27,13 +28,15 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
     private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
-    private answerService: AnswerService,
+    private cacheService: CacheService
   ) { }
 
   ngOnInit(): void {
-    this.assessmentService.getAssessments().pipe(first()).subscribe(
+    this.assessmentService.getAssessments().pipe(take(2)).subscribe(
       assessments => {
-
+        /*
+        console.log('ASSESSMENTS COMPONENT', assessments);
+        this.assessments = assessments;
         // This logic is actually unnecessary here and could be all in getAssessments()
 
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
@@ -48,7 +51,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
         } else {
           this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
         }
-
+        */
+        this.assessments = assessments;
         this.displaySpinner = false;
       }
     );
