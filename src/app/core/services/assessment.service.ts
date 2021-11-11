@@ -44,7 +44,6 @@ export class AssessmentService {
     }
 
     this.getAssessmentsDeep().subscribe(assessments => {
-      console.log('DEEP', assessments);
       this.cacheService.setData('assessments', assessments);
       this.storedAssessmentsSource.next(assessments);
       for (const assessment of assessments) {
@@ -85,34 +84,33 @@ export class AssessmentService {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
-        const tutorial = assessmentsList.find(a => a.subject === 'TUTORIAL');
+        const assessments = this.getSELUnlocking(assessmentsList);
+        const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         this.tutorialService.setCompleted(true);
-
         if (tutorial && !tutorial.all_topics_complete) {
           this.tutorialSlideshowService.startTutorial();
-          this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-          return assessmentsList.filter(a => a.subject === 'TUTORIAL');
-        } else {
-          const assessments = assessmentsList.filter(a => a.subject !== 'TUTORIAL');
-          return this.getSELUnlocking(assessments);
         }
+        return assessments;
+
       })
       // END OF TEMPORARY
     );
   }
 
   getSELUnlocking(assessmentsList): Assessment[] {
-    const parsedAssessmentsList = JSON.parse(JSON.stringify(assessmentsList));
+    let parsedAssessmentsList = assessmentsList;
+
     parsedAssessmentsList.map(assessment => {
       // Lock all assessments by default
       assessment.locked = true;
     });
-    console.log('FUCKING LOCKING', parsedAssessmentsList);
+
     // If tutorial and not complete, just return tutorial
     const tutorial = parsedAssessmentsList.find(assessment => assessment.subject === 'TUTORIAL');
 
     if (!!tutorial && !tutorial.all_topics_complete) {
       tutorial.locked = false;
+      return parsedAssessmentsList;
     }
     // If we dont have the tutorial or complete, SEL locking
     // Find preSel and postSel assessments if they exist
@@ -122,6 +120,7 @@ export class AssessmentService {
     // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
     if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
       preSelAssessment.locked = false;
+      return parsedAssessmentsList;
     } else {
       parsedAssessmentsList.map(assessment => {
         assessment.locked = false;

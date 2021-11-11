@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { first, take } from 'rxjs/operators';
+import { first, skip, take, takeLast } from 'rxjs/operators';
 import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.assessmentService.getAssessments().pipe(take(2)).subscribe(
+    this.assessmentService.getAssessments().subscribe(
       assessments => {
         /*
         console.log('ASSESSMENTS COMPONENT', assessments);
@@ -56,6 +56,10 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
         this.displaySpinner = false;
       }
     );
+    setTimeout(x => {
+      this.tutorialSlideshowService.showTutorialForPage('assessments-page');
+    }, 1000);
+
     this.assisstantService.setPageID(this.pageID);
   }
 
@@ -68,4 +72,5 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
   }
+
 }
