@@ -98,7 +98,7 @@ export class AssessmentService {
   }
 
   getSELUnlocking(assessmentsList): Assessment[] {
-    let parsedAssessmentsList = assessmentsList;
+    const parsedAssessmentsList = assessmentsList;
 
     parsedAssessmentsList.map(assessment => {
       // Lock all assessments by default
