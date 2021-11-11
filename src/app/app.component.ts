@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -8,14 +8,17 @@ import { switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
+import { interval } from 'rxjs';
+import { AlertService } from './core/services/alert.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private inactiveTimeout;
+  hasUpdate = false;
 
   constructor(
     private answerService: AnswerService,
@@ -23,10 +26,25 @@ export class AppComponent {
     private swUpdate: SwUpdate,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private alertService: AlertService,
   ) {
     this.checkAppUpdates();
     this.registerIcons();
+  }
+
+  ngOnInit(): void {
+        // check service worker for updates
+        if (this.swUpdate.isEnabled) {
+          interval(60000).subscribe(() => this.swUpdate.checkForUpdate().then(() => {
+            // checking for updates
+          }));
+        }
+        this.swUpdate.available.subscribe(() => {
+          this.hasUpdate = true;
+          console.log('updated');
+          location.reload();
+        });
   }
 
 

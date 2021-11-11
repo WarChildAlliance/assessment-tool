@@ -7,7 +7,8 @@ import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { first } from 'rxjs/operators';
+import { first, skip, take, takeLast } from 'rxjs/operators';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   selector: 'app-assessments',
@@ -27,31 +28,38 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
     private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
-    private answerService: AnswerService,
+    private cacheService: CacheService
   ) { }
 
   ngOnInit(): void {
-    this.assessmentService.getAssessments().pipe(first()).subscribe(
+    this.assessmentService.getAssessments().subscribe(
       assessments => {
+        /*
+        console.log('ASSESSMENTS COMPONENT', assessments);
+        this.assessments = assessments;
+        // This logic is actually unnecessary here and could be all in getAssessments()
+
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
+        this.tutorialService.setCompleted(true);
         if (tutorial) {
-          this.tutorialService.setCompleted(true);
-          this.answerService.getCompleteStudentAnswersForTopic(tutorial.topics[0].id).subscribe( tutorialAnswers => {
-            const tutorialCompleted = tutorial.all_topics_complete;
-            this.assessments = tutorialCompleted ? assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
-            // this.tutorialService.setCompleted(tutorialCompleted);
-            if (!tutorialCompleted) {
+          this.assessments = tutorial.all_topics_complete ?
+          assessments.filter(a => a.subject !== 'TUTORIAL') : assessments.filter(a => a.subject === 'TUTORIAL');
+          if (!(tutorial.all_topics_complete)) {
               this.tutorialSlideshowService.startTutorial();
               this.tutorialSlideshowService.showTutorialForPage(this.pageID);
-            }
-          });
+          }
         } else {
-          this.tutorialService.setCompleted(true);
           this.assessments = assessments.filter(a => a.subject !== 'TUTORIAL');
         }
+        */
+        this.assessments = assessments;
         this.displaySpinner = false;
       }
     );
+    setTimeout(x => {
+      this.tutorialSlideshowService.showTutorialForPage('assessments-page');
+    }, 1000);
+
     this.assisstantService.setPageID(this.pageID);
   }
 
@@ -64,4 +72,5 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
   }
+
 }
