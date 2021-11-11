@@ -63,7 +63,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const stars = topic.competency.filter((item) => item === true).length;
                         topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
                             stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
-                        topic.completed = cachedCompetency ? true : false;
+                        topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
                     });
                     this.topics = topics;
                 }
