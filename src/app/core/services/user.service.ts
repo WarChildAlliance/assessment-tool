@@ -36,7 +36,6 @@ export class UserService {
       });
       return this.currentUser;
     }
-
     return forkJoin ( {
       user: this.http.get<User>(`${environment.API_URL}/users/get_self/`),
       profile: this.http.get<Profile>(`${environment.API_URL}/gamification/profiles/get_self/`),
