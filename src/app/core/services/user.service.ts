@@ -43,8 +43,7 @@ export class UserService {
     }).pipe(
       map(
         res => {
-          console.log(res);
-          if (res.user.role !== UserRoles.Student) { this.authService.logout(); }
+          if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
           if (!res.user.profile.current_avatar && res.avatars) {
