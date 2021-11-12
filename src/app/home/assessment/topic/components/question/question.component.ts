@@ -39,6 +39,8 @@ import { trigger, animate, transition, style, state } from '@angular/animations'
 export class QuestionComponent implements OnInit {
   topic: Topic;
 
+  public evaluated: boolean;
+
   question: GeneralQuestion;
   questionIndex: number;
   goNextQuestion = false;
@@ -127,6 +129,7 @@ export class QuestionComponent implements OnInit {
 
           this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
             this.topic = topic;
+            this.evaluated = topic.evaluated;
             this.isFirst(this.topic.id);
           });
 

@@ -24,6 +24,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
 
+    @Input() evaluated: boolean;
+
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
     valueForm = new FormControl(null);
@@ -49,8 +51,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
             }
         });
 
-        // shuffle options
-        if (this.question.display_type.toLowerCase() === 'grid') {
+        // shuffle evaluated options
+        if (this.evaluated) {
             this.question.options = this.question.options.map(question => ({
                 question,
                 sort: Math.random()

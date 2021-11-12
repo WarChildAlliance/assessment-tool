@@ -70,7 +70,9 @@
     "theFriendlyBee": "If you dont know what to do on a page, click on me I will repeat the instruction",
     "end": "Great work! You have finished the practise area",
     "redirection": "Click here if you want to go to the beginning",
-    "done": "Done"
+    "done": "Done",
+    "previous": "Previous",
+    "close": "Close"
   },
   "auth": {
     "login": "Log in",

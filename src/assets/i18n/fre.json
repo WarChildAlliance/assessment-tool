@@ -8,7 +8,7 @@
   "skip": "Passer",
   "home": "XXXX",
   "continue": "Continuer",
-  "next": "XXXX",
+  "next": "Suivant",
   "backToAssessments": "Retour aux évaluations",
   "backToTopics": "Retour aux sujets",
   "topicCompleted": "XXXX",
@@ -70,7 +70,9 @@
     "theFriendlyBee": "XXXX",
     "end": "XXXX",
     "redirection": "XXXX",
-    "done": "Terminé"
+    "done": "Terminé",
+    "previous": "Précédent",
+    "close": "Fermer"
   },
   "auth": {
     "login": "XXXX",

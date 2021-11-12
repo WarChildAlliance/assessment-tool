@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { ThemePalette } from '@angular/material/core';
 
 interface DialogData {
@@ -21,14 +22,16 @@ export class TutorialDialogComponent implements OnInit {
   public audioURL = '';
   public index = 0;
   public steps =  null;
+  private audio: HTMLAudioElement;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, public translate: TranslateService) {
     if (data.steps) {
       this.steps = data.steps;
     }
    }
 
   ngOnInit(): void {
+    this.playAudio();
   }
 
   getImage(): string{
@@ -39,8 +42,19 @@ export class TutorialDialogComponent implements OnInit {
     return 'assets/tutorial/audio/' + this.steps[this.index].audioURL;
   }
 
+  playAudio(): void {
+    this.audio = new Audio(this.getAudio());
+    this.audio.play();
+  }
+
+  stopAudio(): void{
+    this.audio.pause();
+  }
+
   clickNext(): void {
     this.index += 1;
+    this.stopAudio();
+    this.playAudio();
   }
 
   clickPrevious(): void {
@@ -49,6 +63,12 @@ export class TutorialDialogComponent implements OnInit {
     } else {
       this.index = 0;
     }
+    this.stopAudio();
+    this.playAudio();
+  }
+
+  closeTutorial(): void {
+    this.audio.pause();
   }
 
 }

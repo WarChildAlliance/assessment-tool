@@ -31,7 +31,7 @@
 
             <ng-container *ngIf="question.question_type === 'SELECT'">
                 <app-question-select [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer"></app-question-select>
+                    [displayCorrectAnswer]="displayCorrectAnswer" [evaluated]="evaluated"></app-question-select>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'SORT'">

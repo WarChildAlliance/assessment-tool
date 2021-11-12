@@ -1,23 +1,17 @@
 <mat-dialog-content>
-
-    <div>
-        <button class="audio" mat-icon-button [appAudioPlay]="getAudio()" disableRipple="true">
-            <img src="assets/icons/audio-button.svg" alt="">
-        </button>
-    </div>
     <div class="media">
         <img [src]="getImage()" alt="">
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <app-primary-btn *ngIf="index+1 < steps.length" (click)=clickNext() width="250px" text="next"
+    <app-primary-btn *ngIf="index+1 < steps.length" (click)=clickNext() width="250px" [text]="'next' | translate"
         iconUrl="assets/icons/left_arrow_24.svg">
     </app-primary-btn>
-    <app-primary-btn *ngIf="index+1 >= steps.length" [mat-dialog-close]="true" width="250px" text="close"
+    <app-primary-btn (click)="closeTutorial()" *ngIf="index+1 >= steps.length" [mat-dialog-close]="true" width="250px" [text]="'tutorial.close' | translate"
         iconUrl="assets/icons/left_arrow_24.svg">
     </app-primary-btn>
 
-    <app-primary-btn *ngIf="index != 0" (click)=clickPrevious() width="250px" text="previous"
+    <app-primary-btn *ngIf="index != 0" (click)=clickPrevious() width="250px" [text]="'tutorial.previous' | translate"
         iconUrl="assets/icons/right_arrow_24.svg">
     </app-primary-btn>
 
