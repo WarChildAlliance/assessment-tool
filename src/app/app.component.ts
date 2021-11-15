@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
         }
         this.swUpdate.available.subscribe(() => {
           this.hasUpdate = true;
-          console.log('updated');
           location.reload();
         });
   }

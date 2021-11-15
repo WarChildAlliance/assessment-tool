@@ -186,8 +186,8 @@ export class QuestionComponent implements OnInit {
       });
 
     } else {
-      console.warn('Unexpected behaviour while submitting answer');
-      this.goToNextPage();
+      // console.warn('Unexpected behaviour while submitting answer');
+      // this.goToNextPage();
     }
   }
 
