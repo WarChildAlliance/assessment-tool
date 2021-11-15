@@ -98,6 +98,10 @@ export class CacheService {
     this.indexedDbContext().then(db => db.delete(storeName, 0));
   }
 
+  deleteAllData(): void {
+    deleteDB('api-storage-la');
+  }
+
   hasActiveSession(): Observable<boolean> {
     return forkJoin([
       from(this.getData(this.activeSessionStorage)),

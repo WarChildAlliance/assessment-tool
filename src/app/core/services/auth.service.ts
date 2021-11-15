@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, from, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { combineLatest, from } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
@@ -52,6 +51,7 @@ export class AuthService {
   logout(): void {
     this.isAuthenticated = false;
     this.cookieService.delete('student-auth-token');
+    this.cacheService.deleteAllData();
     this.router.navigate(['/auth']);
   }
 
