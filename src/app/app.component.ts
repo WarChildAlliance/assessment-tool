@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
               _ => this.router.navigate([''])
             );
           },
-          1000 * 60 * 5
+          1000 * 60 * 20
         );
       } else if (this.inactiveTimeout) {
         clearTimeout(this.inactiveTimeout);
