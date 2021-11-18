@@ -156,7 +156,7 @@ export class AssessmentService {
           return;
         }
       });
-      postSelAssessment.locked = uncompleteTopicLeft ? true : false;
+      postSelAssessment.locked = uncompleteTopicLeft ? true : postSelAssessment.all_topics_complete ? true : false;
     }
 
     return mutatedAssessmentList;

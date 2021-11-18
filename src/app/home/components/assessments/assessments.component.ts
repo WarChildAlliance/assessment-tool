@@ -5,10 +5,10 @@ import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
-import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { first, skip, take, takeLast } from 'rxjs/operators';
 import { CacheService } from 'src/app/core/services/cache.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 
 @Component({
   selector: 'app-assessments',
@@ -28,13 +28,28 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
     private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.assessments = assessments;
+        if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
+        this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete) {
+          this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: true,
+            data: {
+                title: 'hi',
+                content: 'Finished post sel',
+                contentType: 'translation',
+                audioURL: '',
+                confirmBtnText: 'OK',
+                confirmBtnColor: 'primary',
+            }
+        });
+        }
       }
     );
     setTimeout(x => {

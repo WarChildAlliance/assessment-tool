@@ -6,8 +6,8 @@
                  [class]="getAnswerBackground(option)">
                 <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
                     <mat-card-content>
-                        <div *ngFor="let attachment of option.attachments">
-                            <img  width="auto" height="120px" *ngIf="attachment.attachment_type === 'IMAGE'" [src]="getSource(attachment.file)" alt="">
+                        <div *ngFor="let attachment of option.attachments" class="image-attachment">
+                            <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="getSource(attachment.file)" alt="">
                         </div>
                     </mat-card-content>
                     <mat-card-actions align="center">
