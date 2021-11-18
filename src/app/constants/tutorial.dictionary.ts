@@ -51,8 +51,9 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T9-tutorial-click.png',
                 audioURL: 'slideshow_10.ogg',
+                redirect: ['assessment'],
                 },
-            ]
+            ],
             },
             {
             pageID: 'topics-page',
@@ -77,8 +78,9 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T14-topic-evaluated.png',
                 audioURL: 'slideshow_14.ogg',
+                redirect: ['topic', 0],
                 },
-            ]
+            ],
             },
             {
             pageID: 'question-number-line-page',
@@ -163,6 +165,18 @@ export const TutorialContent =
             ]
             },
             {
+            pageID: 'completed-topic-page',
+            completed: true,
+            steps: [
+                {
+                text: '',
+                pictureURL: 'T41-stars.png',
+                audioURL: 'slideshow_41.ogg',
+                redirect: ['assessment'],
+                },
+            ]
+            },
+            {
             pageID: 'topics-page',
             completed: true,
             steps: [
@@ -180,6 +194,7 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T33-select-unevaluated.png',
                 audioURL: 'slideshow_33.ogg',
+                redirect: ['topic', 1],
                 }
             ]
             },
@@ -232,6 +247,7 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T41-stars.png',
                 audioURL: 'slideshow_41.ogg',
+                redirect: [''],
                 },
             ]
             },
@@ -243,6 +259,7 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T42-profile.png',
                 audioURL: 'slideshow_42.ogg',
+                redirect: ['profile'],
                 },
             ]
             },
@@ -269,6 +286,7 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T46-back-home.png',
                 audioURL: 'slideshow_46.ogg',
+                redirect: [''],
                 },
             ]
             },

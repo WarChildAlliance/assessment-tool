@@ -4,11 +4,7 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
-import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { first, skip, take, takeLast } from 'rxjs/operators';
-import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   selector: 'app-assessments',
@@ -25,16 +21,18 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private assessmentService: AssessmentService,
-    private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
-    private cacheService: CacheService
   ) { }
 
   ngOnInit(): void {
     this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.assessments = assessments;
+        const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
+        if (tutorial && !tutorial.all_topics_complete) {
+          this.tutorialSlideshowService.startTutorial();
+        }
       }
     );
     setTimeout(x => {
@@ -48,7 +46,6 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.tutorialService.currentPage.next(this.pageName);
   }
 
   getAssessmentIcon(assessment: Assessment): string {

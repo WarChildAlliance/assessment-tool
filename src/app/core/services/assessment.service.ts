@@ -8,8 +8,7 @@ import { Attachment } from '../models/attachment.model';
 import { GeneralQuestion, QuestionSelect, QuestionSort } from '../models/question.model';
 import { Topic } from '../models/topic.models';
 import { CacheService } from './cache.service';
-import { TutorialService } from './tutorial.service';
-import { TutorialSlideshowService } from './tutorial-slideshow.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +25,6 @@ export class AssessmentService {
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
-    private tutorialService: TutorialService,
-    private tutorialSlideshowService: TutorialSlideshowService,
   ) {
     this.loadAllAssessments();
   }
@@ -78,17 +75,21 @@ export class AssessmentService {
     }
   }
 
+  getTutorial(): Observable<Assessment> {
+    return this.storedAssessments.pipe(
+      map(assessmentsList => {
+        return assessmentsList.find(a => a.subject === 'TUTORIAL');
+      })
+    );
+  }
+
   getAssessments(): Observable<Assessment[]> {
 
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
         const assessments = this.getSELUnlocking(assessmentsList);
-        const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
-        this.tutorialService.setCompleted(true);
-        if (tutorial && !tutorial.all_topics_complete) {
-          this.tutorialSlideshowService.startTutorial();
-        }
+
         return assessments;
 
       })

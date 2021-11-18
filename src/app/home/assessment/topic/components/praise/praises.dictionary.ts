@@ -50,11 +50,6 @@ export const PraiseTexts = [
         audio: 'praise/Praise10.ogg'
     },
     {
-        text: 'praise11',
-        image: './src/assets/praise-icons/bee-honey.png',
-        audio: 'praise/Praise11.ogg'
-    },
-    {
         text: 'praise12',
         image: './src/assets/praise-icons/bee-honey.png',
         audio: 'praise/Praise12.ogg'

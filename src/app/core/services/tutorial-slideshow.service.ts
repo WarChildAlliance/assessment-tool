@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TutorialContent } from '../../constants/tutorial.dictionary';
 import { MatDialog } from '@angular/material/dialog';
 import { TutorialDialogComponent } from '../../shared/components/tutorial-dialog/tutorial-dialog.component';
+import { AssessmentService } from './assessment.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class TutorialSlideshowService {
       });
     }
   }
+
 
 
 }
