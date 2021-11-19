@@ -1,6 +1,10 @@
 .number-line {
   text-align: center;
 
+  span {
+    width: 5px;
+  }
+
   .number-line-slider {
     width: 80%;
 

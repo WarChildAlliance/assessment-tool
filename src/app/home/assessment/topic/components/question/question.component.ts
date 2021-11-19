@@ -232,7 +232,7 @@ export class QuestionComponent implements OnInit {
   }
 
   submitAndGoNextPage(): void {
-    if (!this.skipped) {
+    if (!this.skipped && this.answer.valid) {
       this.showPraise();
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {

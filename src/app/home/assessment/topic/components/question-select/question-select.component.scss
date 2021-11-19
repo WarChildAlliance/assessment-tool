@@ -7,7 +7,6 @@
     display: grid;
     place-items: center;
     grid-template-columns: 1fr 1fr;
-    // TODO verify if we need a media query
 
     @media (max-width: 780px) {
       grid-template-columns: 1fr;
@@ -23,12 +22,36 @@
   &.horizontal {
     display: flex;
     flex-wrap: nowrap;
+    justify-content: center;
   }
 
   .option {
     padding: 0.5rem;
     border-radius: 1.25rem;
     margin: 0.5rem;
+
+    @media (max-width: 780px) {
+      padding: 0rem;
+    }
+
+    mat-card {
+
+      @media (max-width: 780px) {
+        font-size: 24px;
+      }
+
+      .image-attachment {
+        img {
+          height: 120px;
+          width: auto;
+
+          @media (max-width: 780px) {
+            height: 50px;
+          }
+        }
+    
+      }
+    }
 
     mat-checkbox {
       cursor: pointer;
