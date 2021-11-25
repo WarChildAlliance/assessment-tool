@@ -51,6 +51,7 @@ export class AuthService {
   logout(): void {
     this.isAuthenticated = false;
     this.cookieService.delete('student-auth-token');
+    this.cookieService.delete('session');
     this.cacheService.deleteAllData();
     this.router.navigate(['/auth']);
   }
