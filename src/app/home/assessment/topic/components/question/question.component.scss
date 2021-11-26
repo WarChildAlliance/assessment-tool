@@ -45,7 +45,7 @@ mat-progress-bar{
 
 .question-content {
   width: 90%;
-  margin: 0rem 2rem;
+  margin-left: 5%;
 
   @media (max-width: 780px) {
     margin: auto;
@@ -109,4 +109,12 @@ mat-progress-bar{
 
 ::ng-deep .mat-progress-bar-buffer {
   background: white
+}
+
+.question {
+  padding-bottom: 50px;
+}
+
+.question-buttons {
+  margin: 50px 0px;
 }

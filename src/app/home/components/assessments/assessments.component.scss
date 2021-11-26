@@ -10,7 +10,7 @@
     width: 98%;
   }
 
-  img {
+  span {
     float: left;
     margin-left: -0.5rem;
     margin-top: 0.15rem;
@@ -18,10 +18,11 @@
     border-radius: 5rem;
     height: 70px;
     width: 70px;
+    overflow: hidden;
 
-    @media (max-width: 780px) {
+    img {
+      height:60px;
       width: 60px;
-      height: 60px;
     }
   }
 }

@@ -10,7 +10,7 @@
             <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
         </div>
     </div>
-    <div [@popOverState]="stateName">
+    <div class="question" [@popOverState]="stateName">
         <h2 class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
@@ -42,16 +42,18 @@
 
         </div>
 
-        <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
-            [text]="(!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate)"
-            iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
-            (click)="submitAnswer()" class="main-btn submit">
-        </app-primary-btn>
-
-        <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                        'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
-            (click)="submitAndGoNextPage()" class="main-btn submit">
-        </app-primary-btn>
+        <div class="question-buttons">
+            <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
+                [text]="(!this.answer && this.topic.allow_skip) ? ('skip' | translate) : ('submit' | translate)"
+                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
+                (click)="submitAnswer()" class="main-btn submit">
+            </app-primary-btn>
+    
+            <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+                            'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
+                (click)="submitAndGoNextPage()" class="main-btn submit">
+            </app-primary-btn>
+        </div>
 
     </div>
 

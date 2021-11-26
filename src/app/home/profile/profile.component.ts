@@ -66,8 +66,21 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     selectAvatar(avatar: Avatar): void {
+      console.log('SELECT');
+      avatar.unlocked = true;
+      avatar.selected = true;
+      avatar.displayCheckMark = true;
       this.cacheService.getData('user').then( user => {
         const newUser = user;
+        const unlockAvatar = user.profile.unlocked_avatars.find(a => a.id === avatar.id);
+        const effortPoints = this.user.profile.effort;
+        const remainingEffort = effortPoints - unlockAvatar.effort_cost;
+        const newAvatars = user.profile.unlocked_avatars.map(a => {
+          if (a.id === avatar.id) { a.unlocked = true; }
+          return a;
+        });
+        newUser.profile.effort = remainingEffort;
+        newUser.profile.unlocked_avatars = newAvatars;
         newUser.profile.current_avatar = avatar;
         newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
         newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
@@ -82,26 +95,27 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
 
   unlockAvatar(avatar: Avatar): void {
+    console.log('UNLOCK');
     this.cacheService.getData('user').then( res => {
+      const newUser = res;
       const unlockAvatar = res.profile.unlocked_avatars.find(a => a.id === avatar.id);
       if (!unlockAvatar.unlocked) {
         const effortPoints = this.user.profile.effort;
         if (effortPoints < unlockAvatar.effort_cost) {
           this.alertService.error('You dont have enough points');
         } else {
-          const remainingEffort = effortPoints - unlockAvatar.effort_cost;
-          const newAvatars = res.profile.unlocked_avatars.map(a => {
-            if (a.id === avatar.id) { a.unlocked = true; }
-            return a;
-          });
-          const newUser = this.user;
-          newUser.profile.effort = remainingEffort;
-          newUser.profile.unlocked_avatars = newAvatars;
-
-          this.cacheService.setData('user', newUser);
-          this.profileService.updateProfile(newUser.profile).subscribe();
-          this.userService.updateUser(newUser);
+          avatar.clicked = true;
         }
+      } else {
+        console.log('1', newUser.profile.unlocked_avatars);
+        newUser.profile.current_avatar = avatar;
+        newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
+        newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
+        console.log('2', newUser.profile.unlocked_avatars);
+        this.cacheService.setData('user', newUser);
+
+        this.profileService.updateProfile(newUser.profile).subscribe();
+        this.userService.updateUser(newUser);
       }
 
     });
