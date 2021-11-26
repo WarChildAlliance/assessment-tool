@@ -10,15 +10,30 @@ h2 {
   align-items: stretch;
 
   div {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+    .selected {
+      border-radius: 10%;
+      height: 120px;
+      width: 120px;
+      background-color: #CCDAFC;
+      padding: 0.5rem;
+      margin: -0.5rem auto;
+
+      @media (max-width: 780px) {
+        width: 90px;
+        height: 90px;
+      }
+    }
   }
 }
 
 .avatar {
-  margin: 0 2rem;
-
   height: 120px;
   width: 120px;
+  margin: auto;
 
   @media (max-width: 780px) {
     width: 90px;
@@ -29,8 +44,9 @@ h2 {
 button {
   border-radius: 6.25rem;
   padding: 0.6rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
+  width: 150px;
 
   @media (max-width: 780px) {
     padding: 0rem;

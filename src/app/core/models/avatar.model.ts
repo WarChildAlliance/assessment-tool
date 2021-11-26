@@ -5,4 +5,6 @@ export interface Avatar {
     effort_cost: number;
     unlocked: boolean;
     selected: boolean;
+    displayCheckMark?: boolean;
+    clicked?: boolean;
 }
