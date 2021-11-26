@@ -2,14 +2,19 @@
 <div dir="ltr" *ngIf="assessments?.length && !displaySpinner">
     <ng-container *ngFor="let assessment of assessments">
         <button *ngIf="!assessment.locked" mat-button class="assessment-btn"
-                [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
-            <img src="{{ getAssessmentIcon(assessment) }}">
+            [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
+
+            <span>
+                <img src="{{ getAssessmentIcon(assessment) }}">
+            </span>
             <h1>
                 {{assessment.title}}
             </h1>
         </button>
         <button *ngIf="assessment.locked" mat-button class="assessment-btn locked">
-            <img src="{{ getAssessmentIcon(assessment) }}">
+            <span>
+                <img src="{{ getAssessmentIcon(assessment) }}">
+            </span>
             <h1>
                 {{assessment.title}}
             </h1>
@@ -20,4 +25,3 @@
 <ng-container *ngIf="assessments && assessments.length === 0 && !displaySpinner">
     <p>{{ 'noAssessments' | translate }}</p>
 </ng-container>
-

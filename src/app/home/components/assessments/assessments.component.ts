@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -9,19 +9,23 @@ import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slidesh
 import { CacheService } from 'src/app/core/services/cache.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-assessments',
   templateUrl: './assessments.component.html',
   styleUrls: ['./assessments.component.scss']
 })
-export class AssessmentsComponent implements OnInit, AfterViewInit {
+export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pageName = PageNames.assessment;
   assessments: Assessment[];
   private readonly pageID = 'assessments-page';
+  private subscriptionCount = 0;
 
   public displaySpinner = true;
+
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private assessmentService: AssessmentService,
@@ -32,33 +36,35 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.assessmentService.getAssessments().subscribe(
+    this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
+        this.subscriptionCount++;
         this.assessments = assessments;
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial && !tutorial.all_topics_complete) {
           this.tutorialSlideshowService.startTutorial();
         }
         if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
-        this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete) {
+          this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete &&
+          this.subscriptionCount === 2) {
           this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {
-                title: 'hi',
-                content: 'Finished post sel',
-                contentType: 'translation',
-                audioURL: '',
-                confirmBtnText: 'OK',
-                confirmBtnColor: 'primary',
+              title: 'hi',
+              content: 'Finished post sel',
+              contentType: 'translation',
+              audioURL: '',
+              confirmBtnText: 'OK',
+              confirmBtnColor: 'primary',
             }
           });
         }
+        if (this.assessments && this.subscriptionCount > 1) {
+          this.displaySpinner = false;
+        }
       }
-    );
+    ));
     setTimeout(x => {
-      if (this.assessments) {
-        this.displaySpinner = false;
-      }
       this.tutorialSlideshowService.showTutorialForPage('assessments-page');
     }, 1000);
 
@@ -72,6 +78,10 @@ export class AssessmentsComponent implements OnInit, AfterViewInit {
     return assessment.icon ?
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
+  }
+
+  ngOnDestroy(): void{
+    this.subscription.unsubscribe();
   }
 
 }
