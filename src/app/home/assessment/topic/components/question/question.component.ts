@@ -316,7 +316,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("unsubscribed from", this.subscription);
+    console.log('unsubscribed from', this.subscription);
     this.subscription.unsubscribe();
 }
 
