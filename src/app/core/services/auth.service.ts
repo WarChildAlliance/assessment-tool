@@ -28,6 +28,7 @@ export class AuthService {
     this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username })
     .subscribe(
       (res) => {
+        console.log('user', res);
         if (res) {
           this.isAuthenticated = true;
           this.cookieService.set('student-auth-token', res.token);
