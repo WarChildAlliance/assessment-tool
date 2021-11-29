@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -36,7 +36,7 @@ import { trigger, animate, transition, style, state } from '@angular/animations'
   ]
 })
 
-export class QuestionComponent implements OnInit {
+export class QuestionComponent implements OnInit, OnDestroy {
   topic: Topic;
 
   public evaluated: boolean;
@@ -51,6 +51,8 @@ export class QuestionComponent implements OnInit {
 
   displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+
+  subscription: Subscription;
 
   answer: GeneralAnswer;
 
@@ -111,6 +113,7 @@ export class QuestionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('init of question');
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -127,7 +130,9 @@ export class QuestionComponent implements OnInit {
             this.assessment = res;
           });
 
-          this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
+          console.log('assessment and topic ic', assessmentId, topicId);
+          this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
+            console.log('topic in question component', topic);
             this.topic = topic;
             this.evaluated = topic.evaluated;
             this.isFirst(this.topic.id);
@@ -309,5 +314,10 @@ export class QuestionComponent implements OnInit {
   get stateName(): string {
     return this.show ? 'show' : 'hide';
   }
+
+  ngOnDestroy(): void {
+    console.log("unsubscribed from", this.subscription);
+    this.subscription.unsubscribe();
+}
 
 }

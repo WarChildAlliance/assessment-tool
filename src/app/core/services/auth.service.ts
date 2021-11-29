@@ -25,22 +25,15 @@ export class AuthService {
   }
 
   login(username: string): any {
-    combineLatest(
-      [this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username }),
-      this.cacheService.hasActiveSession(),
-      from(this.cacheService.getData('session'))])
+    this.http.post<Token>(`${environment.API_URL}/users/token-auth/`, { username })
     .subscribe(
-      ([res, hasActiveSession, activeSession]) => {
-        if (hasActiveSession) {
-          if (activeSession.student !== res.user_id) {
-            this.cacheService.deleteData('session');
-            this.cacheService.deleteData('topic-answer');
-          }
+      (res) => {
+        if (res) {
+          this.isAuthenticated = true;
+          this.cookieService.set('student-auth-token', res.token);
+          this.router.navigate(['']);
         }
-        this.isAuthenticated = true;
-        this.cookieService.set('student-auth-token', res.token);
 
-        this.router.navigate(['']);
       },
       (error) => {
         this.alertService.error(error.error);
@@ -52,7 +45,7 @@ export class AuthService {
     this.isAuthenticated = false;
     this.cookieService.delete('student-auth-token');
     this.cookieService.delete('session');
-    this.cacheService.deleteAllData();
+    // this.cacheService.deleteAllData();
     this.router.navigate(['/auth']);
   }
 

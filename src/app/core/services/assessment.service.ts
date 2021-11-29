@@ -84,7 +84,6 @@ export class AssessmentService {
   }
 
   getAssessments(): Observable<Assessment[]> {
-
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
