@@ -28,6 +28,7 @@ export class UserService {
   ) { }
 
   getSelf(): Observable<User> {
+    console.log('start to get self');
     if (!this.cacheService.networkStatus.getValue()) {
       this.cacheService.getData('user').then( activeUser => {
         if (activeUser){
@@ -43,6 +44,7 @@ export class UserService {
     }).pipe(
       map(
         res => {
+          console.log('GET SELF', res.user);
           if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
