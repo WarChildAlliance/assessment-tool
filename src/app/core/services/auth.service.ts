@@ -31,7 +31,9 @@ export class AuthService {
           this.cookieService.set('student-auth-token', res.token).then( x => {
             if (x) {
               console.log('cookie string', x);
-              this.router.navigate(['']);
+              setTimeout(_ => {
+                this.router.navigate(['']);
+              }, 3000);
             }
           });
         }
