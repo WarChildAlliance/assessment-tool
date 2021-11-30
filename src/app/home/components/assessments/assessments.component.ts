@@ -4,12 +4,11 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
-import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
-import { CacheService } from 'src/app/core/services/cache.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-assessments',
@@ -31,11 +30,13 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
     private assessmentService: AssessmentService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
-    private cacheService: CacheService,
+    private userService: UserService,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
+    this.userService.getSelf().subscribe( _ => {
+    });
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.subscriptionCount++;

@@ -16,7 +16,7 @@ import { LanguageService } from './language.service';
 export class UserService {
 
   private userSource = new BehaviorSubject<User>(null);
-  currentUser = this.userSource.asObservable();
+  public currentUser = this.userSource.asObservable();
 
   user: User;
 
@@ -28,7 +28,6 @@ export class UserService {
   ) { }
 
   getSelf(): Observable<User> {
-    console.log('start to get self');
     if (!this.cacheService.networkStatus.getValue()) {
       this.cacheService.getData('user').then( activeUser => {
         if (activeUser){
@@ -44,7 +43,6 @@ export class UserService {
     }).pipe(
       map(
         res => {
-          console.log('GOT SELF', res.user);
           if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
@@ -66,6 +64,9 @@ export class UserService {
     );
   }
 
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${environment.API_URL}/users/get_self/`);
+  }
 
   updateUser(user: User): void {
     this.user = user;

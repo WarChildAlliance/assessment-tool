@@ -28,14 +28,8 @@ export class AuthService {
         console.log('user', res);
         if (res) {
           this.isAuthenticated = true;
-          this.cookieService.set('student-auth-token', res.token).then( x => {
-            if (x) {
-              console.log('cookie string', x);
-              setTimeout(_ => {
-                this.router.navigate(['']);
-              }, 3000);
-            }
-          });
+          this.cookieService.set('student-auth-token', res.token);
+          this.router.navigate(['']);
         }
       },
       (error) => {

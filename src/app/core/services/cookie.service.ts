@@ -38,7 +38,7 @@ export class CookieService {
 
   }
 
-  async set(name: string, value: string, expiresIn: number = 7): Promise<string> {
+  set(name: string, value: string, expiresIn: number = 7): void {
     if (!this.documentAccessible) {
       return;
     }
@@ -57,16 +57,7 @@ export class CookieService {
     // Set same site option, for cross-site requests
     cookieString += 'sameSite=Lax;';
 
-    this.document.cookie = await cookieString;
-
-    return new Promise((resolve, reject) => {
-      if (cookieString) {
-        resolve(cookieString);
-      } else {
-        reject(null);
-      }
-    });
-
+    this.document.cookie = cookieString;
   }
 
   delete(name: string): void {
