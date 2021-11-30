@@ -44,9 +44,9 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userService.currentUser.subscribe( currentUserService => {
       console.log('in service', currentUserService);
       if (currentUserService.id !== undefined && currentUserService.id !== this.authService.currentUserId) {
-        console.log('inside the if')
-        window.location.reload()
-      } 
+        console.log('inside the if');
+        window.location.reload();
+      }
     });
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
