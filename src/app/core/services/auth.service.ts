@@ -11,6 +11,7 @@ import { CookieService } from './cookie.service';
 })
 export class AuthService {
   isAuthenticated = false;
+  currentUserId: number;
 
   constructor(
     private http: HttpClient,
@@ -28,6 +29,7 @@ export class AuthService {
         if (res) {
           console.log('user', res);
           this.isAuthenticated = true;
+          this.currentUserId = res.user_id;
           this.cookieService.set('student-auth-token', res.token);
           this.router.navigate(['']);
         }

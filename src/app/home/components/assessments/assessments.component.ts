@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assessments',
@@ -25,18 +27,25 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
   public displaySpinner = true;
 
   private subscription: Subscription = new Subscription();
+  private userSubscription: Subscription = new Subscription();
 
   constructor(
     private assessmentService: AssessmentService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
+    private authService: AuthService,
     private userService: UserService,
     public dialog: MatDialog,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.userService.getSelf().subscribe( x => {
-      console.log(x);
+    console.log('userid', this.authService.currentUserId);
+    this.userService.currentUser.subscribe( currentUserService => {
+      console.log('in service', currentUserService);
+      if (currentUserService.id !== null && currentUserService.id !== this.authService.currentUserId) {
+        this.router.navigate(['']);
+      }
     });
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
@@ -84,6 +93,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void{
     this.subscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
 }
