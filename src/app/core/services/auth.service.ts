@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, from } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
-import { CacheService } from './cache.service';
 import { CookieService } from './cookie.service';
 
 @Injectable({
@@ -18,7 +16,6 @@ export class AuthService {
     private http: HttpClient,
     private alertService: AlertService,
     private cookieService: CookieService,
-    private cacheService: CacheService,
     private router: Router,
   ) {
     this.isAuthenticated = this.cookieService.has('student-auth-token');
@@ -31,10 +28,13 @@ export class AuthService {
         console.log('user', res);
         if (res) {
           this.isAuthenticated = true;
-          this.cookieService.set('student-auth-token', res.token);
-          this.router.navigate(['']);
+          this.cookieService.set('student-auth-token', res.token).then( x => {
+            if (x) {
+              console.log('cookie string', x);
+              this.router.navigate(['']);
+            }
+          });
         }
-
       },
       (error) => {
         this.alertService.error(error.error);

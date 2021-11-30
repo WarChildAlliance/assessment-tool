@@ -113,7 +113,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('init of question');
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -130,9 +129,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
             this.assessment = res;
           });
 
-          console.log('assessment and topic ic', assessmentId, topicId);
           this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
-            console.log('topic in question component', topic);
             this.topic = topic;
             this.evaluated = topic.evaluated;
             this.isFirst(this.topic.id);
@@ -316,7 +313,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('unsubscribed from', this.subscription);
     this.subscription.unsubscribe();
 }
 

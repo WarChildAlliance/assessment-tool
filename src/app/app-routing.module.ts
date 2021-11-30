@@ -12,6 +12,12 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    /*
+    canActivate (for this particular route) - only checked for parent route,
+    canActivateChild - everytime child route is accessed (and only on child)
+    canLoad - lazy loading modules,
+      - i will access, because canLoad is not triggered
+    */
     path: '',
     loadChildren: () => HomeModule,
     canLoad: [AuthGuard],

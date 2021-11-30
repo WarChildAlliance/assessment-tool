@@ -44,7 +44,7 @@ export class UserService {
     }).pipe(
       map(
         res => {
-          console.log('GET SELF', res.user);
+          console.log('GOT SELF', res.user);
           if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
