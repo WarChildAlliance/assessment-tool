@@ -43,7 +43,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('userid', this.authService.currentUserId);
     this.userService.currentUser.subscribe( currentUserService => {
       console.log('in service', currentUserService);
-      if (currentUserService.id !== null && currentUserService.id !== this.authService.currentUserId) {
+      if (currentUserService.id !== undefined && currentUserService.id !== this.authService.currentUserId) {
         this.router.navigate(['']);
       }
     });
