@@ -35,7 +35,8 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.userService.getSelf().subscribe( _ => {
+    this.userService.getSelf().subscribe( x => {
+      console.log(x);
     });
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
