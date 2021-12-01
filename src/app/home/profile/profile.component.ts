@@ -66,7 +66,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     selectAvatar(avatar: Avatar): void {
-      console.log('SELECT');
       avatar.unlocked = true;
       avatar.selected = true;
       avatar.displayCheckMark = true;
@@ -95,7 +94,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
 
   unlockAvatar(avatar: Avatar): void {
-    console.log('UNLOCK');
     this.cacheService.getData('user').then( res => {
       const newUser = res;
       const unlockAvatar = res.profile.unlocked_avatars.find(a => a.id === avatar.id);
@@ -107,11 +105,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           avatar.clicked = true;
         }
       } else {
-        console.log('1', newUser.profile.unlocked_avatars);
         newUser.profile.current_avatar = avatar;
         newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
         newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
-        console.log('2', newUser.profile.unlocked_avatars);
         this.cacheService.setData('user', newUser);
 
         this.profileService.updateProfile(newUser.profile).subscribe();

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
+import { AnswerService } from './answer.service';
+import { CacheService } from './cache.service';
 import { CookieService } from './cookie.service';
 
 @Injectable({
@@ -18,6 +20,7 @@ export class AuthService {
     private alertService: AlertService,
     private cookieService: CookieService,
     private router: Router,
+    private answerService: AnswerService
   ) {
     this.isAuthenticated = this.cookieService.has('student-auth-token');
   }
@@ -27,7 +30,6 @@ export class AuthService {
     .subscribe(
       (res) => {
         if (res) {
-          console.log('user', res);
           this.isAuthenticated = true;
           this.currentUserId = res.user_id;
           this.cookieService.set('student-auth-token', res.token);

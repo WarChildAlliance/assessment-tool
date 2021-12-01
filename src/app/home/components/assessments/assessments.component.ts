@@ -43,16 +43,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // console.log('userid', this.authService.currentUserId);
-    // this.userService.currentUser.subscribe( currentUserService => {
-    //   console.log('in service', currentUserService);
-    //   if (currentUserService.id !== undefined && currentUserService.id !== this.authService.currentUserId) {
-    //     this.userService.getSelf().subscribe(x => {
-    //       console.log('got self again', x);
-    //     });
-    //   }
-    // });
-    // this.http.get<User>(`${environment.API_URL}/users/get_self/`).subscribe(x => console.log('FUUGYTYGIUHIPO', x))
+
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.subscriptionCount++;
