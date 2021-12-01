@@ -37,6 +37,7 @@ export class UserService {
       return this.currentUser;
     }
     return forkJoin ( {
+      // user: this.http.get<User>(`${environment.API_URL}/users/${this.authService.currentUserId}/`),
       user: this.http.get<User>(`${environment.API_URL}/users/get_self/`),
       profile: this.http.get<Profile>(`${environment.API_URL}/gamification/profiles/get_self/`),
       avatars: this.http.get<Avatar[]>(`${environment.API_URL}/gamification/avatars/`),
@@ -44,6 +45,7 @@ export class UserService {
       map(
         res => {
           if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
+          console.log('get_self user', res.user);
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
           if (!res.user.profile.current_avatar && res.avatars) {

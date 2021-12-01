@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-assessments',
@@ -37,18 +39,20 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
     private userService: UserService,
     public dialog: MatDialog,
     private router: Router,
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {
-    console.log('userid', this.authService.currentUserId);
-    this.userService.currentUser.subscribe( currentUserService => {
-      console.log('in service', currentUserService);
-      if (currentUserService.id !== undefined && currentUserService.id !== this.authService.currentUserId) {
-        this.userService.getSelf().subscribe(x => {
-          console.log('got self again', x);
-        });
-      }
-    });
+    // console.log('userid', this.authService.currentUserId);
+    // this.userService.currentUser.subscribe( currentUserService => {
+    //   console.log('in service', currentUserService);
+    //   if (currentUserService.id !== undefined && currentUserService.id !== this.authService.currentUserId) {
+    //     this.userService.getSelf().subscribe(x => {
+    //       console.log('got self again', x);
+    //     });
+    //   }
+    // });
+    // this.http.get<User>(`${environment.API_URL}/users/get_self/`).subscribe(x => console.log('FUUGYTYGIUHIPO', x))
     this.subscription.add(this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.subscriptionCount++;
