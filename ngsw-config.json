@@ -32,20 +32,5 @@
       "updateMode": "prefetch"
     }
   ],
-  "dataGroups": [
-    {
-      "cacheConfig": {
-        "maxAge": "30d",
-        "maxSize": 100,
-        "strategy": "freshness",
-        "timeout": "0u"
-      },
-      "name": "api-queries",
-      "urls": [
-        "http://localhost:8002",
-        "https://glmt-api.development.humanitarian.tech"
-      ]
-    }
-  ],
   "index": "/index.html"
 }
