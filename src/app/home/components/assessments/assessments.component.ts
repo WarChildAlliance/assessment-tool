@@ -58,12 +58,11 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {
-              title: 'hi',
-              content: 'Finished post sel',
-              contentType: 'translation',
-              audioURL: '',
+              imageURL: 'icons/youDidIt.png',
               confirmBtnText: 'OK',
               confirmBtnColor: 'primary',
+              contentType: 'translation',
+              content: 'Congratulations'
             }
           });
         }
