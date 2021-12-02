@@ -12,7 +12,6 @@ import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-assessments',
@@ -44,13 +43,18 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.subscription.add(this.assessmentService.getAssessments().subscribe(
+    this.subscription = this.assessmentService.getAssessments().subscribe(
       assessments => {
         this.subscriptionCount++;
         this.assessments = assessments;
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial && !tutorial.all_topics_complete) {
-          this.tutorialSlideshowService.startTutorial();
+          this.tutorialSlideshowService.startTutorial().then( x => {
+            if (x) {
+              this.tutorialSlideshowService.showTutorialForPage('assessments-page');
+            }
+          }
+          );
         }
         if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
           this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete &&
@@ -71,10 +75,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.displaySpinner = false;
         }
       }
-    ));
-    setTimeout(x => {
-      this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-    }, 1000);
+    );
 
     this.assisstantService.setPageID(this.pageID);
   }

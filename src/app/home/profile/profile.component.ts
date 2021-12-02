@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
@@ -11,17 +11,19 @@ import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit, AfterViewInit {
+export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly pageID = 'profile-page';
 
     user: User;
     avatars: Avatar[];
+    userSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +45,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.avatars = this.user.profile.unlocked_avatars;
       }
     );
-    this.userService.currentUser.subscribe( res => {
+    this.userSubscription = this.userService.currentUser.subscribe( res => {
       if (this.cacheService.networkStatus.getValue()) {
         this.user = res;
         this.avatars = res.profile.unlocked_avatars;
@@ -126,6 +128,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.tutorialSlideshowService.resetTutorial();
     this.tutorialSlideshowService.startTutorial();
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 }
 

@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
+import { CacheService } from './cache.service';
 import { CookieService } from './cookie.service';
-import { TutorialSlideshowService } from './tutorial-slideshow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class AuthService {
     private alertService: AlertService,
     private cookieService: CookieService,
     private router: Router,
-    private tutorialSlideshowService: TutorialSlideshowService
+    private cacheService: CacheService
   ) {
     this.isAuthenticated = this.cookieService.has('student-auth-token');
   }
@@ -45,8 +45,7 @@ export class AuthService {
     this.isAuthenticated = false;
     this.cookieService.delete('student-auth-token');
     this.cookieService.delete('session');
-    // this.cacheService.deleteAllData();
-    this.tutorialSlideshowService.resetTutorial();
+    this.cacheService.deleteData('session');
     this.router.navigate(['/auth']);
   }
 
