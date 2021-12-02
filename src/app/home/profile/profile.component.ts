@@ -123,6 +123,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
 
   rewatchTutorial(): void {
+    this.tutorialSlideshowService.resetTutorial();
     this.tutorialSlideshowService.startTutorial();
     this.router.navigate(['/']);
   }
