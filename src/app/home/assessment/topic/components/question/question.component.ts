@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -261,25 +261,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
       // Get all the questions left unanswered by the student
       const questionsLeft = this.topic.questions.slice(this.questionIndex + 1);
-
-      // For each of them send a skipped answer to the backend
-      questionsLeft.forEach(question => {
-        const skippedAnswer: SkippedAnswer = {
-          question: question.id,
-          start_datetime: moment().format(),
-          end_datetime: moment().format(),
-          valid: false,
-          skipped: true
-        };
-        this.answerService.submitAnswer(skippedAnswer).subscribe();
-      });
-
-      setTimeout(show => {
-        this.show = false;
-        setTimeout( navigate => {
-          this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+      this.setQuestions(questionsLeft).then( _ => {
+        setTimeout(show => {
+          this.show = false;
+          setTimeout( navigate => {
+            this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+          }, this.timeout);
         }, this.timeout);
-      }, this.timeout);
+      });
 
       // Else, if there are unanswered questions left, navigate to the page corresponding to the question
     } else if (this.questionIndex + 1 < this.topic.questions.length) {
@@ -312,8 +301,26 @@ export class QuestionComponent implements OnInit, OnDestroy {
     return this.show ? 'show' : 'hide';
   }
 
+  async setQuestions(leftQuestions): Promise<void>{
+    for (const question of leftQuestions) {
+      const skippedAnswer: SkippedAnswer = {
+        question: question.id,
+        start_datetime: moment().format(),
+        end_datetime: moment().format(),
+        valid: false,
+        skipped: true
+      };
+      await new Promise ((resolve, reject) => {
+          this.answerService.submitAnswer(skippedAnswer)
+              .subscribe(location => {
+                  resolve(true);
+               });
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-}
+  }
 
 }

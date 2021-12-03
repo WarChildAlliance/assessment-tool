@@ -120,8 +120,8 @@ export class AssessmentService {
 
     // If tutorial and not complete, just return tutorial
     const tutorial = mutatedAssessmentList.find(assessment => assessment.subject === 'TUTORIAL');
-
     if (!!tutorial && !tutorial.all_topics_complete) {
+
       tutorial.locked = false;
       return mutatedAssessmentList;
     }
