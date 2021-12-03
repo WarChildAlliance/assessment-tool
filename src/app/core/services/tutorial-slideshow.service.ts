@@ -14,14 +14,11 @@ export class TutorialSlideshowService {
     public dialog: MatDialog,
   ) { }
 
-  async startTutorial(): Promise<boolean>{
-    return new Promise((resolve, reject) => {
-      if (this.tutorial.completed) {
-        this.tutorial.completed = false;
-        this.resetTutorial();
-        resolve(true);
-      }
-    });
+  startTutorial(): void{
+    if (this.tutorial.completed) {
+      this.tutorial.completed = false;
+      this.resetTutorial();
+    }
   }
 
   showTutorialForPage(pageName: string): void {
