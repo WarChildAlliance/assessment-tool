@@ -6,6 +6,7 @@ export const TutorialContent =
             {
             pageID: 'assessments-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -58,6 +59,7 @@ export const TutorialContent =
             {
             pageID: 'topics-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -85,6 +87,7 @@ export const TutorialContent =
             {
             pageID: 'question-number-line-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -126,6 +129,7 @@ export const TutorialContent =
             {
             pageID: 'question-select-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -167,6 +171,7 @@ export const TutorialContent =
             {
             pageID: 'completed-topic-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -179,6 +184,7 @@ export const TutorialContent =
             {
             pageID: 'topics-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -201,6 +207,7 @@ export const TutorialContent =
             {
             pageID: 'question-select-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -242,6 +249,7 @@ export const TutorialContent =
             {
             pageID: 'completed-topic-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -254,6 +262,7 @@ export const TutorialContent =
             {
             pageID: 'assessments-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -266,6 +275,7 @@ export const TutorialContent =
             {
             pageID: 'profile-page',
             completed: false,
+            final: false,
             steps: [
                 {
                 text: '',
@@ -293,6 +303,7 @@ export const TutorialContent =
             {
             pageID: 'assessments-page',
             completed: false,
+            final: true,
             steps: [
                 {
                 text: '',
