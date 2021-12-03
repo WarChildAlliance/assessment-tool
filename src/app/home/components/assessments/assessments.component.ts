@@ -49,14 +49,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.assessments = assessments;
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial && !tutorial.all_topics_complete) {
-          this.tutorialSlideshowService.startTutorial().then( x => {
-            if (x) {
-              this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-            }
-          }
-          ).catch( (res) => {
-            console.log('rejected', res);
-          });
+          this.tutorialSlideshowService.startTutorial();
         }
         if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
           this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete &&
@@ -77,7 +70,9 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
-
+    setTimeout(x => {
+      this.tutorialSlideshowService.showTutorialForPage('assessments-page');
+    }, 250);
     this.assisstantService.setPageID(this.pageID);
   }
 

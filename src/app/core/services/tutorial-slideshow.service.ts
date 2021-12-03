@@ -15,24 +15,18 @@ export class TutorialSlideshowService {
   ) { }
 
   async startTutorial(): Promise<boolean>{
-    console.log('start tutorial', this.tutorial);
     return new Promise((resolve, reject) => {
       if (this.tutorial.completed) {
         this.tutorial.completed = false;
         this.resetTutorial();
-        console.log('resolve');
         resolve(true);
-      } else {
-        console.log('tutorial was not completed');
       }
     });
   }
 
   showTutorialForPage(pageName: string): void {
-    console.log('show tutorial for', pageName);
     if (!this.tutorial.completed) {
       const currentPage = this.tutorial.pages.find(page => (page.pageID === pageName && !page.completed));
-      console.log(currentPage, this.tutorial);
       if (currentPage) {
         this.tutorial.pages.find(page => page.pageID === pageName && !page.completed).completed = true;
         const dialogRef = this.dialog.open(TutorialDialogComponent, {
@@ -50,7 +44,6 @@ export class TutorialSlideshowService {
   }
 
   resetTutorial(): void {
-    console.log('reseted tutorial');
     this.tutorial.pages.forEach(page => {
       page.completed = false;
     });
