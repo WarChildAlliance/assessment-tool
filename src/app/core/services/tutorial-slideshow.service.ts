@@ -18,6 +18,7 @@ export class TutorialSlideshowService {
     if (this.tutorial.completed) {
       this.tutorial.completed = false;
       this.resetTutorial();
+      this.showTutorialForPage('assessments-page');
     }
   }
 
