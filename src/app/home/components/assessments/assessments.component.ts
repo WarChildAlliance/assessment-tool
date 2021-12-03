@@ -72,7 +72,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     setTimeout(x => {
       this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-    }, 250);
+    }, 1000);
     this.assisstantService.setPageID(this.pageID);
   }
 
