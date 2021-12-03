@@ -50,6 +50,7 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial && !tutorial.all_topics_complete) {
           this.tutorialSlideshowService.startTutorial().then( x => {
+            console.log(x);
             if (x) {
               this.tutorialSlideshowService.showTutorialForPage('assessments-page');
             }
