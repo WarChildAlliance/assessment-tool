@@ -86,12 +86,12 @@ export class AssessmentService {
   getAssessments(): Observable<Assessment[]> {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
-      map(assessmentsList => {
+/*       map(assessmentsList => {
         const assessments = this.getSELUnlocking(assessmentsList);
 
         return assessments;
 
-      })
+      }) */
       // END OF TEMPORARY
     );
   }
