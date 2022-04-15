@@ -47,7 +47,7 @@ export class UserService {
           if (res.user.role !== UserRoles.Student || res.profile === null) { this.authService.logout(); }
           res.user.profile = res.profile;
           res.user.profile.unlocked_avatars = res.avatars;
-          if (!res.user.profile.current_avatar && res.avatars) {
+          if (!res.user.profile.current_avatar && res.avatars && res.avatars.length) {
             res.user.profile.current_avatar = res.avatars[0];
             res.avatars[0].unlocked = true;
             res.avatars[0].selected = true;
