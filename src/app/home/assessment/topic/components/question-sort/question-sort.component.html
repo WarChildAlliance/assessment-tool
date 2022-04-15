@@ -2,7 +2,7 @@
     <div cdkDropList class="drop-container" [cdkDropListData]="optionsCopy" cdkDropListSortingDisabled
          (cdkDropListDropped)="drop($event)">
         <div class="drop-option" *ngFor="let option of optionsCopy" cdkDrag>
-            {{ option.value }}
+            {{ option.title }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
         </div>
     </div>
@@ -13,7 +13,7 @@
          (cdkDropListDropped)="drop($event)">
         <div class="drop-option" [style.background]="setAnswerBackground(option)"
              *ngFor="let option of selectedCategoryA" cdkDrag>
-            {{ option.value }}
+            {{ option.title }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
         </div>
     </div>
@@ -25,7 +25,7 @@
          (cdkDropListDropped)="drop($event)">
         <div class="drop-option" [style.background]="setAnswerBackground(option)"
              *ngFor="let option of selectedCategoryB" cdkDrag>
-            {{ option.value }}
+            {{ option.title }}
             <app-attachments [attachments]="option.attachments"></app-attachments>
         </div>
     </div>
@@ -33,7 +33,7 @@
 <div *ngIf="displayCorrectAnswer.getValue()" class="correct-answer">
     {{ "question.correctAnswer" | translate }}
     <p *ngFor="let option of question.options">
-        {{ option.value }} {{ option.category }}
+        {{ option.title }} {{ option.category }}
     </p>
 </div>
 
