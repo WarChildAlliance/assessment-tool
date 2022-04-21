@@ -12,7 +12,7 @@
                     </mat-card-content>
                     <mat-card-actions align="center">
                         <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                            {{ option.value }}
+                            {{ option.title }}
                         </mat-radio-button>
                         <ng-container *ngFor="let attachment of option.attachments">
                             <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
@@ -28,7 +28,7 @@
                 <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
                      [class]="getAnswerBackground(option)" class="option">
                     <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                        {{ option.value }}
+                        {{ option.title }}
                         <ng-container *ngFor="let attachment of option.attachments">
                             <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
                                     [appAudioPlay]="getSource(attachment.file)">
@@ -57,7 +57,7 @@
                 <mat-card-actions align="center">
                     <mat-checkbox (click)="setCheckboxSelection(i)" formControlName="selected">
                         <span>
-                            {{ option.value }}
+                            {{ option.title }}
                         </span>
                     </mat-checkbox>
 
@@ -77,7 +77,7 @@
                  class="option">
                 <mat-checkbox formControlName="selected">
                     <span>
-                        {{ option.value }}
+                        {{ option.title }}
                     </span>
                     <ng-container *ngFor="let attachment of option.attachments">
                         <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
