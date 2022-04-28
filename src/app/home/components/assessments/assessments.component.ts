@@ -63,10 +63,10 @@ export class AssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
             disableClose: true,
             data: {
               imageURL: 'icons/youDidIt.png',
-              confirmBtnText: 'OK',
+              confirmBtnText: 'general.OK',
               confirmBtnColor: 'primary',
               contentType: 'translation',
-              content: 'Congratulations'
+              content: 'assessments.congratulations'
             }
           });
         }

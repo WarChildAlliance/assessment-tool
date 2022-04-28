@@ -102,7 +102,7 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!unlockAvatar.unlocked) {
         const effortPoints = this.user.profile.effort;
         if (effortPoints < unlockAvatar.effort_cost) {
-          this.alertService.error('You dont have enough points');
+          this.alertService.error("profile.notEnoughPoints");
         } else {
           avatar.clicked = true;
         }

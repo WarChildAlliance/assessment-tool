@@ -55,9 +55,9 @@ export class HeaderComponent implements OnInit {
             disableClose: true,
             autoFocus: true,
             data: {
-                title: 'hi',
-                content: 'info',
-                confirmBtnText: 'OK',
+                title: 'general.hi',
+                content: 'general.info',
+                confirmBtnText: 'general.OK',
                 confirmBtnColor: 'primary',
             }
         });

@@ -24,12 +24,12 @@ export class AlertService {
     return this.open(message, this.errorConfig, action);
   }
 
-  private open(message: string = 'Unknown username. Contact your teacher in case you forgot your code',
+  private open(message: string = 'general.unknownUser',
                config: MatSnackBarConfig, action?: string): void {
     if (action) {
       config.duration = undefined;
     }
-    this.translate.get('unknownUser').subscribe((res) => {
+    this.translate.get(message).subscribe((res) => {
       this.snackbar.open(res, action, config);
     });
   }
