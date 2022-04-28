@@ -222,9 +222,9 @@ export class TutorialService {
       useOrb: false,
       minimumScreenSize: 320,
       resizeDialog: {
-          title: 'Screen size error.',
-          content: 'Please ensure your screen is large enough to display the tutorial correctly.',
-    }
+        title: 'tutorial.screenSizeError',
+        content: 'tutorial.screenSizeErrorContent'
+      }
     };
     return tour;
   }

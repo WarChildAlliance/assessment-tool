@@ -99,8 +99,5 @@ export class TutorialDialogComponent implements OnInit {
         }
       });
     }
-
-
   }
-
 }

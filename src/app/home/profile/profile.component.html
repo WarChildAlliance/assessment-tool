@@ -3,7 +3,7 @@
     <h2>{{ 'profile.shop' | translate }}</h2>
     <div class="avatars">
         <div *ngFor="let avatar of avatars">
-            <div [class]="avatar.selected ? 'selected' : '' ">
+            <div [class]="avatar.selected ? ('profile.selected' | translate) : '' ">
                 <img class="avatar" src="{{ getAvatarUrl(avatar) }}" />
             </div>
             <button (click)="avatar['clicked'] && !avatar.selected ? selectAvatar(avatar) : unlockAvatar(avatar)"

@@ -1,5 +1,5 @@
 <div [class]="subject === 'sel' ? 'cyan-gradient-bg' : subject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
-    <app-back-navigation text="backToAssessments" [icons]="icons" [routerLink]="['../../home']"></app-back-navigation>
+    <app-back-navigation [text]="'backToAssessments' | translate" [icons]="icons" [routerLink]="['../../home']"></app-back-navigation>
 
     <div>
         <h3>{{assessmentTitle}}</h3>
@@ -18,7 +18,7 @@
 
 
     <ng-template #noTopics>
-        <p>{{ 'noTopics' | translate }}</p>
+        <p>{{ 'topics.noTopics' | translate }}</p>
     </ng-template>
 
 </div>

@@ -27,11 +27,11 @@ export class AssisstantComponent implements OnInit {
         this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {
-                title: 'hi',
+                title: 'general.hi',
                 content: this.currentPageContent.content,
                 contentType: 'translation',
                 audioURL: this.currentPageContent.audioURL,
-                confirmBtnText: 'OK',
+                confirmBtnText: 'general.OK',
                 confirmBtnColor: 'primary',
             }
         });

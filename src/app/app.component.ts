@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -26,11 +27,15 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
+    private titleService: Title,
     public translate: TranslateService,
     private alertService: AlertService,
   ) {
     this.checkAppUpdates();
     this.registerIcons();
+    this.translate.get('general.assessmentTool').subscribe((translated) => {
+      this.titleService.setTitle(translated);
+    });
   }
 
   ngOnInit(): void {

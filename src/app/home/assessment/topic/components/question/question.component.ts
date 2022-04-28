@@ -71,10 +71,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
         const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
           disableClose: true,
           data: {
-            title: 'exitConfirmation',
-            content: 'exitInfo',
+            title: 'topis.question.exitConfirmation',
+            content: 'topics.question.exitInfo',
             cancelBtn: true,
-            confirmBtnText: 'exit',
+            confirmBtnText: 'general.exit',
             confirmBtnColor: 'warn',
           }
         });
@@ -162,9 +162,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
       const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
         disableClose: true,
         data: {
-          content: 'skipSure',
+          content: 'topics.question.skipSure',
           cancelBtn: true,
-          confirmBtnText: 'skip',
+          confirmBtnText: 'general.skip',
           confirmBtnColor: 'warn',
         }
       });
@@ -215,7 +215,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         data: {
           content: praise.text,
           audioURL: praise.audio,
-          confirmBtnText: 'continue',
+          confirmBtnText: 'topics.question.continue',
           confirmBtnColor: 'primary',
           cancelBtn: false,
         }
