@@ -41,10 +41,10 @@ export class AuthComponent implements OnInit {
         const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {
-              title: 'Login not possible',
-              content: 'You need to have an internet connection in order to login.',
+              title: 'auth.loginNotPossible',
+              content: 'auth.noInternetConnection',
               cancelBtn: false,
-              confirmBtnText: 'Close',
+              confirmBtnText: 'general.close',
               confirmBtnColor: 'warn',
             }
           });

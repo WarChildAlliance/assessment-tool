@@ -27,8 +27,8 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public content = '';
     public contentType = 'translation';
     public cancelBtn = false;
-    public cancelBtnText = 'cancel';
-    public confirmBtnText = 'OK';
+    public cancelBtnText = 'general.cancel';
+    public confirmBtnText = 'general.OK';
     public confirmBtnColor: ThemePalette = 'primary';
     public imageURL = 'assets/icons/flying-bee.svg'; // if customized, add the path here relative to assets folder
     public audioURL = '';  // if customized, add the path here relative to assets folder

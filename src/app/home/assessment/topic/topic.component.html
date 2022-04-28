@@ -1,4 +1,4 @@
-<app-back-navigation text="backToTopics" [icons]="icons" [routerLink]="['../../']"></app-back-navigation>
+<app-back-navigation [text]="'topics.backToTopics' | translate" [icons]="icons" [routerLink]="['../../']"></app-back-navigation>
 
 <div class="light-yellow-bg topic-content" *ngIf="topic">
     <p class="topic-name">{{ topic?.name }}</p>
@@ -11,10 +11,10 @@
     <p *ngIf="!topic.allow_skip">{{ 'topics.noSkipQuestions' | translate }}</p>
 
 
-    <p *ngIf="!topic || !topic.questions || !topic.questions.length "> No topics in this assessment</p>
+    <p *ngIf="!topic || !topic.questions || !topic.questions.length ">{{ "topics.noTopicsInAssessment" | translate }}</p>
     <app-primary-btn *ngIf="topic && topic.questions && topic.questions.length"
                      [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()"
-                     [text]=" 'start' | translate "
+                     [text]=" 'topics.start' | translate "
                      [iconUrl]="translate.currentLang === 'ara' ?
                     'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
                     class="start-button"
