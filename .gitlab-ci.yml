@@ -1,21 +1,62 @@
 image: node:16
+
 stages:
+  - install
   - test
+  - build
   - deploy
+
+# Install all dependencies and cache them.
+install_dependencies:
+  stage: install
+  only:
+    - master
+    - stage
+  script:
+    - npm i
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+
+# Check code standards.
 lint:
   stage: test
   only:
     - master
-  before_script:
-    - npm i
+    - stage
   script: npm run lint
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+# Build project for prod deployment + store artifacts.
 build:
-  stage: test
+  stage: build
   only:
     - master
-  before_script:
-    - npm i
+  artifacts:
+    name: build_stage
+    expire_in: 1 hour
+    when: on_success
+    paths:
+      - dist/
   script: npm run build -- --prod
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+# Deploy on self-hosted environment.
 deploy_dev:
   stage: deploy
   before_script:
@@ -33,3 +74,35 @@ deploy_dev:
     - rsync -e "ssh -o StrictHostKeyChecking=no -o PubkeyAuthentication=yes" -avzr --delete dist/assessment-tool/* reliefapps@92.243.25.191:/var/www/html/assessment-tool/main-tool
   only:
     - master
+
+# Build project for dev deployment + store artifacts.
+build:
+  stage: build
+  only:
+    - stage
+  artifacts:
+    name: build_stage
+    expire_in: 1 hour
+    when: on_success
+    paths:
+      - dist/
+  script: npm run build:azure
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+# Deploy on azure environment.
+deploy_azure:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  only:
+    - stage
+  before_script:
+    - az config set extension.use_dynamic_install=yes_without_prompt
+  script:
+    - az storage remove -c '$web' --recursive --account-name loassessmenttool --account-key $ACCOUNT_KEY
+    - az storage azcopy blob upload -c '$web' -s 'dist/assessment-tool/*' --recursive --account-name loassessmenttool --account-key $ACCOUNT_KEY
