@@ -24,7 +24,7 @@
     
     .audio-attachment {
         width: 15vw;
-
+        order: 2;
         @media (max-width: 780px) {
             width: 20vw;
         }
