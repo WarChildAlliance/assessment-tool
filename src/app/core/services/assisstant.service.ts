@@ -18,8 +18,10 @@ export class AssisstantService {
     this.pageContent = this.assisstantContent.filter(item => item.pageID === this.pageID).pop();
   }
 
+  getPageID(): string {
+    return this.pageID;
+  }
   getPageContent(): AssisstantContentModel {
     return this.pageContent;
   }
-
 }
