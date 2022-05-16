@@ -37,7 +37,7 @@ lint:
     policy: pull
 
 # Build project for Sandbox deployment + store artifacts.
-build:
+build_test:
   stage: build
   only:
     - stage
@@ -57,7 +57,7 @@ build:
     policy: pull
 
 # Deploy on Sandbox.
-deploy_dev:
+deploy_sandbox:
   stage: deploy
   only:
     - stage
@@ -76,7 +76,7 @@ deploy_dev:
     - rsync -e "ssh -o StrictHostKeyChecking=no -o PubkeyAuthentication=yes" -avzr --delete dist/assessment-tool/* reliefapps@92.243.25.191:/var/www/html/assessment-tool/main-tool
 
 # Build project for Azure deployment + store artifacts.
-build:
+build_prod:
   stage: build
   only:
     - master
