@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
         dialogRef.afterClosed().subscribe((value) => {
             if (value) {
                 this.userService.resetUser();
-                this.authService.logout();            
+                this.authService.logout();
             }
         });
     }
