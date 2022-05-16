@@ -36,11 +36,11 @@ lint:
       - node_modules
     policy: pull
 
-# Build project for prod deployment + store artifacts.
+# Build project for Sandbox deployment + store artifacts.
 build:
   stage: build
   only:
-    - master
+    - stage
   artifacts:
     name: build_stage
     expire_in: 1 hour
@@ -56,9 +56,11 @@ build:
       - node_modules
     policy: pull
 
-# Deploy on self-hosted environment.
+# Deploy on Sandbox.
 deploy_dev:
   stage: deploy
+  only:
+    - stage
   before_script:
     - apt-get update -qq && apt-get install -y -qq sshpass rsync
     - 'which ssh-agent || (apt-get install -y -qq openssh-client)'
@@ -72,14 +74,12 @@ deploy_dev:
   script:
     - npm run build -- --prod
     - rsync -e "ssh -o StrictHostKeyChecking=no -o PubkeyAuthentication=yes" -avzr --delete dist/assessment-tool/* reliefapps@92.243.25.191:/var/www/html/assessment-tool/main-tool
-  only:
-    - master
 
-# Build project for dev deployment + store artifacts.
+# Build project for Azure deployment + store artifacts.
 build:
   stage: build
   only:
-    - stage
+    - master
   artifacts:
     name: build_stage
     expire_in: 1 hour
@@ -100,7 +100,7 @@ deploy_azure:
   stage: deploy
   image: mcr.microsoft.com/azure-cli
   only:
-    - stage
+    - master
   before_script:
     - az config set extension.use_dynamic_install=yes_without_prompt
   script:
