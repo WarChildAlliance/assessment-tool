@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from '../core/models/user.model';
 import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
@@ -12,7 +13,7 @@ import { UserService } from '../core/services/user.service';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from '../core/services/tutorial.service';
-
+import { GenericConfirmationDialogComponent } from '../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 
 @Component({
     selector: 'app-home',
@@ -25,10 +26,11 @@ export class HomeComponent implements OnInit {
     competencies = [];
 
     constructor(
+        private http: HttpClient,
+        private dialog: MatDialog,
         private answerService: AnswerService,
         private assessmentService: AssessmentService,
         private authService: AuthService,
-        private http: HttpClient,
         private cacheService: CacheService,
         private userService: UserService,
         private profileService: ProfileService,
@@ -37,13 +39,11 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-
         this.userService.currentUser.subscribe( activeUser => {
             this.user = activeUser;
         });
 
         this.tutorialService.createAllTours();
-
 
         this.cacheService.hasActiveSession().pipe(
             switchMap((hasActiveSession: boolean) => {
@@ -64,8 +64,21 @@ export class HomeComponent implements OnInit {
     }
 
     logout(): void {
-        this.userService.resetUser();
-        this.authService.logout();
+        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+            disableClose: false,
+            data: {
+                content: 'auth.logoutPrompt',
+                cancelBtn: true,
+                cancelBtnText: 'general.no',
+                confirmBtnText: 'general.yes',
+                confirmBtnColor: 'warn',
+            }
+        });
+        dialogRef.afterClosed().subscribe((value) => {
+            if (value) {
+                this.userService.resetUser();
+                this.authService.logout();            
+            }
+        });
     }
-
 }

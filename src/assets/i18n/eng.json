@@ -11,9 +11,11 @@
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
+    "no": "No",
     "skip": "Skip",
     "submit": "Submit",
-    "unknownUser": "Unknown username. Contact your teacher in case you forgot your code."
+    "unknownUser": "Unknown username. Contact your teacher in case you forgot your code.",
+    "yes": "Yes"
   },
   "assessments": {
     "assessmentLocked": "(locked)",
@@ -36,6 +38,7 @@
     "code": "Enter code",
     "login": "Log in",
     "loginNotPossible": "Login not possible",
+    "logoutPrompt": "Do you really want to logout?",
     "noInternetConnection": "You need to have an internet connection in order to login"
   },
   "profile": {

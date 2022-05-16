@@ -11,9 +11,11 @@
     "home": "Accueil",
     "info": "Les infos arrivent ici",
     "next": "Suivant",
+    "no": "Non",
     "skip": "Passer",
     "submit": "Envoyer",
-    "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code."
+    "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
+    "yes": "Oui"
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
@@ -36,6 +38,7 @@
     "code": "Entrez le code",
     "login": "Connexion",
     "loginNotPossible": "Connexion impossible",
+    "logoutPrompt": "Voulez-vous vraiment vous déconnecter?",
     "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter"
   },
   "profile": {
