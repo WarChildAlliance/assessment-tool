@@ -14,7 +14,7 @@ export class TutorialSlideshowService {
     public dialog: MatDialog,
   ) { }
 
-  async startTutorial(): Promise<boolean>{
+  public async startTutorial(): Promise<boolean>{
     return new Promise((resolve, reject) => {
       if (this.tutorial.completed) {
         this.tutorial.completed = false;
@@ -26,7 +26,7 @@ export class TutorialSlideshowService {
     });
   }
 
-  showTutorialForPage(pageName: string): void {
+  public showTutorialForPage(pageName: string): void {
     if (!this.tutorial.completed) {
       const currentPage = this.tutorial.pages.find(page => (page.pageID === pageName && !page.completed));
       if (currentPage) {
@@ -41,7 +41,7 @@ export class TutorialSlideshowService {
     }
   }
 
-  resetTutorial(): void {
+  public resetTutorial(): void {
     this.tutorial.pages.forEach(page => {
       page.completed = false;
     });

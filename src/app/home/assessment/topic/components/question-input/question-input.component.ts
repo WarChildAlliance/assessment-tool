@@ -26,8 +26,9 @@ export class QuestionInputComponent implements OnInit {
 
   @Output() answerChange = new EventEmitter<AnswerInput>();
 
-  valueForm = new FormControl(null);
   private readonly pageID = 'question-input-page';
+
+  public valueForm = new FormControl(null);
 
   constructor(private assisstantService: AssisstantService) {
   }
@@ -51,7 +52,7 @@ export class QuestionInputComponent implements OnInit {
     });
   }
 
-  isValid(): boolean {
+  private isValid(): boolean {
     return this.valueForm.value === this.question.valid_answer;
   }
 }

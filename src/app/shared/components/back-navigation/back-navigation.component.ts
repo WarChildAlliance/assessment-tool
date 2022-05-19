@@ -18,8 +18,8 @@ export class BackNavigationComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    getSource(path: string): string{
+    public getSource(path: string): string {
         return environment.API_URL + path;
-      }
+    }
 
 }

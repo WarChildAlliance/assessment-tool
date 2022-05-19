@@ -9,19 +9,20 @@ export class AssisstantService {
 
   constructor() { }
 
-  pageID: string;
-  pageContent: AssisstantContentModel;
-  assisstantContent = AssisstantContent;
+  private pageID: string;
+  private pageContent: AssisstantContentModel;
+  private assisstantContent = AssisstantContent;
 
-  setPageID(currentPageID: string): void {
+  public setPageID(currentPageID: string): void {
     this.pageID = currentPageID;
     this.pageContent = this.assisstantContent.filter(item => item.pageID === this.pageID).pop();
   }
 
-  getPageID(): string {
+  public getPageID(): string {
     return this.pageID;
   }
-  getPageContent(): AssisstantContentModel {
+
+  public getPageContent(): AssisstantContentModel {
     return this.pageContent;
   }
 }

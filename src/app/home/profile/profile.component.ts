@@ -20,10 +20,10 @@ import { Subscription } from 'rxjs';
 })
 export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly pageID = 'profile-page';
+  private userSubscription: Subscription;
 
-    user: User;
-    avatars: Avatar[];
-    userSubscription: Subscription;
+  public user: User;
+  public avatars: Avatar[];
 
   constructor(
     private route: ActivatedRoute,
@@ -59,43 +59,44 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tutorialSlideshowService.showTutorialForPage(this.pageID);
   }
 
+  ngAfterViewInit(): void {
+    this.tutorialService.currentPage.next(PageNames.profile);
+  }
 
-    getAvatarUrl(avatar: Avatar): string {
+  public getAvatarUrl(avatar: Avatar): string {
 
-      return avatar.image ?
-          (environment.API_URL + avatar.image) :
-          'assets/icons/Bee.svg';
-    }
+    return avatar.image ?
+        (environment.API_URL + avatar.image) :
+        'assets/icons/Bee.svg';
+  }
 
-    selectAvatar(avatar: Avatar): void {
-      avatar.unlocked = true;
-      avatar.selected = true;
-      avatar.displayCheckMark = true;
-      this.cacheService.getData('user').then( user => {
-        const newUser = user;
-        const unlockAvatar = user.profile.unlocked_avatars.find(a => a.id === avatar.id);
-        const effortPoints = this.user.profile.effort;
-        const remainingEffort = effortPoints - unlockAvatar.effort_cost;
-        const newAvatars = user.profile.unlocked_avatars.map(a => {
-          if (a.id === avatar.id) { a.unlocked = true; }
-          return a;
-        });
-        newUser.profile.effort = remainingEffort;
-        newUser.profile.unlocked_avatars = newAvatars;
-        newUser.profile.current_avatar = avatar;
-        newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
-        newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
-        this.cacheService.setData('user', newUser);
-
-        this.profileService.updateProfile(newUser.profile).subscribe();
-        this.userService.updateUser(newUser);
+  public selectAvatar(avatar: Avatar): void {
+    avatar.unlocked = true;
+    avatar.selected = true;
+    avatar.displayCheckMark = true;
+    this.cacheService.getData('user').then( user => {
+      const newUser = user;
+      const unlockAvatar = user.profile.unlocked_avatars.find(a => a.id === avatar.id);
+      const effortPoints = this.user.profile.effort;
+      const remainingEffort = effortPoints - unlockAvatar.effort_cost;
+      const newAvatars = user.profile.unlocked_avatars.map(a => {
+        if (a.id === avatar.id) { a.unlocked = true; }
+        return a;
       });
+      newUser.profile.effort = remainingEffort;
+      newUser.profile.unlocked_avatars = newAvatars;
+      newUser.profile.current_avatar = avatar;
+      newUser.profile.unlocked_avatars.find(av => (av.selected)).selected = false;
+      newUser.profile.unlocked_avatars.find(av => (av.id === avatar.id)).selected = true;
+      this.cacheService.setData('user', newUser);
 
-    }
+      this.profileService.updateProfile(newUser.profile).subscribe();
+      this.userService.updateUser(newUser);
+    });
 
+  }
 
-
-  unlockAvatar(avatar: Avatar): void {
+  public unlockAvatar(avatar: Avatar): void {
     this.cacheService.getData('user').then( res => {
       const newUser = res;
       const unlockAvatar = res.profile.unlocked_avatars.find(a => a.id === avatar.id);
@@ -120,11 +121,7 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  ngAfterViewInit(): void {
-    this.tutorialService.currentPage.next(PageNames.profile);
-  }
-
-  rewatchTutorial(): void {
+  public rewatchTutorial(): void {
     this.tutorialSlideshowService.resetTutorial();
     this.tutorialSlideshowService.startTutorial();
     this.router.navigate(['/']);

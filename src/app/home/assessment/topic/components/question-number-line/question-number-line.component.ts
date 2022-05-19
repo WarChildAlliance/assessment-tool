@@ -21,9 +21,10 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Output() answerChange = new EventEmitter<AnswerNumberLine>();
 
-  valueForm = new FormControl(null);
-  correctAnswerForm = new FormControl(null);
   private readonly pageID = 'question-number-line-page';
+
+  public valueForm = new FormControl(null);
+  public correctAnswerForm = new FormControl(null);
 
   constructor(
     private assisstantService: AssisstantService,
@@ -41,6 +42,10 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     if (this.displayCorrectAnswer){
       this.correctAnswerForm.setValue(this.question.expected_value);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.tutorialSerice.currentPage.next(PageNames.questionNumberLine);
   }
 
   private submit(value): void {
@@ -69,7 +74,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  getSliderColor(): string {
+  public getSliderColor(): string {
     if (this.displayCorrectAnswer.getValue()) {
       if (this.answer && this.answer.valid) {
         return 'accent';
@@ -79,9 +84,5 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     } else {
       return 'primary';
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.tutorialSerice.currentPage.next(PageNames.questionNumberLine);
   }
 }

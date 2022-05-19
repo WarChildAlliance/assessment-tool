@@ -37,32 +37,23 @@ import { trigger, animate, transition, style, state } from '@angular/animations'
 })
 
 export class QuestionComponent implements OnInit, OnDestroy {
-  topic: Topic;
-
-  public evaluated: boolean;
-
-  question: GeneralQuestion;
-  questionIndex: number;
-  goNextQuestion = false;
+  private goNextQuestion = false;
   private skipped = false;
-  show = false;
-
-  timeout = 250;
-
-  displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-
-  subscription: Subscription;
-
-  answer: GeneralAnswer;
-
+  private show = false;
+  private timeout = 250;
+  private subscription: Subscription;
   private questionTimeStart: string;
+  private firstTry: boolean;
+  private invalidAnswersStreak = 0;
 
-  private dateStart: Moment;
-  private assessment: Assessment;
-
-  firstTry: boolean;
-  invalidAnswersStreak = 0;
+  public topic: Topic;
+  public evaluated: boolean;
+  public question: GeneralQuestion;
+  public questionIndex: number;
+  public displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public answer: GeneralAnswer;
+  public dateStart: Moment;
+  public assessment: Assessment;
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -148,63 +139,18 @@ export class QuestionComponent implements OnInit, OnDestroy {
     );
   }
 
-  submitAnswer(): void {
-    if (this.answer) {
-      this.skipped = false;
-      this.answer.end_datetime = moment().format();
-      this.answer.start_datetime = this.questionTimeStart;
-      if (this.canShowFeedback()) {
-        this.displayCorrectAnswer.next(true);
-      } else {
-        this.submitAndGoNextPage();
-      }
-    } else if (!this.answer && this.topic.allow_skip) {
-      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-          content: 'topics.question.skipSure',
-          cancelBtn: true,
-          confirmBtnText: 'general.skip',
-          confirmBtnColor: 'warn',
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(value => {
-        if (value === false) {
-          dialogRef.close();
-        } else if (value === true) {
-          this.skipped = true;
-
-          this.answer = {
-            question: this.question.id,
-            start_datetime: this.questionTimeStart,
-            end_datetime: moment().format(),
-            valid: false,
-            skipped: true
-          };
-
-          this.submitAndGoNextPage();
-        }
-      });
-
-    } else {
-      // console.warn('Unexpected behaviour while submitting answer');
-      // this.goToNextPage();
-    }
-  }
-
-  canShowFeedback(): boolean {
+  private canShowFeedback(): boolean {
     // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
     return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
   }
 
-  isFirst(topicId): any {
+  private isFirst(topicId): any {
     return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
       this.firstTry = topics.length === 0;
     });
   }
 
-  showPraise(): void {
+  private showPraise(): void {
     // determine if we show praise or not by a 1/topic.praise chance
     const praiseProbability = Math.ceil(Math.random() * (this.topic.praise));
     const randIndex = Math.floor(Math.random() * PraiseTexts.length);
@@ -226,16 +172,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.goToNextPage();
         });
       });
-    } else {
-      this.answerService.submitAnswer(this.answer).subscribe(res => {
-        this.goToNextPage();
-      });
-    }
-  }
-
-  submitAndGoNextPage(): void {
-    if (!this.skipped && this.answer.valid) {
-      this.showPraise();
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
@@ -292,16 +228,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  getSource(path: string): string{
-    return environment.API_URL + path;
-  }
-
-  get stateName(): string {
-    return this.show ? 'show' : 'hide';
-  }
-
-  async setQuestions(leftQuestions): Promise<void>{
+  private async setQuestions(leftQuestions): Promise<void>{
     for (const question of leftQuestions) {
       const skippedAnswer: SkippedAnswer = {
         question: question.id,
@@ -317,6 +244,70 @@ export class QuestionComponent implements OnInit, OnDestroy {
                });
       });
     }
+  }
+
+  public submitAnswer(): void {
+    if (this.answer) {
+      this.skipped = false;
+      this.answer.end_datetime = moment().format();
+      this.answer.start_datetime = this.questionTimeStart;
+      if (this.canShowFeedback()) {
+        this.displayCorrectAnswer.next(true);
+      } else {
+        this.submitAndGoNextPage();
+      }
+    } else if (!this.answer && this.topic.allow_skip) {
+      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        disableClose: true,
+        data: {
+          content: 'topics.question.skipSure',
+          cancelBtn: true,
+          confirmBtnText: 'general.skip',
+          confirmBtnColor: 'warn',
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(value => {
+        if (value === false) {
+          dialogRef.close();
+        } else if (value === true) {
+          this.skipped = true;
+
+          this.answer = {
+            question: this.question.id,
+            start_datetime: this.questionTimeStart,
+            end_datetime: moment().format(),
+            valid: false,
+            skipped: true
+          };
+
+          this.submitAndGoNextPage();
+        }
+      });
+
+    } else {
+      // console.warn('Unexpected behaviour while submitting answer');
+      // this.goToNextPage();
+    }
+  }
+
+  public submitAndGoNextPage(): void {
+    if (!this.skipped && this.answer.valid) {
+      this.showPraise();
+    } else {
+      this.answerService.submitAnswer(this.answer).subscribe(res => {
+        this.goToNextPage();
+      });
+    }
+  }
+
+
+  public getSource(path: string): string{
+    return environment.API_URL + path;
+  }
+
+  public get stateName(): string {
+    return this.show ? 'show' : 'hide';
   }
 
   ngOnDestroy(): void {

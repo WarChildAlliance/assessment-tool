@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from '../generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { AssisstantContentModel } from 'src/app/core/models/assisstant-content.model';
 
 @Component({
     selector: 'app-assisstant',
@@ -9,8 +10,7 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
     styleUrls: ['./assisstant.component.scss']
 })
 export class AssisstantComponent implements OnInit {
-
-    currentPageContent: any = {};
+    private currentPageContent: AssisstantContentModel = null;
 
     constructor(
         public dialog: MatDialog,
@@ -21,7 +21,7 @@ export class AssisstantComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    openDialog(): void {
+    public openDialog(): void {
         this.currentPageContent = this.assisstantService.getPageContent();
 
         this.dialog.open(GenericConfirmationDialogComponent, {
@@ -35,5 +35,5 @@ export class AssisstantComponent implements OnInit {
                 confirmBtnColor: 'primary',
             }
         });
-        }
+    }
 }

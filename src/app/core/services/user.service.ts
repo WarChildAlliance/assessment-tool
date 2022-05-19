@@ -18,7 +18,7 @@ export class UserService {
   private userSource = new BehaviorSubject<User>(null);
   public currentUser = this.userSource.asObservable();
 
-  user: User;
+  public user: User;
 
   constructor(
     private http: HttpClient,
@@ -27,7 +27,7 @@ export class UserService {
     private authService: AuthService
   ) { }
 
-  getSelf(): Observable<User> {
+  public getSelf(): Observable<User> {
     if (!this.cacheService.networkStatus.getValue()) {
       this.cacheService.getData('user').then( activeUser => {
         if (activeUser){
@@ -65,16 +65,16 @@ export class UserService {
     );
   }
 
-  getUser(): Observable<User> {
+  public getUser(): Observable<User> {
     return this.http.get<User>(`${environment.API_URL}/users/get_self/`);
   }
 
-  updateUser(user: User): void {
+  public updateUser(user: User): void {
     this.user = user;
     this.userSource.next(user);
   }
 
-  resetUser(): void {
+  public resetUser(): void {
     this.user = null;
     this.userSource.next(null);
   }

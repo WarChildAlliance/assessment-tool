@@ -15,16 +15,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./assessments.component.scss']
 })
 export class AssessmentsComponent implements OnInit, OnDestroy {
-
-  pageName = PageNames.assessment;
-  assessments: Assessment[];
   private readonly pageID = 'assessments-page';
   private subscriptionCount = 0;
+  private subscription: Subscription = new Subscription();
+  private userSubscription: Subscription = new Subscription();
+
+  public pageName = PageNames.assessment;
+  public assessments: Assessment[];
 
   public displaySpinner = true;
 
-  private subscription: Subscription = new Subscription();
-  private userSubscription: Subscription = new Subscription();
 
   constructor(
     private assessmentService: AssessmentService,
@@ -72,7 +72,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     this.assisstantService.setPageID(this.pageID);
   }
 
-  getAssessmentIcon(assessment: Assessment): string {
+  public getAssessmentIcon(assessment: Assessment): string {
     return assessment.icon ?
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
