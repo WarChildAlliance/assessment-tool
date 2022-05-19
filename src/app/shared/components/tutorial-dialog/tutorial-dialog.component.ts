@@ -16,15 +16,14 @@ interface DialogData {
 })
 
 export class TutorialDialogComponent implements OnInit {
-
+  private audio: HTMLAudioElement;
 
   public title ? = '';
   public content ? = '';
   public imageURL = '';
   public audioURL = '';
   public index = 0;
-  public steps =  null;
-  private audio: HTMLAudioElement;
+  public steps: any[] =  null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -35,51 +34,26 @@ export class TutorialDialogComponent implements OnInit {
       if (data.steps) {
         this.steps = data.steps;
       }
-   }
+  }
 
   ngOnInit(): void {
     this.playAudio();
   }
 
-  getImage(): string{
-    return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
-  }
-
-  getAudio(): string{
+  private getAudio(): string{
     return 'assets/tutorial/audio/' + this.steps[this.index].audioURL;
   }
 
-  playAudio(): void {
+  private playAudio(): void {
     this.audio = new Audio(this.getAudio());
     this.audio.play();
   }
 
-  stopAudio(): void{
+  private stopAudio(): void{
     this.audio.pause();
   }
 
-  clickNext(): void {
-    this.index += 1;
-    this.stopAudio();
-    this.playAudio();
-  }
-
-  clickPrevious(): void {
-    if (this.index > 1) {
-      this.index -= 1;
-    } else {
-      this.index = 0;
-    }
-    this.stopAudio();
-    this.playAudio();
-  }
-
-  closeTutorial(): void {
-    this.audio.pause();
-    this.redirect();
-  }
-
-  redirect(): void{
+  private redirect(): void{
     const redirect = this.steps[this.index].redirect ? this.steps[this.index].redirect : null;
     if (redirect) {
       this.assessmentService.getTutorial().subscribe( tutorial => {
@@ -99,5 +73,30 @@ export class TutorialDialogComponent implements OnInit {
         }
       });
     }
+  }
+
+  public getImage(): string{
+    return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
+  }
+
+  public clickNext(): void {
+    this.index += 1;
+    this.stopAudio();
+    this.playAudio();
+  }
+
+  public clickPrevious(): void {
+    if (this.index > 1) {
+      this.index -= 1;
+    } else {
+      this.index = 0;
+    }
+    this.stopAudio();
+    this.playAudio();
+  }
+
+  public closeTutorial(): void {
+    this.audio.pause();
+    this.redirect();
   }
 }

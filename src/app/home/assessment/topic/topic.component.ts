@@ -17,11 +17,11 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./topic.component.scss']
 })
 export class TopicComponent implements OnInit, AfterViewInit {
-  topic: Topic;
-  assessment: Assessment;
-  firstTry: boolean;
   private readonly pageID = 'topic-page';
 
+  public topic: Topic;
+  public assessment: Assessment;
+  public firstTry: boolean;
   public icons: any = {};
 
   constructor(

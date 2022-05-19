@@ -11,6 +11,7 @@ import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
+import { Topic } from 'src/app/core/models/topic.models';
 
 @Component({
     selector: 'app-completed-topic',
@@ -19,13 +20,13 @@ import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slidesh
 })
 export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
+    private blockNavigation = true;
+    private readonly pageID = 'completed-topic-page';
+
     public competency = 1;
     public effort = 2;
-    public topic = null;
-    public assessmentId = null;
-
-    blockNavigation = true;
-    private readonly pageID = 'completed-topic-page';
+    public topic: Topic = null;
+    public assessmentId: number = null;
 
     constructor(
         private router: Router,
@@ -131,9 +132,14 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         });
     }
 
+    ngAfterViewInit(): void {
+        this.blockNavigation = false;
+        this.tutorialService.currentPage.next(PageNames.topicCompleted);
+    }
+
     /* Shows modal confirmation before leave the page if is evluated topic
      */
-    canDeactivate(event: any): Observable<boolean> | boolean {
+    public canDeactivate(event: any): Observable<boolean> | boolean {
         if (this.blockNavigation) {
             return false;
         }
@@ -141,19 +147,13 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         return true;
     }
 
-    goToHomePage(): void {
+    public goToHomePage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../../']);
     }
 
-    ngAfterViewInit(): void {
-        this.blockNavigation = false;
-        this.tutorialService.currentPage.next(PageNames.topicCompleted);
-    }
-
-    goToTopicPage(): void {
+    public goToTopicPage(): void {
         this.blockNavigation = false;
         this.router.navigate(['../../'], { relativeTo: this.route });
     }
-
 }

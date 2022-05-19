@@ -90,6 +90,6 @@ export class GenericConfirmationDialogComponent implements OnInit {
         }
     }*/
 
-    closeModal(): void {
+    public closeModal(): void {
     }
 }

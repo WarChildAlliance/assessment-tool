@@ -19,7 +19,8 @@ import { AlertService } from './core/services/alert.service';
 })
 export class AppComponent implements OnInit {
   private inactiveTimeout;
-  hasUpdate = false;
+
+  public hasUpdate = false;
 
   constructor(
     private answerService: AnswerService,

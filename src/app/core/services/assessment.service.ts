@@ -15,10 +15,10 @@ import { CacheService } from './cache.service';
 })
 export class AssessmentService {
 
-  storedAssessmentsSource: BehaviorSubject<Assessment[]> = new BehaviorSubject<Assessment[]>([]);
+  private storedAssessmentsSource: BehaviorSubject<Assessment[]> = new BehaviorSubject<Assessment[]>([]);
   // storedAssessments: Observable<Assessment[]> = this.storedAssessmentsSource.asObservable();
 
-  get storedAssessments(): Observable<Assessment[]> {
+  public get storedAssessments(): Observable<Assessment[]> {
     return this.storedAssessmentsSource.asObservable();
   }
 
@@ -29,7 +29,28 @@ export class AssessmentService {
     this.loadAllAssessments();
   }
 
-  loadAllAssessments(): void {
+  // Fetch the icon from the backend to allow accessing it offline
+  private getIcon(icon: string): void {
+    if (!icon) { return; }
+    this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
+  }
+
+  // Fetch the attachments from the backend to allow accessing them offline
+  //  (this could probably be refactored in a single function with the above)
+  private getAttachments(attachments: Attachment[]): void {
+    if (!attachments || !attachments.length) { return; }
+
+    for (const attachment of attachments) {
+      this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
+    }
+  }
+
+  private getAssessmentsDeep(): Observable<Assessment[]> {
+    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_all/`);
+  }
+
+
+  public loadAllAssessments(): void {
     if (!this.cacheService.networkStatus.getValue()) {
       this.cacheService.getData('assessments').then(
         (assessments) => {
@@ -59,23 +80,7 @@ export class AssessmentService {
     });
   }
 
-  // Fetch the icon from the backend to allow accessing it offline
-  private getIcon(icon: string): void {
-    if (!icon) { return; }
-    this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
-  }
-
-  // Fetch the attachments from the backend to allow accessing them offline
-  //  (this could probably be refactored in a single function with the above)
-  private getAttachments(attachments: Attachment[]): void {
-    if (!attachments || !attachments.length) { return; }
-
-    for (const attachment of attachments) {
-      this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
-    }
-  }
-
-  getTutorial(): Observable<Assessment> {
+  public getTutorial(): Observable<Assessment> {
     return this.storedAssessments.pipe(
       map(assessmentsList => {
         return assessmentsList.find(a => a.subject === 'TUTORIAL');
@@ -83,7 +88,7 @@ export class AssessmentService {
     );
   }
 
-  getAssessments(): Observable<Assessment[]> {
+  public getAssessments(): Observable<Assessment[]> {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
@@ -96,7 +101,7 @@ export class AssessmentService {
     );
   }
 
-  getSELUnlocking(assessmentsList): Assessment[] {
+  public getSELUnlocking(assessmentsList): Assessment[] {
     const mutatedAssessmentList = assessmentsList;
 
     let i = 1;
@@ -162,21 +167,21 @@ export class AssessmentService {
     return mutatedAssessmentList;
   }
 
-  getAssessment(assessmentId: number): Observable<Assessment> {
+  public getAssessment(assessmentId: number): Observable<Assessment> {
     return this.storedAssessments.pipe(map((assessments) => {
       return assessments
         .find(assessment => (assessment.id === assessmentId));
     }));
   }
 
-  getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
+  public getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
     return this.storedAssessments.pipe(map((assessments) => {
       return assessments
         .find(assessment => (assessment.id === assessmentId)).topics;
     }));
   }
 
-  getAssessmentTopic(assessmentId: number, topicId: number): Observable<Topic> {
+  public getAssessmentTopic(assessmentId: number, topicId: number): Observable<Topic> {
     return this.storedAssessments.pipe(map((assessments) => {
       return assessments
         .find(assessment => (assessment.id === assessmentId)).topics
@@ -184,7 +189,7 @@ export class AssessmentService {
     }));
   }
 
-  getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
+  public getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
     return this.storedAssessments.pipe(map((assessments) => {
       return assessments
         .find(assessment => (assessment.id === assessmentId)).topics
@@ -192,7 +197,7 @@ export class AssessmentService {
     }));
   }
 
-  getAssessmentTopicQuestion(assessmentId: number, topicId: number, questionId: number): Observable<GeneralQuestion> {
+  public getAssessmentTopicQuestion(assessmentId: number, topicId: number, questionId: number): Observable<GeneralQuestion> {
     return this.storedAssessments.pipe(map((assessments) => {
       return assessments
         .find(assessment => (assessment.id === assessmentId)).topics
@@ -200,9 +205,5 @@ export class AssessmentService {
         .find(question => (question.id === questionId));
     }
     ));
-  }
-
-  getAssessmentsDeep(): Observable<Assessment[]> {
-    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_all/`);
   }
 }
