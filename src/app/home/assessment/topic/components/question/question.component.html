@@ -31,7 +31,7 @@
 
             <ng-container *ngIf="question.question_type === 'SELECT'">
                 <app-question-select [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer" [evaluated]="evaluated"></app-question-select>
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated"></app-question-select>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'SORT'">
@@ -46,12 +46,12 @@
             <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
                 [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
                 iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
-                (click)="submitAnswer()" class="main-btn submit">
+                (click)="submitSkipQuestion()" class="main-btn submit">
             </app-primary-btn>
     
             <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
                             'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
-                (click)="submitAndGoNextPage()" class="main-btn submit">
+                (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
             </app-primary-btn>
         </div>
 

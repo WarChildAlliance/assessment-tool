@@ -38,16 +38,16 @@ import { trigger, animate, transition, style, state } from '@angular/animations'
 
 export class QuestionComponent implements OnInit, OnDestroy {
   private goNextQuestion = false;
-  private skipped = false;
+  private isSkipped = false;
   private show = false;
   private timeout = 250;
   private subscription: Subscription;
   private questionTimeStart: string;
-  private firstTry: boolean;
+  private isFirstTry: boolean;
   private invalidAnswersStreak = 0;
 
   public topic: Topic;
-  public evaluated: boolean;
+  public isEvaluated: boolean;
   public question: GeneralQuestion;
   public questionIndex: number;
   public displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -122,7 +122,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
           this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
             this.topic = topic;
-            this.evaluated = topic.evaluated;
+            this.isEvaluated = topic.evaluated;
             this.isFirst(this.topic.id);
           });
 
@@ -141,12 +141,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   private canShowFeedback(): boolean {
     // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
-    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
+    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.isFirstTry);
   }
 
   private isFirst(topicId): any {
     return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
-      this.firstTry = topics.length === 0;
+      this.isFirstTry = topics.length === 0;
     });
   }
 
@@ -246,15 +246,15 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitAnswer(): void {
+  public submitSkipQuestion(): void {
     if (this.answer) {
-      this.skipped = false;
+      this.isSkipped = false;
       this.answer.end_datetime = moment().format();
       this.answer.start_datetime = this.questionTimeStart;
       if (this.canShowFeedback()) {
         this.displayCorrectAnswer.next(true);
       } else {
-        this.submitAndGoNextPage();
+        this.submitAnswerAndGoNextPage();
       }
     } else if (!this.answer && this.topic.allow_skip) {
       const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
@@ -271,7 +271,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         if (value === false) {
           dialogRef.close();
         } else if (value === true) {
-          this.skipped = true;
+          this.isSkipped = true;
 
           this.answer = {
             question: this.question.id,
@@ -281,7 +281,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
             skipped: true
           };
 
-          this.submitAndGoNextPage();
+          this.submitAnswerAndGoNextPage();
         }
       });
 
@@ -291,8 +291,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitAndGoNextPage(): void {
-    if (!this.skipped && this.answer.valid) {
+  public submitAnswerAndGoNextPage(): void {
+    if (!this.isSkipped && this.answer.valid) {
       this.showPraise();
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
@@ -300,7 +300,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 
   public getSource(path: string): string{
     return environment.API_URL + path;

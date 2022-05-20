@@ -21,7 +21,7 @@ export class AssisstantComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    public openDialog(): void {
+    public openConfirmationDialog(): void {
         this.currentPageContent = this.assisstantService.getPageContent();
 
         this.dialog.open(GenericConfirmationDialogComponent, {
