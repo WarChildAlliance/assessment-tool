@@ -40,9 +40,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
         private tutorialService: TutorialService,
         public translate: TranslateService,
         private tutorialSlideshowService: TutorialSlideshowService,
-    ) {
-
-    }
+    ) {}
 
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);

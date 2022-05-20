@@ -38,14 +38,14 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     ) {
     }
 
-    subject: string;
+    assessmentSubject: string;
 
     ngOnInit(): void {
         this.cacheService.getData('user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
                 switchMap((params: ParamMap) => {
-                    this.subject = params.get('subject');
+                    this.assessmentSubject = params.get('subject');
                     if (params.has('assessment_id')) {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {

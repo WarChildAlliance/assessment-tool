@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
             'assets/avatars/award_120.svg';
     }
 
-    public openDialog(): void {
+    public openConfirmationDialog(): void {
         this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             autoFocus: true,

@@ -24,7 +24,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
 
-    @Input() evaluated: boolean;
+    @Input() isEvaluated: boolean;
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
@@ -53,7 +53,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         });
 
         // shuffle evaluated options
-        if (this.evaluated) {
+        if (this.isEvaluated) {
             this.question.options = this.question.options.map(question => ({
                 question,
                 sort: Math.random()
@@ -142,7 +142,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         return valid;
     }
 
-    public getAnswerBackground(option: any): string {
+    public getAnswerBackgroundStyle(option: any): string {
         return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
             : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
     }

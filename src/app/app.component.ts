@@ -20,7 +20,7 @@ import { AlertService } from './core/services/alert.service';
 export class AppComponent implements OnInit {
   private inactiveTimeout;
 
-  public hasUpdate = false;
+  public serviceWorkerHasUpdate = false;
 
   constructor(
     private answerService: AnswerService,
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
           }));
         }
         this.swUpdate.available.subscribe(() => {
-          this.hasUpdate = true;
+          this.serviceWorkerHasUpdate = true;
           location.reload();
         });
   }

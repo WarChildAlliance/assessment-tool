@@ -79,13 +79,13 @@ export class TutorialDialogComponent implements OnInit {
     return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
   }
 
-  public clickNext(): void {
+  public onNextStep(): void {
     this.index += 1;
     this.stopAudio();
     this.playAudio();
   }
 
-  public clickPrevious(): void {
+  public onPreviousStep(): void {
     if (this.index > 1) {
       this.index -= 1;
     } else {

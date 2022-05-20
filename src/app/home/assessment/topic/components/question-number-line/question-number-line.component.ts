@@ -9,7 +9,6 @@ import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
-
 @Component({
   selector: 'app-question-number-line',
   templateUrl: './question-number-line.component.html',
