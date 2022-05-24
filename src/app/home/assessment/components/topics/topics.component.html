@@ -5,7 +5,7 @@
         <h3>{{assessmentTitle}}</h3>
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
             <li class="topic-card" *ngFor="let topic of topics">
-                <a (click)="startTopic(topic.id)">
+                <a (click)="topic.questions.length ? startTopic(topic.id) : continue"  [ngClass]="{'topic-without-questions': !topic.questions.length}">
                   <img class="complete" *ngIf="topic.completed" src="assets/icons/check_24.svg" alt="completed">
                     <img class="complete" *ngIf="!topic.completed" src="assets/icons/check_24_low.svg" alt="completed">
                     <img width="150" height="150" src="{{ getTopicIcon(topic) }}" alt="icon"/>
