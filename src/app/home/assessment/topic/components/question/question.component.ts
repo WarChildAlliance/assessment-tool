@@ -12,7 +12,6 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
-import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -71,7 +70,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         });
         return dialogRef.afterClosed().pipe(map(value => {
           if (value) {
-            this.router.navigate([TopicComponent], {});
+            this.router.navigate(['../../../'], { relativeTo: this.route });
             this.goNextQuestion = true;
             this.answerService.endTopicAnswer().subscribe();
           }
