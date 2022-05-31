@@ -15,7 +15,8 @@
     "skip": "Passer",
     "submit": "Envoyer",
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
-    "yes": "Oui"
+    "yes": "Oui",
+    "of": "sur"
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
