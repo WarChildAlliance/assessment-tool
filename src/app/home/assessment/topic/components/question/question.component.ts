@@ -12,7 +12,6 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
-import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -54,6 +53,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public answer: GeneralAnswer;
   public dateStart: Moment;
   public assessment: Assessment;
+  public previousPageUrl = '';
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -71,7 +71,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         });
         return dialogRef.afterClosed().pipe(map(value => {
           if (value) {
-            this.router.navigate([TopicComponent], {});
+            this.router.navigate(['../../../'], { relativeTo: this.route });
             this.goNextQuestion = true;
             this.answerService.endTopicAnswer().subscribe();
           }
@@ -104,6 +104,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    const topicId = this.route.snapshot.paramMap.get('topic_id') || '';
+    const questionId = this.route.snapshot.paramMap.get('question_id') || '';
+    this.previousPageUrl = this.router.url.replace(`topics/${topicId}/questions/${questionId}`, '');
+
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -137,6 +141,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  private onPrevious(): void {
+    this.router.navigate([this.previousPageUrl]);
   }
 
   private canShowFeedback(): boolean {
