@@ -53,6 +53,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public answer: GeneralAnswer;
   public dateStart: Moment;
   public assessment: Assessment;
+  public previousPageUrl = '';
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -103,6 +104,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    const topicId = this.route.snapshot.paramMap.get('topic_id') || '';
+    const questionId = this.route.snapshot.paramMap.get('question_id') || '';
+    this.previousPageUrl = this.router.url.replace(`topics/${topicId}/questions/${questionId}`, '');
+
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -136,6 +141,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  private onPrevious(): void {
+    this.router.navigate([this.previousPageUrl]);
   }
 
   private canShowFeedback(): boolean {
