@@ -10,19 +10,23 @@
     width: 98%;
   }
 
-  span {
-    float: left;
-    margin-left: -0.5rem;
-    margin-top: 0.15rem;
-    margin-right: 0.5rem;
-    border-radius: 5rem;
-    height: 70px;
-    width: 70px;
-    overflow: hidden;
+  img {
+    height:60px;
+    width: 60px;
+  }
 
-    img {
-      height:60px;
-      width: 60px;
+  figure {
+    margin: 0;
+  }
+
+  .complete-topics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .text {
+      position: absolute;
+      font-size: 1.5em;
     }
   }
 }
@@ -47,5 +51,8 @@ button h1 {
   white-space: nowrap;
 }
 
-
-
+.button-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

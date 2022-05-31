@@ -3,21 +3,24 @@
     <ng-container *ngFor="let assessment of assessments">
         <button *ngIf="!assessment.locked" mat-button class="assessment-btn"
             [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
-
-            <span>
+            <div class="button-content">
                 <img src="{{ getAssessmentIcon(assessment) }}">
-            </span>
-            <h1>
-                {{assessment.title}}
-            </h1>
+                <h1> {{assessment.title}} </h1>
+                <figure class="complete-topics">
+                    <img src="assets/icons/check_24_low.svg">
+                    <figcaption class="text">{{assessment.complete_topics}} {{ "general.of" | translate }} {{assessment.topics.length}}</figcaption>
+                </figure>
+            </div>
         </button>
         <button *ngIf="assessment.locked" mat-button class="assessment-btn locked">
-            <span>
+            <div class="button-content">
                 <img src="{{ getAssessmentIcon(assessment) }}">
-            </span>
-            <h1>
-                {{assessment.title}}
-            </h1>
+                <h1> {{assessment.title}} </h1>
+                <figure class="complete-topics">
+                    <img src="assets/icons/check_24_low.svg">
+                    <figcaption class="text">{{assessment.complete_topics}} {{ "general.of" | translate }} {{assessment.topics.length}}</figcaption>
+                </figure>
+            </div>
         </button>
     </ng-container>
 </div>

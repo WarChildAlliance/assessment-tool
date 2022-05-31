@@ -10,6 +10,7 @@ export interface Assessment {
   private: boolean;
   topics?: Topic[];
   icon?: string;
+  complete_topics?: number;
 
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   locked?: boolean;

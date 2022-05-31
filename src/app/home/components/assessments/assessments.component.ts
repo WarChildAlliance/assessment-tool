@@ -8,6 +8,7 @@ import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slidesh
 import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   selector: 'app-assessments',
@@ -31,6 +32,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
     public dialog: MatDialog,
+    private cacheService: CacheService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +42,22 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
       assessments => {
         this.subscriptionCount++;
         this.assessments = assessments;
+
+        this.cacheService.getData('user').then(user => {
+          this.assessments.forEach(assessment => {
+            assessment.complete_topics = 0;
+            assessment.topics?.forEach(topic => {
+              const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
+              if (cachedCompetency !== undefined && cachedCompetency !== null) {
+                topic.completed = true;
+                assessment.complete_topics++;
+              } else {
+                topic.completed = false;
+              }
+            });
+          });
+        });
+
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
         if (tutorial && !tutorial.all_topics_complete) {
           this.tutorialSlideshowService.startTutorial().then(x => {
