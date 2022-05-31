@@ -82,7 +82,7 @@
       "continue": "Continuer",
       "correctAnswer": "Bonne réponse:",
       "exitConfirmation": "Es-tu sûr de vouloir quitter?",
-      "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page d'accueil.",
+      "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page des sujets.",
       "questionNotAvailable": "Cette question n'est pas disponible",
       "skipSure": "Es-tu sûr de vouloir sauter cette question ?"
     }
