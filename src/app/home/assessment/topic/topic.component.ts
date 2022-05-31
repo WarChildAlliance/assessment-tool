@@ -8,8 +8,6 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
-import { combineLatest, forkJoin } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-topic',
@@ -26,7 +24,6 @@ export class TopicComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private answerService: AnswerService,
     private tutorialSerice: TutorialService,
     private assisstantService: AssisstantService,
     public translate: TranslateService,
