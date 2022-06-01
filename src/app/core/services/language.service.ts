@@ -18,18 +18,18 @@ export class LanguageService {
     this.translateService.setDefaultLang('eng');
   }
 
-  getLanguages(): Observable<Language[]> {
-    return this.http.get<Language[]>(`${environment.API_URL}/users/languages/`);
-  }
-
-  setLanguage(language: Language): void {
-    this.translateService.use(language.code.toLowerCase());
-    this.setDirection(language.direction);
-  }
-
-  setDirection(direction: 'RTL' | 'LTR'): void {
+  private setDirection(direction: 'RTL' | 'LTR'): void {
     document.getElementsByTagName('html')[0].setAttribute('dir', direction.toLowerCase());
     document.getElementsByTagName('html')[0].className = direction.toLowerCase();
     this.direction.next(direction);
+  }
+
+  public getLanguages(): Observable<Language[]> {
+    return this.http.get<Language[]>(`${environment.API_URL}/users/languages/`);
+  }
+
+  public setLanguage(language: Language): void {
+    this.translateService.use(language.code.toLowerCase());
+    this.setDirection(language.direction);
   }
 }

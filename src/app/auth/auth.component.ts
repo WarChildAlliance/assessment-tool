@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-    authForm = new FormGroup({
+    public authForm = new FormGroup({
         code: new FormControl(null, [Validators.required, Validators.pattern(/\d{6,}/)])
     });
 
@@ -37,7 +37,7 @@ export class AuthComponent implements OnInit {
         }
     }
 
-    showOfflineModal(): void {
+    private showOfflineModal(): void {
         const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {
@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit {
           });
     }
 
-    onSubmit(): void {
+    public onSubmit(): void {
         if (!this.cacheService.networkStatus.getValue()){
             this.showOfflineModal();
         } else {

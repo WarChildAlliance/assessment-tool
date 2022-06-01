@@ -24,15 +24,16 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
 
-    @Input() evaluated: boolean;
+    @Input() isEvaluated: boolean;
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
 
-    valueForm = new FormControl(null);
-    multipleSelectForm: FormGroup = new FormGroup({
+    private readonly pageID = 'question-select-page';
+
+    public valueForm = new FormControl(null);
+    public multipleSelectForm: FormGroup = new FormGroup({
         selectedOptions: new FormArray([]),
     });
-    private readonly pageID = 'question-select-page';
 
     constructor(
         private formBuilder: FormBuilder,
@@ -52,7 +53,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         });
 
         // shuffle evaluated options
-        if (this.evaluated) {
+        if (this.isEvaluated) {
             this.question.options = this.question.options.map(question => ({
                 question,
                 sort: Math.random()
@@ -109,6 +110,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         }
     }
 
+    ngAfterViewInit(): void {
+        this.tutorialSerice.currentPage.next(PageNames.questionSelect);
+    }
+
     private generateMultipleSelectForm(): void {
         const selectedOptionsForm = this.multipleSelectForm.get('selectedOptions') as FormArray;
 
@@ -137,17 +142,12 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         return valid;
     }
 
-    getAnswerBackground(option: any): string {
+    public getAnswerBackgroundStyle(option: any): string {
         return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
             : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
     }
 
-    ngOnDestroy(): void {
-        this.displayCorrectAnswer.next(false);
-        this.answer = null;
-    }
-
-    setCheckboxSelection(index: number): void {
+    public setCheckboxSelection(index: number): void {
         if (this.displayCorrectAnswer.getValue()) {
             return;
         }
@@ -159,15 +159,16 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
 
-    hasImageAttached(option: SelectOption): boolean {
+    public hasImageAttached(option: SelectOption): boolean {
         return option.attachments.some((attachment) => attachment.attachment_type === 'IMAGE');
     }
 
-    ngAfterViewInit(): void {
-        this.tutorialSerice.currentPage.next(PageNames.questionSelect);
+    public getSource(path: string): string{
+        return environment.API_URL + path;
     }
 
-    getSource(path: string): string{
-        return environment.API_URL + path;
-      }
+    ngOnDestroy(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
+    }
 }

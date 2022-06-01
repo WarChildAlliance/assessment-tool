@@ -24,12 +24,32 @@ export class AnswerService {
     private userService: UserService,
   ) { }
 
-  startSession(): Observable<AnswerSession> {
+  private createSession(): Observable<AnswerSession> {
+    return this.http.post<AnswerSession>(
+      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/`,
+      { student: this.userService.user.id, duration: '' }
+    ).pipe(
+      tap(session => this.cacheService.setData(this.activeSessionStorage, session))
+    );
+  }
+
+  private createSessionFull(data: AnswerSession): Observable<AnswerSession> {
+    return this.http.post<AnswerSession>(
+      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/create_all/`,
+      data
+    );
+  }
+
+  private updateSession(sessionId: number, endDate: moment.Moment): Observable<AnswerSession> {
+    return this.http.put<AnswerSession>(`${environment.API_URL}/answers/${this.userService.user.id}/sessions/${sessionId}/`,
+      { end_date: endDate.format() });
+  }
+
+  public startSession(): Observable<AnswerSession> {
      return this.createSession();
   }
 
-
-  startTopicAnswer(topicId: number): Observable<any> {
+  public startTopicAnswer(topicId: number): Observable<any> {
     this.cacheService.getData(this.activeSessionStorage).then(res => {
     });
 
@@ -44,14 +64,14 @@ export class AnswerService {
     return from(this.cacheService.getData(this.activeTopicAnswerStorage));
   }
 
-  submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<any> {
+  public submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<any> {
     return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( topicAnswers => {
       topicAnswers.answers.push(answer);
       this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswers);
     }));
   }
 
-  endTopicAnswer(): Observable<any> {
+  public endTopicAnswer(): Observable<any> {
     return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( cachedAnswers => {
       this.cacheService.getData(this.activeSessionStorage).then( res => {
         cachedAnswers.session = res.id;
@@ -63,7 +83,7 @@ export class AnswerService {
     }));
   }
 
-  endSession(): Observable<AnswerSession> {
+  public endSession(): Observable<AnswerSession> {
     return from(this.cacheService.getData(this.activeSessionStorage)).pipe(
       switchMap((activeSessionLocal: AnswerSession) => {
         if (activeSessionLocal) {
@@ -85,27 +105,6 @@ export class AnswerService {
         }
       })
     );
-  }
-
-  private createSession(): Observable<AnswerSession> {
-    return this.http.post<AnswerSession>(
-      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/`,
-      { student: this.userService.user.id, duration: '' }
-    ).pipe(
-      tap(session => this.cacheService.setData(this.activeSessionStorage, session))
-    );
-  }
-
-  private createSessionFull(data: AnswerSession): Observable<AnswerSession> {
-    return this.http.post<AnswerSession>(
-      `${environment.API_URL}/answers/${this.userService.user.id}/sessions/create_all/`,
-      data
-    );
-  }
-
-  private updateSession(sessionId: number, endDate: moment.Moment): Observable<AnswerSession> {
-    return this.http.put<AnswerSession>(`${environment.API_URL}/answers/${this.userService.user.id}/sessions/${sessionId}/`,
-      { end_date: endDate.format() });
   }
 
   public getCompleteStudentAnswersForTopic(topicId: number): Observable<any[]> {

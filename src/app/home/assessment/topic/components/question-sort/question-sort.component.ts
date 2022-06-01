@@ -17,10 +17,11 @@ export class QuestionSortComponent implements OnInit, OnDestroy {
     @Input() answer: AnswerSort;
     @Output() answerChange = new EventEmitter<AnswerSort>();
 
-    optionsCopy: SortOption[] = [];
-    selectedCategoryA: SortOption[] = [];
-    selectedCategoryB: SortOption[] = [];
     private readonly pageID = 'question-sort-page';
+
+    public optionsCopy: SortOption[] = [];
+    public selectedCategoryA: SortOption[] = [];
+    public selectedCategoryB: SortOption[] = [];
 
     constructor(private assisstantService: AssisstantService) {
     }
@@ -28,26 +29,6 @@ export class QuestionSortComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.optionsCopy = [].concat(this.question.options);
-    }
-
-    drop(event: CdkDragDrop<string[]>): void {
-        if (event.previousContainer === event.container) {
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-            transferArrayItem(event.previousContainer.data,
-                event.container.data,
-                event.previousIndex,
-                event.currentIndex);
-        }
-        this.updateAnswer();
-    }
-
-    setAnswerBackground(option: any): string {
-        if (!this.displayCorrectAnswer.getValue()) {
-            return '';
-        }
-        return this.answer.category_A.includes(option.id) && option.category !== this.question.category_A ? '#F2836B' :
-            this.answer.category_B.includes(option.id) && option.category !== this.question.category_B ? '#F2836B' : '';
     }
 
     private updateAnswer(): void {
@@ -79,6 +60,26 @@ export class QuestionSortComponent implements OnInit, OnDestroy {
 
         return this.selectedCategoryA.every(
             option => expectedCategoryA.findIndex(o => o.id === option.id) >= 0);
+    }
+
+    public drop(event: CdkDragDrop<string[]>): void {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex);
+        }
+        this.updateAnswer();
+    }
+
+    public setAnswerBackground(option: any): string {
+        if (!this.displayCorrectAnswer.getValue()) {
+            return '';
+        }
+        return this.answer.category_A.includes(option.id) && option.category !== this.question.category_A ? '#F2836B' :
+            this.answer.category_B.includes(option.id) && option.category !== this.question.category_B ? '#F2836B' : '';
     }
 
     ngOnDestroy(): void {

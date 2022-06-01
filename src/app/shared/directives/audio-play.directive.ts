@@ -6,7 +6,7 @@ import { from, fromEvent, Observable } from 'rxjs';
 })
 export class AudioPlayDirective implements OnChanges {
     private audio: HTMLAudioElement;
-    private playing: boolean;
+    private isPlaying: boolean;
     @Input() appAudioPlay: string;
 
     constructor() {
@@ -14,7 +14,7 @@ export class AudioPlayDirective implements OnChanges {
 
     ngOnChanges(): void {
         this.audio = new Audio(this.appAudioPlay);
-        this.playing = false;
+        this.isPlaying = false;
     }
 
     @HostListener('click', ['$event'])

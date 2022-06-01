@@ -12,7 +12,6 @@ import { CacheService } from './cache.service';
 })
 export class ProfileService {
 
-
   constructor(
     private http: HttpClient,
     private cacheService: CacheService
