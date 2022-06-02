@@ -104,9 +104,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const topicId = this.route.snapshot.paramMap.get('topic_id') || '';
-    const questionId = this.route.snapshot.paramMap.get('question_id') || '';
-    this.previousPageUrl = this.router.url.replace(`topics/${topicId}/questions/${questionId}`, '');
+    const tID = this.route.snapshot.paramMap.get('topic_id') || '';
+    const qID = this.route.snapshot.paramMap.get('question_id') || '';
+    this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
