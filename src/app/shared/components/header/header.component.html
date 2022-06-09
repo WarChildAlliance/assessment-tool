@@ -7,15 +7,13 @@
                      [routerLink]="['/profile']" alt="avatar">
                 <h3 class="display_name">{{user.first_name}}</h3>
             </div>
-            <div>
+            <div class="header-stats">
                 <div class="profile_stats">
                     <img class="icon" src="assets/icons/honeypot.svg">
                     <h2>
                         {{ user.profile.effort }}
                     </h2>
                 </div>
-            </div>
-            <div>
                 <div class="profile_stats">
                     <img class="icon" src="assets/icons/star.svg">
                     <h2>
@@ -23,9 +21,7 @@
                     </h2>
                 </div>
             </div>
-            <div class="header-assistant">
-                <app-assisstant class="info"></app-assisstant>
-            </div>
+            <app-assisstant class="header-assistant"></app-assisstant>
         </div>
         <div class="header-actions" *ngIf="headerConfig === 'home'">
             <img class="pointer top-left-logo" (click)="logout.emit()" src="assets/icons/switch_off_32.svg">
