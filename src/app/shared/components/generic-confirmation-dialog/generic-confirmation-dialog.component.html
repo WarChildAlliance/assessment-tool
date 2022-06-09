@@ -5,7 +5,14 @@
 </div>
 <div id="container">
     <div class="media">
-        <img src="{{imageURL}}" alt="">
+        <app-sprite-animation *ngIf="animation; else imageTemplate"
+            [spritesheetURL]="animation.src"
+            [frameCount]="animation.frameCount"
+            [loop]="animation.loop"
+        ></app-sprite-animation>
+        <ng-template #imageTemplate>
+            <img src="{{imageURL}}" alt="">
+        </ng-template>
     </div>
     <!--    <h1 mat-dialog-title>{{ title | translate }}</h1>-->
     <mat-dialog-content cdkfocusinitial [ngSwitch]="contentType">
