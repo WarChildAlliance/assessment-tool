@@ -168,6 +168,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         disableClose: true,
         data: {
           content: praise.text,
+          animation: praise.animation ?? null,
           audioURL: praise.audio,
           confirmBtnText: 'topics.question.continue',
           confirmBtnColor: 'primary',

@@ -15,6 +15,7 @@ import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.compon
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
+import { SpriteAnimationComponent } from './components/animation/sprite-animation.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-d
         BackNavigationComponent,
         PrimaryBtnComponent,
         SpinnerComponent,
-        TutorialDialogComponent
+        TutorialDialogComponent,
+        SpriteAnimationComponent
     ],
     imports: [
         CommonModule,
