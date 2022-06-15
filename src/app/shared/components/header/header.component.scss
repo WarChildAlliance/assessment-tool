@@ -1,14 +1,12 @@
 h1 {
   margin-left: 0.5rem;
 }
-
 h2.profile {
   position: absolute;
   top: 1rem;
   font-weight: 500;
   margin: 0;
 }
-
 .avatar{
   width: 60px;
   height: 60px;
@@ -22,35 +20,28 @@ h2.profile {
     width: 50px;
     height: 50px;
   }
-
 }
-
 h3 {
   font-size: 24px;
   margin-left: 10px;
 }
-
 @media (max-width: 521px) {
   .display_name {
     display: none;
   }
-
   .icon{
     width: 35px !important;
     height: 35px !important;
   }
 }
-
-
 .icon{
   width: 40px;
   height: 40px;
 }
-
-
 .profile_stats{
   display: flex;
   align-items: baseline;
+  justify-items: center;
   border-width: 2px;
   border-bottom-style: solid;
   height: 50px;
@@ -59,7 +50,6 @@ h3 {
     margin-top: 15px;
     height: 40px;
   }
-
   h2{
     margin: 1px 5px;
     padding: 1px 5px;
@@ -68,44 +58,46 @@ h3 {
     @media (max-width: 780px) {
       font-size: 38px;
     }
-    
   }
 }
-
 .test {
   text-align: left;
   font-size: larger;
 }
-
 .header-home {
   display: flex;
   flex-direction: column;
 
   .header-container {
-    margin-top: 10px;
-    display: flex;
+    margin: 10px 0;
+    padding: 10px 0;
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
 
     @media (max-width: 780px) {
-      margin-top: 0;
+      margin: 5px 0 15px 2%;
+      padding: 0;
       width: 96%;
-      margin-left: 2%;
     }
-
     .header-user {
+      position: absolute;
+      left: 0;
+      top: 0;
       display: flex;
       justify-content: baseline;
     }
-
+    .header-stats {
+      display: flex;
+      gap: 0 10vw;
+    }
     .header-assistant {
-      height: 100%;
-      margin-top: 20px;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
   }
-
-
   .header-actions {
     width: 100%;
     margin-bottom: 15px;
