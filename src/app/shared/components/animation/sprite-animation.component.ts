@@ -11,7 +11,7 @@ export class SpriteAnimationComponent implements OnInit, OnDestroy {
 
   @Input() spritesheetURL: string;
   @Input() frameCount;
-  @Input() loop: boolean = false;
+  @Input() loop = false;
 
   private spritesheetWidth = 0;
   private animateInterval: ReturnType<typeof setTimeout>;
@@ -38,14 +38,14 @@ export class SpriteAnimationComponent implements OnInit, OnDestroy {
           width: event.target.width,
           height: event.target.height
       };
-    }
-    let image = new Image();
-    const $loadedImg = fromEvent(image, "load").pipe(take(1), map(mapLoadedImage));
+    };
+    const image = new Image();
+    const $loadedImg = fromEvent(image, 'load').pipe(take(1), map(mapLoadedImage));
     image.src = imgURL;
     return $loadedImg;
   }
 
-  private animate() {
+  private animate(): void {
     this.animateInterval = setInterval(() => {
       if (this.loop && this.backgroundPosX === this.pxFrameWidth) {
         this.backgroundPosX = this.spritesheetWidth;

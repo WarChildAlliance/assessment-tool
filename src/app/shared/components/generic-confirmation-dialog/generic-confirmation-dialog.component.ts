@@ -60,7 +60,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
         if (data.imageURL) {
             this.imageURL = '../../../../assets/' + data.imageURL;
         }
-        if(data.animation) {
+        if (data.animation) {
             this.animation = data.animation;
         }
         if (data.audioURL) {
