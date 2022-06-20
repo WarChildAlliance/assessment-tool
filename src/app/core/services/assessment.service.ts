@@ -92,6 +92,7 @@ export class AssessmentService {
     return this.storedAssessments.pipe(
       // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
+        // TODO remove SEL conditions blocking
         const assessments = this.getSELUnlocking(assessmentsList);
 
         return assessments;
