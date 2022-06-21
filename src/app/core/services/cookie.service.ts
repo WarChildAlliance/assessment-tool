@@ -15,7 +15,7 @@ export class CookieService {
     this.documentAccessible = isPlatformBrowser(this.platformId);
   }
 
-  has(name: string): boolean {
+  public has(name: string): boolean {
     if (!this.documentAccessible) {
       return false;
     }
@@ -26,7 +26,7 @@ export class CookieService {
     return hasCookie;
   }
 
-  get(name: string): string {
+  public get(name: string): string {
     if (!this.documentAccessible || !this.has(name)) {
       return null;
     }
@@ -35,10 +35,9 @@ export class CookieService {
     const regExp = this.getCookieRegExp(name);
     const res = regExp.exec(this.document.cookie);
     return decodeURIComponent(res[1]);
-
   }
 
-  set(name: string, value: string, expiresIn: number = 7): void {
+  public set(name: string, value: string, expiresIn: number = 7): void {
     if (!this.documentAccessible) {
       return;
     }
@@ -60,7 +59,7 @@ export class CookieService {
     this.document.cookie = cookieString;
   }
 
-  delete(name: string): void {
+  public delete(name: string): void {
     if (!this.documentAccessible) {
       return;
     }

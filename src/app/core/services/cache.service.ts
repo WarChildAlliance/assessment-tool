@@ -12,7 +12,7 @@ export class CacheService {
   private dbName = 'api-storage-la';
   private activeSessionStorage = 'session';
 
-  networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
+  public networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
 
   constructor(private http: HttpClient) {
 
@@ -46,11 +46,9 @@ export class CacheService {
             }
         }
     });
-}
+  }
 
-
-
-  indexedDbContext(): Promise<IDBPDatabase> {
+  private indexedDbContext(): Promise<IDBPDatabase> {
     deleteDB('api-storage');
     return openDB(this.dbName, undefined, {
       upgrade(db): void {
@@ -63,11 +61,11 @@ export class CacheService {
     });
   }
 
-  setRequest(request: HttpRequest<unknown>): void {
+  public setRequest(request: HttpRequest<unknown>): void {
     this.indexedDbContext().then(db => db.add('mutations', request));
   }
 
-  async getRequests(): Promise<{ key: number, value: HttpRequest<unknown> }[]> {
+  public async getRequests(): Promise<{ key: number, value: HttpRequest<unknown> }[]> {
     const allTest = this.indexedDbContext().then(db => db.getAll('mutations'));
     let cursor = await this.indexedDbContext().then(db => db.transaction('mutations').store.openCursor());
     const requests: { key: number, value: HttpRequest<unknown> }[] = [];
@@ -78,31 +76,31 @@ export class CacheService {
     return requests;
   }
 
-  deleteRequest(key: number): void {
+  public deleteRequest(key: number): void {
     this.indexedDbContext().then(db => db.delete('mutations', key));
   }
 
-  setData(storeName: string, data: any): void {
+  public setData(storeName: string, data: any): void {
     this.indexedDbContext().then(db => db.put(storeName, data, 0));
   }
 
-  getData(storeName: string): Promise<any> {
+  public getData(storeName: string): Promise<any> {
     return this.indexedDbContext().then(db => db.get(storeName, 0));
   }
 
-  getSingleData(storeName: string, keyPath: string): Promise<any> {
+  public getSingleData(storeName: string, keyPath: string): Promise<any> {
     return this.indexedDbContext().then(db => db.transaction(storeName).objectStore(storeName).get(keyPath));
   }
 
-  deleteData(storeName: string): void {
+  public deleteData(storeName: string): void {
     this.indexedDbContext().then(db => db.delete(storeName, 0));
   }
 
-  deleteAllData(): void {
+  public deleteAllData(): void {
     deleteDB('api-storage-la');
   }
 
-  hasActiveSession(): Observable<boolean> {
+  public hasActiveSession(): Observable<boolean> {
     return forkJoin([
       from(this.getData(this.activeSessionStorage)),
       from(this.getData(this.activeSessionStorage))

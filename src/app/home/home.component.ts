@@ -21,9 +21,9 @@ import { GenericConfirmationDialogComponent } from '../shared/components/generic
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    user: User;
-    loading = true;
-    competencies = [];
+    public user: User;
+    public loading = true;
+    public competencies = [];
 
     constructor(
         private http: HttpClient,
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    logout(): void {
+    public logout(): void {
         const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: false,
             data: {

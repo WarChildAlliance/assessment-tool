@@ -10,7 +10,6 @@
 
     .img-attachment {
         width: 15vw;
-
         @media (max-width: 780px) {
             width: 20vw;
         }
@@ -21,19 +20,18 @@
             margin:auto;           
         }
     }
-    
     .audio-attachment {
+        text-align: center;
         width: 15vw;
         order: 2;
         @media (max-width: 780px) {
             width: 20vw;
         }
-
-        img {
+        button {
             width: 70px;
+            height: auto;
             display:block;
             margin:auto;
-
             @media (max-width: 780px) {
                 width: 50px;
                 display:block;

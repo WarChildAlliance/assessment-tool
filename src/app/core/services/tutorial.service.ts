@@ -32,7 +32,7 @@ export class TutorialService {
     });
   }
 
-  get tutorialIsEnabled(): boolean {
+  public get tutorialIsEnabled(): boolean {
     // TO DO: define how to implement this method
     //
     // This method should return true if the tutorial has to be shown to that specific user and false otherwise
@@ -40,11 +40,7 @@ export class TutorialService {
     return true;
   }
 
-  setCompleted(completed: boolean): void {
-      this.hasCompleted.next(completed);
-  }
-
-  createAllTours(): void {
+  public createAllTours(): void {
     this.translateService.setDefaultLang((this.userService.user.language.code).toLowerCase());
     this.translateService.use((this.userService.user.language.code).toLowerCase());
     this.translateService.onLangChange.subscribe(() => {
@@ -59,7 +55,11 @@ export class TutorialService {
       });
   }
 
-  createTourAssessment(): void {
+  private setCompleted(completed: boolean): void {
+    this.hasCompleted.next(completed);
+  }
+
+  private createTourAssessment(): void {
     const steps: TourStep[] = [];
     steps.push({
       title: this.translateService.instant('tutorial.welcome'),
@@ -78,7 +78,7 @@ export class TutorialService {
   }
 
 
-  createTourTopics(): void {
+  private createTourTopics(): void {
     const steps: TourStep[] = [];
     steps.push({
       selector: '.topics-container',
@@ -90,7 +90,7 @@ export class TutorialService {
     this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
   }
 
-  createTourTopic(): void {
+  private createTourTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
       selector: '.start-button',
@@ -101,7 +101,7 @@ export class TutorialService {
     this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
   }
 
-  createTourQuestionSelectGeneral(): void {
+  private createTourQuestionSelectGeneral(): void {
     const steps: TourStep[] = [];
 
     steps.push({
@@ -120,7 +120,7 @@ export class TutorialService {
     this.tourDict[PageNames.questionSelect] = this.defineTour(steps, PageNames.questionSelect);
   }
 
-  createTourQuestionNumberLineGeneral(): void {
+  private createTourQuestionNumberLineGeneral(): void {
     const steps: TourStep[] = [];
 
     steps.push({
@@ -146,11 +146,11 @@ export class TutorialService {
 
   }
 
-  createTourQuestionSelectNonEvaluated(): void {
+  private createTourQuestionSelectNonEvaluated(): void {
     const steps: TourStep[] = [];
   }
 
-  createTourSubmitAnswer(): void {
+  private createTourSubmitAnswer(): void {
     const steps: TourStep[] = [];
     steps.push({
       selector: '.main-btn',
@@ -165,7 +165,7 @@ export class TutorialService {
     this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.question);
   }
 
-  createTourCompletedTopic(): void {
+  private createTourCompletedTopic(): void {
     const steps: TourStep[] = [];
     steps.push({
       content: this.translateService.instant('tutorial.honeypotCollection'),
@@ -181,7 +181,7 @@ export class TutorialService {
     this.tourDict[PageNames.topicCompleted] = this.defineTour(steps, PageNames.topicCompleted);
   }
 
-  createTourProfile(): void {
+  private createTourProfile(): void {
     const steps: TourStep[] = [];
     steps.push({
       content: this.translateService.instant('tutorial.avatarShop'),
@@ -215,7 +215,7 @@ export class TutorialService {
     this.tourDict[PageNames.profile] = this.defineTour(steps, PageNames.profile);
   }
 
-  defineTour(steps: TourStep[], tourId: string): GuidedTour {
+  private defineTour(steps: TourStep[], tourId: string): GuidedTour {
     const tour: GuidedTour = {
       tourId,
       steps,
@@ -229,7 +229,7 @@ export class TutorialService {
     return tour;
   }
 
-  playAudio(path: string): void {
+  private playAudio(path: string): void {
     this.audio.src = path;
     if (this.translateService.currentLang === 'ara') {
         this.audio.load();

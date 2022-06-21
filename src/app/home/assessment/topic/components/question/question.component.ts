@@ -12,7 +12,6 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
-import { TopicComponent } from '../../topic.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -37,32 +36,24 @@ import { trigger, animate, transition, style, state } from '@angular/animations'
 })
 
 export class QuestionComponent implements OnInit, OnDestroy {
-  topic: Topic;
-
-  public evaluated: boolean;
-
-  question: GeneralQuestion;
-  questionIndex: number;
-  goNextQuestion = false;
-  private skipped = false;
-  show = false;
-
-  timeout = 250;
-
-  displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-
-  subscription: Subscription;
-
-  answer: GeneralAnswer;
-
+  private goNextQuestion = false;
+  private isSkipped = false;
+  private show = false;
+  private timeout = 250;
+  private subscription: Subscription;
   private questionTimeStart: string;
+  private isFirstTry: boolean;
+  private invalidAnswersStreak = 0;
 
-  private dateStart: Moment;
-  private assessment: Assessment;
-
-  firstTry: boolean;
-  invalidAnswersStreak = 0;
+  public topic: Topic;
+  public isEvaluated: boolean;
+  public question: GeneralQuestion;
+  public questionIndex: number;
+  public displayCorrectAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public answer: GeneralAnswer;
+  public dateStart: Moment;
+  public assessment: Assessment;
+  public previousPageUrl = '';
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -80,7 +71,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         });
         return dialogRef.afterClosed().pipe(map(value => {
           if (value) {
-            this.router.navigate([TopicComponent], {});
+            this.router.navigate(['../../../'], { relativeTo: this.route });
             this.goNextQuestion = true;
             this.answerService.endTopicAnswer().subscribe();
           }
@@ -113,6 +104,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    const tID = this.route.snapshot.paramMap.get('topic_id') || '';
+    const qID = this.route.snapshot.paramMap.get('question_id') || '';
+    this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
+
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -131,7 +126,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
           this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
             this.topic = topic;
-            this.evaluated = topic.evaluated;
+            this.isEvaluated = topic.evaluated;
             this.isFirst(this.topic.id);
           });
 
@@ -148,63 +143,22 @@ export class QuestionComponent implements OnInit, OnDestroy {
     );
   }
 
-  submitAnswer(): void {
-    if (this.answer) {
-      this.skipped = false;
-      this.answer.end_datetime = moment().format();
-      this.answer.start_datetime = this.questionTimeStart;
-      if (this.canShowFeedback()) {
-        this.displayCorrectAnswer.next(true);
-      } else {
-        this.submitAndGoNextPage();
-      }
-    } else if (!this.answer && this.topic.allow_skip) {
-      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-          content: 'topics.question.skipSure',
-          cancelBtn: true,
-          confirmBtnText: 'general.skip',
-          confirmBtnColor: 'warn',
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(value => {
-        if (value === false) {
-          dialogRef.close();
-        } else if (value === true) {
-          this.skipped = true;
-
-          this.answer = {
-            question: this.question.id,
-            start_datetime: this.questionTimeStart,
-            end_datetime: moment().format(),
-            valid: false,
-            skipped: true
-          };
-
-          this.submitAndGoNextPage();
-        }
-      });
-
-    } else {
-      // console.warn('Unexpected behaviour while submitting answer');
-      // this.goToNextPage();
-    }
+  private onPrevious(): void {
+    this.router.navigate([this.previousPageUrl]);
   }
 
-  canShowFeedback(): boolean {
+  private canShowFeedback(): boolean {
     // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
-    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.firstTry);
+    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.isFirstTry);
   }
 
-  isFirst(topicId): any {
+  private isFirst(topicId): any {
     return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
-      this.firstTry = topics.length === 0;
+      this.isFirstTry = topics.length === 0;
     });
   }
 
-  showPraise(): void {
+  private showPraise(): void {
     // determine if we show praise or not by a 1/topic.praise chance
     const praiseProbability = Math.ceil(Math.random() * (this.topic.praise));
     const randIndex = Math.floor(Math.random() * PraiseTexts.length);
@@ -214,6 +168,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
         disableClose: true,
         data: {
           content: praise.text,
+          animation: praise.animation ?? null,
           audioURL: praise.audio,
           confirmBtnText: 'topics.question.continue',
           confirmBtnColor: 'primary',
@@ -226,16 +181,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.goToNextPage();
         });
       });
-    } else {
-      this.answerService.submitAnswer(this.answer).subscribe(res => {
-        this.goToNextPage();
-      });
-    }
-  }
-
-  submitAndGoNextPage(): void {
-    if (!this.skipped && this.answer.valid) {
-      this.showPraise();
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
@@ -292,16 +237,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  getSource(path: string): string{
-    return environment.API_URL + path;
-  }
-
-  get stateName(): string {
-    return this.show ? 'show' : 'hide';
-  }
-
-  async setQuestions(leftQuestions): Promise<void>{
+  private async setQuestions(leftQuestions): Promise<void>{
     for (const question of leftQuestions) {
       const skippedAnswer: SkippedAnswer = {
         question: question.id,
@@ -317,6 +253,69 @@ export class QuestionComponent implements OnInit, OnDestroy {
                });
       });
     }
+  }
+
+  public submitSkipQuestion(): void {
+    if (this.answer) {
+      this.isSkipped = false;
+      this.answer.end_datetime = moment().format();
+      this.answer.start_datetime = this.questionTimeStart;
+      if (this.canShowFeedback()) {
+        this.displayCorrectAnswer.next(true);
+      } else {
+        this.submitAnswerAndGoNextPage();
+      }
+    } else if (!this.answer && this.topic.allow_skip) {
+      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+        disableClose: true,
+        data: {
+          content: 'topics.question.skipSure',
+          cancelBtn: true,
+          confirmBtnText: 'general.skip',
+          confirmBtnColor: 'warn',
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(value => {
+        if (value === false) {
+          dialogRef.close();
+        } else if (value === true) {
+          this.isSkipped = true;
+
+          this.answer = {
+            question: this.question.id,
+            start_datetime: this.questionTimeStart,
+            end_datetime: moment().format(),
+            valid: false,
+            skipped: true
+          };
+
+          this.submitAnswerAndGoNextPage();
+        }
+      });
+
+    } else {
+      // console.warn('Unexpected behaviour while submitting answer');
+      // this.goToNextPage();
+    }
+  }
+
+  public submitAnswerAndGoNextPage(): void {
+    if (!this.isSkipped && this.answer.valid) {
+      this.showPraise();
+    } else {
+      this.answerService.submitAnswer(this.answer).subscribe(res => {
+        this.goToNextPage();
+      });
+    }
+  }
+
+  public getSource(path: string): string{
+    return environment.API_URL + path;
+  }
+
+  public get stateName(): string {
+    return this.show ? 'show' : 'hide';
   }
 
   ngOnDestroy(): void {

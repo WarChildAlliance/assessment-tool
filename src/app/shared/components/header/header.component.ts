@@ -13,19 +13,18 @@ import { GenericConfirmationDialogComponent } from '../generic-confirmation-dial
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-    public user: User;
-
     /*
-       this input sets the content of the header depending on the value
-       the value refers to which page we are
-     */
+    this input sets the content of the header depending on the value
+    the value refers to which page we are
+    */
     @Input()
     headerConfig?: 'home' | 'profile';
 
     @Output()
     logout: EventEmitter<void> = new EventEmitter<void>();
 
-    // @Input() style: 'smallsize' | 'fullsize' = 'smallsize';
+   // @Input() style: 'smallsize' | 'fullsize' = 'smallsize';
+    public user: User;
 
     constructor(
         private route: ActivatedRoute,
@@ -44,13 +43,13 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    getImageUrl(): string {
+    public getImageUrl(): string {
         return this.user.profile.current_avatar?.image ?
             (environment.API_URL + this.user.profile.current_avatar.image) :
             'assets/avatars/award_120.svg';
     }
 
-    openDialog(): void {
+    public openConfirmationDialog(): void {
         this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             autoFocus: true,
