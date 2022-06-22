@@ -20,7 +20,8 @@ export class LanguageService {
 
   private setDirection(direction: 'RTL' | 'LTR'): void {
     document.getElementsByTagName('html')[0].setAttribute('dir', direction.toLowerCase());
-    document.getElementsByTagName('html')[0].className = direction.toLowerCase();
+    document.getElementsByTagName('html')[0].classList.add(direction.toLowerCase());
+    document.getElementsByTagName('html')[0].classList.add('arabic');
     this.direction.next(direction);
   }
 
