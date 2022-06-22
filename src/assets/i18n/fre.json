@@ -40,7 +40,8 @@
     "login": "Connexion",
     "loginNotPossible": "Connexion impossible",
     "logoutPrompt": "Voulez-vous vraiment vous déconnecter?",
-    "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter"
+    "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter",
+    "inactiveStudent": "Étudiant inactif: ce compte est inactif, veuillez contacter un superviseur"
   },
   "profile": {
     "competency": "Compétence",
