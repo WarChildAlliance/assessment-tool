@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -7,7 +7,7 @@ import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { PraiseTexts } from '../praise/praises.dictionary';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
@@ -16,6 +16,12 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
+
+interface DialogData {
+  topicId: string;
+  questionId: string;
+  assessmentId: string;
+}
 
 @Component({
   selector: 'app-question',
@@ -54,6 +60,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public dateStart: Moment;
   public assessment: Assessment;
   public previousPageUrl = '';
+
+  public topicId: number;
+  public questionId: number;
+  public assessmentId: number;
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -94,6 +104,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private route: ActivatedRoute,
     private router: Router,
     private answerService: AnswerService,
@@ -101,46 +112,76 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private assessmentService: AssessmentService,
     private changeDetector: ChangeDetectorRef,
     public translate: TranslateService
-  ) { }
+  ) {
+    if (this.data) {
+      console.log('this.data', this.data);
+      this.topicId = parseInt(this.data.topicId, 10);
+      this.questionId = parseInt(this.data.questionId, 10);
+      this.assessmentId = parseInt(this.data.assessmentId, 10);
+    }
+  }
 
   ngOnInit(): void {
-    const tID = this.route.snapshot.paramMap.get('topic_id') || '';
-    const qID = this.route.snapshot.paramMap.get('question_id') || '';
+    console.log('topicId - questionId - assessmentId', this.topicId, this.questionId, this.assessmentId);
+    const tID = this.route.snapshot.paramMap.get('topic_id') || this.topicId;
+    const qID = this.route.snapshot.paramMap.get('question_id') || this.questionId;
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
 
-    this.route.paramMap.subscribe(
-      (params: ParamMap) => {
-        this.questionTimeStart = moment().format();
+    this.assessmentService.getAssessment(this.assessmentId).subscribe(res => {
+      console.log('1 res', res);
+      this.assessment = res;
+    });
 
-        if (params) {
-          this.question = null;
-          this.changeDetector.detectChanges();
+    this.subscription = this.assessmentService.getAssessmentTopic(this.assessmentId, this.topicId).subscribe(topic => {
+      console.log('2 topic', topic);
 
-          const assessmentId = parseInt(params.get('assessment_id'), 10);
-          const topicId = parseInt(params.get('topic_id'), 10);
-          const questionId = parseInt(params.get('question_id'), 10);
+      this.topic = topic;
+      this.isEvaluated = topic.evaluated;
+      this.isFirst(this.topic.id);
+    });
 
-          this.assessmentService.getAssessment(assessmentId).subscribe(res => {
-            this.assessment = res;
-          });
+    this.assessmentService.getAssessmentTopicQuestion(this.assessmentId, this.topicId, this.questionId).subscribe(question => {
+      console.log('3 question', question);
 
-          this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
-            this.topic = topic;
-            this.isEvaluated = topic.evaluated;
-            this.isFirst(this.topic.id);
-          });
+      this.question = question;
+      this.questionIndex = this.topic.questions.findIndex(q => q.id === this.questionId);
+    });
 
-          this.assessmentService.getAssessmentTopicQuestion(assessmentId, topicId, questionId).subscribe(question => {
-            this.question = question;
-            this.questionIndex = this.topic.questions.findIndex(q => q.id === questionId);
-          });
+    // this.route.paramMap.subscribe(
+    //   (params: ParamMap) => {
+    //     this.questionTimeStart = moment().format();
 
-          setTimeout(x => {
-            this.show = true;
-          }, this.timeout);
-        }
-      }
-    );
+    //     if (params) {
+    //       this.question = null;
+    //       this.changeDetector.detectChanges();
+
+    //       const assessmentId = parseInt(params.get('assessment_id'), 10);
+    //       const topicId = parseInt(params.get('topic_id'), 10);
+    //       const questionId = parseInt(params.get('question_id'), 10);
+
+    //       this.assessmentService.getAssessment(assessmentId).subscribe(res => {
+    //         this.assessment = res;
+    //       });
+
+    //       this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
+    //         this.topic = topic;
+    //         this.isEvaluated = topic.evaluated;
+    //         this.isFirst(this.topic.id);
+    //       });
+
+    //       this.assessmentService.getAssessmentTopicQuestion(assessmentId, topicId, questionId).subscribe(question => {
+    //         this.question = question;
+    //         this.questionIndex = this.topic.questions.findIndex(q => q.id === questionId);
+    //       });
+
+    //       setTimeout(x => {
+    //         this.show = true;
+    //       }, this.timeout);
+    //     }
+    //   }
+    // );
+
+    console.log('A QUESTÃO', this.question);
   }
 
   private onPrevious(): void {

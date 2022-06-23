@@ -12,6 +12,7 @@ import { httpInterceptorProviders } from './core/interceptors/index.interceptor'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GuidedTourModule, GuidedTourService } from 'ngx-guided-tour';
 import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dial
     AppRoutingModule,
     HttpClientModule,
     GuidedTourModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
