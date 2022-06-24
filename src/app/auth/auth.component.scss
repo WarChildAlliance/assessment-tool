@@ -8,9 +8,6 @@
   }
 }
 
-div {
-  overflow: hidden;
-}
 
 mat-grid-list {
   line-height: 0;
@@ -78,7 +75,7 @@ input.mat-input-element {
 /* Font color */
 input.mat-input-element, input.mat-input-element::placeholder {
   color: #70504A;
-  font-size: 20px;
+  font-size: inherit;
 }
 
 input:-webkit-autofill,
