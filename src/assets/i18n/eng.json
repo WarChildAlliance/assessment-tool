@@ -42,7 +42,8 @@
     "loginNotPossible": "Login not possible",
     "logoutPrompt": "Do you really want to logout?",
     "noInternetConnection": "You need to have an internet connection in order to login",
-    "inactiveStudent": "Inactive student: this account is inactive, please contact a supervisor"
+    "inactiveStudent": "Inactive student: this account is inactive, please contact a supervisor",
+    "studentNotFound": "Please log in with an existing account"
   },
   "profile": {
     "competency": "Competency",
