@@ -16,7 +16,8 @@
     "submit": "Envoyer",
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
     "yes": "Oui",
-    "of": "sur"
+    "of": "sur",
+    "typeHere": "Écrivez ici..."
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
