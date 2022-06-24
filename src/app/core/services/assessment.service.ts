@@ -90,79 +90,37 @@ export class AssessmentService {
 
   public getAssessments(): Observable<Assessment[]> {
     return this.storedAssessments.pipe(
-      // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
       map(assessmentsList => {
-        // TODO remove SEL conditions blocking
-        const assessments = this.getSELUnlocking(assessmentsList);
-
-        return assessments;
-
+        return this.sortAssessments(assessmentsList);
       })
-      // END OF TEMPORARY
     );
   }
 
-  public getSELUnlocking(assessmentsList): Assessment[] {
+  public sortAssessments(assessmentsList): Assessment[] {
     const mutatedAssessmentList = assessmentsList;
 
     let i = 1;
 
+    // Sorting assessments
     mutatedAssessmentList.map(assessment => {
-      // Lock all assessments by default
-      // Sorting them
-      assessment.locked = true;
       if (assessment.subject === 'TUTORIAL') { assessment.order = 0; }
       if (assessment.subject === 'PRESEL') { assessment.order = 1; }
       if (assessment.subject === 'POSTSEL') { assessment.order = assessmentsList.length; }
 
       i = assessment.order ? i : i + 1;
       assessment.order = assessment.order === undefined ? i : assessment.order;
-
     });
 
     mutatedAssessmentList.sort((a, b) => {
       return a.order - b.order;
     });
 
-    // If tutorial and not complete, just return tutorial
+    // If tutorial and not complete, return tutorial unlocked and everything else locked
     const tutorial = mutatedAssessmentList.find(assessment => assessment.subject === 'TUTORIAL');
     if (!!tutorial && !tutorial.all_topics_complete) {
-
-      tutorial.locked = false;
-      return mutatedAssessmentList;
-    }
-
-
-    // If we dont have the tutorial or complete, SEL locking
-    // Find preSel and postSel assessments if they exist
-    const preSelAssessment = mutatedAssessmentList.find(assessment => assessment.subject === 'PRESEL');
-    const postSelAssessment = mutatedAssessmentList.find(assessment => assessment.subject === 'POSTSEL');
-
-    // If there's a preSel assessment and it hasn't been completed, lock the other assessments and unlock it
-    if (!!preSelAssessment && !preSelAssessment.all_topics_complete) {
-      preSelAssessment.locked = false;
-      return mutatedAssessmentList;
-    } else {
       mutatedAssessmentList.map(assessment => {
-        assessment.locked = false;
+        assessment.locked = !(assessment.subject === 'TUTORIAL');
       });
-      if (preSelAssessment) {
-        preSelAssessment.locked = true;
-      }
-    }
-
-    // If there's a postSel assessment, unlock it only if all other assessments are complete
-    if (!!postSelAssessment) {
-      let uncompleteTopicLeft = false;
-      mutatedAssessmentList.forEach(assessment => {
-        assessment.locked = true;
-        if (!assessment.all_topics_complete && assessment.subject !== 'POSTSEL') {
-          uncompleteTopicLeft = true;
-          assessment.locked = false;
-          return;
-        }
-      });
-      postSelAssessment.locked = uncompleteTopicLeft ? true : postSelAssessment.all_topics_complete ? true : false;
     }
 
     return mutatedAssessmentList;
