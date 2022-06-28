@@ -23,6 +23,7 @@ import { TopicComponent } from './topic.component';
 import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { QuestionDialogComponent } from './components/question-dialog/question-dialog.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
         QuestionNumberLineComponent,
         AttachmentsComponent,
         CompletedTopicComponent,
+        QuestionDialogComponent,
     ],
     imports: [
         SharedModule,

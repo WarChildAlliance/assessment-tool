@@ -7,6 +7,7 @@ export interface Question {
   question_type: QuestionTypeEnum;
   hint: Hint;
   attachments: Attachment[];
+  on_popup: boolean;
 }
 
 export interface QuestionInput extends Question {

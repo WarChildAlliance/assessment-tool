@@ -16,7 +16,8 @@
     "submit": "Submit",
     "unknownUser": "Unknown username. Contact your teacher in case you forgot your code.",
     "yes": "Yes",
-    "of": "of"
+    "of": "of",
+    "reopen": "Reopen question"
   },
   "assessments": {
     "assessmentLocked": "(locked)",
