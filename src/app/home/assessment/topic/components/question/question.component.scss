@@ -117,3 +117,22 @@ mat-progress-bar{
 .question-buttons {
   margin: 50px 0px;
 }
+
+.question-popup {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: auto;
+  overflow-x: hidden;
+  max-height: 100%;
+
+  img {
+    position: relative;
+    max-width: 150px;
+    align-self: end;
+  }
+
+  .buttons {
+    margin-top: 1em;
+  }
+}
