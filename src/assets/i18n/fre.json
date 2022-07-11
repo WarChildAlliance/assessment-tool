@@ -17,7 +17,8 @@
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
     "yes": "Oui",
     "of": "sur",
-    "reopen": "Rouvrir la question"
+    "reopen": "Rouvrir la question",
+    "typeHere": "Écrivez ici..."
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
@@ -42,7 +43,8 @@
     "loginNotPossible": "Connexion impossible",
     "logoutPrompt": "Voulez-vous vraiment vous déconnecter?",
     "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter",
-    "inactiveStudent": "Étudiant inactif: ce compte est inactif, veuillez contacter un superviseur"
+    "inactiveStudent": "Étudiant inactif: ce compte est inactif, veuillez contacter un superviseur",
+    "studentNotFound": "Veuillez vous connecter avec un compte existant"
   },
   "profile": {
     "competency": "Compétence",
