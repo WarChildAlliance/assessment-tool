@@ -77,13 +77,13 @@
 
 <!-- To open question in modal -->
 <ng-template #questionDialog>
-    <app-question-dialog></app-question-dialog>
-
     <div class="question-popup">
         <h2 class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>
+        <!-- Gobee avatar: TODO check design -->
+        <img src="assets/icons/flying-bee.svg" style="padding: 1em;"/>
 
         <div class="question-content">
             <ng-container *ngIf="question.question_type === 'INPUT'">
@@ -108,9 +108,6 @@
                 </app-question-sort>
             </ng-container>
         </div>
-
-        <!-- Gobee avatar: TODO check design -->
-        <img src="assets/icons/flying-bee.svg" style="padding: 1em;"/>
 
         <div class="buttons">
             <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"

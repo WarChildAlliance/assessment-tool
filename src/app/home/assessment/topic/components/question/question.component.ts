@@ -95,6 +95,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.answer = null;
   }
 
+  public get stateName(): string {
+    return this.show ? 'show' : 'hide';
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -326,10 +330,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public getSource(path: string): string{
     return environment.API_URL + path;
-  }
-
-  public get stateName(): string {
-    return this.show ? 'show' : 'hide';
   }
 
   ngOnDestroy(): void {
