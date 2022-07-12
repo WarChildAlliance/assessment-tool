@@ -1,19 +1,18 @@
-
 .topic-cards-list {
-  display: flex;
+  display: inline-grid;
   flex-wrap: wrap;
-  justify-content: center;
   margin: 0;
   padding: 0;
+  flex-direction: column;
+  align-items: center;
+  direction: ltr;
+  font-size: 45px;
 
   .topic-card {
     list-style-type: none;
-    //padding: 10px 0px 0px 0px;
     width: 85vw;
     max-width: 200px;
-    //background-color: rgba(255, 255, 255, 0.3);
-    //border-radius: 10px;
-    cursor: pointer;
+    margin: 5px;
 
     a {
       color: black;
@@ -22,22 +21,40 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
 
+      .hexagon {
+        display: inline-block;
+        position: relative;
+        width: 160px;
+        height: 160px;
+        background: #70504a;
+        box-sizing: border-box;
+        -webkit-clip-path: polygon(92.3% 40%, 93.7% 43.15%, 94.6% 46.5%, 95% 50%, 94.6% 53.4%, 93.7% 56.8%, 92.3% 60%, 79.8% 81.6%, 77.8% 84.5%, 75.3% 86.9%, 72.5% 88.9%, 69.3% 90.4%, 65.9% 91.3%, 62.5% 91.6%, 37.5% 91.6%, 34.0% 91.3%, 30.6% 90.4%, 27.5% 88.97%, 24.6% 86.9%, 22.1% 84.5%, 20.1% 81.6%, 7.67% 60%, 6.2% 56.8%, 5.3% 53.47%, 5% 50%, 5.3% 46.5%, 6.2% 43.1%, 7.67% 40%, 20.17% 18.34%, 22.17% 15.4%, 24.6% 13.02%, 27.5% 11.02%, 30.6% 9.55%, 34.02% 8.6%, 37.5% 8.3%, 62.5% 8.3%, 65.97% 8.65%, 69.3% 9.5%, 72.5% 11.02%, 75.3% 13.02%, 77.8% 15.49%, 79.8% 18.3%);
+        clip-path: polygon(92.3% 40%, 93.7% 43.15%, 94.6% 46.5%, 95% 50%, 94.6% 53.4%, 93.7% 56.8%, 92.3% 60%, 79.8% 81.6%, 77.8% 84.5%, 75.3% 86.9%, 72.5% 88.9%, 69.3% 90.4%, 65.9% 91.3%, 62.5% 91.6%, 37.5% 91.6%, 34.0% 91.3%, 30.6% 90.4%, 27.5% 88.97%, 24.6% 86.9%, 22.1% 84.5%, 20.1% 81.6%, 7.67% 60%, 6.2% 56.8%, 5.3% 53.47%, 5% 50%, 5.3% 46.5%, 6.2% 43.1%, 7.67% 40%, 20.17% 18.34%, 22.17% 15.4%, 24.6% 13.02%, 27.5% 11.02%, 30.6% 9.55%, 34.02% 8.6%, 37.5% 8.3%, 62.5% 8.3%, 65.97% 8.65%, 69.3% 9.5%, 72.5% 11.02%, 75.3% 13.02%, 77.8% 15.49%, 79.8% 18.3%);
 
-      .complete{
+        img {
+          background-color: white;
+          position: absolute;
+          top: 7px; /* equal to border thickness */
+          left: 7px; /* equal to border thickness */
+          width: 146px;
+          height: 146px;
+          -webkit-clip-path: polygon(92.3% 40%, 93.7% 43.15%, 94.6% 46.5%, 95% 50%, 94.6% 53.4%, 93.7% 56.8%, 92.3% 60%, 79.8% 81.6%, 77.8% 84.5%, 75.3% 86.9%, 72.5% 88.9%, 69.3% 90.4%, 65.9% 91.3%, 62.5% 91.6%, 37.5% 91.6%, 34.0% 91.3%, 30.6% 90.4%, 27.5% 88.97%, 24.6% 86.9%, 22.1% 84.5%, 20.1% 81.6%, 7.67% 60%, 6.2% 56.8%, 5.3% 53.47%, 5% 50%, 5.3% 46.5%, 6.2% 43.1%, 7.67% 40%, 20.17% 18.34%, 22.17% 15.4%, 24.6% 13.02%, 27.5% 11.02%, 30.6% 9.55%, 34.02% 8.6%, 37.5% 8.3%, 62.5% 8.3%, 65.97% 8.65%, 69.3% 9.5%, 72.5% 11.02%, 75.3% 13.02%, 77.8% 15.49%, 79.8% 18.3%);
+          clip-path: polygon(92.3% 40%, 93.7% 43.15%, 94.6% 46.5%, 95% 50%, 94.6% 53.4%, 93.7% 56.8%, 92.3% 60%, 79.8% 81.6%, 77.8% 84.5%, 75.3% 86.9%, 72.5% 88.9%, 69.3% 90.4%, 65.9% 91.3%, 62.5% 91.6%, 37.5% 91.6%, 34.0% 91.3%, 30.6% 90.4%, 27.5% 88.97%, 24.6% 86.9%, 22.1% 84.5%, 20.1% 81.6%, 7.67% 60%, 6.2% 56.8%, 5.3% 53.47%, 5% 50%, 5.3% 46.5%, 6.2% 43.1%, 7.67% 40%, 20.17% 18.34%, 22.17% 15.4%, 24.6% 13.02%, 27.5% 11.02%, 30.6% 9.55%, 34.02% 8.6%, 37.5% 8.3%, 62.5% 8.3%, 65.97% 8.65%, 69.3% 9.5%, 72.5% 11.02%, 75.3% 13.02%, 77.8% 15.49%, 79.8% 18.3%);
+          z-index: 1;
+        }
+      }
+
+      .complete {
         z-index: 2;
-        margin-right: -60%;
+        margin-right: -40%;
         margin-bottom: -2rem;
       }
 
-      img:nth-child(2) {
-        padding: 0px 5px;
-        position: relative;
-        z-index: 1;
-      }
 
       img:nth-child(3) {
-        margin-top: -1rem;
+        margin-top: -2rem;
         z-index: 2;
       }
 
@@ -50,10 +67,50 @@
       }
 
     }
+
+    .right-path {
+      cursor: auto;
+      width: 110px;
+      height: 100px;
+      position: absolute;
+      margin-top: -0.8em;
+      margin-left: 2.4em;
+    }
+
+    .right-path:before {
+      cursor: auto;
+      content: '';
+      border-top: 5px dashed #70504a;
+      position: absolute;
+      transform: rotate(45deg);
+      left: 0;
+      right: 0;
+      bottom: 50%;
+    }
+
+    .left-path {
+      cursor: auto;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      margin-top: -1.6rem;
+      margin-left: -1.3rem;
+    }
+
+    .left-path:before {
+      cursor: auto;
+      content: '';
+      border-top: 5px dashed #70504a;
+      position: absolute;
+      transform: rotate(-45deg);
+      left: 0;
+      right: 0;
+      bottom: 50%;
+    }
   }
 }
 
-h2{
+h2 {
   margin: 15px 0px 0px 0px;
 }
 
@@ -68,6 +125,10 @@ h2{
   background-color: rgba(210, 235, 248, 0.897);
 }
 
-.topic-without-questions {
-  cursor: not-allowed;
+.no-allow-click {
+  cursor: not-allowed !important;
+}
+
+.left-topic {
+  padding-left: 10rem;
 }

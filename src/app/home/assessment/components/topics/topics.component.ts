@@ -58,13 +58,18 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                 })
             ).subscribe(
                 topics => {
-                    topics.forEach(topic => {
+                    topics.forEach((topic, i) => {
                         const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
                         topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency);
                         const stars = topic.competency.filter((item) => item === true).length;
                         topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
                             stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
                         topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
+
+                        // Students will have to finish the previous topic to unlock the next one (whether they failed or not the topic).
+                        topic.can_start = (i - 1) >= 0
+                        ? (topics[i - 1]?.completed ? true : false)
+                        : ((i - 1) === -1 ? true : false);
                     });
                     this.topics = topics;
                 }
