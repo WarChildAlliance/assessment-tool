@@ -63,6 +63,7 @@
     "noTopicsInAssessment": "No topics in this assessment",
     "skipQuestions": "Questions can be skipped",
     "start": "Start",
+    "finishPrevious": "You have to finish the previous topic.",
     "topicCompleted": "Well done! You completed the topic.",
     "completedTopic": {
       "gainedPoints": "You got"

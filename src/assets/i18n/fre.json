@@ -63,6 +63,7 @@
     "noTopicsInAssessment": "Aucun sujet dans cette évaluation",
     "skipQuestions": "Les questions peuvent être passées",
     "start": "Démarrer",
+    "finishPrevious": "Vous devez terminer le sujet précédent.",
     "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
     "completedTopic": {
       "gainedPoints": "Vous avez"
