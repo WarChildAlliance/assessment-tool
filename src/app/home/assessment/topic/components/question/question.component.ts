@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -55,6 +55,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public assessment: Assessment;
   public previousPageUrl = '';
 
+  @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
+
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
     if (this.topic.evaluated) {
@@ -91,6 +93,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   onPopState(): void {
     this.displayCorrectAnswer.next(false);
     this.answer = null;
+  }
+
+  public get stateName(): string {
+    return this.show ? 'show' : 'hide';
   }
 
   constructor(
@@ -138,9 +144,19 @@ export class QuestionComponent implements OnInit, OnDestroy {
           setTimeout(x => {
             this.show = true;
           }, this.timeout);
+
+          if (this.question.on_popup) {
+            this.openQuestionModal();
+          }
         }
       }
     );
+  }
+
+  public openQuestionModal(): void {
+    this.dialog.open(this.questionDialog, {
+      panelClass: 'mat-dialog-custom-class'
+    });
   }
 
   private onPrevious(): void {
@@ -235,6 +251,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
       }, this.timeout);
 
     }
+
+    this.dialog.closeAll();
   }
 
   private async setQuestions(leftQuestions): Promise<void>{
@@ -312,10 +330,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public getSource(path: string): string{
     return environment.API_URL + path;
-  }
-
-  public get stateName(): string {
-    return this.show ? 'show' : 'hide';
   }
 
   ngOnDestroy(): void {
