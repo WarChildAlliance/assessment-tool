@@ -67,9 +67,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
 
                         // Students will have to finish the previous topic to unlock the next one (whether they failed or not the topic).
-                        topic.can_start = (i - 1) >= 0
-                        ? (topics[i - 1]?.completed ? true : false)
-                        : ((i - 1) === -1 ? true : false);
+                        topic.can_start = i > 0 ? topics[i - 1]?.completed : true;
                     });
                     this.topics = topics;
                 }
