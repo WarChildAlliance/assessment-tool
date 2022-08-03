@@ -1,4 +1,6 @@
-<app-back-navigation [text]="'topics.backToTopics' | translate" [icons]="icons" [routerLink]="['../../']"></app-back-navigation>
+<app-back-navigation [text]="'topics.backTo' | translate: {page: 'topics.topics' | translate}"
+[icons]="icons" [routerLink]="['../../']"
+></app-back-navigation>
 
 <div class="light-yellow-bg topic-content" *ngIf="topic">
     <p class="topic-name">{{ topic?.name }}</p>
