@@ -56,8 +56,9 @@
     "unlocked": "Déverouillé"
   },
   "topics": {
-    "backToAssessments": "Retour aux évaluations",
-    "backToTopics": "Retour aux sujets",
+    "backTo": "Retour aux {{page}}",
+    "assessments": "évaluations",
+    "topics": "sujets",
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "noTopics": "Aucun sujet",
     "noTopicsInAssessment": "Aucun sujet dans cette évaluation",

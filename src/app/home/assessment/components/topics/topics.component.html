@@ -1,5 +1,7 @@
 <div [class]="assessmentSubject === 'sel' ? 'cyan-gradient-bg' : assessmentSubject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
-    <app-back-navigation [text]="'backToAssessments' | translate" [icons]="icons" [routerLink]="['../../home']"></app-back-navigation>
+    <app-back-navigation [text]="'topics.backTo' | translate: {page: 'topics.assessments' | translate}"
+    [icons]="icons" [routerLink]="['../../home']"
+    ></app-back-navigation>
 
     <div>
         <h3>{{assessmentTitle}}</h3>

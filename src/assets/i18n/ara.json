@@ -45,7 +45,6 @@
     "noInternetConnection": "يجب أن يكون لديك اتصال بالإنترنت من أجل تسجيل الدخول",
     "inactiveStudent": "طالب غير نشط: هذا الحساب غير نشط ، يرجى الاتصال بالمشرف",
     "studentNotFound": "الرجاء تسجيل الدخول بحساب موجود"
-
   },
   "profile": {
     "competency": "كفاءة",
@@ -57,8 +56,9 @@
     "unlocked": "مفتوحة"
   },
   "topics": {
-    "backToAssessments": "العودة إلى التقييمات",
-    "backToTopics": "العودة إلى الموضوعات",
+    "backTo": "رجوع إلى {{صفحة}}",
+    "assessments": "التقييمات",
+    "topics": "المواضيع",
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
     "noTopics": "لا مواضيع",
     "noTopicsInAssessment": "لا توجد مواضيع في هذا التقييم",

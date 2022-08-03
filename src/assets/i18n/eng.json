@@ -56,8 +56,9 @@
     "unlocked": "Unlocked"
   },
   "topics": {
-    "backToAssessments": "Back to assessments",
-    "backToTopics": "Back to topics",
+    "backTo": "Back to {{page}}",
+    "assessments": "assessments",
+    "topics": "topics",
     "noSkipQuestions": "Questions can't be skipped",
     "noTopics": "No topics",
     "noTopicsInAssessment": "No topics in this assessment",
@@ -97,7 +98,7 @@
     "answerSubmit": "Press the yellow button to send your answer",
     "avatarShop": "With honeypots you can get new characters.",
     "done": "Done",
-    "end": "Great work! You have finished the practise area",
+    "end": "Great work! You have finished the practice area",
     "honeypotCollection": "You got a honeypot, well done! You earn honey pots when you answer questions.",
     "introduction": "<img src='assets/icons/flying-bee'/> <br> Hello, nice to meet you. My name is <b>Bee</b>. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started.",
     "numberLineQuestionAnswer": "Drag the slider to number five",
