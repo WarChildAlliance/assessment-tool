@@ -27,7 +27,7 @@ export interface QuestionNumberLine extends Question {
 export interface QuestionSelect extends Question {
   multiple: boolean;
   options: SelectOption[];
-  display_type: 'grid' | 'horizontal' | 'vertical';
+  // display_type: 'grid' | 'horizontal' | 'vertical';
 }
 
 export interface QuestionSort extends Question {
@@ -40,14 +40,14 @@ export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelec
 
 export interface SelectOption {
   id: number;
-  value: string;
+  title: string;
   valid: boolean;
   attachments: Attachment[];
 }
 
 export interface SortOption {
   id: number;
-  value: string;
+  title: string;
   category: string;
   attachments: Attachment[];
 }

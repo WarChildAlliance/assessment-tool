@@ -25,43 +25,45 @@
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>
 
-        <div class="question-content">
+        <div class="question-container">
+            <div class="question-content">
 
-            <ng-container *ngIf="question.question_type === 'INPUT'">
-                <app-question-input [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer">
-                </app-question-input>
-            </ng-container>
-
-            <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
-                <app-question-number-line [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
-            </ng-container>
-
-            <ng-container *ngIf="question.question_type === 'SELECT'">
-                <app-question-select [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated"></app-question-select>
-            </ng-container>
-
-            <ng-container *ngIf="question.question_type === 'SORT'">
-                <app-question-sort [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer">
-                </app-question-sort>
-            </ng-container>
-
-        </div>
-
-        <div class="question-buttons">
-            <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
-                [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
-                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
-                (click)="submitSkipQuestion()" class="main-btn submit">
-            </app-primary-btn>
+                <ng-container *ngIf="question.question_type === 'INPUT'">
+                    <app-question-input [question]="question" [(answer)]="answer"
+                        [displayCorrectAnswer]="displayCorrectAnswer">
+                    </app-question-input>
+                </ng-container>
     
-            <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                            'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
-                (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
-            </app-primary-btn>
+                <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
+                    <app-question-number-line [question]="question" [(answer)]="answer"
+                        [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
+                </ng-container>
+    
+                <ng-container *ngIf="question.question_type === 'SELECT'">
+                    <app-question-select [question]="question" [(answer)]="answer"
+                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated"></app-question-select>
+                </ng-container>
+    
+                <ng-container *ngIf="question.question_type === 'SORT'">
+                    <app-question-sort [question]="question" [(answer)]="answer"
+                        [displayCorrectAnswer]="displayCorrectAnswer">
+                    </app-question-sort>
+                </ng-container>
+    
+            </div>
+    
+            <div class="question-buttons">
+                <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
+                    [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
+                    iconUrl="assets/icons/check_24.svg" [isDisabled]="!topic.allow_skip && !answer"
+                    (click)="submitSkipQuestion()" class="main-btn submit">
+                </app-primary-btn>
+    
+                <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+                                'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                    (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
+                </app-primary-btn>
+            </div>
         </div>
 
     </div>

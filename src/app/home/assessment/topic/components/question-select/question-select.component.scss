@@ -1,7 +1,20 @@
 .options-container {
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   width: 100%;
   gap: 12px;
+
+  &.default {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    @media (max-width: 780px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
   &.grid {
     display: grid;
@@ -26,9 +39,8 @@
   }
 
   .option {
-    padding: 0.5rem;
+    padding: 0.1rem;
     border-radius: 1.25rem;
-    margin: 0.5rem;
 
     @media (max-width: 780px) {
       padding: 0rem;
