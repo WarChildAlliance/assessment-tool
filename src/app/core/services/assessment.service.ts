@@ -44,7 +44,7 @@ export class AssessmentService {
     for (const attachment of attachments) {
       const path = attachment.file.includes(environment.API_URL) ? attachment.file :
         environment.API_URL + attachment.file;
-      this.http.get(path,{ responseType: 'arraybuffer' }).subscribe();
+      this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
     }
   }
 
