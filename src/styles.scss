@@ -99,7 +99,7 @@ $assessment-tool-theme: mat-light-theme(
    color: (primary: $special-primary, accent: $special-accent, warn: $special-warn),
  ));
  
-  @include mat-slider-theme($special-theme);
+  @include mat-slider-color($special-theme);
  }
 
 // ******** Pages backgrounds *********
@@ -209,5 +209,11 @@ $tour-next-button-hover: #FFF59D;
 $tour-back-button-color: #FFDC64;
 $tour-skip-link-color: #a5a5a5;
 
+// Larger size for arabic text
+.arabic {
+  *:not(h2, .text, h3.display_name) {
+    font-size: 45px !important;
+  }
+}
 
 @import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';

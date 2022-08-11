@@ -16,7 +16,9 @@
     "submit": "Envoyer",
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
     "yes": "Oui",
-    "of": "sur"
+    "of": "sur",
+    "reopen": "Rouvrir la question",
+    "typeHere": "Écrivez ici..."
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
@@ -40,7 +42,9 @@
     "login": "Connexion",
     "loginNotPossible": "Connexion impossible",
     "logoutPrompt": "Voulez-vous vraiment vous déconnecter?",
-    "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter"
+    "noInternetConnection": "Vous devez disposer d'une connexion Internet pour vous connecter",
+    "inactiveStudent": "Étudiant inactif: ce compte est inactif, veuillez contacter un superviseur",
+    "studentNotFound": "Veuillez vous connecter avec un compte existant"
   },
   "profile": {
     "competency": "Compétence",
@@ -52,13 +56,15 @@
     "unlocked": "Déverouillé"
   },
   "topics": {
-    "backToAssessments": "Retour aux évaluations",
-    "backToTopics": "Retour aux sujets",
+    "backTo": "Retour aux {{page}}",
+    "assessments": "évaluations",
+    "topics": "sujets",
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "noTopics": "Aucun sujet",
     "noTopicsInAssessment": "Aucun sujet dans cette évaluation",
     "skipQuestions": "Les questions peuvent être passées",
     "start": "Démarrer",
+    "finishPrevious": "Vous devez terminer le sujet précédent.",
     "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
     "completedTopic": {
       "gainedPoints": "Vous avez"

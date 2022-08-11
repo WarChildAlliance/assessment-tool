@@ -13,6 +13,7 @@ export class AttachmentsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.attachments = this.attachments.filter(e => !e.background_image);
   }
 
   public getSource(path: string): string{

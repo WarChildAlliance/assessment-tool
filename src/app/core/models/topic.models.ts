@@ -17,4 +17,5 @@ export interface Topic {
   icon: string;
   ribbon?: string;
   completed?: boolean;
+  can_start?: boolean;
 }

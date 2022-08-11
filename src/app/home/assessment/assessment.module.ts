@@ -5,6 +5,7 @@ import { AssessmentComponent } from './assessment.component';
 import { TopicsComponent } from './components/topics/topics.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { MatCardModule } from '@angular/material/card';
         SharedModule,
         AssessmentRoutingModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        MatTooltipModule
     ]
 })
 export class AssessmentModule {

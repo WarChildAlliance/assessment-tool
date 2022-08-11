@@ -16,7 +16,9 @@
     "submit": "Submit",
     "unknownUser": "Unknown username. Contact your teacher in case you forgot your code.",
     "yes": "Yes",
-    "of": "of"
+    "of": "of",
+    "reopen": "Reopen question",
+    "typeHere": "Type here..."
   },
   "assessments": {
     "assessmentLocked": "(locked)",
@@ -40,7 +42,9 @@
     "login": "Log in",
     "loginNotPossible": "Login not possible",
     "logoutPrompt": "Do you really want to logout?",
-    "noInternetConnection": "You need to have an internet connection in order to login"
+    "noInternetConnection": "You need to have an internet connection in order to login",
+    "inactiveStudent": "Inactive student: this account is inactive, please contact a supervisor",
+    "studentNotFound": "Please log in with an existing account"
   },
   "profile": {
     "competency": "Competency",
@@ -52,13 +56,15 @@
     "unlocked": "Unlocked"
   },
   "topics": {
-    "backToAssessments": "Back to assessments",
-    "backToTopics": "Back to topics",
+    "backTo": "Back to {{page}}",
+    "assessments": "assessments",
+    "topics": "topics",
     "noSkipQuestions": "Questions can't be skipped",
     "noTopics": "No topics",
     "noTopicsInAssessment": "No topics in this assessment",
     "skipQuestions": "Questions can be skipped",
     "start": "Start",
+    "finishPrevious": "You have to finish the previous topic.",
     "topicCompleted": "Well done! You completed the topic.",
     "completedTopic": {
       "gainedPoints": "You got"
@@ -92,7 +98,7 @@
     "answerSubmit": "Press the yellow button to send your answer",
     "avatarShop": "With honeypots you can get new characters.",
     "done": "Done",
-    "end": "Great work! You have finished the practise area",
+    "end": "Great work! You have finished the practice area",
     "honeypotCollection": "You got a honeypot, well done! You earn honey pots when you answer questions.",
     "introduction": "<img src='assets/icons/flying-bee'/> <br> Hello, nice to meet you. My name is <b>Bee</b>. In this game you will answer questions. I will fly with you and tell you what you have to do.  Let's get started.",
     "numberLineQuestionAnswer": "Drag the slider to number five",

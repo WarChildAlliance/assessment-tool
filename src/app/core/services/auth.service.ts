@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { AlertService } from './alert.service';
@@ -19,7 +20,8 @@ export class AuthService {
     private alertService: AlertService,
     private cookieService: CookieService,
     private router: Router,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    private translateService: TranslateService
   ) {
     this.isAuthenticated = this.cookieService.has('student-auth-token');
   }
@@ -29,10 +31,14 @@ export class AuthService {
     .subscribe(
       (res) => {
         if (res) {
-          this.isAuthenticated = true;
-          this.currentUserId = res.user_id;
-          this.cookieService.set('student-auth-token', res.token);
-          this.router.navigate(['']);
+          if (res.user_active) {
+            this.isAuthenticated = true;
+            this.currentUserId = res.user_id;
+            this.cookieService.set('student-auth-token', res.token);
+            this.router.navigate(['']);
+          } else {
+            this.alertService.error(this.translateService.instant('auth.inactiveStudent'));
+          }
         }
       },
       (error) => {

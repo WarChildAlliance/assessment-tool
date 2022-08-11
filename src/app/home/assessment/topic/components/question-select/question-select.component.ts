@@ -22,8 +22,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
-    @Input() displayStyle: 'grid' | 'horizontal' | 'vertical' = 'grid';
-
     @Input() isEvaluated: boolean;
 
     @Output() answerChange = new EventEmitter<AnswerSelect>();
@@ -112,6 +110,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     ngAfterViewInit(): void {
         this.tutorialSerice.currentPage.next(PageNames.questionSelect);
+        this.setOptionsContainerStyle();
     }
 
     private generateMultipleSelectForm(): void {
@@ -165,6 +164,24 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     public getSource(path: string): string{
         return environment.API_URL + path;
+    }
+
+    // Check the length of options and apply css style for big buttons in 1 single column
+    // In case of using display_type again: delete this function
+    private setOptionsContainerStyle(): void {
+        for (const option of this.question.options) {
+            if (option.title?.length > 14) {
+                const optionsContainerRef = document.getElementById(this.question.multiple ? 'multiple-choice' : 'one-choice');
+                optionsContainerRef.style.justifyContent = 'center';
+
+                optionsContainerRef.childNodes.forEach(optionRef => {
+                    if (optionRef.nodeName === 'DIV') {
+                        (optionRef as HTMLElement).style.width = '100%';
+                    }
+                });
+                break;
+            }
+        }
     }
 
     ngOnDestroy(): void {

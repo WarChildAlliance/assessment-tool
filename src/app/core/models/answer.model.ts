@@ -1,4 +1,4 @@
-import { GeneralQuestion, SelectOption, SortOption } from './question.model';
+import { GeneralQuestion, SelectOption, SortOption, DraggableOption } from './question.model';
 import { TopicAnswer } from './topic-answer.model';
 import { Moment } from 'moment';
 
@@ -28,8 +28,17 @@ export interface AnswerSort extends Answer {
   category_B: SortOption[] | number[];
 }
 
+export interface DragAndDropAreaEntry {
+  selected_draggable_options: DraggableOption[] | number[];
+  area: number;
+}
+
+export interface AnswerDragAndDrop extends Answer {
+  answers_per_area: DragAndDropAreaEntry[];
+}
+
 export interface SkippedAnswer extends Answer {
   skipped: true;
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | SkippedAnswer;
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop | SkippedAnswer;
