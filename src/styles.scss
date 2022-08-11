@@ -99,7 +99,7 @@ $assessment-tool-theme: mat-light-theme(
    color: (primary: $special-primary, accent: $special-accent, warn: $special-warn),
  ));
  
-  @include mat-slider-theme($special-theme);
+  @include mat-slider-color($special-theme);
  }
 
 // ******** Pages backgrounds *********

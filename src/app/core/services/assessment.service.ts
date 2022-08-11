@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Assessment } from '../models/assessment.model';
 import { Attachment } from '../models/attachment.model';
-import { GeneralQuestion, QuestionSelect, QuestionSort } from '../models/question.model';
+import { DraggableOption, GeneralQuestion, QuestionDragDrop,
+  QuestionSelect, QuestionSort, QuestionTypeEnum } from '../models/question.model';
 import { Topic } from '../models/topic.models';
 import { CacheService } from './cache.service';
 
@@ -41,7 +42,9 @@ export class AssessmentService {
     if (!attachments || !attachments.length) { return; }
 
     for (const attachment of attachments) {
-      this.http.get(environment.API_URL + attachment.file, { responseType: 'arraybuffer' }).subscribe();
+      const path = attachment.file.includes(environment.API_URL) ? attachment.file :
+        environment.API_URL + attachment.file;
+      this.http.get(path,{ responseType: 'arraybuffer' }).subscribe();
     }
   }
 
@@ -49,6 +52,11 @@ export class AssessmentService {
     return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_all/`);
   }
 
+  private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {
+    return this.http.get(
+      `${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/${questionId}/draggable/`
+    );
+  }
 
   public loadAllAssessments(): void {
     if (!this.cacheService.networkStatus.getValue()) {
@@ -61,8 +69,6 @@ export class AssessmentService {
     }
 
     this.getAssessmentsDeep().subscribe(assessments => {
-      this.cacheService.setData('assessments', assessments);
-      this.storedAssessmentsSource.next(assessments);
       for (const assessment of assessments) {
         this.getIcon(assessment.icon);
         for (const topic of assessment.topics) {
@@ -74,9 +80,25 @@ export class AssessmentService {
                 this.getAttachments(option.attachments);
               }
             }
+            if (question.question_type === QuestionTypeEnum.DragAndDrop) {
+              const bgImage = question.attachments.find(
+                e => e.attachment_type === 'IMAGE' && e.background_image);
+              this.getAttachments([bgImage]);
+
+              this.getQuestionDraggableOptions(assessment.id, topic.id, question.id).subscribe(
+                (res: DraggableOption[]) => {
+                  (question as QuestionDragDrop).draggable_options = res ?? [];
+                  for (const option of res) {
+                    this.getAttachments(option.attachments);
+                  }
+                }
+              );
+            }
           }
         }
       }
+      this.cacheService.setData('assessments', assessments);
+      this.storedAssessmentsSource.next(assessments);
     });
   }
 

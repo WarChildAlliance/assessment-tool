@@ -1,0 +1,62 @@
+<div cdkDropListGroup>
+  <div *ngIf="answerDropListData" class="background-image">
+      <img #bgImg [src]="backgroundImage">
+
+      <ng-container *ngIf="(bgImg.offsetWidth / 600) as scale">
+        <div
+          *ngFor="let dropArea of question.drop_areas; let i = index;"
+          class="drop-area"
+          [class.drop-placeholder]="isDropAreaVisible"
+          [style.left]="(dropArea.x * scale) + 'px'"
+          [style.top]="(dropArea.y * scale) + 'px'"
+          [style.width]="(dropArea.width * scale) + 'px'"
+          [style.height]="(dropArea.height * scale) + 'px'"
+          cdkDropList
+          [cdkDropListData]="answerDropListData"
+          (cdkDropListDropped)="swapArrayItem(
+            $event.previousContainer.data,
+            answerDropListData,
+            $event.previousIndex,
+            i,
+            true
+          )"
+        >
+          <ng-container *ngIf="displayedAnswer[i] as areaAnswer">
+            <mat-card
+              cdkDrag
+              [cdkDragData]="areaAnswer"
+              (cdkDragStarted)="onDragEvent()"
+              (cdkDragEnded)="onDragEvent()"
+            >
+              <img [src]="getImageAttachment(areaAnswer.attachments)">
+            </mat-card>
+          </ng-container>
+        </div>
+      </ng-container>
+  </div>
+  <div class="options-container"
+    [class.drop-placeholder]="isDropAreaVisible"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="draggableOptions"
+    (cdkDropListDropped)="swapArrayItem(
+      $event.previousContainer.data,
+      draggableOptions,
+      answerDropListData.indexOf($event.item.data),
+      $event.currentIndex,
+      false
+    );"
+  >
+    <ng-container *ngFor="let option of draggableOptions; let i = index">
+      <mat-card *ngIf="option"
+        class="mat-elevation-z4"
+        cdkDrag
+        [cdkDragData]="option"
+        (cdkDragStarted)="onDragEvent()"
+        (cdkDragEnded)="onDragEvent()"
+      >
+        <img [src]="getImageAttachment(option.attachments)">
+      </mat-card>
+    </ng-container>
+  </div>
+</div>

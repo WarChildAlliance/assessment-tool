@@ -17,6 +17,7 @@
     "unknownUser": "اسم مستخدم غير معروف. اتصل بمعلمك في حال نسيت الرمز الخاص بك.",
     "yes": "نعم",
     "of": "من",
+    "reopen": "أعد فتح السؤال",
     "typeHere": "أكتب هنا..."
   },
   "assessments": {
@@ -44,7 +45,6 @@
     "noInternetConnection": "يجب أن يكون لديك اتصال بالإنترنت من أجل تسجيل الدخول",
     "inactiveStudent": "طالب غير نشط: هذا الحساب غير نشط ، يرجى الاتصال بالمشرف",
     "studentNotFound": "الرجاء تسجيل الدخول بحساب موجود"
-
   },
   "profile": {
     "competency": "كفاءة",
@@ -56,13 +56,15 @@
     "unlocked": "مفتوحة"
   },
   "topics": {
-    "backToAssessments": "العودة إلى التقييمات",
-    "backToTopics": "العودة إلى الموضوعات",
+    "backTo": "رجوع إلى {{صفحة}}",
+    "assessments": "التقييمات",
+    "topics": "المواضيع",
     "noSkipQuestions": "لا يمكن تخطي الأسئلة",
     "noTopics": "لا مواضيع",
     "noTopicsInAssessment": "لا توجد مواضيع في هذا التقييم",
     "skipQuestions": "يمكن تخطي الأسئلة",
     "start": "بداية",
+    "finishPrevious": "يجب عليك إنهاء الموضوع السابق.",
     "topicCompleted": "اكتمل الموضوع",
     "completedTopic": {
       "gainedPoints": "أنت حصلت"

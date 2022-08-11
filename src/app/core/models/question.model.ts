@@ -7,6 +7,7 @@ export interface Question {
   question_type: QuestionTypeEnum;
   hint: Hint;
   attachments: Attachment[];
+  on_popup: boolean;
 }
 
 export interface QuestionInput extends Question {
@@ -26,7 +27,7 @@ export interface QuestionNumberLine extends Question {
 export interface QuestionSelect extends Question {
   multiple: boolean;
   options: SelectOption[];
-  display_type: 'grid' | 'horizontal' | 'vertical';
+  // display_type: 'grid' | 'horizontal' | 'vertical';
 }
 
 export interface QuestionSort extends Question {
@@ -35,31 +36,52 @@ export interface QuestionSort extends Question {
   options: SortOption[];
 }
 
-export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort;
+export interface QuestionDragDrop extends Question {
+  drop_areas: DropArea[];
+  draggable_options: DraggableOption[];
+}
+
+export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop;
 
 export interface SelectOption {
   id: number;
-  value: string;
+  title: string;
   valid: boolean;
   attachments: Attachment[];
 }
 
 export interface SortOption {
   id: number;
-  value: string;
+  title: string;
   category: string;
   attachments: Attachment[];
 }
 
-enum QuestionTypeEnum {
+export interface DraggableOption {
+  id: number;
+  area_option: number[];
+  attachments: Attachment[];
+}
+
+export enum QuestionTypeEnum {
   Input = 'INPUT',
   Select = 'SELECT',
   Sort = 'SORT',
-  NumberLine = 'NUMBER_LINE'
+  NumberLine = 'NUMBER_LINE',
+  DragAndDrop = 'DRAG_AND_DROP'
 }
 
 export interface Hint {
   id: number;
   text: string;
   attachments: Attachment[];
+}
+
+export interface DropArea {
+  id: number;
+  name: string;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
 }

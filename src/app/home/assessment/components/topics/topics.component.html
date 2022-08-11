@@ -1,17 +1,23 @@
 <div [class]="assessmentSubject === 'sel' ? 'cyan-gradient-bg' : assessmentSubject === 'literacy' ? 'green-gradient-bg' : 'purple-gradient-bg'">
-    <app-back-navigation [text]="'backToAssessments' | translate" [icons]="icons" [routerLink]="['../../home']"></app-back-navigation>
+    <app-back-navigation [text]="'topics.backTo' | translate: {page: 'topics.assessments' | translate}"
+    [icons]="icons" [routerLink]="['../../home']"
+    ></app-back-navigation>
 
     <div>
         <h3>{{assessmentTitle}}</h3>
         <ul class="topic-cards-list" *ngIf="topics && topics.length; else noTopics">
-            <li class="topic-card" *ngFor="let topic of topics">
-                <a (click)="topic.questions.length ? startTopic(topic.id) : continue"  [ngClass]="{'topic-without-questions': !topic.questions.length}">
-                  <img class="complete" *ngIf="topic.completed" src="assets/icons/check_24.svg" alt="completed">
+            <li class="topic-card" *ngFor="let topic of topics; let i = index" [ngClass]="i % 2 === 0 ? '' : 'left-topic'">
+                <a (click)="topic.questions.length ? (topic.can_start ? startTopic(topic.id) : continue) : continue"
+                [ngClass]="{'no-allow-click': !topic.questions.length || !topic.can_start}"
+                matTooltip="{{ ( topic.can_start ? '' : 'topics.finishPrevious') | translate }}" [matTooltipDisabled]="!topic.questions.length">
+                    <img class="complete" *ngIf="topic.completed" src="assets/icons/check_24.svg" alt="completed">
                     <img class="complete" *ngIf="!topic.completed" src="assets/icons/check_24_low.svg" alt="completed">
-                    <img width="150" height="150" src="{{ getTopicIcon(topic) }}" alt="icon"/>
+                    <div class="hexagon">
+                        <img width="150" height="150" src="{{ getTopicIcon(topic) }}" alt="icon"/>
+                    </div>
                     <img *ngIf="topic.evaluated" width="110" height="45" [src]="topic.ribbon" alt="ribbon">
-                    <p class="topic-title">{{topic.name}}</p>
                 </a>
+                <div *ngIf="i != (topics.length - 1)" [ngClass]="i % 2 === 0 ? 'right-path' : 'left-path'"></div>
             </li>
         </ul>
     </div>

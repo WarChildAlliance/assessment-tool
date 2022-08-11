@@ -17,6 +17,7 @@
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
     "yes": "Oui",
     "of": "sur",
+    "reopen": "Rouvrir la question",
     "typeHere": "Écrivez ici..."
   },
   "assessments": {
@@ -55,13 +56,15 @@
     "unlocked": "Déverouillé"
   },
   "topics": {
-    "backToAssessments": "Retour aux évaluations",
-    "backToTopics": "Retour aux sujets",
+    "backTo": "Retour aux {{page}}",
+    "assessments": "évaluations",
+    "topics": "sujets",
     "noSkipQuestions": "Les questions ne peuvent pas être passées",
     "noTopics": "Aucun sujet",
     "noTopicsInAssessment": "Aucun sujet dans cette évaluation",
     "skipQuestions": "Les questions peuvent être passées",
     "start": "Démarrer",
+    "finishPrevious": "Vous devez terminer le sujet précédent.",
     "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
     "completedTopic": {
       "gainedPoints": "Vous avez"

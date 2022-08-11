@@ -42,62 +42,15 @@ mat-progress-bar{
   margin: auto;
 }
 
-.question-content {
-  width: 90%;
-  margin-left: 5%;
+.question-container {
+  display: grid;
+  width: 80%;
+  margin: 0 auto;
+  overflow: auto;
 
   @media (max-width: 780px) {
-    margin: auto;
+    width: 100%;
   }
-}
-
-
-.question-container {
-  background-color: whitesmoke;
-  min-height: 100vh;
-  width: 100%;
-
-  .question-header {
-    background-color: white;
-    padding: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-
-    .questions-progress {
-      display: flex;
-      align-items: baseline;
-
-      .mat-progress-bar {
-        height: 15px;
-        border-radius: 8px;
-        align-self: baseline;
-      }
-
-      button {
-        mat-icon {
-          margin-bottom: 7px;
-        }
-      }
-    }
-
-
-    h2 {
-      text-align: center;
-      margin: 5px;
-    }
-
-    .question-attachment {
-      display: block;
-      margin: auto;
-    }
-  }
-
-  .question-content {
-    width: 90%;
-    margin-left: 5%;
-  }
-
 }
 
 .question-title {
@@ -116,4 +69,23 @@ mat-progress-bar{
 
 .question-buttons {
   margin: 50px 0px;
+}
+
+.question-popup {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: auto;
+  overflow-x: hidden;
+  max-height: 100%;
+
+  img {
+    position: relative;
+    max-width: 150px;
+    align-self: end;
+  }
+
+  .buttons {
+    margin-top: 1em;
+  }
 }
