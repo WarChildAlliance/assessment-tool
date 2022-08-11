@@ -50,7 +50,19 @@
                     </app-question-sort>
                 </ng-container>
     
-            </div>
+                <ng-container *ngIf="question.question_type === 'DRAG_AND_DROP'">
+                <app-question-drag-and-drop
+                    [assessmentId]="assessment.id"
+                    [topicId]="topic.id"
+                    [question]="question"
+                    [answer]="answer"
+                    (answerChange)="answer=$event"
+                    [displayCorrectAnswer]="displayCorrectAnswer">
+                >
+                </app-question-drag-and-drop>
+            </ng-container>
+
+        </div>
     
             <div class="question-buttons">
                 <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"

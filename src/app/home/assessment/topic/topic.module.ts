@@ -23,6 +23,8 @@ import { TopicComponent } from './topic.component';
 import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
+
 @NgModule({
     declarations: [
         TopicComponent,
@@ -33,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
         QuestionNumberLineComponent,
         AttachmentsComponent,
         CompletedTopicComponent,
+        QuestionDragAndDropComponent,
     ],
     imports: [
         SharedModule,
