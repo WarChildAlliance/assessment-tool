@@ -31,7 +31,7 @@ export class QuestionDragAndDropComponent implements OnInit {
   // Points to either answerDropListData or correctAnswer
   // depending on displayCorrectAnswer
   public displayedAnswer: DraggableOption[] = [];
-  
+
   constructor(
     private assisstantService: AssisstantService,
   ) { }
@@ -55,14 +55,14 @@ export class QuestionDragAndDropComponent implements OnInit {
     });
   }
 
-  private isAnswerValid() {
+  private isAnswerValid(): boolean {
     return this.answerDropListData.every(
       (e: DraggableOption, index: number) => {
         return e.area_option.includes(this.question.drop_areas[index].id);
       });
   }
 
-  private saveAnswer() {
+  private saveAnswer(): void {
     this.answer = {
       question: this.question.id,
       valid: this.isAnswerValid(),
@@ -73,7 +73,7 @@ export class QuestionDragAndDropComponent implements OnInit {
             area: this.question.drop_areas[index].id
           } : null;
         }).filter(e => !!e)
-    }
+    };
     this.answerChange.emit(this.answer);
   }
 
@@ -86,7 +86,7 @@ export class QuestionDragAndDropComponent implements OnInit {
   }
 
   public swapArrayItem(previousArr: any[], targetArr: any[],
-    previousIndex: number, targetIndex: number, fixedTargetLen: boolean): void {
+                       previousIndex: number, targetIndex: number, fixedTargetLen: boolean): void {
     if (previousArr === targetArr) { return; }
     if (fixedTargetLen) {
       targetArr[targetIndex] = previousArr[previousIndex];
