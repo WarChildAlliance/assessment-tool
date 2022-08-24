@@ -1,0 +1,9 @@
+<button [ngStyle]="{'width': width}"
+[disabled]="isDisabled"
+[appAudioPlay]=""
+[class]="type === 'primary' ? 'elevated-basic--filled' : 'elevated-basic--outline'"
+>
+    {{ text }}
+    <img [ngClass]="translate.currentLang === 'ara'
+            ? 'pull-left' : 'pull-right'" [src]="iconUrl"/>
+</button>

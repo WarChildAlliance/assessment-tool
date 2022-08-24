@@ -57,6 +57,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public previousPageUrl = '';
 
   @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
+  @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {

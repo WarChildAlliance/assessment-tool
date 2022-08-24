@@ -11,7 +11,7 @@ import { AssisstantComponent } from './components/assisstant/assisstant.componen
 import { RouterModule } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BackNavigationComponent } from './components/back-navigation/back-navigation.component';
-import { PrimaryBtnComponent } from './components/primary-btn/primary-btn.component';
+import { ActionBtnComponent } from './components/action-btn/action-btn.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
@@ -24,7 +24,7 @@ import { SpriteAnimationComponent } from './components/animation/sprite-animatio
         HeaderComponent,
         AssisstantComponent,
         BackNavigationComponent,
-        PrimaryBtnComponent,
+        ActionBtnComponent,
         SpinnerComponent,
         TutorialDialogComponent,
         SpriteAnimationComponent
@@ -47,7 +47,7 @@ import { SpriteAnimationComponent } from './components/animation/sprite-animatio
         SpinnerComponent,
         AssisstantComponent,
         BackNavigationComponent,
-        PrimaryBtnComponent
+        ActionBtnComponent
     ]
 })
 export class SharedModule {
