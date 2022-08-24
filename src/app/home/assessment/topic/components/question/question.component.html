@@ -1,7 +1,7 @@
 <!--<app-header></app-header>-->
 <div class="light-yellow-bg" *ngIf="question; else questionNotAvailable">
     <div class="progress_bar">
-        <img class="pointer" (click)="onPrevious()"
+        <img class="elevated-valid" (click)="onPrevious()"
             [src]=" translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
         <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
         </mat-progress-bar>
@@ -13,12 +13,12 @@
 
     <div [@popOverState]="stateName" *ngIf="question.on_popup" style="padding: 2em;">
         <!-- When opening question in modal: button to reopen it if the student tries to return to topics but gives up -->
-        <app-primary-btn [text]="('general.reopen' | translate)"
+        <app-action-btn [text]="('general.reopen' | translate)"
             iconUrl="assets/icons/check_24.svg" width="60%"
             (click)="openQuestionModal()" class="main-btn submit">
-        </app-primary-btn>
+        </app-action-btn>
     </div>
-    
+
     <div class="question" [@popOverState]="stateName" *ngIf="!question.on_popup">
         <h2 class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
@@ -63,19 +63,18 @@
             </ng-container>
 
         </div>
-    
-            <div class="question-buttons">
-                <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
-                    [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
-                    iconUrl="assets/icons/check_24.svg" [isDisabled]="!topic.allow_skip && !answer"
-                    (click)="submitSkipQuestion()" class="main-btn submit">
-                </app-primary-btn>
-    
-                <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                                'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
-                    (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
-                </app-primary-btn>
-            </div>
+
+        <div class="question-buttons">
+            <app-action-btn *ngIf="!displayCorrectAnswer.getValue()"
+                [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
+                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
+                (click)="submitSkipQuestion()" class="main-btn submit">
+            </app-action-btn>
+
+            <app-action-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+                            'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
+                (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
+            </app-action-btn>
         </div>
 
     </div>
@@ -124,16 +123,16 @@
         </div>
 
         <div class="buttons">
-            <app-primary-btn *ngIf="!displayCorrectAnswer.getValue()"
+            <app-action-btn *ngIf="!displayCorrectAnswer.getValue()"
                 [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
                 iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
                 (click)="submitSkipQuestion()" class="main-btn submit">
-            </app-primary-btn>
-    
-            <app-primary-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+            </app-action-btn>
+
+            <app-action-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
                             'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
                 (click)="submitAnswerAndGoNextPage()" class="main-btn submit" mat-dialog-close>
-            </app-primary-btn>
+            </app-action-btn>
         </div>
     </div>
 </ng-template>

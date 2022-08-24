@@ -1,44 +1,36 @@
 <!-- Options with only one choice -->
 <!-- In case of using display_type again: [class]="question.display_type | lowercase" -->
 <section *ngIf="!question.multiple">
-    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice">
-        <ng-container *ngFor="let option of question.options">
-            <div *ngIf="hasImageAttached(option); else noImageAttached" class="option -card"
-                 [class]="getAnswerBackgroundStyle(option)">
-                <mat-card (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
-                    <mat-card-content>
-                        <div *ngFor="let attachment of option.attachments" class="image-attachment">
-                            <img *ngIf="attachment.attachment_type === 'IMAGE'" [src]="getSource(attachment.file)" alt="">
-                        </div>
-                    </mat-card-content>
-                    <mat-card-actions align="center">
-                        <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                            {{ option.title }}
-                        </mat-radio-button>
-                        <ng-container *ngFor="let attachment of option.attachments">
-                            <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                    [appAudioPlay]="getSource(attachment.file)">
-                                <img width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-
-                            </button>
-                        </ng-container>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-            <ng-template #noImageAttached>
-                <div (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
-                     [class]="getAnswerBackgroundStyle(option)" class="option">
-                    <mat-radio-button [disabled]="displayCorrectAnswer.getValue()" [value]="option">
-                        {{ option.title }}
-                        <ng-container *ngFor="let attachment of option.attachments">
-                            <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                    [appAudioPlay]="getSource(attachment.file)">
-                                <img width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-                            </button>
-                        </ng-container>
-                    </mat-radio-button>
+    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice" id="one-choice">
+        <ng-container *ngFor="let option of question.options; let i = index">
+            <div class="option">
+                <div class="option-attachments">
+                    <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
+                        class="image-attachment"
+                    >
+                        <img *ngIf="imageAttachment" [src]="getSource(imageAttachment.file)" alt="">
+                    </div>
+                    <button *ngIf="getAttachmentOfType(option.attachments, 'AUDIO') as audioAttachment"
+                        mat-icon-button
+                        [appAudioPlay]="getSource(audioAttachment.file)"
+                    >
+                        <img class="elevated-basic" width="40" height="40" src="assets/icons/audio-button.svg" alt="">
+                    </button>
                 </div>
-            </ng-template>
+                <input
+                    type="radio"
+                    id="option-radio-{{i}}"
+                    name="option-radio"
+                    [disabled]="displayCorrectAnswer.getValue()"
+                    [value]="option"
+                >
+                <label for="option-radio-{{i}}"
+                    [class]="getOptionBtnStyle(option)"
+                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
+                >
+                    {{ option.title }}
+                </label>
+            </div>
         </ng-container>
     </mat-radio-group>
 </section>
@@ -48,47 +40,33 @@
 <section class="options-container" [class]="'default'" [formGroup]="multipleSelectForm" id="multiple-choice"
          *ngIf="question.multiple">
     <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
-        <div *ngIf="hasImageAttached(option); else noImageAttachmentOption"
-             [class]="getAnswerBackgroundStyle(option)" [formGroupName]="i" class="option -card">
-            <mat-card>
-                <mat-card-content (click)="setCheckboxSelection(i)">
-                    <div *ngFor="let attachment of option.attachments">
-                        <img  width="auto" height="120px"  *ngIf="attachment.attachment_type === 'IMAGE'" [src]="getSource(attachment.file)" alt="">
-                    </div>
-                </mat-card-content>
-                <mat-card-actions align="center">
-                    <mat-checkbox (click)="setCheckboxSelection(i)" formControlName="selected">
-                        <span>
-                            {{ option.title }}
-                        </span>
-                    </mat-checkbox>
-
-                    <ng-container *ngFor="let attachment of option.attachments">
-                        <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                [appAudioPlay]="getSource(attachment.file)">
-                            <img width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-
-                        </button>
-                    </ng-container>
-
-                </mat-card-actions>
-            </mat-card>
-        </div>
-        <ng-template #noImageAttachmentOption>
-            <div (click)="setCheckboxSelection(i)" [formGroupName]="i" [class]="getAnswerBackgroundStyle(option)"
-                 class="option">
-                <mat-checkbox formControlName="selected">
-                    <span>
-                        {{ option.title }}
-                    </span>
-                    <ng-container *ngFor="let attachment of option.attachments">
-                        <button *ngIf="attachment.attachment_type === 'AUDIO'" mat-icon-button
-                                [appAudioPlay]="getSource(attachment.file)">
-                            <img width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-                        </button>
-                    </ng-container>
-                </mat-checkbox>
+        <div [formGroupName]="i" class="option">
+            <div class="option-attachments">
+                <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
+                    class="image-attachment"
+                >
+                    <img *ngIf="imageAttachment" [src]="getSource(imageAttachment.file)" alt="">
+                </div>
+                <button *ngIf="getAttachmentOfType(option.attachments, 'AUDIO') as audioAttachment"
+                    mat-icon-button
+                    [appAudioPlay]="getSource(audioAttachment.file)"
+                >
+                    <img class="elevated-basic" width="40" height="40" src="assets/icons/audio-button.svg" alt="">
+                </button>
             </div>
-        </ng-template>
+            <input
+                type="checkbox"
+                id="option-checkbox-{{i}}"
+                name="option-checkbox"
+                formControlName="selected"
+            >
+            <label
+                for="option-checkbox-{{i}}"
+                [class]="getOptionBtnStyle(option)"
+                (click)="setCheckboxSelection(i)"
+            >
+                {{ option.title }}
+            </label>
+        </div>
     </ng-container>
 </section>

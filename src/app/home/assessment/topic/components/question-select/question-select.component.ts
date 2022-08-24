@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
 import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
+import { Attachment } from 'src/app/core/models/attachment.model';
 import { BehaviorSubject } from 'rxjs';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -141,9 +142,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         return valid;
     }
 
-    public getAnswerBackgroundStyle(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ? 'invalid'
-            : this.displayCorrectAnswer.getValue() && option.valid ? 'valid' : '';
+    public getOptionBtnStyle(option: any): string {
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ?
+            'elevated-invalid--outline' : (this.displayCorrectAnswer.getValue() && option.valid) ?
+            'elevated-valid--outline' : 'elevated-basic--outline';
     }
 
     public setCheckboxSelection(index: number): void {
@@ -157,9 +159,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         selectedOptionsForm.controls[index].setValue({selected: !optionalValue});
     }
 
-
-    public hasImageAttached(option: SelectOption): boolean {
-        return option.attachments.some((attachment) => attachment.attachment_type === 'IMAGE');
+    public getAttachmentOfType(attachments: Attachment[], type: 'IMAGE' | 'AUDIO'): Attachment {
+        return attachments.find(e => e.attachment_type === type);
     }
 
     public getSource(path: string): string{

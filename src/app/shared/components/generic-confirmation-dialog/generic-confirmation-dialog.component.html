@@ -1,6 +1,6 @@
 <div>
     <button class="audio" *ngIf="audioURL" mat-icon-button [appAudioPlay]="audioURL" disableRipple="true">
-        <img src="assets/icons/audio-button.svg" alt="">
+        <img class="elevated-basic" src="assets/icons/audio-button.svg" alt="">
     </button>
 </div>
 <div id="container">
@@ -21,15 +21,19 @@
         <div *ngSwitchCase="'text'">{{content}}</div>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <app-primary-btn [mat-dialog-close]="true"
+        <app-action-btn *ngIf="cancelBtn" [mat-dialog-close]="false"
                          width="250px"
-                         [text]="confirmBtnText | translate"
-                         iconUrl="assets/icons/check_24.svg">
-        </app-primary-btn>
-        <app-primary-btn *ngIf="cancelBtn" [mat-dialog-close]="false"
-                         width="250px"
+                         [type]="'secondary'"
                          [text]="cancelBtnText | translate"
                          iconUrl="assets/icons/cross_32.svg">
-        </app-primary-btn>
+        </app-action-btn>
+
+        <app-action-btn [mat-dialog-close]="true"
+                         width="250px"
+                         [type]="'primary'"
+                         [text]="confirmBtnText | translate"
+                         iconUrl="assets/icons/check_24.svg">
+        </app-action-btn>
+
     </mat-dialog-actions>
 </div>

@@ -4,14 +4,14 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <app-primary-btn *ngIf="index+1 < steps.length" (click)=onNextStep() width="250px" [text]="'general.next' | translate"
+    <app-action-btn *ngIf="index+1 < steps.length" (click)=onNextStep() width="250px" [text]="'general.next' | translate"
         iconUrl="assets/icons/left_arrow_24.svg">
-    </app-primary-btn>
-    <app-primary-btn (click)="closeTutorial()" *ngIf="index+1 >= steps.length" [mat-dialog-close]="true" width="250px" [text]="'general.close' | translate"
+    </app-action-btn>
+    <app-action-btn (click)="closeTutorial()" *ngIf="index+1 >= steps.length" [mat-dialog-close]="true" width="250px" [text]="'general.close' | translate"
         iconUrl="assets/icons/left_arrow_24.svg">
-    </app-primary-btn>
+    </app-action-btn>
 
-    <app-primary-btn *ngIf="index != 0" (click)=onPreviousStep() width="250px" [text]="'tutorial.previous' | translate"
+    <app-action-btn *ngIf="index != 0" (click)=onPreviousStep() width="250px" [type]="secondary" [text]="'tutorial.previous' | translate"
         iconUrl="assets/icons/right_arrow_24.svg">
-    </app-primary-btn>
+    </app-action-btn>
 </mat-dialog-actions>
