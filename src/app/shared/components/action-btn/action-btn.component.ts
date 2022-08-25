@@ -2,11 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-primary-btn',
-    templateUrl: './primary-btn.component.html',
-    styleUrls: ['./primary-btn.component.scss']
+    selector: 'app-action-btn',
+    templateUrl: './action-btn.component.html',
+    styleUrls: ['./action-btn.component.scss']
 })
-export class PrimaryBtnComponent implements OnInit {
+export class ActionBtnComponent implements OnInit {
+
+    @Input()
+    type: 'primary' | 'secondary' = 'primary';
 
     @Input()
     text: string;
@@ -25,5 +28,4 @@ export class PrimaryBtnComponent implements OnInit {
 
     ngOnInit(): void {
     }
-
 }

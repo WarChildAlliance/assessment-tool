@@ -14,11 +14,11 @@
 
 
     <p *ngIf="!topic || !topic.questions || !topic.questions.length ">{{ "topics.noTopicsInAssessment" | translate }}</p>
-    <app-primary-btn *ngIf="topic && topic.questions && topic.questions.length"
+    <app-action-btn *ngIf="topic && topic.questions && topic.questions.length"
                      [routerLink]="['./questions', topic.questions[0].id]" (click)="startTopic()"
                      [text]=" 'topics.start' | translate "
                      [iconUrl]="translate.currentLang === 'ara' ?
                     'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
                     class="start-button"
-    ></app-primary-btn>
+    ></app-action-btn>
 </div>

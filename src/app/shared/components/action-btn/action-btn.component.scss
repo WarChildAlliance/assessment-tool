@@ -3,17 +3,21 @@ button {
   padding: 0.5rem;
   font-size: 35px;
 
+  &:disabled {
+    cursor: default;
+    opacity: .5;
+  }
   img {
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 27px;
+    height: 27px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
-
 .pull-left {
   left: 1rem;
 }
-
 .pull-right {
   right: 1rem;
 }
