@@ -11,9 +11,9 @@
                     <mat-form-field appearance="outline">
                         <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}" />
                     </mat-form-field>
-                    <app-primary-btn [text]="'auth.login' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+                    <app-action-btn [text]="'auth.login' | translate" [iconUrl]="translate.currentLang === 'ara' ?
                                         'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
-                        [isDisabled]="authForm.invalid"></app-primary-btn>
+                        [isDisabled]="authForm.invalid"></app-action-btn>
                     <div class="browser-disclaimer">
 
                         <p>{{ 'auth.browserDisclaimer' | translate }}</p>

@@ -25,32 +25,30 @@
       grid-template-columns: 1fr;
     }
   }
-
   &.vertical {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr;
   }
-
   &.horizontal {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
   }
-
   .option {
-    padding: 0.1rem;
-    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 1rem 0;
 
-    @media (max-width: 780px) {
-      padding: 0rem;
-    }
-
-    mat-card {
-
-      @media (max-width: 780px) {
-        font-size: 24px;
-      }
+    &-attachments {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 0 2rem;
+      align-items: center;
+      gap: 0 20px;
+      margin: 0 .5rem;
 
       .image-attachment {
         img {
@@ -61,40 +59,31 @@
             height: 50px;
           }
         }
-    
       }
     }
+  }
+  input {
+    opacity: .01;
+  }
+  label {
+    display: block;
+    padding: .5rem 1rem;
+    border-radius: 1.25rem;
+    margin: .5rem;
 
-    mat-checkbox {
-      cursor: pointer;
-    }
+    // making label text unselectable
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
-    mat-radio-label-content {
-      padding-left: 8px;
+    @media (max-width: 780px) {
+      padding: 0 1rem;
     }
-
-    mat-card-content {
-      margin-bottom: 0px;
-    }
-
-    mat-card-actions{
-      padding-top: 0px;
-    }
-
-    mat-card img {
-      cursor: pointer;
-    }
-
-    &:not(.-card) {
-      background-color: white;
-    }
-
-    &.invalid {
-      background-color: #F2836B;
-    }
-
-    &.valid {
-      background-color: #7EBF9A;
-    }
+  }
+  input:checked + label.elevated-basic--outline {
+    background-color: #FFDC64;
   }
 }

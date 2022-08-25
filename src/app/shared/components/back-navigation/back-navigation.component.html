@@ -6,7 +6,7 @@
         <img *ngIf="icons.assessmentIcon" [src]="getSource(icons.assessmentIcon)">
         <img *ngIf="icons.topicIcon" [src]="getSource(icons.topicIcon)">
     </div>
-    <img [ngStyle]="{'float': 'left'}" class="pointer" [src]="translate.currentLang === 'ara' ?
+    <img [ngStyle]="{'float': 'left'}" class="elevated-valid" [src]="translate.currentLang === 'ara' ?
                                         'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'">
 
     <div class="icons" *ngIf="translate.currentLang === 'ara'">

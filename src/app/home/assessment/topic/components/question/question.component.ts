@@ -7,6 +7,7 @@ import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { Topic } from 'src/app/core/models/topic.models';
 import { PraiseTexts } from '../praise/praises.dictionary';
+import { FeedbackAudio } from '../audio-feedback/audio-feedback.dictionary';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -56,6 +57,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public previousPageUrl = '';
 
   @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
+  @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
 
   // Shows modal confirmation before leave the page if is evaluated topic
   canDeactivate(): Observable<boolean> | boolean {
@@ -273,6 +275,15 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
+  private playAnswerAudioFeedback(isCorrectAnswer: boolean): void {
+    const soundArr = isCorrectAnswer ? FeedbackAudio.rightAnswer : FeedbackAudio.wrongAnswer;
+    const randIndex = Math.floor(Math.random() * soundArr.length);
+    const audio = new Audio(soundArr[randIndex]);
+
+    audio.load();
+    audio.play();
+  }
+
   public submitSkipQuestion(): void {
     if (this.answer) {
       this.isSkipped = false;
@@ -280,6 +291,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
       this.answer.start_datetime = this.questionTimeStart;
       if (this.canShowFeedback()) {
         this.displayCorrectAnswer.next(true);
+        this.playAnswerAudioFeedback(this.answer.valid);
       } else {
         this.submitAnswerAndGoNextPage();
       }

@@ -1,5 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+@use 'sass:map';
 @import "~@angular/material/theming";
 
 
@@ -169,12 +170,6 @@ body {
   background-color: #F2836B;
 }
 
-button:disabled,
-button[disabled] {
-  background: #FFDC64 !important;
-  opacity: 0.7 !important;
-}
-
 .pointer {
   cursor: pointer;
 }
@@ -214,6 +209,76 @@ $tour-skip-link-color: #a5a5a5;
   *:not(h2, .text, h3.display_name) {
     font-size: 45px !important;
   }
+}
+
+/* Buttons */
+
+// Elevated button colors:
+$btn-colors: (
+  basic: (
+    btn: #FFDC64,
+    shadow: #FFC80D
+  ),
+  valid: (
+    btn: #009688,
+    shadow: #1A8379
+  ),
+  invalid: (
+    btn: #FF6C6C,
+    shadow: #E75B5B
+  )
+);
+
+// Elevated button styles for each color
+@each $name, $colors in $btn-colors {
+  $btn-color: map.get($colors, 'btn');
+  $shadow-color: map.get($colors, 'shadow');
+
+  button.elevated-#{$name}, label.elevated-#{$name} {
+    &--filled {
+      background-color: #{$btn-color};
+      border: none;
+    }
+    &--outline {
+      border: 3px solid #{$btn-color};
+      background-color: white;
+    }
+    &--filled, &--outline {
+      cursor: pointer;
+      transform: translate(-2px, -4px);
+      box-shadow: 2px 4px 0px #{$shadow-color};
+      transition: all 0.1s ease-in-out;
+    }
+    &--filled:hover:not([disabled]), &--outline:hover:not([disabled]) {
+      transform: translate(-3px, -6px);
+      box-shadow: 3px 6px 0px #{$shadow-color};
+    }
+    &--filled:active:not([disabled]), &--outline:active:not([disabled]) {
+      transform: translate(0, 0);
+      box-shadow: none;
+    }
+  }
+  img.elevated-#{$name} {
+    cursor: pointer;
+    transform: translate(-1px, -2px);
+    -webkit-filter: drop-shadow(1px 2px 0px #{$shadow-color});
+    filter: drop-shadow(1px 2px 0px #{$shadow-color});
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      transform: translate(-2px, -4px);
+      -webkit-filter: drop-shadow(2px 4px 0px #{$shadow-color});
+      filter: drop-shadow(2px 4px 0px #{$shadow-color});
+    }
+    &:active {
+      transform: translate(0, 0);
+      -webkit-filter: none;
+      filter: none;
+    }
+  }
+}
+button {
+  font-family: inherit;
 }
 
 @import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';
