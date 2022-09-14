@@ -158,10 +158,6 @@ export class TutorialService {
       orientation: Orientation.Top,
       action: () => { this.playAudio('assets/tutorial/audio/TutorialSubmitButton.ogg'); }
     });
-    steps.push({
-      content: this.translateService.instant('tutorial.starsCollection'),
-      action: () => { this.playAudio('assets/tutorial/audio/TutorialStars.ogg'); }
-    });
     this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.question);
   }
 
