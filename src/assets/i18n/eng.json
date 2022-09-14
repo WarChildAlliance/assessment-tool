@@ -28,7 +28,7 @@
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",
     "completedTopicAssisstant": "\"YEAEAHEAH\" well done you have completed all the questions. You can be very proud of yourself!",
-    "profileAssisstant": "This is your profile. You can see all the stars and honeypots you have gathered. If you have enough honeypots, you can unlock new avatars. Choose the avatar you like best to be on your profile.",
+    "profileAssisstant": "This is your profile. You can see all the honeypots you have gathered. If you have enough honeypots, you can unlock new avatars. Choose the avatar you like best to be on your profile.",
     "questionAssisstant": "You see the question on top that you need to answer. Type your answer in the white field.",
     "questionNumberLineAssisstant": "You see a question on top. Drag the slider to the correct place on the numberline and press the green button",
     "questionSelectAssisstant": "On top you see the question. Below are possible answers. Choose the one that you think is correct and press the green button",
@@ -67,7 +67,8 @@
     "finishPrevious": "You have to finish the previous topic.",
     "topicCompleted": "Well done! You completed the topic.",
     "completedTopic": {
-      "gainedPoints": "You got"
+      "gainedPoints": "You got",
+      "alreadyAnswered": "You have already answered this topic, and therefore can't get more honeypots for it."
     },
     "praise": {
       "praise1": "You must have tried hard on this question!",
@@ -110,7 +111,6 @@
     "screenSizeErrorContent": "Please ensure your screen is large enough to display the tutorial correctly.",
     "selectQuestionOptions": "Below are possible answers. Choose the one that you think is correct and press the green button.",
     "selectQuestionTitle": "On top you see the question",
-    "starsCollection": "You collect stars with correct answer",
     "startAssessment": "Click the flower/button to start",
     "startQuestion": "You will get some practise questions now. Click the green button",
     "startTopic": "Click the picture",
