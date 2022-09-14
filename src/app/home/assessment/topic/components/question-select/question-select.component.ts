@@ -23,11 +23,15 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
+    @Input() resetAnswer: BehaviorSubject<boolean>;
+
     @Input() isEvaluated: boolean;
 
-    @Output() answerChange = new EventEmitter<AnswerSelect>();
+    @Output() answerChange = new EventEmitter<{answer: AnswerSelect, next: boolean}>();
 
     private readonly pageID = 'question-select-page';
+    public multipleValidAnswers = 0;
+    public goNextQuestion: boolean;
 
     public valueForm = new FormControl(null);
     public multipleSelectForm: FormGroup = new FormGroup({
@@ -45,9 +49,18 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
-        this.displayCorrectAnswer.subscribe((value: boolean) => {
-            if (value && this.question.multiple) {
-                this.multipleSelectForm.disable();
+
+        this.resetAnswer.subscribe((value: boolean) => {
+            if (value) {
+                // When the student select the wrong answer: reset options
+                if (this.question.multiple) {
+                    this.multipleSelectForm.controls.selectedOptions.reset();
+                } else {
+                    this.valueForm.setValue(null);
+                    const index =  this.question.options.indexOf(this.question.options.find(op => op.id === this.answer.selected_options[0]));
+                    const checkedOption = document.getElementById('option-radio-' + index.toString()) as HTMLInputElement;
+                    checkedOption.checked = false;
+                }
             }
         });
 
@@ -61,6 +74,13 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
         if (this.question.multiple) {
             this.generateMultipleSelectForm();
+            this.question.options.forEach(
+                option => {
+                    if (option.valid) {
+                        this.multipleValidAnswers += 1;
+                    }
+                }
+            );
 
             // we disabled the checkboxes because we handler the selection using (click) event
             // that calls the method setCheckboxSelection(index: number)
@@ -74,6 +94,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     option => !!option
                 );
 
+                if (!formattedSelectedOptions.length) {
+                    return;
+                }
+
                 if (!this.answer) {
                     this.answer = {
                         selected_options: formattedSelectedOptions,
@@ -86,8 +110,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     this.answer.selected_options = formattedSelectedOptions;
                     this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 }
-                this.answerChange.emit(this.answer);
-
+                this.answerChange.emit({answer: this.answer, next: this.goNextQuestion});
             });
         } else {
             this.valueForm.valueChanges.subscribe(value => {
@@ -103,7 +126,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                         this.answer.valid = this.isValid();
                     }
 
-                    this.answerChange.emit(this.answer);
+                    this.answerChange.emit({answer: this.answer, next: this.goNextQuestion});
                 }
             });
         }
@@ -126,18 +149,28 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private isValid(): boolean {
+        this.goNextQuestion = this.valueForm.value.valid ? true : false;
         return this.valueForm.value.valid;
     }
 
     private isMultipleValid(selectedOptionsIds: number[]): boolean {
 
-        const valid = this.question.options.every(
+        const valid = selectedOptionsIds.length === this.multipleValidAnswers
+        ? this.question.options.every(
             option => (
                 (option.valid && selectedOptionsIds.includes(option.id))
                 ||
                 (!option.valid && !selectedOptionsIds.includes(option.id))
             )
+        )
+        : selectedOptionsIds.every(
+            id => (
+                this.question.options.find(option => option.id === id && option.valid)
+            )
         );
+
+        this.goNextQuestion = valid && selectedOptionsIds.length === this.multipleValidAnswers
+            ? true : false;
 
         return valid;
     }
