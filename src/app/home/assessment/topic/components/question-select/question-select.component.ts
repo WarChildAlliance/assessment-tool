@@ -32,6 +32,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     private readonly pageID = 'question-select-page';
     public multipleValidAnswers = 0;
     public goNextQuestion: boolean;
+    public timeout = 500;
 
     public valueForm = new FormControl(null);
     public multipleSelectForm: FormGroup = new FormGroup({
@@ -57,7 +58,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     this.multipleSelectForm.controls.selectedOptions.reset();
                 } else {
                     this.valueForm.setValue(null);
-                    const index =  this.question.options.indexOf(this.question.options.find(op => op.id === this.answer.selected_options[0]));
+                    const index = this.question.options.indexOf(
+                        this.question.options.find(op => op.id === this.answer.selected_options[0])
+                    );
                     const checkedOption = document.getElementById('option-radio-' + index.toString()) as HTMLInputElement;
                     checkedOption.checked = false;
                 }
@@ -98,6 +101,12 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     return;
                 }
 
+                this.checkRightAnswer(this.question.options.indexOf(
+                        this.question.options.find((op, index) => value.selectedOptions[index].selected && !op.valid)
+                    )
+                    , formattedSelectedOptions
+                );
+
                 if (!this.answer) {
                     this.answer = {
                         selected_options: formattedSelectedOptions,
@@ -115,6 +124,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         } else {
             this.valueForm.valueChanges.subscribe(value => {
                 if (value) {
+                    this.checkRightAnswer(this.question.options.indexOf(value));
                     if (!this.answer) {
                         this.answer = {
                             selected_options: [value.id],
@@ -147,10 +157,26 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
             selectedOptionsForm.push(selectOption);
         });
     }
+    // check selected option: if it's wrong displays vibration animation
+    private checkRightAnswer(areaIndex: number, formattedSelectedOptions?: number[]): void {
+        if (this.question.multiple && !this.isMultipleValid(formattedSelectedOptions)) {
+            this.wrongAnswerVibration(areaIndex);
+        } else if (!this.question.multiple && !this.isValid()) {
+            this.wrongAnswerVibration(areaIndex);
+        }
+    }
+
+    private wrongAnswerVibration(areaIndex: number): void {
+        const label = document.getElementById('option-' + areaIndex.toString() + '-label') as HTMLLabelElement;
+        label.classList.add('vibration');
+        setTimeout(() => {
+            label.classList.remove('vibration');
+        }, this.timeout);
+    }
 
     private isValid(): boolean {
-        this.goNextQuestion = this.valueForm.value.valid ? true : false;
-        return this.valueForm.value.valid;
+        this.goNextQuestion = this.valueForm.value?.valid ? true : false;
+        return this.valueForm.value?.valid;
     }
 
     private isMultipleValid(selectedOptionsIds: number[]): boolean {

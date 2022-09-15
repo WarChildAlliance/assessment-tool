@@ -35,13 +35,17 @@
                 </ng-container>
     
                 <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
-                    <app-question-number-line [question]="question" [(answer)]="answer"
-                        [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
+                    <app-question-number-line [question]="question" [answer]="answer"
+                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                        [displayCorrectAnswer]="displayCorrectAnswer">
+                    </app-question-number-line>
                 </ng-container>
     
                 <ng-container *ngIf="question.question_type === 'SELECT'">
-                    <app-question-select [question]="question" [(answer)]="answer"
-                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated"></app-question-select>
+                    <app-question-select [question]="question" [answer]="answer" 
+                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                    </app-question-select>
                 </ng-container>
     
                 <ng-container *ngIf="question.question_type === 'SORT'">
@@ -56,7 +60,8 @@
                     [topicId]="topic.id"
                     [question]="question"
                     [answer]="answer"
-                    (answerChange)="answer=$event"
+                    (answerChange)="checkAnswer($event)"
+                    [resetAnswer]="resetAnswer"
                     [displayCorrectAnswer]="displayCorrectAnswer">
                 >
                 </app-question-drag-and-drop>
@@ -64,16 +69,9 @@
 
         </div>
 
-        <div class="question-buttons">
-            <app-action-btn *ngIf="!displayCorrectAnswer.getValue()"
-                [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
-                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
-                (click)="submitSkipQuestion()" class="main-btn submit">
-            </app-action-btn>
-
-            <app-action-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                            'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
-                (click)="submitAnswerAndGoNextPage()" class="main-btn submit">
+        <div class="question-buttons" *ngIf="isQuestionInput">
+            <app-action-btn [text]="('general.submit' | translate)" (click)="submitQuestion()" class="main-btn submit"
+                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
             </app-action-btn>
         </div>
 
@@ -106,13 +104,17 @@
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
-                <app-question-number-line [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer"></app-question-number-line>
+                <app-question-number-line [question]="question" [answer]="answer"
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"    
+                    [displayCorrectAnswer]="displayCorrectAnswer">
+                </app-question-number-line>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'SELECT'">
-                <app-question-select [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated"></app-question-select>
+                <app-question-select [question]="question" [answer]="answer"
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-select>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'SORT'">
@@ -120,18 +122,23 @@
                     [displayCorrectAnswer]="displayCorrectAnswer">
                 </app-question-sort>
             </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'DRAG_AND_DROP'">
+                <app-question-drag-and-drop
+                    [assessmentId]="assessment.id"
+                    [topicId]="topic.id"
+                    [question]="question"
+                    [answer]="answer"
+                    (answerChange)="checkAnswer($event)"
+                    [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer">>
+                </app-question-drag-and-drop>
+            </ng-container>
         </div>
 
-        <div class="buttons">
-            <app-action-btn *ngIf="!displayCorrectAnswer.getValue()"
-                [text]="(!this.answer && this.topic.allow_skip) ? ('general.skip' | translate) : ('general.submit' | translate)"
-                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!topic.allow_skip && !answer"
-                (click)="submitSkipQuestion()" class="main-btn submit">
-            </app-action-btn>
-
-            <app-action-btn *ngIf="displayCorrectAnswer.getValue()" [text]="'topics.question.continue' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                            'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'" width="60%"
-                (click)="submitAnswerAndGoNextPage()" class="main-btn submit" mat-dialog-close>
+        <div class="buttons" *ngIf="isQuestionInput">
+            <app-action-btn [text]="('general.submit' | translate)" (click)="submitQuestion()" class="main-btn submit"
+                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
             </app-action-btn>
         </div>
     </div>
