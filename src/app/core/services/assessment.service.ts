@@ -49,7 +49,7 @@ export class AssessmentService {
   }
 
   private getAssessmentsDeep(): Observable<Assessment[]> {
-    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_all/`);
+    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessment/`);
   }
 
   private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {
