@@ -56,6 +56,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public assessment: Assessment;
   public previousPageUrl = '';
 
+  // Size of the HTML elements (in px) used for the progress bar evolution
+  public path = 36;
+  public flyingBee = 35;
+
   @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
   @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
 

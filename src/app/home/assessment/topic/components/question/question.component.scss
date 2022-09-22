@@ -1,12 +1,35 @@
-.progress_bar {
-  display: flex;
+.header {
+  justify-items: center;
+  display: inline-grid;
   padding: 1rem;
   justify-content: space-between;
+  grid-template-columns: 1fr 20fr;
   align-items: center;
 
   img {
     margin: 0 0.5rem;
     width: 35px;
+  }
+}
+
+.progress-header {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  place-content: flex-end;
+
+  .progress-bar {
+    position: relative;
+
+    .path {
+      position: relative;
+      border: 3px dashed #70504a;
+      border-radius: 0 0 50% 50%/60px;
+    }
+    .bee {
+      position: absolute;
+      margin: 0 0 2em;
+    }
   }
 }
 
@@ -24,16 +47,19 @@ mat-progress-bar{
   margin-top: 0.2rem;
   height: 15px;
   border-radius: 0.5rem;
+  min-height: 3rem;
 }
 
 
 .icons {
+  position: absolute;
   display: flex;
   text-align: left;
   height: inherit;
 
   img{
     max-height: 60px;
+    margin: auto;
   }
 }
 
@@ -57,10 +83,6 @@ mat-progress-bar{
   @media (max-width: 780px) {
     font-size: 38px !important;
   }
-}
-
-::ng-deep .mat-progress-bar-buffer {
-  background: white
 }
 
 .question {
