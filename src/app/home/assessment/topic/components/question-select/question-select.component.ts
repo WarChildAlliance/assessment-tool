@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AnswerSelect } from 'src/app/core/models/answer.model';
-import { QuestionSelect, SelectOption } from 'src/app/core/models/question.model';
+import { QuestionSelect } from 'src/app/core/models/question.model';
 import { Attachment } from 'src/app/core/models/attachment.model';
 import { BehaviorSubject } from 'rxjs';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
@@ -30,12 +30,8 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     private readonly pageID = 'question-select-page';
 
     public valueForm = new FormControl(null);
-    public multipleSelectForm: FormGroup = new FormGroup({
-        selectedOptions: new FormArray([]),
-    });
 
     constructor(
-        private formBuilder: FormBuilder,
         private assisstantService: AssisstantService,
         private tutorialSerice: TutorialService,
         private tutorialSlideshowService: TutorialSlideshowService,
@@ -45,11 +41,6 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     ngOnInit(): void {
         this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
-        this.displayCorrectAnswer.subscribe((value: boolean) => {
-            if (value && this.question.multiple) {
-                this.multipleSelectForm.disable();
-            }
-        });
 
         // shuffle evaluated options
         if (this.isEvaluated) {
@@ -59,54 +50,22 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
             })).sort((a, b) => a.sort - b.sort).map((value) => value.question);
         }
 
-        if (this.question.multiple) {
-            this.generateMultipleSelectForm();
-
-            // we disabled the checkboxes because we handler the selection using (click) event
-            // that calls the method setCheckboxSelection(index: number)
-            this.multipleSelectForm.disable();
-
-            this.multipleSelectForm.valueChanges.subscribe(value => {
-
-                const formattedSelectedOptions = value.selectedOptions.map(
-                    (checked, index) => checked.selected ? this.question.options[index].id : null
-                ).filter(
-                    option => !!option
-                );
-
+        this.valueForm.valueChanges.subscribe(value => {
+            if (value) {
                 if (!this.answer) {
                     this.answer = {
-                        selected_options: formattedSelectedOptions,
+                        selected_option: value.id,
                         question: this.question.id,
-                        valid: false
+                        valid: this.isValid()
                     };
-                    this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
                 } else {
-                    this.tutorialSerice.currentPage.next(PageNames.question);
-                    this.answer.selected_options = formattedSelectedOptions;
-                    this.answer.valid = this.isMultipleValid(formattedSelectedOptions);
+                    this.answer.selected_option = value.id;
+                    this.answer.valid = this.isValid();
                 }
+
                 this.answerChange.emit(this.answer);
-
-            });
-        } else {
-            this.valueForm.valueChanges.subscribe(value => {
-                if (value) {
-                    if (!this.answer) {
-                        this.answer = {
-                            selected_options: [value.id],
-                            question: this.question.id,
-                            valid: this.isValid()
-                        };
-                    } else {
-                        this.answer.selected_options = [value.id];
-                        this.answer.valid = this.isValid();
-                    }
-
-                    this.answerChange.emit(this.answer);
-                }
-            });
-        }
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -114,49 +73,14 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         this.setOptionsContainerStyle();
     }
 
-    private generateMultipleSelectForm(): void {
-        const selectedOptionsForm = this.multipleSelectForm.get('selectedOptions') as FormArray;
-
-        this.question.options.forEach((option) => {
-            const selectOption = this.formBuilder.group({
-                selected: new FormControl(false),
-            });
-            selectedOptionsForm.push(selectOption);
-        });
-    }
-
     private isValid(): boolean {
         return this.valueForm.value.valid;
     }
 
-    private isMultipleValid(selectedOptionsIds: number[]): boolean {
-
-        const valid = this.question.options.every(
-            option => (
-                (option.valid && selectedOptionsIds.includes(option.id))
-                ||
-                (!option.valid && !selectedOptionsIds.includes(option.id))
-            )
-        );
-
-        return valid;
-    }
-
     public getOptionBtnStyle(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_options.includes(option.id) && !option.valid ?
+        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_option === option.id && !option.valid ?
             'elevated-invalid--outline' : (this.displayCorrectAnswer.getValue() && option.valid) ?
             'elevated-valid--outline' : 'elevated-basic--outline';
-    }
-
-    public setCheckboxSelection(index: number): void {
-        if (this.displayCorrectAnswer.getValue()) {
-            return;
-        }
-        const selectedOptionsForm = this.multipleSelectForm.get('selectedOptions') as FormArray;
-
-        const optionalValue = selectedOptionsForm.controls[index].value.selected;
-
-        selectedOptionsForm.controls[index].setValue({selected: !optionalValue});
     }
 
     public getAttachmentOfType(attachments: Attachment[], type: 'IMAGE' | 'AUDIO'): Attachment {
@@ -172,7 +96,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     private setOptionsContainerStyle(): void {
         for (const option of this.question.options) {
             if (option.title?.length > 14) {
-                const optionsContainerRef = document.getElementById(this.question.multiple ? 'multiple-choice' : 'one-choice');
+                const optionsContainerRef = document.getElementById('one-choice');
                 optionsContainerRef.style.justifyContent = 'center';
 
                 optionsContainerRef.childNodes.forEach(optionRef => {

@@ -46,7 +46,7 @@ export class QuestionDragAndDropComponent implements OnInit {
     this.draggableOptions = [...this.question.draggable_options];
     this.answerDropListData = new Array<DraggableOption>(this.question.drop_areas.length);
     this.question.drop_areas.forEach(area => {
-      this.correctAnswer.push(this.draggableOptions.find(e => e.area_option.includes(area.id)));
+      this.correctAnswer.push(this.draggableOptions.find(e => e.area_option === area.id));
     });
 
     this.displayedAnswer = this.answerDropListData;
@@ -58,7 +58,7 @@ export class QuestionDragAndDropComponent implements OnInit {
   private isAnswerValid(): boolean {
     return this.answerDropListData.every(
       (e: DraggableOption, index: number) => {
-        return e.area_option.includes(this.question.drop_areas[index].id);
+        return e.area_option === this.question.drop_areas[index].id;
       });
   }
 
@@ -69,7 +69,7 @@ export class QuestionDragAndDropComponent implements OnInit {
       answers_per_area: this.answerDropListData.map(
         (e: DraggableOption, index: number) => {
           return e ? {
-            selected_draggable_options: [e.id],
+            selected_draggable_option: e.id,
             area: this.question.drop_areas[index].id
           } : null;
         }).filter(e => !!e)
