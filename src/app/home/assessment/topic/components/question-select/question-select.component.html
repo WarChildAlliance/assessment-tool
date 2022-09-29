@@ -1,7 +1,7 @@
 <!-- Options with only one choice -->
 <!-- In case of using display_type again: [class]="question.display_type | lowercase" -->
-<section *ngIf="!question.multiple">
-    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice" id="one-choice">
+<section>
+    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice">
         <ng-container *ngFor="let option of question.options; let i = index">
             <div class="option">
                 <div class="option-attachments">
@@ -34,41 +34,4 @@
             </div>
         </ng-container>
     </mat-radio-group>
-</section>
-
-<!-- Options with multiple choices -->
-<!-- In case of using display_type again: [class]="question.display_type | lowercase" -->
-<section class="options-container" [class]="'default'" [formGroup]="multipleSelectForm" id="multiple-choice"
-         *ngIf="question.multiple">
-    <ng-container formArrayName="selectedOptions" *ngFor="let option of question.options; let i = index">
-        <div [formGroupName]="i" class="option">
-            <div class="option-attachments">
-                <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
-                    class="image-attachment"
-                >
-                    <img *ngIf="imageAttachment" [src]="getSource(imageAttachment.file)" alt="">
-                </div>
-                <button *ngIf="getAttachmentOfType(option.attachments, 'AUDIO') as audioAttachment"
-                    mat-icon-button
-                    [appAudioPlay]="getSource(audioAttachment.file)"
-                >
-                    <img class="elevated-basic" width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-                </button>
-            </div>
-            <input
-                type="checkbox"
-                id="option-checkbox-{{i}}"
-                name="option-checkbox"
-                formControlName="selected"
-            >
-            <label
-                for="option-checkbox-{{i}}"
-                id="option-{{i}}-label"
-                [class]="getOptionBtnStyle(option)"
-                (click)="setCheckboxSelection(i)"
-            >
-                {{ option.title }}
-            </label>
-        </div>
-    </ng-container>
 </section>
