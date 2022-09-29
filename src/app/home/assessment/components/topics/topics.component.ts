@@ -12,6 +12,7 @@ import { CacheService } from 'src/app/core/services/cache.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { User } from 'src/app/core/models/user.model';
+import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
 
 @Component({
     selector: 'app-topics',
@@ -94,4 +95,16 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
     }
 
+    public playLockedTopicAudioFeedback(topicIndex: number): void {
+        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
+        topicElement.classList.add('vibration');
+        setTimeout(() => {
+            topicElement.classList.remove('vibration');
+        }, 500);
+        // TODO: change to angry bee sound when available
+        const sound = FeedbackAudio.wrongAnswer[0];
+        const audio = new Audio(sound);
+        audio.load();
+        audio.play();
+    }
 }

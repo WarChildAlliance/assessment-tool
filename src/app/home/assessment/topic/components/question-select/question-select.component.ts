@@ -23,11 +23,15 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
 
+    @Input() resetAnswer: BehaviorSubject<boolean>;
+
     @Input() isEvaluated: boolean;
 
-    @Output() answerChange = new EventEmitter<AnswerSelect>();
+    @Output() answerChange = new EventEmitter<{answer: AnswerSelect, next: boolean}>();
 
     private readonly pageID = 'question-select-page';
+    public multipleValidAnswers = 0;
+    public timeout = 500;
 
     public valueForm = new FormControl(null);
 
@@ -62,8 +66,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     this.answer.selected_option = value.id;
                     this.answer.valid = this.isValid();
                 }
-
-                this.answerChange.emit(this.answer);
+                this.answerChange.emit({answer: this.answer, next: this.answer.valid});
             }
         });
     }
@@ -74,7 +77,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private isValid(): boolean {
-        return this.valueForm.value.valid;
+        return this.valueForm.value?.valid;
     }
 
     public getOptionBtnStyle(option: any): string {

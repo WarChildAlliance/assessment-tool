@@ -18,7 +18,8 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Input() question: QuestionNumberLine;
   @Input() answer: AnswerNumberLine;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
-  @Output() answerChange = new EventEmitter<AnswerNumberLine>();
+  @Input() resetAnswer: BehaviorSubject<boolean>;
+  @Output() answerChange = new EventEmitter<{answer: AnswerNumberLine, next: boolean}>();
 
   private readonly pageID = 'question-number-line-page';
 
@@ -38,6 +39,13 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });
+
+    this.resetAnswer.subscribe((value: boolean) => {
+      if (value) {
+        this.valueForm.reset();
+      }
+    });
+
     if (this.displayCorrectAnswer){
       this.correctAnswerForm.setValue(this.question.expected_value);
     }
@@ -60,7 +68,7 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
         this.answer.valid = this.isValid();
       }
       this.tutorialSerice.currentPage.next(PageNames.question);
-      this.answerChange.emit(this.answer);
+      this.answerChange.emit({answer: this.answer, next: this.answer.valid});
     }
   }
 

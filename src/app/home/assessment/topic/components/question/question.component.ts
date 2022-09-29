@@ -41,6 +41,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private isSkipped = false;
   private show = false;
   private timeout = 250;
+  private timeoutNextQuestion = 1000;
   private subscription: Subscription;
   private questionTimeStart: string;
   private isFirstTry: boolean;
@@ -55,6 +56,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public dateStart: Moment;
   public assessment: Assessment;
   public previousPageUrl = '';
+  public resetAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
   @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
@@ -99,6 +101,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public get stateName(): string {
     return this.show ? 'show' : 'hide';
+  }
+
+  public get isQuestionInput(): boolean {
+    return this.question.question_type === 'INPUT';
   }
 
   constructor(
@@ -165,6 +171,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.router.navigate([this.previousPageUrl]);
   }
 
+  // feature show feedback at the end: remove?
   private canShowFeedback(): boolean {
     // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
     return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.isFirstTry);
@@ -284,50 +291,66 @@ export class QuestionComponent implements OnInit, OnDestroy {
     audio.play();
   }
 
-  public submitSkipQuestion(): void {
+  public submitQuestion(): void {
     if (this.answer) {
-      this.isSkipped = false;
-      this.answer.end_datetime = moment().format();
-      this.answer.start_datetime = this.questionTimeStart;
-      if (this.canShowFeedback()) {
-        this.displayCorrectAnswer.next(true);
-        this.playAnswerAudioFeedback(this.answer.valid);
-      } else {
+    this.isSkipped = false;
+    this.answer.end_datetime = moment().format();
+    this.answer.start_datetime = this.questionTimeStart;
+    if (!this.isQuestionInput) {
+      this.displayCorrectAnswer.next(true);
+      setTimeout(() => {
         this.submitAnswerAndGoNextPage();
+      }, this.timeoutNextQuestion);
+    } else {
+      this.submitAnswerAndGoNextPage();
       }
-    } else if (!this.answer && this.topic.allow_skip) {
-      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-          content: 'topics.question.skipSure',
-          cancelBtn: true,
-          confirmBtnText: 'general.skip',
-          confirmBtnColor: 'warn',
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(value => {
-        if (value === false) {
-          dialogRef.close();
-        } else if (value === true) {
-          this.isSkipped = true;
-
-          this.answer = {
-            question: this.question.id,
-            start_datetime: this.questionTimeStart,
-            end_datetime: moment().format(),
-            valid: false,
-            skipped: true
-          };
-
-          this.submitAnswerAndGoNextPage();
-        }
-      });
-
     } else {
       // console.warn('Unexpected behaviour while submitting answer');
       // this.goToNextPage();
     }
+  }
+
+  public checkAnswer(answerEvet): void {
+    this.answer = answerEvet.answer;
+    this.playAnswerAudioFeedback(this.answer.valid);
+    setTimeout(() => {
+      if (answerEvet.next) {
+        this.submitQuestion();
+      } else if (!this.answer.valid) {
+        this.resetAnswer.next(true);
+      }
+    }, this.timeoutNextQuestion);
+  }
+
+  // Skip question feature: remove?
+  public skipQuestion(): void {
+    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+      disableClose: true,
+      data: {
+        content: 'topics.question.skipSure',
+        cancelBtn: true,
+        confirmBtnText: 'general.skip',
+        confirmBtnColor: 'warn',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      if (value === false) {
+        dialogRef.close();
+      } else if (value === true) {
+        this.isSkipped = true;
+
+        this.answer = {
+          question: this.question.id,
+          start_datetime: this.questionTimeStart,
+          end_datetime: moment().format(),
+          valid: false,
+          skipped: true
+        };
+
+        this.submitAnswerAndGoNextPage();
+      }
+    });
   }
 
   public submitAnswerAndGoNextPage(): void {
