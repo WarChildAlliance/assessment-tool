@@ -24,6 +24,7 @@ import { CompletedTopicComponent } from './components/completed-topic/completed-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
+import { QuestionSelComponent } from './components/question-sel/question-sel.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { QuestionDragAndDropComponent } from './components/question-drag-and-dro
         AttachmentsComponent,
         CompletedTopicComponent,
         QuestionDragAndDropComponent,
+        QuestionSelComponent,
     ],
     imports: [
         SharedModule,

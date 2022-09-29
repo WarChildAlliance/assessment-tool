@@ -92,7 +92,10 @@
       "exitConfirmation": "Es-tu sûr de vouloir quitter?",
       "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page des sujets.",
       "questionNotAvailable": "Cette question n'est pas disponible",
-      "skipSure": "Es-tu sûr de vouloir sauter cette question ?"
+      "skipSure": "Es-tu sûr de vouloir sauter cette question ?",
+      "notReallyLikeMe": "Pas vraiment comme moi",
+      "aLittleLikeMe": "Un peu comme moi",
+      "aLotLikeMe": "Un peu comme moi"
     }
   },
   "tutorial": {

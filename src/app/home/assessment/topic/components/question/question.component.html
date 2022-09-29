@@ -27,6 +27,12 @@
 
         <div class="question-container">
             <div class="question-content">
+                <ng-container *ngIf="question.question_type === 'SEL'">
+                    <app-question-sel [question]="question" [(answer)]="answer"
+                        (answerChange)="submitQuestion()"
+                        [displayCorrectAnswer]="displayCorrectAnswer">
+                    </app-question-sel>
+                </ng-container>
 
                 <ng-container *ngIf="question.question_type === 'INPUT'">
                     <app-question-input [question]="question" [(answer)]="answer"
@@ -97,6 +103,13 @@
         <img src="assets/icons/flying-bee.svg" style="padding: 1em;"/>
 
         <div class="question-content">
+            <ng-container *ngIf="question.question_type === 'SEL'">
+                <app-question-sel [question]="question" [(answer)]="answer"
+                    (answerChange)="submitQuestion()"
+                    [displayCorrectAnswer]="displayCorrectAnswer">
+                </app-question-sel>
+            </ng-container>
+
             <ng-container *ngIf="question.question_type === 'INPUT'">
                 <app-question-input [question]="question" [(answer)]="answer"
                     [displayCorrectAnswer]="displayCorrectAnswer">

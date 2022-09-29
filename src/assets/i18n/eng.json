@@ -92,7 +92,10 @@
       "exitConfirmation": "Exit confirmation",
       "exitInfo": "If you exit now, you will be redirected to the Topics page.",
       "questionNotAvailable": "This question is not available",
-      "skipSure": "Are you sure you want to skip this question?"
+      "skipSure": "Are you sure you want to skip this question?",
+      "notReallyLikeMe": "Not really like me",
+      "aLittleLikeMe": "A little like me",
+      "aLotLikeMe": "A lot like me"
     }
   },
   "tutorial": {
