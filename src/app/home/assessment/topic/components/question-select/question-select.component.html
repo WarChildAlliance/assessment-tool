@@ -25,6 +25,7 @@
                     [value]="option"
                 >
                 <label for="option-radio-{{i}}"
+                    id="option-{{i}}-label"
                     [class]="getOptionBtnStyle(option)"
                     (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
                 >
@@ -62,6 +63,7 @@
             >
             <label
                 for="option-checkbox-{{i}}"
+                id="option-{{i}}-label"
                 [class]="getOptionBtnStyle(option)"
                 (click)="setCheckboxSelection(i)"
             >
