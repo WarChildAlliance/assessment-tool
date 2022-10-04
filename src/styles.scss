@@ -118,6 +118,10 @@ $assessment-tool-theme: mat-light-theme(
   background: #FFFBEB;
 }
 
+.light-green-bg {
+  background: #BFF09E;
+}
+
 .yellow-gradient-bg {
   background-image: linear-gradient(82.84deg, #FFDE70, #FFF5D9);
   height: 100%;
@@ -136,6 +140,7 @@ $assessment-tool-theme: mat-light-theme(
 }
 
 div.light-yellow-bg,
+div.light-green-bg,
 div.yellow-gradient-bg,
 div.purple-gradient-bg,
 div.cyan-gradient-bg,
