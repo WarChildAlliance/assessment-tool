@@ -47,12 +47,14 @@ export class AuthService {
     );
   }
 
-  public logout(): void {
+  public logout(preventNavigate = false): void {
     this.isAuthenticated = false;
     this.cookieService.delete('student-auth-token');
     this.cookieService.delete('session');
     this.cacheService.deleteData('session');
-    this.router.navigate(['/auth']);
+    if (!preventNavigate) {
+      this.router.navigate(['/auth']);
+    }
   }
 
   public getToken(): string {
