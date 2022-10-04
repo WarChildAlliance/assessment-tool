@@ -1,4 +1,4 @@
-import { GeneralQuestion, SelectOption, SortOption, DraggableOption } from './question.model';
+import { GeneralQuestion, SelectOption, SortOption, DraggableOption, DominoOption } from './question.model';
 import { TopicAnswer } from './topic-answer.model';
 import { Moment } from 'moment';
 
@@ -37,8 +37,12 @@ export interface AnswerDragAndDrop extends Answer {
   answers_per_area: DragAndDropAreaEntry[];
 }
 
+export interface AnswerDomino extends Answer {
+  selected_domino: DominoOption | number;
+}
+
 export interface SkippedAnswer extends Answer {
   skipped: true;
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop | SkippedAnswer;
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop | AnswerDomino | SkippedAnswer;

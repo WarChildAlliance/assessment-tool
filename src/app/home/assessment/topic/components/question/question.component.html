@@ -47,6 +47,13 @@
                         [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
                     </app-question-select>
                 </ng-container>
+
+                <ng-container *ngIf="question.question_type === 'DOMINO'">
+                    <app-question-domino [question]="question" [answer]="answer" 
+                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                    </app-question-domino>
+                </ng-container>
     
                 <ng-container *ngIf="question.question_type === 'SORT'">
                     <app-question-sort [question]="question" [(answer)]="answer"
@@ -133,6 +140,13 @@
                     [resetAnswer]="resetAnswer"
                     [displayCorrectAnswer]="displayCorrectAnswer">>
                 </app-question-drag-and-drop>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'DOMINO'">
+                <app-question-domino [question]="question" [answer]="answer" 
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-domino>
             </ng-container>
         </div>
 
