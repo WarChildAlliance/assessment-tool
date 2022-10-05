@@ -139,14 +139,26 @@ $assessment-tool-theme: mat-light-theme(
   background-image: linear-gradient(82.84deg, #4ACF8C, #A4EDC2);
 }
 
+.sunny-field-bg {
+  background: url("/assets/background-image.png");
+  background-position-x: center;
+  background-repeat: round;
+  background-size: 100%;
+  height: 100%;
+}
+
 div.light-yellow-bg,
 div.light-green-bg,
 div.yellow-gradient-bg,
 div.purple-gradient-bg,
 div.cyan-gradient-bg,
-div.green-gradient-bg {
-  min-height: 100%;
+div.green-gradient-bg,
+div.sunny-field-bg {
   text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: auto;
 }
 
 // ******** End of Pages backgrounds *********
@@ -156,9 +168,10 @@ body {
   font-size: 2em;
   background-color: white;
   color: #70504a;
-  max-width: 1024px;
-  min-width: 360px;
   margin: 0 auto;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 .correct-answer {
