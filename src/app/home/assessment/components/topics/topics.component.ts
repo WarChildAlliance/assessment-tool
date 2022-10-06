@@ -24,8 +24,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     public topics: Topic[];
     public assessmentTitle = '';
-    public icons: any = {};
     public user: User = null;
+    public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
 
     constructor(
         private route: ActivatedRoute,
@@ -42,6 +42,9 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     assessmentSubject: string;
 
     ngOnInit(): void {
+        // The color of the flower must be random, but never use twice the same in the same assessment
+        this.flowersColors.sort(() => Math.random() - 0.5);
+
         this.cacheService.getData('user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
@@ -51,7 +54,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
                             this.assessmentTitle = assessment.title;
-                            this.icons.assessmentIcon = assessment.icon;
                         });
                         return this.assessmentService.getAssessmentTopics(assessmentId);
                     }
