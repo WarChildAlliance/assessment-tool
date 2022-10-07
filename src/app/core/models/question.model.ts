@@ -14,6 +14,10 @@ export interface QuestionInput extends Question {
   valid_answer: string;
 }
 
+export interface QuestionSEL extends Question {
+  sel_type: string;
+}
+
 export interface QuestionNumberLine extends Question {
   expected_value: number;
   start: number;
@@ -40,7 +44,7 @@ export interface QuestionDragDrop extends Question {
   draggable_options: DraggableOption[];
 }
 
-export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop;
+export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop | QuestionSEL;
 
 export interface SelectOption {
   id: number;
@@ -63,6 +67,7 @@ export interface DraggableOption {
 }
 
 export enum QuestionTypeEnum {
+  SEL = 'SEL',
   Input = 'INPUT',
   Select = 'SELECT',
   Sort = 'SORT',

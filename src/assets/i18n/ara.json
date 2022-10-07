@@ -92,7 +92,10 @@
       "exitConfirmation": "تأكيد الخروج",
       "exitInfo": "إذا خرجت الآن ، ستتم إعادة توجيهك إلى صفحة الموضوعات.",
       "questionNotAvailable": "هذا السؤال غير متاح",
-      "skipSure": "هل أنت متأكد أنك تريد تجاوز هذا السؤال؟"
+      "skipSure": "هل أنت متأكد أنك تريد تجاوز هذا السؤال؟",
+      "notReallyLikeMe": "لا تحبني حقًا",
+      "aLittleLikeMe": "قليلا مثلي",
+      "aLotLikeMe": "كثيرا مثلي"
     }
   },
   "tutorial": {
