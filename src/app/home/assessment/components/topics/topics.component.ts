@@ -111,7 +111,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         const answers = await this.answerService.getCompleteStudentAnswersForTopic(topicId).toPromise();
         return answers.length > 0;
     }
-    
+
     public playLockedTopicAudioFeedback(topicIndex: number): void {
         const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
         topicElement.classList.add('vibration');
