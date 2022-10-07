@@ -24,7 +24,7 @@ export interface AnswerSEL extends Answer {
 }
 
 export interface AnswerSelect extends Answer {
-  selected_options: SelectOption[] | number[];
+  selected_option: SelectOption | number;
 }
 
 export interface AnswerSort extends Answer {
@@ -33,7 +33,7 @@ export interface AnswerSort extends Answer {
 }
 
 export interface DragAndDropAreaEntry {
-  selected_draggable_options: DraggableOption[] | number[];
+  selected_draggable_option: DraggableOption | number;
   area: number;
 }
 

@@ -14,7 +14,7 @@
                     [ngClass]="answer?.statement === option.id ? 'elevated-valid--outline' : 'elevated-neutral--outline'"
                     (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
                 >
-                    <img [src]="'assets/icons/SEL_faces_' + option.path + '.png'" alt="">
+                    <img [src]="'assets/icons/SEL_faces_' + option.path + '.svg'" alt="">
                     {{ "topics.question." + option.path | translate }}
                 </label>
 

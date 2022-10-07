@@ -1,5 +1,5 @@
 <app-spinner *ngIf="displaySpinner"></app-spinner>
-<div dir="ltr" *ngIf="assessments?.length && !displaySpinner">
+<div dir="ltr" *ngIf="assessments?.length && !displaySpinner" class="assessments">
     <ng-container *ngFor="let assessment of assessments">
         <button *ngIf="!assessment.locked" mat-button class="assessment-btn"
             [routerLink]="['../assessments', assessment.subject.toLowerCase(), assessment.id]">
