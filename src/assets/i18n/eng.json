@@ -18,7 +18,8 @@
     "yes": "Yes",
     "of": "of",
     "reopen": "Reopen question",
-    "typeHere": "Type here..."
+    "typeHere": "Type here...",
+    "welcomeStudent": "Welcome student"
   },
   "assessments": {
     "assessmentLocked": "(locked)",

@@ -7,7 +7,9 @@ import { GenericConfirmationDialogComponent } from '../shared/components/generic
 import { MatDialog } from '@angular/material/dialog';
 
 import { UserService } from '../core/services/user.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {filter, map} from 'rxjs/operators';
+import {LoginCodeRegex} from '../constants/regex.constant';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
     public authForm = new FormGroup({
-        code: new FormControl(null, [Validators.required, Validators.pattern(/\d{6,}/)])
+        code: new FormControl(null, [Validators.required, Validators.pattern(LoginCodeRegex)])
     });
 
     constructor(
@@ -28,6 +30,7 @@ export class AuthComponent implements OnInit {
         public dialog: MatDialog,
         private userService: UserService,
         private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
     }
 
@@ -35,6 +38,17 @@ export class AuthComponent implements OnInit {
         if (!this.cacheService.networkStatus.getValue()){
             this.showOfflineModal();
         }
+        this.handleAutoLogin();
+    }
+
+    private handleAutoLogin(): void {
+        this.activatedRoute.queryParams.pipe(
+            map(({code}) => code),
+            filter(Boolean)
+        ).subscribe(code => {
+            this.authForm.patchValue({ code });
+            this.onSubmit();
+        });
     }
 
     private showOfflineModal(): void {

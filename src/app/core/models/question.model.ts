@@ -29,7 +29,6 @@ export interface QuestionNumberLine extends Question {
 }
 
 export interface QuestionSelect extends Question {
-  multiple: boolean;
   options: SelectOption[];
   // display_type: 'grid' | 'horizontal' | 'vertical';
 }
@@ -63,7 +62,7 @@ export interface SortOption {
 
 export interface DraggableOption {
   id: number;
-  area_option: number[];
+  area_option: number;
   attachments: Attachment[];
 }
 

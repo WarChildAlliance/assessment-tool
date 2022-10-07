@@ -53,7 +53,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
     this.answerDropListData = new Array<DraggableOption>(this.question.drop_areas.length);
 
     this.question.drop_areas.forEach(area => {
-      this.correctAnswer.push(this.draggableOptions.find(e => e.area_option.includes(area.id)));
+      this.correctAnswer.push(this.draggableOptions.find(e => e.area_option === area.id));
     });
 
     this.displayedAnswer = this.answerDropListData;
@@ -65,7 +65,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
       if (value) {
       const previousIndex = this.answerDropListData.indexOf(
         this.answerDropListData.find((e: DraggableOption, index: number) =>
-          e !== undefined && !(e?.area_option.includes(this.question.drop_areas[index].id))
+          e !== undefined && e?.area_option !== this.question.drop_areas[index].id
         )
       );
       const targetIndex = this.draggableOptions.length;
@@ -77,20 +77,10 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   }
 
   private isAnswerValid(): boolean {
-    const valid = this.answerDropListData.every((e: DraggableOption, index: number) =>
-      e === undefined || e?.area_option.includes(this.question.drop_areas[index].id)
-    );
-
-    this.goNextQuestion = this.question.draggable_options.every(option => (
-        option.area_option.length === 0
-      ) || (
-        this.answersPerArea.find(answer =>
-          answer.selected_draggable_options[0] === option.id && option.area_option.includes(answer.area))
-      )
-    );
-
-    this.validatedAnswers += valid ? 1 : 0;
-    return valid;
+    return this.answerDropListData.every(
+      (e: DraggableOption, index: number) => {
+        return e.area_option === this.question.drop_areas[index].id;
+      });
   }
 
   private saveAnswer(): void {
@@ -98,7 +88,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
       this.answersPerArea = this.answerDropListData.map(
         (e: DraggableOption, index: number) => {
           return e ? {
-            selected_draggable_options: [e.id],
+            selected_draggable_option: e.id,
             area: this.question.drop_areas[index].id
           } : null;
       }).filter(e => !!e);
@@ -153,7 +143,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   public checkRightAnswer(areaIndex: number): boolean {
     const answerOption = [...this.answerDropListData][areaIndex];
     return this.correctAnswer.some(answer =>
-      answerOption.id === answer.id && answer.area_option.includes(answerOption.area_option[0])
+      answerOption.id === answer.id && answer.area_option === answerOption.area_option[0]
     );
   }
 

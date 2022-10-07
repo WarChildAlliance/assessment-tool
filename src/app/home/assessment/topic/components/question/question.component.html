@@ -1,13 +1,23 @@
 <!--<app-header></app-header>-->
-<div class="light-yellow-bg" *ngIf="question; else questionNotAvailable">
-    <div class="progress_bar">
+<div class="light-green-bg" *ngIf="question; else questionNotAvailable">
+    <div class="header">
         <img class="elevated-valid" (click)="onPrevious()"
-            [src]=" translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
-        <mat-progress-bar mode="determinate" [value]="questionIndex / topic.questions.length * 100">
-        </mat-progress-bar>
-        <div class="icons">
-            <img *ngIf="assessment.icon" [src]="getSource(assessment.icon)">
-            <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
+            [src]="translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
+        <div class="progress-header">
+            <!--  flyingBee = 35px so the bee stays before the first question path -->
+            <div class="progress-bar" #progressBar [style.width]="(topic.questions.length  * path + flyingBee) + 'px'"> 
+                <svg  width="36px" *ngFor="let question of topic.questions; let i=index" height="0.35em"   fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path [style.stroke]="questionIndex > i ? '#70504a' : 'white'" stroke-width="2" stroke-dasharray="4 4"
+                    d="M0 0C0 2.65216 1.89076 5.1957 5.25632 7.07107C8.62189 8.94643 13.1866 10 17.9462 10C22.7058 10 27.2705 8.94643 30.6361 7.07107C34.0017 5.1957 35.8924 2.65216 35.8924 0"/>
+                </svg>
+                <img *ngIf="translate.currentLang !== 'ara'" [style.left]="(questionIndex * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee-right.svg'">
+                <img *ngIf="translate.currentLang === 'ara'" [style.left]="((topic.questions.length - questionIndex) * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee.svg'">
+            </div>
+            <div class="icons">
+                <!-- only using topic icon for now, it'll change to the flower the children choose  -->
+                <!-- <img *ngIf="assessment.icon" [src]="getSource(assessment.icon)"> -->
+                <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
+            </div>
         </div>
     </div>
 

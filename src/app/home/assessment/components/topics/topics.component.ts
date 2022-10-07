@@ -12,6 +12,7 @@ import { CacheService } from 'src/app/core/services/cache.service';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { User } from 'src/app/core/models/user.model';
+import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
 
 @Component({
     selector: 'app-topics',
@@ -23,8 +24,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     public topics: Topic[];
     public assessmentTitle = '';
-    public icons: any = {};
     public user: User = null;
+    public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
 
     constructor(
         private route: ActivatedRoute,
@@ -41,6 +42,9 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     assessmentSubject: string;
 
     ngOnInit(): void {
+        // The color of the flower must be random, but never use twice the same in the same assessment
+        this.flowersColors.sort(() => Math.random() - 0.5);
+
         this.cacheService.getData('user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
@@ -50,7 +54,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
                             this.assessmentTitle = assessment.title;
-                            this.icons.assessmentIcon = assessment.icon;
                         });
                         return this.assessmentService.getAssessmentTopics(assessmentId);
                     }
@@ -94,4 +97,16 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
     }
 
+    public playLockedTopicAudioFeedback(topicIndex: number): void {
+        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
+        topicElement.classList.add('vibration');
+        setTimeout(() => {
+            topicElement.classList.remove('vibration');
+        }, 500);
+        // TODO: change to angry bee sound when available
+        const sound = FeedbackAudio.wrongAnswer[0];
+        const audio = new Audio(sound);
+        audio.load();
+        audio.play();
+    }
 }
