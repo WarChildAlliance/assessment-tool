@@ -46,6 +46,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private questionTimeStart: string;
   private isFirstTry: boolean;
   private invalidAnswersStreak = 0;
+  private titleAudio: HTMLAudioElement;
+  private isTitleAudioPlaying = false;
 
   public topic: Topic;
   public isEvaluated: boolean;
@@ -66,6 +68,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
 
   // Shows modal confirmation before leave the page if is evaluated topic
+  // and stops question title audio if it is playing
   canDeactivate(): Observable<boolean> | boolean {
     if (this.topic.evaluated) {
       if (!this.goNextQuestion) {
@@ -88,10 +91,16 @@ export class QuestionComponent implements OnInit, OnDestroy {
           return false;
         }));
       } else {
+        if (this.isTitleAudioPlaying) {
+          this.playStopTitleAudio();
+        }
         this.goNextQuestion = false;
         return true;
       }
     } else {
+      if (this.isTitleAudioPlaying) {
+        this.playStopTitleAudio();
+      }
       return true;
     }
   }
@@ -115,10 +124,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private answerService: AnswerService,
-    public dialog: MatDialog,
     private assessmentService: AssessmentService,
     private changeDetector: ChangeDetectorRef,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -151,6 +160,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.assessmentService.getAssessmentTopicQuestion(assessmentId, topicId, questionId).subscribe(question => {
             this.question = question;
             this.questionIndex = this.topic.questions.findIndex(q => q.id === questionId);
+            if (!this.question.title_audio) {
+              return;
+            }
+            this.titleAudio = new Audio(this.question.title_audio);
+            this.titleAudio.addEventListener('playing', () => this.isTitleAudioPlaying = true);
+            this.titleAudio.addEventListener('ended', () => this.isTitleAudioPlaying = false);
+            this.titleAudio.load();
+            setTimeout(() => this.playStopTitleAudio(), 500);
           });
 
           setTimeout(x => {
@@ -293,6 +310,18 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
     audio.load();
     audio.play();
+  }
+
+  public playStopTitleAudio(): void {
+    if (!this.titleAudio) {
+      return;
+    }
+    if (this.isTitleAudioPlaying) {
+      this.titleAudio.load();
+      this.isTitleAudioPlaying = false;
+      return;
+    }
+    this.titleAudio.play();
   }
 
   public submitQuestion(): void {

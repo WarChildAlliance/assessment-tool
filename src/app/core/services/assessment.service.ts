@@ -9,6 +9,7 @@ import { DraggableOption, GeneralQuestion, QuestionDragDrop,
   QuestionSelect, QuestionSort, QuestionTypeEnum } from '../models/question.model';
 import { Topic } from '../models/topic.models';
 import { CacheService } from './cache.service';
+import { TextToSpeechService } from './text-to-speech.service';
 
 
 @Injectable({
@@ -26,6 +27,7 @@ export class AssessmentService {
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
+    private ttsService: TextToSpeechService
   ) {
     this.loadAllAssessments();
   }
@@ -46,6 +48,15 @@ export class AssessmentService {
         environment.API_URL + attachment.file;
       this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
     }
+  }
+
+  private getQuestionTitleAudio(question: GeneralQuestion, language: string): void {
+    this.ttsService.getSynthesizedSpeech(
+      language === 'ENG' ? 'en-US' : 'ar-XA',
+      question.title
+    ).subscribe((audioURL: string) => {
+      question.title_audio = audioURL;
+    });
   }
 
   private getAssessmentsDeep(): Observable<Assessment[]> {
@@ -74,6 +85,7 @@ export class AssessmentService {
         for (const topic of assessment.topics) {
           this.getIcon(topic.icon);
           for (const question of topic.questions) {
+            this.getQuestionTitleAudio(question, assessment.language);
             this.getAttachments(question.attachments);
             if (question.hasOwnProperty('options')) {
               for (const option of (question as QuestionSort | QuestionSelect).options) {
