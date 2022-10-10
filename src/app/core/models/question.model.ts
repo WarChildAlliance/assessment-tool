@@ -30,6 +30,11 @@ export interface QuestionSelect extends Question {
   // display_type: 'grid' | 'horizontal' | 'vertical';
 }
 
+export interface QuestionDomino extends Question {
+  expected_value: number;
+  options: DominoOption[];
+}
+
 export interface QuestionSort extends Question {
   category_A: string;
   category_B: string;
@@ -41,13 +46,21 @@ export interface QuestionDragDrop extends Question {
   draggable_options: DraggableOption[];
 }
 
-export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop | QuestionSEL;
+export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop
+ | QuestionDomino | QuestionSEL;
 
 export interface SelectOption {
   id: number;
   title: string;
   valid: boolean;
   attachments: Attachment[];
+}
+
+export interface DominoOption {
+  id: number;
+  left_side_value: number;
+  right_side_value: number;
+  valid: boolean;
 }
 
 export interface SortOption {
@@ -69,7 +82,8 @@ export enum QuestionTypeEnum {
   Select = 'SELECT',
   Sort = 'SORT',
   NumberLine = 'NUMBER_LINE',
-  DragAndDrop = 'DRAG_AND_DROP'
+  DragAndDrop = 'DRAG_AND_DROP',
+  Domino = 'DOMINO'
 }
 
 export interface Hint {

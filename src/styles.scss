@@ -255,7 +255,7 @@ $btn-colors: (
   $btn-color: map.get($colors, 'btn');
   $shadow-color: map.get($colors, 'shadow');
 
-  button.elevated-#{$name}, label.elevated-#{$name} {
+  button.elevated-#{$name}, label.elevated-#{$name}, mat-card.elevated-#{$name} {
     &--filled {
       background-color: #{$btn-color};
       border: none;
