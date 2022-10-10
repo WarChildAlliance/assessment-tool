@@ -30,7 +30,7 @@
     </div>
 
     <div class="question" [@popOverState]="stateName" *ngIf="!question.on_popup">
-        <h2 class="question-title">{{ question.title }}</h2>
+        <h2 *ngIf="question.question_type !== 'NUMBER_LINE'" class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>
