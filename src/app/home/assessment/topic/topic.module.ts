@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
 import { QuestionDominoComponent } from './components/question-domino/question-domino.component';
+import { QuestionSelComponent } from './components/question-sel/question-sel.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { QuestionDominoComponent } from './components/question-domino/question-d
         CompletedTopicComponent,
         QuestionDragAndDropComponent,
         QuestionDominoComponent,
+        QuestionSelComponent,
     ],
     imports: [
         SharedModule,

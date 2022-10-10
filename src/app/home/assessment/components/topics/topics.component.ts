@@ -24,8 +24,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     public topics: Topic[];
     public assessmentTitle = '';
-    public icons: any = {};
     public user: User = null;
+    public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
 
     constructor(
         private route: ActivatedRoute,
@@ -42,6 +42,9 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     assessmentSubject: string;
 
     ngOnInit(): void {
+        // The color of the flower must be random, but never use twice the same in the same assessment
+        this.flowersColors.sort(() => Math.random() - 0.5);
+
         this.cacheService.getData('user').then(user => {
             this.user = user;
             this.route.paramMap.pipe(
@@ -51,7 +54,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         const assessmentId = parseInt(params.get('assessment_id'), 10);
                         this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
                             this.assessmentTitle = assessment.title;
-                            this.icons.assessmentIcon = assessment.icon;
                         });
                         return this.assessmentService.getAssessmentTopics(assessmentId);
                     }
@@ -89,10 +91,25 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             'assets/yellow_circle.svg';
     }
 
-    public startTopic(id: number): void {
-        const questionId = this.topics.find(topic => topic.id === id).questions[0].id;
+    public async startTopic(id: number): Promise<void> {
+        const selectedTopic = this.topics.find(topic => topic.id === id);
+        if (selectedTopic.has_sel_question) {
+            // If has SEL questions and isn't the student first try: filter questions to remove SEL quedtions
+            if (await this.isNotFirstTry(id)) {
+                this.topics.forEach(topic => {
+                    topic.questions = topic.questions?.filter(question => question.question_type !== 'SEL');
+                });
+            }
+        }
+
+        const questionId = selectedTopic.questions[0].id;
         this.answerService.startTopicAnswer(id).subscribe();
         this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
+    }
+
+    private async isNotFirstTry(topicId: number): Promise<boolean> {
+        const answers = await this.answerService.getCompleteStudentAnswersForTopic(topicId).toPromise();
+        return answers.length > 0;
     }
 
     public playLockedTopicAudioFeedback(topicIndex: number): void {

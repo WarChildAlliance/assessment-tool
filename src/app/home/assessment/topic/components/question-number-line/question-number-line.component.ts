@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
-import { BehaviorSubject } from 'rxjs';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
-import { TranslateService } from '@ngx-translate/core';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
 @Component({
@@ -23,73 +24,80 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
 
   private readonly pageID = 'question-number-line-page';
 
+  public dropListData: number[];
+  public draggableOptions: number[];
   public valueForm = new FormControl(null);
-  public correctAnswerForm = new FormControl(null);
+
+  public get cssVars(): SafeStyle {
+    const tickNb = (this.question?.end - this.question?.start) / this.question?.step;
+    return this.sanitizer.bypassSecurityTrustStyle('--tick-nb: ' + (tickNb ?? 10));
+  }
 
   constructor(
     private assisstantService: AssisstantService,
     private tutorialSerice: TutorialService,
     public translate: TranslateService,
-    private tutorialSlideshowService: TutorialSlideshowService
+    private tutorialSlideshowService: TutorialSlideshowService,
+    private sanitizer: DomSanitizer
     ) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
     this.tutorialSlideshowService.showTutorialForPage(this.pageID);
+    this.initNumberlineData();
     this.valueForm.valueChanges.subscribe(value => {
       this.submit(value);
     });
-
     this.resetAnswer.subscribe((value: boolean) => {
       if (value) {
         this.valueForm.reset();
+        this.initNumberlineData();
       }
     });
-
-    if (this.displayCorrectAnswer){
-      this.correctAnswerForm.setValue(this.question.expected_value);
-    }
   }
 
   ngAfterViewInit(): void {
     this.tutorialSerice.currentPage.next(PageNames.questionNumberLine);
   }
 
+  private initNumberlineData(): void {
+    this.draggableOptions = [];
+    for (let i = this.question.start; i <= this.question.end; i += this.question.step) {
+      this.draggableOptions.push(i);
+    }
+    this.dropListData = this.draggableOptions.map(
+      e => this.question.expected_value === e ? null : e
+    );
+  }
+
   private submit(value): void {
-    if (value) {
-      if (!this.answer) {
-        this.answer = {
-          value,
-          question: this.question.id,
-          valid: this.isValid()
-        };
-      } else {
-        this.answer.value = value;
-        this.answer.valid = this.isValid();
-      }
-      this.tutorialSerice.currentPage.next(PageNames.question);
-      this.answerChange.emit({answer: this.answer, next: this.answer.valid});
+    if (!value) {
+      return;
     }
-  }
-
-  private isValid(): boolean {
-    const errorMargin = (!this.question.show_ticks || this.question.tick_step !== 1) ? (this.question.end * 10) / 100 : 0;
-    if (this.valueForm.value >= this.question.expected_value - errorMargin
-      && this.valueForm.value <= this.question.expected_value + errorMargin) {
-      return true;
-    }
-    return false;
-  }
-
-  public getSliderColor(): string {
-    if (this.displayCorrectAnswer.getValue()) {
-      if (this.answer && this.answer.valid) {
-        return 'accent';
-      } else {
-        return 'warn';
-      }
+    if (!this.answer) {
+      this.answer = {
+        value,
+        question: this.question.id,
+        valid: value === this.question.expected_value
+      };
     } else {
-      return 'primary';
+      this.answer.value = value;
+      this.answer.valid = value === this.question.expected_value;
     }
+    this.tutorialSerice.currentPage.next(PageNames.question);
+    this.answerChange.emit({answer: this.answer, next: this.answer.valid});
+  }
+
+  public registerDrop(optionsArr: any[], optionIndex: number): void {
+    this.valueForm.setValue(optionsArr[optionIndex]);
+    optionsArr.splice(optionIndex, 1);
+  }
+
+  public getNumberColor(value: number): string {
+    const numberColors = [
+      '#8D6B91', '#00A3DA', '#47BBBA', '#33AC7D', '#73B932', '#25983C',
+      '#F89F04', '#EC6F1B', '#CC0E2F', '#B9358B'
+    ];
+    return numberColors[Math.abs(value / this.question.step) % numberColors.length];
   }
 }

@@ -8,7 +8,7 @@ export interface Answer {
   question: GeneralQuestion | number;
   start_datetime?: Moment | string;
   end_datetime?: Moment | string;
-  valid: boolean;
+  valid?: boolean;
 }
 
 export interface AnswerInput extends Answer {
@@ -17,6 +17,10 @@ export interface AnswerInput extends Answer {
 
 export interface AnswerNumberLine extends Answer {
   value: number;
+}
+
+export interface AnswerSEL extends Answer {
+  statement: SELStatements;
 }
 
 export interface AnswerSelect extends Answer {
@@ -45,4 +49,12 @@ export interface SkippedAnswer extends Answer {
   skipped: true;
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop | AnswerDomino | SkippedAnswer;
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort
+ | AnswerDragAndDrop | AnswerDomino | AnswerSEL | SkippedAnswer;
+
+export enum SELStatements {
+  'Not really like me' = 'NOT_REALLY',
+  'A little like me' = 'A_LITTLE',
+  'A lot like me' = 'A_LOT',
+}
+
