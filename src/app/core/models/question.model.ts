@@ -23,9 +23,6 @@ export interface QuestionNumberLine extends Question {
   start: number;
   end: number;
   step: number;
-  tick_step: number;
-  show_value: boolean;
-  show_ticks: boolean;
 }
 
 export interface QuestionSelect extends Question {
