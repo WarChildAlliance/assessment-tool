@@ -3,6 +3,7 @@ import { Attachment } from './attachment.model';
 export interface Question {
   id: number;
   title: string;
+  title_audio: string;
   order: number;
   question_type: QuestionTypeEnum;
   hint: Hint;
