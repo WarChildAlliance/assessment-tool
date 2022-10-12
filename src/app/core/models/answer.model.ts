@@ -19,6 +19,10 @@ export interface AnswerNumberLine extends Answer {
   value: number;
 }
 
+export interface AnswerCalcul extends Answer {
+  value: number;
+}
+
 export interface AnswerSEL extends Answer {
   statement: SELStatements;
 }
@@ -50,7 +54,7 @@ export interface SkippedAnswer extends Answer {
 }
 
 export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort
- | AnswerDragAndDrop | AnswerDomino | AnswerSEL | SkippedAnswer;
+ | AnswerDragAndDrop | AnswerDomino | AnswerSEL | AnswerCalcul | SkippedAnswer;
 
 export enum SELStatements {
   'Not really like me' = 'NOT_REALLY',

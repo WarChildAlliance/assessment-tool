@@ -26,6 +26,12 @@ export interface QuestionNumberLine extends Question {
   step: number;
 }
 
+export interface QuestionCalcul extends Question {
+  first_value: number;
+  second_value: number;
+  operator: string;
+}
+
 export interface QuestionSelect extends Question {
   options: SelectOption[];
   // display_type: 'grid' | 'horizontal' | 'vertical';
@@ -48,7 +54,7 @@ export interface QuestionDragDrop extends Question {
 }
 
 export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop
- | QuestionDomino | QuestionSEL;
+ | QuestionDomino | QuestionSEL | QuestionCalcul;
 
 export interface SelectOption {
   id: number;
@@ -84,7 +90,8 @@ export enum QuestionTypeEnum {
   Sort = 'SORT',
   NumberLine = 'NUMBER_LINE',
   DragAndDrop = 'DRAG_AND_DROP',
-  Domino = 'DOMINO'
+  Domino = 'DOMINO',
+  Calcul = 'CALCUL'
 }
 
 export interface Hint {
