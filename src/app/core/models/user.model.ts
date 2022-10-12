@@ -16,6 +16,7 @@ export interface User {
   created_by?: number;
   profile?: Profile;
   avatars?: Avatar[];
+  see_intro: Boolean;
 }
 
 export enum UserRoles {

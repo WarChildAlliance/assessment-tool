@@ -7,7 +7,7 @@
     "close": "Close",
     "exit": "Exit",
     "hello": "Hello",
-    "hi": "Hi, {{name}} !",
+    "hi": "Hi, {{name}}!",
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
@@ -122,5 +122,9 @@
     "toProfilePage": "Let's fly to your profile page to find out what you can do with the honeypots.",
     "unlockingAvatars": "You can unlock a character now",
     "welcome": "Welcome"
+  },
+  "intro": {
+     "enterBallon": "Did you know the more flowers I get the nicer the honey taste?",
+     "secondBallon": "Would you help me collect pollen to make honey?"
   }
 }

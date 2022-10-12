@@ -4,12 +4,17 @@ import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UserResolver } from './core/resolvers/user.resolver';
 import { HomeModule } from './home/home.module';
+import { IntroModule } from './intro/intro.module';
 
 const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => AuthModule,
     canLoad: [AuthGuard]
+  },
+  {
+    path: 'intro',
+    loadChildren: () => IntroModule,
   },
   {
     /*

@@ -78,4 +78,8 @@ export class UserService {
     this.user = null;
     this.userSource.next(null);
   }
+
+  public updateUserNoCache(user: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${environment.API_URL}/users/${user.id}/`, user);
+  }
 }

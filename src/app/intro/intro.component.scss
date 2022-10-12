@@ -1,0 +1,133 @@
+.container {
+  width: fit-content;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+
+  img {
+    width: 15vw;
+  }
+
+  h1,
+  p {
+    font-size: clamp(1rem, 4vw, 2.5rem);
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    padding: 12px;
+  }
+
+  app-ballon {
+    width: 60vw;
+    max-width: 700px;
+    min-width: 325px;
+  }
+
+  .hide {
+    opacity: 0;
+  }
+
+  .bee-container {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10%;
+  }
+
+  .enter-animation-delay-sm {
+    animation-delay: 2s;
+  }
+
+  .enter-animation-delay-md {
+    animation-delay: 2.5s;
+  }
+
+  .opacity {
+    opacity: 0%;
+    animation-duration: 1s;
+    animation-name: opacity;
+    animation-fill-mode: forwards;
+  }
+
+  .pathMargin {
+    animation-duration: 2s;
+    animation-name: bee-path;
+
+    @keyframes bee-path {
+      from {
+        margin-left: 15vw;
+      }
+  
+      to {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @keyframes opacity {
+    0% {
+      opacity: 0%;
+    }
+
+    80% {
+      opacity: 100%;
+    }
+
+    100% {
+      opacity: 0%;
+    }
+  }
+
+  .bee-enter {
+    transform: translateX(calc(-1 * clamp(325px, 60vw, 700px - 15vw)));
+    animation-duration: 2s;
+    animation-name: bee-enter;
+    animation-fill-mode: forwards;
+    @keyframes bee-enter {
+      from {
+        transform: translateX(calc(-1 * clamp(325px, 60vw, 700px) - 15vw));
+      }
+
+      to {
+        transform: translateX(calc(-1 * clamp(325px, 60vw, 700px)));
+      }
+    }
+  }
+
+  .bee-speak {
+    animation-duration: 2s;
+    animation-name: bee-speak;
+    animation-fill-mode: forwards;
+    transform: translateX(calc(-1 * clamp(325px, 60vw, 700px)));
+
+    app-ballon {
+      margin-left: 8vw;
+    }
+    @keyframes bee-speak {
+      from {
+        transform: translateX(calc(-1 * clamp(325px, 60vw, 700px)));
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .bee-leave {
+    animation-duration: 1s;
+    animation-name: bee-leaves;
+    animation-fill-mode: forwards;
+
+    @keyframes bee-leaves {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(100vw);
+      }
+    }
+  }
+}
