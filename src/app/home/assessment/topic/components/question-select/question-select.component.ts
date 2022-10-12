@@ -56,6 +56,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
         this.valueForm.valueChanges.subscribe(value => {
             if (value) {
+                this.wrongAnswerVibration(this.question.options.indexOf(value));
                 if (!this.answer) {
                     this.answer = {
                         selected_option: value.id,
@@ -81,7 +82,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     public getOptionBtnStyle(option: any): string {
-        return this.displayCorrectAnswer.getValue() && !!this.answer && this.answer.selected_option === option.id && !option.valid ?
+        return !!this.answer && this.answer.selected_option === option.id && !option.valid ?
             'elevated-invalid--outline' : (this.displayCorrectAnswer.getValue() && option.valid) ?
             'elevated-valid--outline' : 'elevated-basic--outline';
     }
@@ -109,6 +110,21 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                 });
                 break;
             }
+        }
+    }
+
+    // check selected option: if it's wrong displays vibration animation
+    private wrongAnswerVibration(areaIndex: number): void {
+        if (!this.isValid()) {
+            const checkedOption = document.getElementById('option-' + areaIndex.toString() + '-label') as HTMLLabelElement;
+            checkedOption.classList.add('vibration');
+            this.valueForm.setValue(null);
+
+            setTimeout(() => {
+                checkedOption.classList.remove('elevated-invalid--outline');
+                checkedOption.classList.add('elevated-basic--outline');
+                checkedOption.classList.remove('vibration');
+            }, this.timeout);
         }
     }
 
