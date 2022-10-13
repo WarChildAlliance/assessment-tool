@@ -6,12 +6,14 @@ import { TopicsComponent } from './components/topics/topics.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FlowerComponent } from './components/flower/flower.component';
 
 
 @NgModule({
     declarations: [
         AssessmentComponent,
         TopicsComponent,
+        FlowerComponent,
     ],
     imports: [
         SharedModule,

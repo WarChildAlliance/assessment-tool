@@ -1,112 +1,22 @@
-<div [ngClass]="{'container': topics && topics.length}">
-    <app-back-navigation [text]="'topics.backTo' | translate: {page: 'topics.assessments' | translate}"
-        [routerLink]="['../../home']">
-    </app-back-navigation>
+<div [ngClass]="{ container: topics && topics.length }">
+  <app-back-navigation
+    [text]="
+      'topics.backTo' | translate: { page: 'topics.assessments' | translate }
+    "
+    [routerLink]="['../../home']"
+  >
+  </app-back-navigation>
 
-    <div class="flowers" *ngIf="topics && topics.length; else noTopics">
-        <div class="flower" *ngIf="topics[0]" id="topic-0">
-            <span class="start-topic" (click)="topics[0].questions.length
-                ? (topics[0].can_start ? startTopic(topics[0].id) : playLockedTopicAudioFeedback(0)) 
-                : playLockedTopicAudioFeedback(0)"
-                [ngClass]="{'no-allow-click': !topics[0].questions.length || !topics[0].can_start}"
-            >
-                <ng-container [ngSwitch]="topics[0].questions.length && topics[0].can_start">
-                    <img *ngSwitchCase="true" width="150" height="150" src="{{ getTopicIcon(topics[0]) }}" alt="icon" class="topic-icon"/>
-                    <svg *ngSwitchCase="false" class="topic-icon locked" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 0C10.5 0 6 4.5 6 10V14H10V10C10 6.7 12.7 4 16 4C19.3 4 22 6.7 22 10V14H26V10C26 4.5 21.5 0 16 0Z" fill="#424242"/>
-                        <path d="M28 40H4C1.8 40 0 38.2 0 36V18C0 15.8 1.8 14 4 14H28C30.2 14 32 15.8 32 18V36C32 38.2 30.2 40 28 40Z" fill="#FB8C00"/>
-                        <path d="M16 30C17.6569 30 19 28.6569 19 27C19 25.3431 17.6569 24 16 24C14.3431 24 13 25.3431 13 27C13 28.6569 14.3431 30 16 30Z" fill="#C76E00"/>
-                    </svg>
-                </ng-container>
+  <div class="flowers" *ngIf="topics && topics.length; else noTopics">
+    <app-flower
+      *ngFor="let topic of topics; let i = index"
+      [index]="i"
+      [topic]="topics[i]"
+      [flowerColor]="flowersColors[i]"
+    ></app-flower>
+  </div>
 
-                <svg class="flower-corolla" style="margin-bottom: -0.7em;" width="162" height="161" viewBox="0 0 162 161" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path [style.fill]="flowersColors[0]" d="M160.075 101.644V102.147C156.047 117.25 140.945 125.808 125.842 121.781L120.304 120.271L121.815 125.808C125.842 140.911 116.781 156.014 102.181 160.041H101.678C86.5749 164.069 71.4724 155.007 67.4449 140.407L65.9345 134.87L61.907 138.897C50.8316 149.973 33.2116 149.973 22.6399 138.897L22.1365 138.394C11.0611 127.319 11.0611 109.699 22.1365 98.6231L26.164 94.5957L20.6265 93.0853C5.5236 89.0578 -3.03436 73.9552 0.992772 58.8524V58.349C5.02026 43.7498 20.1228 35.1915 35.2257 39.219L40.2599 40.7294L39.2532 35.1919C35.2257 20.089 44.2874 4.98643 58.8869 0.958942H59.3903C74.4931 -3.06854 89.5957 5.99312 93.6232 20.5927L95.1336 26.1302L99.161 22.1027C110.236 11.0273 127.856 11.0273 138.932 22.1027L139.435 22.6061C150.511 33.6815 150.511 51.3014 139.435 61.8731L135.408 65.9006L140.945 67.411C155.544 71.4382 164.102 86.541 160.075 101.644Z" />
-                    <path fill="#FFDF74" d="M80.3977 112.336C98.037 112.336 112.337 98.037 112.337 80.3977C112.337 62.7584 98.037 48.4589 80.3977 48.4589C62.7584 48.4589 48.4589 62.7584 48.4589 80.3977C48.4589 98.037 62.7584 112.336 80.3977 112.336Z" />
-                </svg>
-            </span>
-            <svg class="flower-stem" width="45" height="168" viewBox="0 0 45 168" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4C4 130.693 40 163.5 40.5 164" stroke="url(#paint0_linear_1500_42220)" stroke-width="8" stroke-linecap="round"/>
-                <defs>
-                    <linearGradient id="paint0_linear_1500_42220" x1="8.5" y1="57.5" x2="55.5" y2="210.5" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#00AB4F"/>
-                        <stop offset="1" stop-color="#00AB4F" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-
-            <img class="complete" *ngIf="topics[0].completed" src="assets/icons/check_24.svg" alt="completed">
-        </div>
-
-        <div class="flower" *ngIf="topics[1]" id="topic-1">
-            <span class="start-topic" (click)="topics[1].questions.length ? (topics[1].can_start
-                ? startTopic(topics[1].id) : playLockedTopicAudioFeedback(1)) 
-                : playLockedTopicAudioFeedback(1)"
-                [ngClass]="{'no-allow-click': !topics[1].questions.length || !topics[1].can_start}"
-            >
-                <ng-container [ngSwitch]="topics[1].questions.length && topics[1].can_start">
-                    <img *ngSwitchCase="true" width="150" height="150" src="{{ getTopicIcon(topics[1]) }}" alt="icon" class="topic-icon"/>
-                    <svg *ngSwitchCase="false" class="topic-icon locked" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 0C10.5 0 6 4.5 6 10V14H10V10C10 6.7 12.7 4 16 4C19.3 4 22 6.7 22 10V14H26V10C26 4.5 21.5 0 16 0Z" fill="#424242"/>
-                        <path d="M28 40H4C1.8 40 0 38.2 0 36V18C0 15.8 1.8 14 4 14H28C30.2 14 32 15.8 32 18V36C32 38.2 30.2 40 28 40Z" fill="#FB8C00"/>
-                        <path d="M16 30C17.6569 30 19 28.6569 19 27C19 25.3431 17.6569 24 16 24C14.3431 24 13 25.3431 13 27C13 28.6569 14.3431 30 16 30Z" fill="#C76E00"/>
-                    </svg>
-                </ng-container>
-
-                <svg class="flower-corolla" width="162" height="161" viewBox="0 0 162 161" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path [style.fill]="flowersColors[1]" d="M160.075 101.644V102.147C156.047 117.25 140.945 125.808 125.842 121.781L120.304 120.271L121.815 125.808C125.842 140.911 116.781 156.014 102.181 160.041H101.678C86.5749 164.069 71.4724 155.007 67.4449 140.407L65.9345 134.87L61.907 138.897C50.8316 149.973 33.2116 149.973 22.6399 138.897L22.1365 138.394C11.0611 127.319 11.0611 109.699 22.1365 98.6231L26.164 94.5957L20.6265 93.0853C5.5236 89.0578 -3.03436 73.9552 0.992772 58.8524V58.349C5.02026 43.7498 20.1228 35.1915 35.2257 39.219L40.2599 40.7294L39.2532 35.1919C35.2257 20.089 44.2874 4.98643 58.8869 0.958942H59.3903C74.4931 -3.06854 89.5957 5.99312 93.6232 20.5927L95.1336 26.1302L99.161 22.1027C110.236 11.0273 127.856 11.0273 138.932 22.1027L139.435 22.6061C150.511 33.6815 150.511 51.3014 139.435 61.8731L135.408 65.9006L140.945 67.411C155.544 71.4382 164.102 86.541 160.075 101.644Z"/>
-                    <path d="M80.3977 112.336C98.037 112.336 112.337 98.037 112.337 80.3977C112.337 62.7584 98.037 48.4589 80.3977 48.4589C62.7584 48.4589 48.4589 62.7584 48.4589 80.3977C48.4589 98.037 62.7584 112.336 80.3977 112.336Z" fill="#FFDF74"/>
-                </svg>
-            </span> 
-
-            <svg class="flower-stem" width="42" height="120" viewBox="0 0 42 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M37.5 4C37.5 91.8935 6 114 4 116" stroke="url(#paint0_linear_1518_32239)" stroke-width="8" stroke-linecap="round"/>
-                <defs>
-                    <linearGradient id="paint0_linear_1518_32239" x1="33.3699" y1="41.45" x2="7.33852" y2="152.558" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#00AB4F"/>
-                        <stop offset="1" stop-color="#00AB4F" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-
-            <img class="complete" *ngIf="topics[1].completed" src="assets/icons/check_24.svg" alt="completed">
-        </div>
-
-        <div class="flower" *ngIf="topics[2]" id="topic-2">
-            <span class="start-topic" (click)="topics[2].questions.length
-                ? (topics[2].can_start ? startTopic(topics[2].id)
-                : playLockedTopicAudioFeedback(2)) : playLockedTopicAudioFeedback(2)"
-                [ngClass]="{'no-allow-click': !topics[2].questions.length || !topics[2].can_start}"
-            >
-                <ng-container [ngSwitch]="topics[2].questions.length && topics[2].can_start">
-                    <img *ngSwitchCase="true" width="150" height="150" src="{{ getTopicIcon(topics[1]) }}" alt="icon" class="topic-icon"/>
-                    <svg *ngSwitchCase="false" class="topic-icon locked" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 0C10.5 0 6 4.5 6 10V14H10V10C10 6.7 12.7 4 16 4C19.3 4 22 6.7 22 10V14H26V10C26 4.5 21.5 0 16 0Z" fill="#424242"/>
-                        <path d="M28 40H4C1.8 40 0 38.2 0 36V18C0 15.8 1.8 14 4 14H28C30.2 14 32 15.8 32 18V36C32 38.2 30.2 40 28 40Z" fill="#FB8C00"/>
-                        <path d="M16 30C17.6569 30 19 28.6569 19 27C19 25.3431 17.6569 24 16 24C14.3431 24 13 25.3431 13 27C13 28.6569 14.3431 30 16 30Z" fill="#C76E00"/>
-                    </svg>
-                </ng-container>
-
-                <svg class="flower-corolla" width="162" height="161" viewBox="0 0 162 161" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path [style.fill]="flowersColors[2]" d="M160.075 101.644V102.147C156.047 117.25 140.945 125.808 125.842 121.781L120.304 120.271L121.815 125.808C125.842 140.911 116.781 156.014 102.181 160.041H101.678C86.5749 164.069 71.4724 155.007 67.4449 140.407L65.9345 134.87L61.907 138.897C50.8316 149.973 33.2116 149.973 22.6399 138.897L22.1365 138.394C11.0611 127.319 11.0611 109.699 22.1365 98.6231L26.164 94.5957L20.6265 93.0853C5.5236 89.0578 -3.03436 73.9552 0.992772 58.8524V58.349C5.02026 43.7498 20.1228 35.1915 35.2257 39.219L40.2599 40.7294L39.2532 35.1919C35.2257 20.089 44.2874 4.98643 58.8869 0.958942H59.3903C74.4931 -3.06854 89.5957 5.99312 93.6232 20.5927L95.1336 26.1302L99.161 22.1027C110.236 11.0273 127.856 11.0273 138.932 22.1027L139.435 22.6061C150.511 33.6815 150.511 51.3014 139.435 61.8731L135.408 65.9006L140.945 67.411C155.544 71.4382 164.102 86.541 160.075 101.644Z"/>
-                    <path d="M80.3977 112.337C98.037 112.337 112.337 98.0371 112.337 80.3978C112.337 62.7585 98.037 48.459 80.3977 48.459C62.7584 48.459 48.4589 62.7585 48.4589 80.3978C48.4589 98.0371 62.7584 112.337 80.3977 112.337Z" fill="#FFDF74"/>
-                </svg>
-            </span>
-            <svg class="flower-stem" width="45" height="168" viewBox="0 0 45 168" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M40.5 4C40.5 130.693 4.5 163.5 4 164" stroke="url(#paint0_linear_1500_41524)" stroke-width="8" stroke-linecap="round"/>
-                <defs>
-                    <linearGradient id="paint0_linear_1500_41524" x1="36" y1="57.5" x2="-11" y2="210.5" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#00AB4F"/>
-                        <stop offset="1" stop-color="#00AB4F" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-
-            <img class="complete" *ngIf="topics[2].completed" src="assets/icons/check_24.svg" alt="completed">
-        </div>
-    </div>
-
-    <ng-template #noTopics>
-        <p>{{ 'topics.noTopics' | translate }}</p>
-    </ng-template>
-
+  <ng-template #noTopics>
+    <p>{{ "topics.noTopics" | translate }}</p>
+  </ng-template>
 </div>

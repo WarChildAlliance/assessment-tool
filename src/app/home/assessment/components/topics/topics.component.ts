@@ -1,18 +1,15 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
-import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { CacheService } from 'src/app/core/services/cache.service';
-import { AnswerService } from 'src/app/core/services/answer.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { User } from 'src/app/core/models/user.model';
-import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
 
 @Component({
     selector: 'app-topics',
@@ -30,10 +27,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     constructor(
         private route: ActivatedRoute,
         private assessmentService: AssessmentService,
-        private answerService: AnswerService,
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
-        private router: Router,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
     ) {
@@ -83,45 +78,5 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.tutorialService.currentPage.next(PageNames.topics);
     }
-
-
-    public getTopicIcon(topic: Topic): string {
-        return topic.icon ?
-            (environment.API_URL + topic.icon) :
-            'assets/yellow_circle.svg';
-    }
-
-    public async startTopic(id: number): Promise<void> {
-        const selectedTopic = this.topics.find(topic => topic.id === id);
-        if (selectedTopic.has_sel_question) {
-            // If has SEL questions and isn't the student first try: filter questions to remove SEL quedtions
-            if (await this.isNotFirstTry(id)) {
-                this.topics.forEach(topic => {
-                    topic.questions = topic.questions?.filter(question => question.question_type !== 'SEL');
-                });
-            }
-        }
-
-        const questionId = selectedTopic.questions[0].id;
-        this.answerService.startTopicAnswer(id).subscribe();
-        this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
-    }
-
-    private async isNotFirstTry(topicId: number): Promise<boolean> {
-        const answers = await this.answerService.getCompleteStudentAnswersForTopic(topicId).toPromise();
-        return answers.length > 0;
-    }
-
-    public playLockedTopicAudioFeedback(topicIndex: number): void {
-        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
-        topicElement.classList.add('vibration');
-        setTimeout(() => {
-            topicElement.classList.remove('vibration');
-        }, 500);
-        // TODO: change to angry bee sound when available
-        const sound = FeedbackAudio.wrongAnswer[0];
-        const audio = new Audio(sound);
-        audio.load();
-        audio.play();
-    }
+    
 }
