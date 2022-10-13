@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" (click)="init()">
   <div
     class="bee-container"
     [ngClass]="{
@@ -11,9 +11,8 @@
       [placement]="'right'"
       [iconXPosition]="-5"
       [ngClass]="{
-        opacity:  this.onSecondBallon,
-        hide:  !this.onSecondBallon,
-        'enter-animation-delay-sm': this.onSecondBallon
+        opacity: this.onSecondBallon,
+        hide: !this.onSecondBallon
       }"
     >
       <p style="padding: 16px; margin: 0 8px">
@@ -29,7 +28,8 @@
         'enter-animation-delay-sm': this.onEnterAnimation
       }"
     />
-    <img src="../../assets/intro-bee.svg"
+    <img
+      src="../../assets/intro-bee.svg"
       [ngClass]="{
         pathMargin: this.onSecondBallon
       }"
@@ -39,14 +39,14 @@
       [iconYPosition]="0"
       [iconXPosition]="5"
       [ngClass]="{
-        opacity: this.onEnterAnimation,
         hide: !this.onEnterAnimation,
         'enter-animation-delay-md': this.onEnterAnimation
       }"
     >
       <div style="padding: 24px">
-        <h1>{{ "general.hi" | translate: { name: userData?.first_name} }}</h1>
+        <h1>{{ "general.hi" | translate: { name: userData?.first_name } }}</h1>
         <p>{{ "intro.enterBallon" | translate }}</p>
       </div>
     </app-ballon>
   </div>
+</div>
