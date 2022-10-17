@@ -21,7 +21,7 @@
 }
 
 $assessment-tool-typography: mat-typography-config(
-        $font-family: "Markazi",
+        $font-family: "Comfortaa",
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -163,10 +163,10 @@ div.sunny-field-bg {
 // ******** End of Pages backgrounds *********
 
 body {
-  font-family: "Markazi", sans-serif;
+  font-family: "Comfortaa", sans-serif;
   font-size: 2em;
   background-color: white;
-  color: #70504a;
+  color: #4C241D;
   margin: 0 auto;
   position: fixed;
   width: 100%;
@@ -279,7 +279,7 @@ $btn-colors: (
       box-shadow: none;
     }
   }
-  img.elevated-#{$name} {
+  img.elevated-#{$name}, svg.elevated-#{$name} {
     cursor: pointer;
     transform: translate(-1px, -2px);
     -webkit-filter: drop-shadow(1px 2px 0px #{$shadow-color});
