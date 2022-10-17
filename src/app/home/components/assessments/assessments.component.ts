@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { CacheService } from 'src/app/core/services/cache.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assessments',
@@ -32,6 +33,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
     public dialog: MatDialog,
+    private router: Router,
     private cacheService: CacheService
   ) {}
 
@@ -94,6 +96,10 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     return assessment.icon ?
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
+  }
+
+  public startAssessment(subject: string, assessmentId: string): void {
+    this.router.navigate(['assessments', subject, assessmentId]);
   }
 
   ngOnDestroy(): void{

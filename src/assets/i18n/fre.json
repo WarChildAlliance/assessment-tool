@@ -23,7 +23,8 @@
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
     "congratulations": "Toutes nos félicitations",
-    "noAssessments": "Aucune évaluation"
+    "noAssessments": "Aucune évaluation",
+    "maths": "maths"
   },
   "assisstant": {
     "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",

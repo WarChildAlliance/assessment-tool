@@ -23,7 +23,8 @@
   "assessments": {
     "assessmentLocked": "(مقفل)",
     "congratulations": "تهانينا",
-    "noAssessments": "لا تقييمات"
+    "noAssessments": "لا تقييمات",
+    "maths": "رياضيات"
   },
   "assisstant": {
     "assessmentsAssisstant": "ها هي جميع التقييمات. انقر على الوردة لبدء التقييم. أم أنّك تريد مشاهدة ملفك الشخصي؟ انقر على اسمك للذهاب إلى صفحة الملف الشخصي.",

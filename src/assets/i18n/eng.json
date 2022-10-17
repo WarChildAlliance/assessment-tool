@@ -24,7 +24,8 @@
   "assessments": {
     "assessmentLocked": "(locked)",
     "congratulations": "Congratulations",
-    "noAssessments": "No assessments"
+    "noAssessments": "No assessments",
+    "maths": "maths"
   },
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",

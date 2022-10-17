@@ -1,3 +1,9 @@
+.intro-bee {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
 .assessment-btn {
   cursor: pointer;
 }
@@ -11,19 +17,25 @@
 h1 {
   font-size: 36px;
   font-weight: normal;
-  margin: 0 0 -1.5em 9.3em;
+  margin: 0 0 -1.5em 9.5em;
   position: absolute;
   cursor: pointer;
 }
 
 .assessments {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 90vh;
   justify-content: center;
+  align-items: center;
+  justify-content: space-between;
 
-  svg:nth-child(1) {
+  &.math {
     margin-left: -0.5em;
+  }
+
+  &.reading {
+    margin-right: -0.5em;
   }
 
   // making label text unselectable
@@ -38,19 +50,35 @@ h1 {
 img {
   width: 25px;
   height: 25px;
-  margin: 0 0 -9em 13em;
+  margin: 0 0 -9em 13.5em;
   position: absolute;
 }
 
-.bee-enter {
-  transform: translateX(calc(-1 * clamp(325px, 60vw, 700px - 15vw)));
+.branch-enter {
   animation-duration: 5s;
-  animation-name: slidein;
   animation-fill-mode: forwards;
 
-  @keyframes slidein {
+  &.math {
+    animation-name: slidein-left-branch;
+  }
+
+  &.reading {
+    animation-name: slidein-right-branch;
+  }
+
+  @keyframes slidein-left-branch {
     from {
-      transform: translateX(-30%);
+      transform: translateX(-60%);
+    }
+
+    to {
+      transform: translateX(0.1%);
+    }
+  }
+
+  @keyframes slidein-right-branch {
+    from {
+      transform: translateX(60%);
     }
 
     to {
