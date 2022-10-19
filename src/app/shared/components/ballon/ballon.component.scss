@@ -1,0 +1,14 @@
+.ballon {
+  display: flex;
+}
+
+.ballon-body {
+  background: #e9ffdb;
+  border-radius: 48px;
+  width: 100%;
+}
+
+svg {
+  min-width: 2rem;
+  max-width: 3rem;
+}
