@@ -26,6 +26,7 @@
     "congratulations": "Toutes nos félicitations",
     "noAssessments": "Aucune évaluation",
     "maths": "maths",
+    "replayIntro": "Rejouer l'intro",
     "outro": {
       "html": "GÉNIAL !!<br>Félicitations, {{ name }} !<br>Tu t'es très bien débrouillé !!",
       "plain": "GÉNIAL !! Félicitations, {{ name }} ! Tu t'es très bien débrouillé !!"
