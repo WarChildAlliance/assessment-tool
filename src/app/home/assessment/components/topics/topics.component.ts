@@ -1,15 +1,19 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AfterViewInit, Component, OnInit, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { User } from 'src/app/core/models/user.model';
+import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
+import { OutroComponent } from '../outro/outro.component';
+import { AnswerService } from 'src/app/core/services/answer.service';
 
 @Component({
     selector: 'app-topics',
@@ -26,11 +30,15 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     constructor(
         private route: ActivatedRoute,
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private viewContainerRef: ViewContainerRef,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
         private assisstantService: AssisstantService,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
+        private answerService: AnswerService,
+        private router: Router,
     ) {
     }
 
@@ -68,6 +76,17 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         topic.can_start = i > 0 ? topics[i - 1]?.completed : true;
                     });
                     this.topics = topics;
+
+                    this.route.queryParamMap.subscribe((params: ParamMap) => {
+                        const topicsCompletionUpdate = params.get('topicsCompletionUpdate');
+                        if (!topicsCompletionUpdate || topicsCompletionUpdate === 'false') {
+                            return;
+                        }
+                        const allTopicsCompleted = topics.every((topic: Topic) => topic.completed);
+                        if (allTopicsCompleted) {
+                            this.showOutro();
+                        }
+                    });
                 }
             );
         });
@@ -79,4 +98,51 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.tutorialService.currentPage.next(PageNames.topics);
     }
 
+    private showOutro(): void {
+        const factory = this.componentFactoryResolver.resolveComponentFactory(OutroComponent);
+        const componentRef = this.viewContainerRef.createComponent(factory);
+        (componentRef.instance as OutroComponent).outroComplete.subscribe(() => {
+            this.viewContainerRef.clear();
+        });
+    }
+
+    public getTopicIcon(topic: Topic): string {
+        return topic.icon ?
+            (environment.API_URL + topic.icon) :
+            'assets/yellow_circle.svg';
+    }
+
+    public async startTopic(id: number): Promise<void> {
+        const selectedTopic = this.topics.find(topic => topic.id === id);
+        if (selectedTopic.has_sel_question) {
+            // If has SEL questions and isn't the student first try: filter questions to remove SEL quedtions
+            if (await this.isNotFirstTry(id)) {
+                this.topics.forEach(topic => {
+                    topic.questions = topic.questions?.filter(question => question.question_type !== 'SEL');
+                });
+            }
+        }
+
+        const questionId = selectedTopic.questions[0].id;
+        this.answerService.startTopicAnswer(id).subscribe();
+        this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
+    }
+
+    private async isNotFirstTry(topicId: number): Promise<boolean> {
+        const answers = await this.answerService.getCompleteStudentAnswersForTopic(topicId).toPromise();
+        return answers.length > 0;
+    }
+
+    public playLockedTopicAudioFeedback(topicIndex: number): void {
+        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
+        topicElement.classList.add('vibration');
+        setTimeout(() => {
+            topicElement.classList.remove('vibration');
+        }, 500);
+        // TODO: change to angry bee sound when available
+        const sound = FeedbackAudio.wrongAnswer[0];
+        const audio = new Audio(sound);
+        audio.load();
+        audio.play();
+    }
 }

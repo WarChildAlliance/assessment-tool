@@ -22,6 +22,7 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
     private blockNavigation = true;
     private readonly pageID = 'completed-topic-page';
+    private topicsCompletionUpdate = false;
 
     public competency = 1;
     public effort = 2;
@@ -142,6 +143,8 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                 this.cacheService.setData(searchString, test);
                 this.answerService.endTopicAnswer().subscribe();
+
+                this.topicsCompletionUpdate = true;
             });
         });
     }
@@ -163,6 +166,11 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
     public goToTopicPage(): void {
         this.blockNavigation = false;
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], {
+            relativeTo: this.route,
+            queryParams: {
+                topicsCompletionUpdate: this.topicsCompletionUpdate
+            }
+        });
     }
 }

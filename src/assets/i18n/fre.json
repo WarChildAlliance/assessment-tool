@@ -24,7 +24,11 @@
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
     "congratulations": "Toutes nos félicitations",
-    "noAssessments": "Aucune évaluation"
+    "noAssessments": "Aucune évaluation",
+    "outro": {
+      "html": "GÉNIAL !!<br>Félicitations, {{ name }} !<br>Tu t'es très bien débrouillé !!",
+      "plain": "GÉNIAL !! Félicitations, {{ name }} ! Tu t'es très bien débrouillé !!"
+    }
   },
   "assisstant": {
     "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",
