@@ -68,6 +68,13 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     this.dropListData = this.draggableOptions.map(
       e => this.question.expected_value === e ? null : e
     );
+
+    if (this.question.shuffle) {
+      this.draggableOptions = this.draggableOptions.map(option => ({
+        option,
+        sort: Math.random()
+      })).sort((a, b) => a.sort - b.sort).map(({ option }) => option);
+    }
   }
 
   private submit(value): void {
