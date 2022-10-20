@@ -17,6 +17,7 @@ export interface User {
   profile?: Profile;
   avatars?: Avatar[];
   see_intro: boolean;
+  student_grade?: string;
 }
 
 export enum UserRoles {

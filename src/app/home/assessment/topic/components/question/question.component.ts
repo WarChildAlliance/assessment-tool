@@ -17,6 +17,7 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-question',
@@ -59,7 +60,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public assessment: Assessment;
   public previousPageUrl = '';
   public resetAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  public showTitle = false;
   // Size of the HTML elements (in px) used for the progress bar evolution
   public path = 36;
   public flyingBee = 35;
@@ -126,14 +127,19 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private answerService: AnswerService,
     private assessmentService: AssessmentService,
     private changeDetector: ChangeDetectorRef,
+    private userService: UserService,
     public translate: TranslateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     const tID = this.route.snapshot.paramMap.get('topic_id') || '';
     const qID = this.route.snapshot.paramMap.get('question_id') || '';
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
+    
+    this.userService.getUser().subscribe(({student_grade}) => {
+      this.showTitle = +student_grade >= 3;
+    })
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
