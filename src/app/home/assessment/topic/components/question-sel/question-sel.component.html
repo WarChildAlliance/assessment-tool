@@ -2,7 +2,6 @@
     <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'">
         <ng-container *ngFor="let option of selOptions; let i = index">
             <div class="option">
-                
                 <input
                     type="radio"
                     id="option-radio-{{i}}"
@@ -17,16 +16,6 @@
                     <img [src]="'assets/icons/SEL_faces_' + option.path + '.svg'" alt="">
                     {{ "topics.question." + option.path | translate }}
                 </label>
-
-                <div class="option-attachments">
-                    <!-- TODO: change audios options when we had the files -->
-                    <button
-                        mat-icon-button
-                        appAudioPlay="/assets/audios/answers/Children Voice - Great 2.wav"
-                    >
-                        <img class="elevated-basic" width="40" height="40" src="assets/icons/audio-button.svg" alt="">
-                    </button>
-                </div>
             </div>
         </ng-container>
     </mat-radio-group>
