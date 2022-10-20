@@ -78,5 +78,5 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.tutorialService.currentPage.next(PageNames.topics);
     }
-    
+
 }
