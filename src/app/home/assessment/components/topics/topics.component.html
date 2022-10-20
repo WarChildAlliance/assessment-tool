@@ -7,13 +7,19 @@
   >
   </app-back-navigation>
 
-  <div class="flowers" *ngIf="topics && topics.length; else noTopics">
-    <app-flower
-      *ngFor="let topic of topics; let i = index"
-      [index]="i"
-      [topic]="topics[i]"
-      [flowerColor]="flowersColors[i]"
-    ></app-flower>
+  <div *ngIf="topics && topics.length; else noTopics" [@slideInOut]="counter">
+    <div class="flowers">
+      <app-flower
+        *ngFor="let topic of topics; let i = index"
+        [index]="i"
+        [topic]="topics[i]"
+        [flowerColor]="flowersColors[i]"
+      ></app-flower>
+    </div>
+
+    <div class="dots-container">
+      <div (click)="startAssessment(assessment.subject, assessment.id, i)" *ngFor="let assessment of assessments; let i = index" [style.opacity]="assessmentIndex === i ? '1' : '0.4'" class="dots"></div>
+    </div>
   </div>
 
   <ng-template #noTopics>
