@@ -19,12 +19,16 @@
     "of": "of",
     "reopen": "Reopen question",
     "typeHere": "Type here...",
-    "welcomeStudent": "Welcome student"
+    "welcomeStudent": "Welcome"
   },
   "assessments": {
     "assessmentLocked": "(locked)",
     "congratulations": "Congratulations",
-    "noAssessments": "No assessments"
+    "noAssessments": "No assessments",
+    "outro": {
+      "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
+      "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
+    }
   },
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",
