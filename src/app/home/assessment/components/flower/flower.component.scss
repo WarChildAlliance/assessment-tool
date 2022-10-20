@@ -1,0 +1,70 @@
+.no-allow-click {
+  cursor: not-allowed !important;
+}
+
+.start-topic {
+  display: contents;
+  cursor: pointer;
+}
+
+.flower {
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .flower-corolla {
+    z-index: 2;
+  }
+
+  .flower-stem {
+    margin-top: -10px;
+  }
+
+  .complete {
+    width: 60px;
+    margin-top: -2rem;
+    height: auto;
+  }
+}
+
+
+.ellipse-1 {
+  width: 40px;
+  height: 80px;
+  border-radius: 50%;
+  transform: rotate(-18deg) translateX(-25%);
+  opacity: 100%;
+}   
+
+.ellipse-2 {
+  width: 40px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0%;
+}   
+
+.ellipse-3 {
+  width: 40px;
+  height: 80px;
+  border-radius: 50%;
+  transform: rotate(18deg) translateX(25%);
+  opacity: 100%;
+  position: absolute;
+  top: 0%;
+}
+
+.disk-flower {
+  background: #FFDF74;
+  border-radius: 50%;
+  width: 50px;
+  height: 40px;
+  position: absolute;
+  top: -5px;
+  left:-5px;
+}
+
+.locked-flower { 
+  position: relative;
+}
