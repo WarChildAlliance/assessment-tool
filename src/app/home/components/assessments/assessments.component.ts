@@ -9,6 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { CacheService } from 'src/app/core/services/cache.service';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-assessments',
@@ -21,22 +24,30 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
 
+  public userData: User;
   public pageName = PageNames.assessment;
   public assessments: Assessment[];
 
   public displaySpinner = true;
-
 
   constructor(
     private assessmentService: AssessmentService,
     private tutorialSlideshowService: TutorialSlideshowService,
     private assisstantService: AssisstantService,
     public dialog: MatDialog,
+    private router: Router,
+    private userService: UserService,
     private cacheService: CacheService
   ) {}
 
   ngOnInit(): void {
     const previousPageID = this.assisstantService.getPageID();
+
+    this.userSubscription = this.userService
+    .getUser()
+    .subscribe(async (userData) => {
+      this.userData = userData;
+    });
 
     this.subscription = this.assessmentService.getAssessments().subscribe(
       assessments => {
@@ -94,6 +105,18 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     return assessment.icon ?
       (environment.API_URL + assessment.icon) :
       'assets/icons/flowers/purple_64.svg';
+  }
+
+  public startAssessment(subject: string, assessmentId: string): void {
+    this.router.navigate(['assessments', subject, assessmentId]);
+  }
+
+  public replayIntro(): void {
+    this.userService
+      .updateUserNoCache({ id: this.userData.id, see_intro: true })
+      .subscribe(() => {
+        this.router.navigate(['/intro']);
+      });
   }
 
   ngOnDestroy(): void{
