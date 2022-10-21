@@ -20,8 +20,8 @@ export class QuestionSelComponent implements OnInit {
   private readonly pageID = 'question-sel-page';
 
   public valueForm = new FormControl(null);
-  public showText = false;
-  
+  public showTitle = false;
+
   public selOptions = [
     {id: 'NOT_REALLY', path: 'notReallyLikeMe'},
     {id: 'A_LITTLE', path: 'aLittleLikeMe'},
@@ -36,9 +36,9 @@ export class QuestionSelComponent implements OnInit {
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
 
-    this.userService.getUser().subscribe(({student_grade}) => {
-      this.showText = +student_grade >= 3;
-    })
+    this.userService.getUser().subscribe(({grade}) => {
+      this.showTitle = +grade >= 3;
+    });
 
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {

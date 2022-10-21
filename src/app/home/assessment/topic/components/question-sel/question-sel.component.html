@@ -14,7 +14,7 @@
                     (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
                 >
                     <img [src]="'assets/icons/SEL_faces_' + option.path + '.svg'" alt="">
-                    <ng-container *ngIf="showText">
+                    <ng-container *ngIf="showTitle">
                         {{ "topics.question." + option.path | translate }}
                     </ng-container>
                 </label>
