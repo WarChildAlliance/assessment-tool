@@ -5,7 +5,6 @@ import { AssessmentComponent } from './assessment.component';
 import { TopicsComponent } from './components/topics/topics.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { OutroComponent } from './components/outro/outro.component';
 import { FlowerComponent } from './components/flower/flower.component';
 
@@ -21,8 +20,7 @@ import { FlowerComponent } from './components/flower/flower.component';
         SharedModule,
         AssessmentRoutingModule,
         MatIconModule,
-        MatCardModule,
-        MatTooltipModule
+        MatCardModule
     ]
 })
 export class AssessmentModule {

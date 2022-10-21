@@ -7,6 +7,13 @@
 // Plus imports for other components in your app.
 
 @font-face {
+  font-family: "Comfortaa";
+  src: url("/assets/fonts/Comfortaa-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Mada";
   src: url("/assets/fonts/Mada-Medium.ttf") format("truetype");
   font-weight: normal;
@@ -21,7 +28,7 @@
 }
 
 $assessment-tool-typography: mat-typography-config(
-        $font-family: "Markazi",
+        $font-family: "Comfortaa",
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -162,10 +169,10 @@ div.sunny-field-bg {
 // ******** End of Pages backgrounds *********
 
 body {
-  font-family: "Mada", sans-serif;
+  font-family: "Comfortaa", sans-serif;
   font-size: 2em;
   background-color: white;
-  color: #70504a;
+  color: #4C241D;
   margin: 0 auto;
   position: fixed;
   width: 100%;
@@ -278,7 +285,7 @@ $btn-colors: (
       box-shadow: none;
     }
   }
-  img.elevated-#{$name} {
+  img.elevated-#{$name}, svg.elevated-#{$name} {
     cursor: pointer;
     transform: translate(-1px, -2px);
     -webkit-filter: drop-shadow(1px 2px 0px #{$shadow-color});
