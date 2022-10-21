@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatIconModule,
         MatCardModule,
         MatButtonModule,
+        MatTooltipModule
     ]
 })
 export class HomeModule {

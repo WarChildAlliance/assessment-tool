@@ -25,6 +25,8 @@
     "assessmentLocked": "(locked)",
     "congratulations": "Congratulations",
     "noAssessments": "No assessments",
+    "maths": "maths",
+    "replayIntro": "Replay intro",
     "outro": {
       "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
       "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
