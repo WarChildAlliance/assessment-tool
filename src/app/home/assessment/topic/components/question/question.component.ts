@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -400,10 +399,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
         this.goToNextPage();
       });
     }
-  }
-
-  public getSource(path: string): string{
-    return environment.API_URL + path;
   }
 
   ngOnDestroy(): void {
