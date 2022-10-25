@@ -1,11 +1,12 @@
 .number-line {
+  height: calc(100vh - 68px);
   text-align: center;
   font-family: "Mada", sans-serif;
-  padding: 100px 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  transform: translateY(-10%);
   gap: 50px 0;
-
   // initialize css variables used for the ruler layout
   --tick-step: calc(100% / (var(--tick-nb) + 1));
   --ruler-width: 95%;
