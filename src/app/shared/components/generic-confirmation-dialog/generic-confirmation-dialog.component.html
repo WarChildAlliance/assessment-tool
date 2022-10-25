@@ -22,14 +22,12 @@
     </mat-dialog-content>
     <mat-dialog-actions>
         <app-action-btn *ngIf="cancelBtn" [mat-dialog-close]="false"
-                         width="250px"
                          [type]="'secondary'"
                          [text]="cancelBtnText | translate"
                          iconUrl="assets/icons/cross_32.svg">
         </app-action-btn>
 
         <app-action-btn [mat-dialog-close]="true"
-                         width="250px"
                          [type]="'primary'"
                          [text]="confirmBtnText | translate"
                          iconUrl="assets/icons/check_24.svg">
