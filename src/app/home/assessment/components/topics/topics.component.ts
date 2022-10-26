@@ -43,7 +43,11 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         private answerService: AnswerService,
         private router: Router,
     ) {
+        const audio = new Audio('/assets/audios/swipingAssessmentsLeft-Right.mp3');
+        audio.load();
+
         this.onSlideChange = (event?: any) => {
+            audio.play();
             this.assessmentId = this.assessments[event.activeIndex].id;
         };
 
