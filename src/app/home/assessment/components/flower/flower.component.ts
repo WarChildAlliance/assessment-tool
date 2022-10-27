@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lighten } from 'polished';
 import { Topic } from 'src/app/core/models/topic.models';
@@ -18,6 +18,7 @@ export class FlowerComponent implements OnInit {
   public flowerColorLighter: string;
 
   constructor(
+    public elementRef: ElementRef,
     private route: ActivatedRoute,
     private router: Router,
     private answerService: AnswerService

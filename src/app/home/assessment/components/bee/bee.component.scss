@@ -1,0 +1,129 @@
+.container {
+  position: absolute;
+  z-index: 3;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .flying-bee {
+    transform: rotate(-3deg) scaleX(-1);
+    height: clamp(0px, 100%, 400px);
+    width: auto;
+  }
+  &.bee-stay {
+    top: var(--y);
+    left: var(--x);
+    transform: translateY(-50%);
+  }
+  &.bee-praise {
+    animation-duration: 10s;
+    animation-name: bee-praise;
+
+    @keyframes bee-praise {
+      0% {
+        height: 0;
+        width: 0;
+      }
+      25% {
+        height: 60%;
+        width: auto;
+      }
+      75% {
+        height: 60%;
+        width: auto;
+      }
+      100% {
+        height: 100px;
+        width: auto;
+      }
+    }
+  }
+  &.translate-left {
+    animation-duration: 10s;
+    animation-name: translate-left;
+
+    @keyframes translate-left {
+      0% {
+        top: var(--previous-y);
+        left: var(--previous-x);
+      }
+      25% {
+        top: 50%;
+        left: 30%;
+        transform: translateY(-50%);
+      }
+      75% {
+        top: 50%;
+        left: 30%;
+        transform: translateY(-50%);
+      }
+      100% {
+        top: var(--y);
+        left: var(--x);
+      }
+    }
+  }
+  &.translate-right {
+    animation-duration: 10s;
+    animation-name: translate-right;
+
+    @keyframes translate-right {
+      0% {
+        top: var(--previous-y);
+        left: var(--previous-x);
+      }
+      25% {
+        top: 50%;
+        left: 70%;
+        transform: translateY(-50%);
+      }
+      75% {
+        top: 50%;
+        left: 70%;
+        transform: translateY(-50%);
+      }
+      100% {
+        top: var(--y);
+        left: var(--x);
+      }
+    }
+  }
+  &.bee-move {
+    animation-duration: 4s;
+    animation-name: bee-move;
+    animation-fill-mode: forwards;
+    @keyframes bee-move {
+      from {
+        top: var(--previous-y);
+        left: var(--previous-x);
+        transform: translateY(-50%);
+      }
+      to {
+        top: var(--y);
+        left: var(--x);
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+app-ballon {
+  position: absolute;
+  height: 300px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(1rem, 4.5vw, 2rem);
+  opacity: 0;
+  animation-name: fade-in-out;
+  animation-duration: 10s;
+
+  &.right-side { right: 20%; }
+  &.left-side { left: 20%; }
+  @keyframes fade-in-out {
+    25% { opacity: 0; }
+    40% { opacity: 1; }
+    60% { opacity: 1; }
+    75% { opacity: 0; }
+  }
+}

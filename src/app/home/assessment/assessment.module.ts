@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { OutroComponent } from './components/outro/outro.component';
 import { FlowerComponent } from './components/flower/flower.component';
+import { BeeComponent } from './components/bee/bee.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { FlowerComponent } from './components/flower/flower.component';
         TopicsComponent,
         OutroComponent,
         FlowerComponent,
+        BeeComponent,
     ],
     imports: [
         SharedModule,

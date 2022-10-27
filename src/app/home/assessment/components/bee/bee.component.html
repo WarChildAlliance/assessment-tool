@@ -1,0 +1,28 @@
+<div *ngIf="currentState" #bee
+  [class]="'container ' + currentState?.action + ' ' + currentState?.orientation"
+  [ngClass]="{
+    'translate-left': currentState?.orientation === 'right',
+    'translate-right': currentState?.orientation === 'left'
+  }"
+  (animationend)="registerNextState()"
+>
+  <img *ngIf="currentState?.action === 'bee-move'"
+    src="assets/bee-trail-loop.svg"
+    style="transform: rotate(2.97deg);"
+  >
+  <img class="flying-bee" src="assets/animations/flying-bee.gif" alt="bee-sunglasses">
+</div>
+
+<app-ballon
+  *ngIf="currentState?.action === 'bee-praise'"
+  [ngClass]="{
+    'right-side': currentState?.orientation === 'right',
+    'left-side': currentState?.orientation === 'left'
+  }"
+  [placement]="currentState?.orientation === 'right' ? 'left' : 'right'"
+  [iconXPosition]="currentState?.orientation === 'right' ? 5 : -5"
+>
+  <div style="padding: 24px 48px;">
+    <p>Placeholder text</p>
+  </div>
+</app-ballon>
