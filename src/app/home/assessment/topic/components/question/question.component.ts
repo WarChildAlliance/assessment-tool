@@ -394,6 +394,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public submitAnswerAndGoNextPage(): void {
     if (!this.isSkipped && this.answer.valid) {
       this.showPraise();
+      setTimeout(() => {
+        const audioProgressBar = new Audio('/assets/audios/answers/correct-answer-01.mp3');
+        audioProgressBar.load();
+        audioProgressBar.play();
+      }, this.timeout);
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
