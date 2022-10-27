@@ -39,6 +39,16 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        const audio = new Audio('/assets/audios/Lit123[22]ambience_garden_loop.mp3');
+        audio.load();
+        audio.loop = true;
+
+        // Prompt for permissions: to autoplay background sound in the home page
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then((stream) => {
+                audio.play();
+            });
+
         this.userService.currentUser.subscribe( activeUser => {
             this.user = activeUser;
         });
