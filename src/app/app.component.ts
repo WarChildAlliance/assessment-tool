@@ -3,9 +3,9 @@ import { Title } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,16 +40,22 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-        // check service worker for updates
-        if (this.swUpdate.isEnabled) {
-          interval(60000).subscribe(() => this.swUpdate.checkForUpdate().then(() => {
-            // checking for updates
-          }));
-        }
-        this.swUpdate.available.subscribe(() => {
-          this.serviceWorkerHasUpdate = true;
-          location.reload();
-        });
+    // check service worker for updates
+    if (this.swUpdate.isEnabled) {
+      interval(60000).subscribe(() => this.swUpdate.checkForUpdate().then(() => {
+        // checking for updates
+      }));
+    }
+    this.swUpdate.versionUpdates.pipe(
+      filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
+      map(evt => ({
+        type: 'UPDATE_AVAILABLE',
+        current: evt.currentVersion,
+        available: evt.latestVersion,
+      }))).subscribe(() => {
+        this.serviceWorkerHasUpdate = true;
+        location.reload();
+      });
   }
 
 
@@ -83,9 +89,15 @@ export class AppComponent implements OnInit {
   }
 
   private checkAppUpdates(): void {
-    this.swUpdate.available.subscribe(_ => {
-      this.swUpdate.activateUpdate().then(() => document.location.reload());
-    });
+    this.swUpdate.versionUpdates.pipe(
+      filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
+      map(evt => ({
+        type: 'UPDATE_AVAILABLE',
+        current: evt.currentVersion,
+        available: evt.latestVersion,
+      }))).subscribe(_ => {
+        this.swUpdate.activateUpdate().then(() => document.location.reload());
+      });
   }
 
   private registerIcons(): void {
