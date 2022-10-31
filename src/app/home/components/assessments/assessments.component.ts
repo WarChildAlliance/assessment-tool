@@ -108,7 +108,11 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   public startAssessment(subject: string, assessmentId: string): void {
-    this.router.navigate(['assessments', subject, assessmentId]);
+    const audio = new Audio('/assets/audios/GeneralAudio[17]enter_game.mp3');
+    audio.load();
+    audio.play().then(() => {
+      this.router.navigate(['assessments', subject, assessmentId]);
+    });
   }
 
   public replayIntro(): void {
