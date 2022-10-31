@@ -310,8 +310,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   private playAnswerAudioFeedback(isCorrectAnswer: boolean): void {
     const soundArr = isCorrectAnswer ? FeedbackAudio.rightAnswer : FeedbackAudio.wrongAnswer;
-    const randIndex = Math.floor(Math.random() * soundArr.length);
-    const audio = new Audio(soundArr[randIndex]);
+    const audio = new Audio(soundArr);
 
     audio.load();
     audio.play();
