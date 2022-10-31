@@ -135,10 +135,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
     const tID = this.route.snapshot.paramMap.get('topic_id') || '';
     const qID = this.route.snapshot.paramMap.get('question_id') || '';
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
-    
+
     this.userService.getUser().subscribe(({grade}) => {
       this.showTitle = +grade >= 3;
-    })
+    });
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
