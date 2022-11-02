@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ComponentFactoryResolver, ViewContainerRef, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
-import { switchMap, first } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -28,6 +28,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private readonly pageID = 'topics-page';
     private assessmentId: number;
     private topicsCompletionUpdate = false;
+    private allTopicsCompleted = false;
+    private effort = 2;
 
     public topics: Topic[];
     public assessmentTitle = '';
@@ -36,7 +38,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
     public showBee$ = new BehaviorSubject<boolean>(false);
     public beeState$ = new Subject<BeeState>();
-    public effort = 2;
 
     @ViewChildren('flowerComponent')
     public flowerComponents: QueryList<FlowerComponent>;
@@ -53,9 +54,8 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         private answerService: AnswerService,
         private profileService: ProfileService,
         private userService: UserService,
-        private router: Router,
-    ) {
-    }
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         // The color of the flower must be random, but never use twice the same in the same assessment
@@ -78,12 +78,12 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             ).subscribe(
                 topics => {
                     this.route.queryParamMap.subscribe(async (params: ParamMap) => {
-                        const completedTopicId = params.get('completed_topic_id');
-                        if (!completedTopicId) {
-                            const completedTopic = topics.find(topic => topic.id === parseInt(completedTopicId, 10));
-                            if (completedTopic && !completedTopic.completed) {
+                        const recentTopicId = params.get('recent_topic_id');
+                        if (recentTopicId) {
+                            const recentTopic = topics.find(topic => topic.id === parseInt(recentTopicId, 10));
+                            if (recentTopic && !recentTopic.completed) {
                                 this.topicsCompletionUpdate = true;
-                                await this.registerTopicCompletion(completedTopic);
+                                await this.registerTopicCompletion(recentTopic, user);
                             }
                         }
                         topics.forEach((topic, i) => {
@@ -97,18 +97,14 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                             // (whether they failed or not the topic).
                             topic.can_start = i > 0 ? topics[i - 1]?.completed : true;
                         });
-                        setTimeout(() => {
-                            this.topics = topics;
-
-                            const allTopicsCompleted = topics.every((topic: Topic) => topic.completed);
-                            if (this.topicsCompletionUpdate || !allTopicsCompleted) {
-                                this.showBee$.next(true);
-                                if (allTopicsCompleted) {
-                                    this.showOutro();
-                                }
+                        this.topics = topics;
+                        this.allTopicsCompleted = topics.every((topic: Topic) => topic.completed);
+                        if (this.topicsCompletionUpdate || !this.allTopicsCompleted) {
+                            this.showBee$.next(true);
+                            if (this.allTopicsCompleted) {
+                                this.showOutro();
                             }
-                        }, 0);
-
+                        }
                     });
                 }
             );
@@ -120,39 +116,67 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.tutorialService.currentPage.next(PageNames.topics);
         this.showBee$.subscribe((value: boolean) => {
-            if (value) {
-                this.flowerComponents.changes.pipe(first()).subscribe(() => { this.setBeeStates(); });
+            if (!value) { return; }
+            if (this.flowerComponents?.length) {
+                this.setBeeStates();
+            } else {
+                this.flowerComponents.changes.pipe(take(1)).subscribe(() => {
+                    this.setBeeStates();
+                });
             }
         });
     }
 
-    private setBeeStates(allTopicsCompleted = false): void {
+    private setBeeStates(): void {
         if (!this.topics?.length) {
             return;
         }
         let initialIndex = this.topics.slice().reverse().findIndex(topic => topic.completed);
         initialIndex = initialIndex === -1 ? 0 : this.topics.length - 1 - initialIndex;
         // placing bee on next available topic straight away instead of triggering move if praise doesn't occur
-        if (!this.topicsCompletionUpdate) {
+        if (!this.topicsCompletionUpdate && initialIndex !== 0) {
             initialIndex += 1;
         }
-        const orientation = (allTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
+        const orientation = (this.allTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
-            action: this.topicsCompletionUpdate ? BeeAction.PRAISE :  BeeAction.STAY,
+            action: BeeAction.STAY,
             position: {
                 x: initialPos.x,
                 y: initialPos.y
             },
             orientation,
-            honeypots: this.topicsCompletionUpdate ? this.effort : null
         });
-        if (allTopicsCompleted) {
+        if (this.topicsCompletionUpdate) {
             this.beeState$.next({
-                action: BeeAction.LEAVE,
+                action: BeeAction.PRAISE,
+                position: {
+                    x: initialPos.x,
+                    y: initialPos.y
+                },
                 orientation,
+                honeypots: this.topicsCompletionUpdate ? this.effort : null
             });
-            return;
+            if (this.allTopicsCompleted) {
+                this.beeState$.next({
+                    action: BeeAction.MOVE,
+                    position: {
+                        x: -100,
+                        y: 50
+                    },
+                    orientation,
+                });
+                return;
+            } else {
+                this.beeState$.next({
+                    action: BeeAction.STAY,
+                    position: {
+                        x: initialPos.x,
+                        y: initialPos.y
+                    },
+                    orientation,
+                });
+            }
         }
         if (!this.topics[initialIndex]?.completed) { return; }
         const nextPos = this.flowerComponents.get(initialIndex + 1).elementRef.nativeElement.getBoundingClientRect();
@@ -214,27 +238,22 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         audio.play();
     }
 
-    private async registerTopicCompletion(topic: Topic): Promise<any> {
+    private async registerTopicCompletion(topic: Topic, user: any): Promise<any> {
         const searchString = 'topic-answer';
         const response = await this.cacheService.getData(searchString);
-        if (!response) {
-            return;
-        }
+        if (!response) { return; }
         const answers = response.answers;
         const correctAnswers = answers.filter(ans => ans.valid);
         let competency = 1;
 
         if (topic.evaluated) {
-            let competency = Math.ceil(correctAnswers.length * 3 / answers.length);
+            competency = Math.ceil(correctAnswers.length * 3 / answers.length);
             competency = competency === 0 ? 1 : competency;
         } else {
             competency = 0;
         }
-
-        const user = await this.cacheService.getData('user');
-        const newUser = { ...user };
         const competencies = user.profile.topics_competencies;
-        const oldCompetency = (competencies?.find(competency => (competency.topic === topic.id)))?.competency;
+        const oldCompetency = (competencies?.find(cmp => (cmp.topic === topic.id)))?.competency;
 
         let newCompetency = 0;
         if (oldCompetency !== undefined) {
@@ -245,42 +264,42 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             this.effort = 5;
         }
 
-        newUser.profile.effort += this.effort;
+        user.profile.effort += this.effort;
 
-        if (newUser.profile.topics_competencies.length) {
-            newUser.profile.topics_competencies.forEach(element => {
+        if (user.profile.topics_competencies.length) {
+            user.profile.topics_competencies.forEach(element => {
                 if (element.topic === topic.id) {
                     element.competency = newCompetency;
                 }
             });
         }
-        newUser.profile.topics_competencies.push({
+        user.profile.topics_competencies.push({
             competency: newCompetency,
             topic: topic.id,
-            profile: newUser.id
+            profile: user.id
         });
 
         // update all_topics_complete if necessary
         this.cacheService.getData('assessments').then(assessments => {
             const currentAssessment = assessments.find( a => a.id = this.assessmentId);
             let allComplete = true;
-            currentAssessment.topics.forEach(topic => {
-                const cachedCompetency = newUser.profile.topics_competencies.find(c => c.topic === topic.id)?.competency;
+            currentAssessment.topics.forEach(currentTopic => {
+                const cachedCompetency = user.profile.topics_competencies.find(c => c.topic === currentTopic.id)?.competency;
                 allComplete =  (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
             });
             assessments.find(a => a.id = this.assessmentId).all_topics_complete = allComplete;
             this.cacheService.setData('assessments', assessments);
         });
 
-        this.cacheService.setData('user', newUser);
-        this.userService.updateUser(newUser);
+        this.cacheService.setData('user', user);
+        this.userService.updateUser(user);
 
-        await this.profileService.updateProfile(newUser.profile).toPromise();
+        this.profileService.updateProfile(user.profile).subscribe();
 
         const test = response;
         test.topic_competency = newCompetency;
 
         this.cacheService.setData(searchString, test);
-        await this.answerService.endTopicAnswer().toPromise();
+        this.answerService.endTopicAnswer().subscribe();
     }
 }

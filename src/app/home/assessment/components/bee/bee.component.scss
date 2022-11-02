@@ -15,9 +15,15 @@
     height: 100%;
 
     #flyingbee {
-      transform: rotate(-3deg) scaleX(-1);
       height: 100%;
       width: auto;
+
+      &.right {
+        transform: rotate(-3deg) scaleX(-1);
+      }
+      &.left {
+        transform: rotate(3deg);
+      }
     }
     #beetrail {
       position: absolute;
@@ -116,6 +122,7 @@
 }
 app-ballon {
   position: absolute;
+  z-index: 3;
   top: 50%;
   transform: translateY(-50%);
   font-size: clamp(1rem, 4.5vw, 2rem);

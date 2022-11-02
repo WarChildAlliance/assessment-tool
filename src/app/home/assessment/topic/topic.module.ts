@@ -20,7 +20,6 @@ import { QuestionSortComponent } from './components/question-sort/question-sort.
 import { QuestionComponent } from './components/question/question.component';
 import { TopicRoutingModule } from './topic-routing.module';
 import { TopicComponent } from './topic.component';
-import { CompletedTopicComponent } from './components/completed-topic/completed-topic.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
@@ -36,7 +35,6 @@ import { QuestionSelComponent } from './components/question-sel/question-sel.com
         QuestionSortComponent,
         QuestionNumberLineComponent,
         AttachmentsComponent,
-        CompletedTopicComponent,
         QuestionDragAndDropComponent,
         QuestionDominoComponent,
         QuestionSelComponent,

@@ -285,7 +285,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.router.navigate(['../../../'], {
             relativeTo: this.route,
             queryParams: {
-              completed_topic_id: this.topic.id
+              recent_topic_id: this.topic.id
             }
           });
         }, this.timeout);

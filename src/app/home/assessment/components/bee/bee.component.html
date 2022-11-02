@@ -11,16 +11,17 @@
       id="beetrail"
       src="assets/bee-trail-loop.svg"
     >
-    <img id="flyingbee" src="assets/animations/flying-bee.gif" alt="bee-sunglasses">
+    <img id="flyingbee"
+      src="assets/animations/flying-bee.gif"
+      alt="bee-sunglasses"
+      [class]="currentState?.orientation"
+    >
   </div>
 </div>
 
 <app-ballon
   *ngIf="currentState?.action === 'bee-praise'"
-  [ngClass]="{
-    'right-side': currentState?.orientation === 'right',
-    'left-side': currentState?.orientation === 'left'
-  }"
+  [class]="currentState?.orientation + '-side'",
   [placement]="currentState?.orientation === 'right' ? 'left' : 'right'"
   [iconXPosition]="currentState?.orientation === 'right' ? 5 : -5"
 >
