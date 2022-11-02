@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   API_URL: 'http://localhost:8002',
   TTS_API_URL: 'https://texttospeech.googleapis.com/v1/text:synthesize',
-  TTS_API_KEY: 'AIzaSyAmR4bv7FuWavYEqS2DqTUifnlFp_Ay1GU'
+  // TTS_API_KEY: 'AIzaSyAmR4bv7FuWavYEqS2DqTUifnlFp_Ay1GU'
 };
 
 /*
