@@ -333,4 +333,20 @@ button {
   }
 }
 
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+  margin: 0 10px !important;
+}
+
+.swiper-pagination-bullet {
+  opacity: 0.4 !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: #FFFFFF !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: #FFFFFF !important;
+}
+
 @import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';

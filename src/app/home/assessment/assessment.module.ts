@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { OutroComponent } from './components/outro/outro.component';
 import { FlowerComponent } from './components/flower/flower.component';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FlowerComponent } from './components/flower/flower.component';
         SharedModule,
         AssessmentRoutingModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        NgxUsefulSwiperModule
     ]
 })
 export class AssessmentModule {
