@@ -4,13 +4,15 @@
     'translate-left': currentState?.orientation === 'right',
     'translate-right': currentState?.orientation === 'left'
   }"
-  (animationend)="registerNextState()"
+  (animationend)="onAnimationEnd()"
 >
-  <img *ngIf="currentState?.action === 'bee-move'"
-    src="assets/bee-trail-loop.svg"
-    style="transform: rotate(2.97deg);"
-  >
-  <img class="flying-bee" src="assets/animations/flying-bee.gif" alt="bee-sunglasses">
+  <div class="bee-container">
+    <img *ngIf="currentState?.action === 'bee-move'"
+      id="beetrail"
+      src="assets/bee-trail-loop.svg"
+    >
+    <img id="flyingbee" src="assets/animations/flying-bee.gif" alt="bee-sunglasses">
+  </div>
 </div>
 
 <app-ballon
@@ -22,7 +24,14 @@
   [placement]="currentState?.orientation === 'right' ? 'left' : 'right'"
   [iconXPosition]="currentState?.orientation === 'right' ? 5 : -5"
 >
-  <div style="padding: 24px 48px;">
-    <p>Placeholder text</p>
+  <div style="padding: 24px 72px;">
+    <h2>
+      {{ 'topics.completedTopic.praise.1' | translate }}
+    </h2>
+    <span style="display: flex;">
+      {{ 'topics.completedTopic.gainedPoints' | translate }}
+      <img src="assets/icons/honeypot.svg">
+      <h2>+{{ currentState?.honeypots }}</h2>
+    </span>
   </div>
 </app-ballon>

@@ -15,6 +15,7 @@ export interface BeeState {
     y: number
   };
   orientation?: 'left' | 'right';
+  honeypots?: number;
 }
 @Component({
   selector: 'app-topics-bee',
@@ -23,9 +24,11 @@ export interface BeeState {
 })
 export class BeeComponent implements OnInit {
   private stateQueue: BeeState[] = [];
+  private stateLoading = false;
+  private animationPlaying = false;
 
-  public previousState: BeeState;
-  public currentState: BeeState;
+  public previousState: BeeState = null;
+  public currentState: BeeState = null;
 
   @Input() instructions$: Observable<BeeState>;
 
@@ -43,21 +46,38 @@ export class BeeComponent implements OnInit {
   ngOnInit(): void {
     this.instructions$.subscribe((state: BeeState) => {
       this.stateQueue.push(state);
-      if (!this.currentState || this.currentState.action === BeeAction.STAY) {
+      if (!this.stateLoading && (!this.currentState || this.currentState.action === BeeAction.STAY)) {
         this.registerNextState();
       }
     });
   }
 
-  public registerNextState(): void {
+  private registerNextState(): void {
+    if (this.animationPlaying) {
+      return;
+    }
     const nextState = this.stateQueue.shift();
     if (!nextState) {
       return;
     }
-    this.previousState = this.currentState;
-    this.currentState = nextState;
-    if (this.currentState?.action === BeeAction.STAY) {
-      setTimeout(() => this.registerNextState(), 1000);
-    }
+    this.stateLoading = true;
+    // setTimeout used here to avoid change detection errors
+    setTimeout(() => {
+      this.previousState = this.currentState;
+      this.currentState = nextState;
+      this.stateLoading = false;
+
+      if (this.currentState?.action === BeeAction.STAY) {
+        setTimeout(() => this.registerNextState(), 1000);
+        return;
+      }
+      this.animationPlaying = true;
+    }, 0);
+
+  }
+
+  public onAnimationEnd(): void {
+    this.animationPlaying = false;
+    this.registerNextState();
   }
 }

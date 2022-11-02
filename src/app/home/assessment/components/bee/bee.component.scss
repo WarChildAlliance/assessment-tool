@@ -1,48 +1,58 @@
+:host {
+  --bee-height: 100px;
+}
 .container {
   position: absolute;
   z-index: 3;
-  height: 100px;
+  height: var(--bee-height);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  .flying-bee {
-    transform: rotate(-3deg) scaleX(-1);
-    height: clamp(0px, 100%, 400px);
-    width: auto;
-  }
-  &.bee-stay {
-    top: var(--y);
-    left: var(--x);
-    transform: translateY(-50%);
-  }
-  &.bee-praise {
-    animation-duration: 10s;
-    animation-name: bee-praise;
+  .bee-container {
+    position: static;
+    height: 100%;
 
-    @keyframes bee-praise {
-      0% {
-        height: 0;
-        width: 0;
-      }
-      25% {
-        height: 60%;
-        width: auto;
-      }
-      75% {
-        height: 60%;
-        width: auto;
-      }
-      100% {
-        height: 100px;
-        width: auto;
-      }
+    #flyingbee {
+      transform: rotate(-3deg) scaleX(-1);
+      height: 100%;
+      width: auto;
+    }
+    #beetrail {
+      position: absolute;
+      top: 50%;
+      height: 30%;
+      transform: rotate(2.97deg) translateX(-100%);
+    }
+  }
+}
+.bee-stay {
+  top: var(--y);
+  left: var(--x);
+  transform: translateY(-50%);
+}
+.bee-praise {
+  animation-duration: 10s, 10s;
+
+  @keyframes bee-praise {
+    0% {
+      height: 0;
+      width: 0;
+    }
+    25% {
+      height: 30%;
+    }
+    75% {
+      height: 30%;
+    }
+    100% {
+      height: var(--bee-height);
+      width: auto;
     }
   }
   &.translate-left {
-    animation-duration: 10s;
-    animation-name: translate-left;
+    animation-name: translate-left, bee-praise;
 
     @keyframes translate-left {
       0% {
@@ -50,14 +60,12 @@
         left: var(--previous-x);
       }
       25% {
-        top: 50%;
-        left: 30%;
-        transform: translateY(-50%);
+        top: 35%;
+        left: 20%;
       }
       75% {
-        top: 50%;
-        left: 30%;
-        transform: translateY(-50%);
+        top: 35%;
+        left: 20%;
       }
       100% {
         top: var(--y);
@@ -66,8 +74,7 @@
     }
   }
   &.translate-right {
-    animation-duration: 10s;
-    animation-name: translate-right;
+    animation-name: translate-right, bee-praise;
 
     @keyframes translate-right {
       0% {
@@ -75,14 +82,12 @@
         left: var(--previous-x);
       }
       25% {
-        top: 50%;
+        top: 35%;
         left: 70%;
-        transform: translateY(-50%);
       }
       75% {
-        top: 50%;
+        top: 35%;
         left: 70%;
-        transform: translateY(-50%);
       }
       100% {
         top: var(--y);
@@ -90,27 +95,27 @@
       }
     }
   }
-  &.bee-move {
-    animation-duration: 4s;
-    animation-name: bee-move;
-    animation-fill-mode: forwards;
-    @keyframes bee-move {
-      from {
-        top: var(--previous-y);
-        left: var(--previous-x);
-        transform: translateY(-50%);
-      }
-      to {
-        top: var(--y);
-        left: var(--x);
-        transform: translateY(-50%);
-      }
+}
+.bee-move {
+  animation-duration: 6s;
+  animation-name: bee-move;
+  animation-fill-mode: forwards;
+
+  @keyframes bee-move {
+    from {
+      top: var(--previous-y);
+      left: var(--previous-x);
+      transform: translateY(-50%);
+    }
+    to {
+      top: var(--y);
+      left: var(--x);
+      transform: translateY(-50%);
     }
   }
 }
 app-ballon {
   position: absolute;
-  height: 300px;
   top: 50%;
   transform: translateY(-50%);
   font-size: clamp(1rem, 4.5vw, 2rem);
@@ -118,12 +123,24 @@ app-ballon {
   animation-name: fade-in-out;
   animation-duration: 10s;
 
-  &.right-side { right: 20%; }
-  &.left-side { left: 20%; }
+  &.right-side { right: 10%; }
+  &.left-side { left: 10%; }
+
   @keyframes fade-in-out {
     25% { opacity: 0; }
     40% { opacity: 1; }
     60% { opacity: 1; }
-    75% { opacity: 0; }
+    90% { opacity: 0; }
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      height: 2em;
+      margin: 0 1em;
+    }
   }
 }

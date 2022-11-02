@@ -136,11 +136,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
     const tID = this.route.snapshot.paramMap.get('topic_id') || '';
     const qID = this.route.snapshot.paramMap.get('question_id') || '';
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
-    
     this.userService.getUser().subscribe(({grade}) => {
       this.showTitle = +grade >= 3;
-    })
-
+    });
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -262,7 +260,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
         setTimeout(show => {
           this.show = false;
           setTimeout( navigate => {
-            this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+            this.router.navigate(['../../../'], {
+              relativeTo: this.route,
+            });
           }, this.timeout);
         }, this.timeout);
       });
@@ -282,7 +282,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
       setTimeout(show => {
         this.show = false;
         setTimeout( navigate => {
-          this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+          this.router.navigate(['../../../'], {
+            relativeTo: this.route,
+            queryParams: {
+              completed_topic_id: this.topic.id
+            }
+          });
         }, this.timeout);
       }, this.timeout);
 

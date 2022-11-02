@@ -9,6 +9,7 @@
 
   <div class="flowers" *ngIf="topics && topics.length; else noTopics">
     <app-flower
+      #flowerComponent
       *ngFor="let topic of topics; let i = index"
       [index]="i"
       [topic]="topics[i]"
@@ -20,3 +21,5 @@
     <p>{{ "topics.noTopics" | translate }}</p>
   </ng-template>
 </div>
+
+<app-topics-bee *ngIf="showBee$ | async" [instructions$]="beeState$"></app-topics-bee>
