@@ -27,6 +27,21 @@ export class FlowerComponent implements OnInit {
     this.flowerColorLighter = lighten(0.25, this.flowerColor);
   }
 
+  public playLockedTopicAudioFeedback(topicIndex: number): void {
+    const topicElement = document.getElementById(
+      'topic-' + topicIndex.toString()
+    ) as HTMLElement;
+    topicElement.classList.add('vibration');
+    setTimeout(() => {
+      topicElement.classList.remove('vibration');
+    }, 500);
+    // TODO: change to angry bee sound when available
+    const sound = FeedbackAudio.wrongAnswer[0];
+    const audio = new Audio(sound);
+    audio.load();
+    audio.play();
+  }
+
   public getTopicIcon(): string {
     return this.topic.icon
       ? environment.API_URL + this.topic.icon
@@ -53,20 +68,5 @@ export class FlowerComponent implements OnInit {
       .getCompleteStudentAnswersForTopic(this.topic.id)
       .toPromise();
     return answers.length > 0;
-  }
-
-  public playLockedTopicAudioFeedback(topicIndex: number): void {
-    const topicElement = document.getElementById(
-      'topic-' + topicIndex.toString()
-    ) as HTMLElement;
-    topicElement.classList.add('vibration');
-    setTimeout(() => {
-      topicElement.classList.remove('vibration');
-    }, 500);
-    // TODO: change to angry bee sound when available
-    const sound = FeedbackAudio.wrongAnswer[0];
-    const audio = new Audio(sound);
-    audio.load();
-    audio.play();
   }
 }

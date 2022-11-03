@@ -20,18 +20,13 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Input() answer: AnswerNumberLine;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
-  @Output() answerChange = new EventEmitter<{answer: AnswerNumberLine, next: boolean}>();
-
-  private readonly pageID = 'question-number-line-page';
+  @Output() answerChange = new EventEmitter<{answer: AnswerNumberLine; next: boolean}>();
 
   public dropListData: number[];
   public draggableOptions: number[];
   public valueForm = new FormControl(null);
 
-  public get cssVars(): SafeStyle {
-    const tickNb = (this.question?.end - this.question?.start) / this.question?.step;
-    return this.sanitizer.bypassSecurityTrustStyle('--tick-nb: ' + (tickNb ?? 10));
-  }
+  private readonly pageID = 'question-number-line-page';
 
   constructor(
     private assisstantService: AssisstantService,
@@ -40,6 +35,11 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     private tutorialSlideshowService: TutorialSlideshowService,
     private sanitizer: DomSanitizer
     ) { }
+
+  public get cssVars(): SafeStyle {
+    const tickNb = (this.question?.end - this.question?.start) / this.question?.step;
+    return this.sanitizer.bypassSecurityTrustStyle('--tick-nb: ' + (tickNb ?? 10));
+  }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
@@ -58,6 +58,19 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.tutorialSerice.currentPage.next(PageNames.questionNumberLine);
+  }
+
+  public registerDrop(optionsArr: any[], optionIndex: number): void {
+    this.valueForm.setValue(optionsArr[optionIndex]);
+    optionsArr.splice(optionIndex, 1);
+  }
+
+  public getNumberColor(value: number): string {
+    const numberColors = [
+      '#8D6B91', '#00A3DA', '#47BBBA', '#33AC7D', '#73B932', '#25983C',
+      '#F89F04', '#EC6F1B', '#CC0E2F', '#B9358B'
+    ];
+    return numberColors[Math.abs(value / this.question.step) % numberColors.length];
   }
 
   private initNumberlineData(): void {
@@ -93,18 +106,5 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     }
     this.tutorialSerice.currentPage.next(PageNames.question);
     this.answerChange.emit({answer: this.answer, next: this.answer.valid});
-  }
-
-  public registerDrop(optionsArr: any[], optionIndex: number): void {
-    this.valueForm.setValue(optionsArr[optionIndex]);
-    optionsArr.splice(optionIndex, 1);
-  }
-
-  public getNumberColor(value: number): string {
-    const numberColors = [
-      '#8D6B91', '#00A3DA', '#47BBBA', '#33AC7D', '#73B932', '#25983C',
-      '#F89F04', '#EC6F1B', '#CC0E2F', '#B9358B'
-    ];
-    return numberColors[Math.abs(value / this.question.step) % numberColors.length];
   }
 }

@@ -21,12 +21,14 @@ import { AnswerService } from 'src/app/core/services/answer.service';
     styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent implements OnInit, AfterViewInit {
-    private readonly pageID = 'topics-page';
 
     public topics: Topic[];
     public assessmentTitle = '';
     public user: User = null;
     public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
+    public assessmentSubject: string;
+
+    private readonly pageID = 'topics-page';
 
     constructor(
         private route: ActivatedRoute,
@@ -41,8 +43,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         private router: Router,
     ) {
     }
-
-    assessmentSubject: string;
 
     ngOnInit(): void {
         // The color of the flower must be random, but never use twice the same in the same assessment
@@ -98,18 +98,23 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.tutorialService.currentPage.next(PageNames.topics);
     }
 
-    private showOutro(): void {
-        const factory = this.componentFactoryResolver.resolveComponentFactory(OutroComponent);
-        const componentRef = this.viewContainerRef.createComponent(factory);
-        (componentRef.instance as OutroComponent).outroComplete.subscribe(() => {
-            this.viewContainerRef.clear();
-        });
-    }
-
     public getTopicIcon(topic: Topic): string {
         return topic.icon ?
             (environment.API_URL + topic.icon) :
             'assets/yellow_circle.svg';
+    }
+
+    public playLockedTopicAudioFeedback(topicIndex: number): void {
+        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
+        topicElement.classList.add('vibration');
+        setTimeout(() => {
+            topicElement.classList.remove('vibration');
+        }, 500);
+        // TODO: change to angry bee sound when available
+        const sound = FeedbackAudio.wrongAnswer[0];
+        const audio = new Audio(sound);
+        audio.load();
+        audio.play();
     }
 
     public async startTopic(id: number): Promise<void> {
@@ -133,16 +138,11 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         return answers.length > 0;
     }
 
-    public playLockedTopicAudioFeedback(topicIndex: number): void {
-        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
-        topicElement.classList.add('vibration');
-        setTimeout(() => {
-            topicElement.classList.remove('vibration');
-        }, 500);
-        // TODO: change to angry bee sound when available
-        const sound = FeedbackAudio.wrongAnswer[0];
-        const audio = new Audio(sound);
-        audio.load();
-        audio.play();
+    private showOutro(): void {
+        const factory = this.componentFactoryResolver.resolveComponentFactory(OutroComponent);
+        const componentRef = this.viewContainerRef.createComponent(factory);
+        (componentRef.instance as OutroComponent).outroComplete.subscribe(() => {
+            this.viewContainerRef.clear();
+        });
     }
 }

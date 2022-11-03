@@ -6,7 +6,8 @@ import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { MatDialog } from '@angular/material/dialog';
-import { GenericConfirmationDialogComponent } from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { GenericConfirmationDialogComponent }
+from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { Router } from '@angular/router';
@@ -19,16 +20,17 @@ import { User } from 'src/app/core/models/user.model';
   styleUrls: ['./assessments.component.scss']
 })
 export class AssessmentsComponent implements OnInit, OnDestroy {
+
+  public userData: User;
+  public pageName = PageNames.assessment;
+  public assessments: Assessment[];
+  public displaySpinner = true;
+
   private readonly pageID = 'assessments-page';
   private subscriptionCount = 0;
   private subscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
 
-  public userData: User;
-  public pageName = PageNames.assessment;
-  public assessments: Assessment[];
-
-  public displaySpinner = true;
 
   constructor(
     private assessmentService: AssessmentService,

@@ -41,6 +41,15 @@ export class AuthComponent implements OnInit {
         this.handleAutoLogin();
     }
 
+    public onSubmit(): void {
+        if (!this.cacheService.networkStatus.getValue()){
+            this.showOfflineModal();
+        } else {
+            const code = this.authForm.get('code').value;
+            this.authService.login(code);
+        }
+    }
+
     private handleAutoLogin(): void {
         this.activatedRoute.queryParams.pipe(
             map(({code}) => code),
@@ -63,14 +72,4 @@ export class AuthComponent implements OnInit {
             }
           });
     }
-
-    public onSubmit(): void {
-        if (!this.cacheService.networkStatus.getValue()){
-            this.showOfflineModal();
-        } else {
-            const code = this.authForm.get('code').value;
-            this.authService.login(code);
-        }
-    }
-
 }

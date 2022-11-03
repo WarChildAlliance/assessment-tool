@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { map } from 'rxjs/operators';
-import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { GenericConfirmationDialogComponent }
+ from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -38,17 +39,10 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 
 export class QuestionComponent implements OnInit, OnDestroy {
-  private goNextQuestion = false;
-  private isSkipped = false;
-  private show = false;
-  private timeout = 250;
-  private timeoutNextQuestion = 1000;
-  private subscription: Subscription;
-  private questionTimeStart: string;
-  private isFirstTry: boolean;
-  private invalidAnswersStreak = 0;
-  private titleAudio: HTMLAudioElement;
-  private isTitleAudioPlaying = false;
+
+  @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
+  @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
+  @HostListener('window:popstate', ['$event'])
 
   public topic: Topic;
   public isEvaluated: boolean;
@@ -65,8 +59,36 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public path = 36;
   public flyingBee = 35;
 
-  @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
-  @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
+  private goNextQuestion = false;
+  private isSkipped = false;
+  private show = false;
+  private timeout = 250;
+  private timeoutNextQuestion = 1000;
+  private subscription: Subscription;
+  private questionTimeStart: string;
+  private isFirstTry: boolean;
+  private invalidAnswersStreak = 0;
+  private titleAudio: HTMLAudioElement;
+  private isTitleAudioPlaying = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private answerService: AnswerService,
+    private assessmentService: AssessmentService,
+    private changeDetector: ChangeDetectorRef,
+    private userService: UserService,
+    public translate: TranslateService,
+    public dialog: MatDialog,
+  ) { }
+
+  public get stateName(): string {
+    return this.show ? 'show' : 'hide';
+  }
+
+  public get isQuestionInput(): boolean {
+    return this.question.question_type === 'INPUT';
+  }
 
   // Shows modal confirmation before leave the page if is evaluated topic
   // and stops question title audio if it is playing
@@ -107,39 +129,19 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   // we need to reset the answer when user navigate to previous question
-  @HostListener('window:popstate', ['$event'])
   onPopState(): void {
     this.displayCorrectAnswer.next(false);
     this.answer = null;
   }
 
-  public get stateName(): string {
-    return this.show ? 'show' : 'hide';
-  }
-
-  public get isQuestionInput(): boolean {
-    return this.question.question_type === 'INPUT';
-  }
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private answerService: AnswerService,
-    private assessmentService: AssessmentService,
-    private changeDetector: ChangeDetectorRef,
-    private userService: UserService,
-    public translate: TranslateService,
-    public dialog: MatDialog,
-  ) { }
-
   ngOnInit(): void {
     const tID = this.route.snapshot.paramMap.get('topic_id') || '';
     const qID = this.route.snapshot.paramMap.get('question_id') || '';
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
-    
+
     this.userService.getUser().subscribe(({grade}) => {
       this.showTitle = +grade >= 3;
-    })
+    });
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
@@ -188,10 +190,102 @@ export class QuestionComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public openQuestionModal(): void {
     this.dialog.open(this.questionDialog, {
       panelClass: 'mat-dialog-custom-class'
     });
+  }
+
+  public playStopTitleAudio(): void {
+    if (!this.titleAudio) {
+      return;
+    }
+    if (this.isTitleAudioPlaying) {
+      this.titleAudio.load();
+      this.isTitleAudioPlaying = false;
+      return;
+    }
+    this.titleAudio.play();
+  }
+
+  public submitQuestion(): void {
+    if (this.answer) {
+    this.isSkipped = false;
+    this.answer.end_datetime = moment().format();
+    this.answer.start_datetime = this.questionTimeStart;
+    if (!this.isQuestionInput) {
+      this.displayCorrectAnswer.next(true);
+      setTimeout(() => {
+        this.submitAnswerAndGoNextPage();
+      }, this.timeoutNextQuestion);
+    } else {
+      this.submitAnswerAndGoNextPage();
+      }
+    } else {
+      // console.warn('Unexpected behaviour while submitting answer');
+      // this.goToNextPage();
+    }
+  }
+
+  public checkAnswer(answerEvet): void {
+    this.answer = answerEvet.answer;
+    this.playAnswerAudioFeedback(this.answer.valid);
+    setTimeout(() => {
+      if (answerEvet.next) {
+        this.submitQuestion();
+      } else if (!this.answer.valid) {
+        this.resetAnswer.next(true);
+      }
+    }, this.timeoutNextQuestion);
+  }
+
+  // Skip question feature: remove?
+  public skipQuestion(): void {
+    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+      disableClose: true,
+      data: {
+        content: 'topics.question.skipSure',
+        cancelBtn: true,
+        confirmBtnText: 'general.skip',
+        confirmBtnColor: 'warn',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      if (value === false) {
+        dialogRef.close();
+      } else if (value === true) {
+        this.isSkipped = true;
+
+        this.answer = {
+          question: this.question.id,
+          start_datetime: this.questionTimeStart,
+          end_datetime: moment().format(),
+          valid: false,
+          skipped: true
+        };
+
+        this.submitAnswerAndGoNextPage();
+      }
+    });
+  }
+
+  public submitAnswerAndGoNextPage(): void {
+    if (!this.isSkipped && this.answer.valid) {
+      this.showPraise();
+    } else {
+      this.answerService.submitAnswer(this.answer).subscribe(res => {
+        this.goToNextPage();
+      });
+    }
+  }
+
+  public getSource(path: string): string{
+    return environment.API_URL + path;
   }
 
   private onPrevious(): void {
@@ -317,97 +411,4 @@ export class QuestionComponent implements OnInit, OnDestroy {
     audio.load();
     audio.play();
   }
-
-  public playStopTitleAudio(): void {
-    if (!this.titleAudio) {
-      return;
-    }
-    if (this.isTitleAudioPlaying) {
-      this.titleAudio.load();
-      this.isTitleAudioPlaying = false;
-      return;
-    }
-    this.titleAudio.play();
-  }
-
-  public submitQuestion(): void {
-    if (this.answer) {
-    this.isSkipped = false;
-    this.answer.end_datetime = moment().format();
-    this.answer.start_datetime = this.questionTimeStart;
-    if (!this.isQuestionInput) {
-      this.displayCorrectAnswer.next(true);
-      setTimeout(() => {
-        this.submitAnswerAndGoNextPage();
-      }, this.timeoutNextQuestion);
-    } else {
-      this.submitAnswerAndGoNextPage();
-      }
-    } else {
-      // console.warn('Unexpected behaviour while submitting answer');
-      // this.goToNextPage();
-    }
-  }
-
-  public checkAnswer(answerEvet): void {
-    this.answer = answerEvet.answer;
-    this.playAnswerAudioFeedback(this.answer.valid);
-    setTimeout(() => {
-      if (answerEvet.next) {
-        this.submitQuestion();
-      } else if (!this.answer.valid) {
-        this.resetAnswer.next(true);
-      }
-    }, this.timeoutNextQuestion);
-  }
-
-  // Skip question feature: remove?
-  public skipQuestion(): void {
-    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-      disableClose: true,
-      data: {
-        content: 'topics.question.skipSure',
-        cancelBtn: true,
-        confirmBtnText: 'general.skip',
-        confirmBtnColor: 'warn',
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(value => {
-      if (value === false) {
-        dialogRef.close();
-      } else if (value === true) {
-        this.isSkipped = true;
-
-        this.answer = {
-          question: this.question.id,
-          start_datetime: this.questionTimeStart,
-          end_datetime: moment().format(),
-          valid: false,
-          skipped: true
-        };
-
-        this.submitAnswerAndGoNextPage();
-      }
-    });
-  }
-
-  public submitAnswerAndGoNextPage(): void {
-    if (!this.isSkipped && this.answer.valid) {
-      this.showPraise();
-    } else {
-      this.answerService.submitAnswer(this.answer).subscribe(res => {
-        this.goToNextPage();
-      });
-    }
-  }
-
-  public getSource(path: string): string{
-    return environment.API_URL + path;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
 }

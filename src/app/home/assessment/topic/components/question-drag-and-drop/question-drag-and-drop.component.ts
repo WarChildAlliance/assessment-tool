@@ -18,9 +18,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
 
-  @Output() answerChange = new EventEmitter<{answer: AnswerDragAndDrop, next: boolean}>();
-
-  private readonly pageID = 'question-drag-and-drop-page';
+  @Output() answerChange = new EventEmitter<{answer: AnswerDragAndDrop; next: boolean}>();
 
   public backgroundImage: string = null;
   public isDropAreaVisible = false;
@@ -30,11 +28,13 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
 
   public draggableOptions: DraggableOption[];
   public answerDropListData: Array<DraggableOption>;
-  private correctAnswer: DraggableOption[] = [];
 
   // Points to either answerDropListData or correctAnswer
   // depending on displayCorrectAnswer
   public displayedAnswer: DraggableOption[] = [];
+
+  private readonly pageID = 'question-drag-and-drop-page';
+  private correctAnswer: DraggableOption[] = [];
 
   constructor(
     private assisstantService: AssisstantService,
@@ -76,33 +76,10 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
     });
   }
 
-  private isAnswerValid(): boolean {
-    return this.answerDropListData.every(
-      (e: DraggableOption, index: number) => {
-        return e.area_option === this.question.drop_areas[index].id;
-      });
-  }
-
-  private saveAnswer(): void {
-    if (this.answerDropListData.some(answer => answer !== undefined)) {
-      this.answersPerArea = this.answerDropListData.map(
-        (e: DraggableOption, index: number) => {
-          return e ? {
-            selected_draggable_option: e.id,
-            area: this.question.drop_areas[index].id
-          } : null;
-      }).filter(e => !!e);
-
-      // only submit answer and play sound if new drag&drop answer
-      if (this.answersPerArea.length !== this.validatedAnswers) {
-        this.answer = {
-          question: this.question.id,
-          valid: this.isAnswerValid(),
-          answers_per_area: this.answersPerArea
-        };
-        this.answerChange.emit({answer: this.answer, next: this.goNextQuestion});
-      }
-    }
+  ngOnDestroy(): void {
+    this.displayCorrectAnswer.next(false);
+    this.resetAnswer.next(false);
+    this.answer = null;
   }
 
   public getSource(path: string): string {
@@ -147,9 +124,28 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.displayCorrectAnswer.next(false);
-    this.resetAnswer.next(false);
-    this.answer = null;
+  private isAnswerValid(): boolean {
+    return this.answerDropListData.every(
+      (e: DraggableOption, index: number) => e.area_option === this.question.drop_areas[index].id);
+  }
+
+  private saveAnswer(): void {
+    if (this.answerDropListData.some(answer => answer !== undefined)) {
+      this.answersPerArea = this.answerDropListData.map(
+        (e: DraggableOption, index: number) => e ? {
+            selected_draggable_option: e.id,
+            area: this.question.drop_areas[index].id
+          } : null).filter(e => !!e);
+
+      // only submit answer and play sound if new drag&drop answer
+      if (this.answersPerArea.length !== this.validatedAnswers) {
+        this.answer = {
+          question: this.question.id,
+          valid: this.isAnswerValid(),
+          answers_per_area: this.answersPerArea
+        };
+        this.answerChange.emit({answer: this.answer, next: this.goNextQuestion});
+      }
+    }
   }
 }

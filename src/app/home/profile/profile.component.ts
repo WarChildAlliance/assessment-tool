@@ -19,11 +19,12 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly pageID = 'profile-page';
-  private userSubscription: Subscription;
 
   public user: User;
   public avatars: Avatar[];
+
+  private readonly pageID = 'profile-page';
+  private userSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,

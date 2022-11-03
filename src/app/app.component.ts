@@ -10,7 +10,6 @@ import { AnswerSession } from './core/models/answer-session.model';
 import { AnswerService } from './core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { interval } from 'rxjs';
-import { AlertService } from './core/services/alert.service';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +17,10 @@ import { AlertService } from './core/services/alert.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private inactiveTimeout;
 
   public serviceWorkerHasUpdate = false;
+
+  private inactiveTimeout;
 
   constructor(
     private answerService: AnswerService,
@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private titleService: Title,
     public translate: TranslateService,
-    private alertService: AlertService,
   ) {
     this.checkAppUpdates();
     this.registerIcons();
@@ -38,6 +37,10 @@ export class AppComponent implements OnInit {
       this.titleService.setTitle(translated);
     });
   }
+
+
+  @HostListener('document:visibilitychange', ['$event'])
+  @HostListener('window:beforeunload', ['$event'])
 
   ngOnInit(): void {
     // check service worker for updates
@@ -58,9 +61,6 @@ export class AppComponent implements OnInit {
       });
   }
 
-
-  @HostListener('document:visibilitychange', ['$event'])
-  @HostListener('window:beforeunload', ['$event'])
   canDeactivate(event: Event): boolean | void {
     if (event.type === 'visibilitychange') {
       if (document.hidden) {

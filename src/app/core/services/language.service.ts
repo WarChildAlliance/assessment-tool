@@ -18,15 +18,6 @@ export class LanguageService {
     this.translateService.setDefaultLang('eng');
   }
 
-  private setDirection(direction: 'RTL' | 'LTR'): void {
-    document.getElementsByTagName('html')[0].setAttribute('dir', direction.toLowerCase());
-    document.getElementsByTagName('html')[0].classList.add(direction.toLowerCase());
-    if (direction === 'RTL') {
-      document.getElementsByTagName('html')[0].classList.add('arabic');
-    }
-    this.direction.next(direction);
-  }
-
   public getLanguages(): Observable<Language[]> {
     return this.http.get<Language[]>(`${environment.API_URL}/users/languages/`);
   }
@@ -34,5 +25,14 @@ export class LanguageService {
   public setLanguage(language: Language): void {
     this.translateService.use(language.code.toLowerCase());
     this.setDirection(language.direction);
+  }
+
+  private setDirection(direction: 'RTL' | 'LTR'): void {
+    document.getElementsByTagName('html')[0].setAttribute('dir', direction.toLowerCase());
+    document.getElementsByTagName('html')[0].classList.add(direction.toLowerCase());
+    if (direction === 'RTL') {
+      document.getElementsByTagName('html')[0].classList.add('arabic');
+    }
+    this.direction.next(direction);
   }
 }
