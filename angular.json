@@ -85,7 +85,8 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/swiper/swiper-bundle.css"
             ],
             "tsConfig": "tsconfig.app.json"
           }
@@ -140,7 +141,8 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss", 
+              "./node_modules/swiper/swiper-bundle.css"
             ],
             "tsConfig": "tsconfig.spec.json"
           }

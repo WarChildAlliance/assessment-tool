@@ -5,6 +5,7 @@ export interface Topic {
   id: number;
   name: string;
   order: number;
+  assessment: number;
   description?: string;
   attachments?: Attachment[];
   questions?: GeneralQuestion[];

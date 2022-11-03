@@ -101,7 +101,9 @@ export class IntroComponent implements OnInit, OnDestroy {
         quote
       )
       .toPromise();
-
+    if (!audioURL) {
+      return;
+    }
     const titleAudio = new Audio(audioURL);
     titleAudio.load();
     await titleAudio.play();
