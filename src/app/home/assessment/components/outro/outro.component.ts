@@ -54,10 +54,15 @@ export class OutroComponent implements OnInit {
 
   private async playOutroSpeech(locale: 'en-US' | 'ar-XA', text: string): Promise<any> {
     return this.ttsService.getSynthesizedSpeech(locale, text).toPromise().then((audioURL) => {
+      if (!audioURL) {
+        return Promise.resolve();
+      }
       const audio = new Audio(audioURL);
       audio.load();
       return audio.play();
     })
-    .catch(_ => Promise.resolve());
+    .catch(() => {
+      return Promise.resolve();
+    });
   }
 }
