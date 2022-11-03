@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ComponentFactoryResolver, ViewContainerRef, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { BehaviorSubject, Subject, throwError, of, EMPTY } from 'rxjs';
-import { switchMap, concatMap, take, tap, map } from 'rxjs/operators';
+import { BehaviorSubject, Subject, of, EMPTY } from 'rxjs';
+import { switchMap, take, map } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -40,12 +40,13 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     public assessmentSubject: string;
     public user: User = null;
     public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
+    public config: SwiperOptions;
     public showBee$ = new BehaviorSubject<boolean>(false);
     public beeState$ = new Subject<BeeState>();
+    public canShowAssessments = false;
 
     @ViewChildren('flowerComponent')
     public flowerComponents: QueryList<FlowerComponent>;
-    public config: SwiperOptions;
 
     constructor(
         private route: ActivatedRoute,
@@ -80,7 +81,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         };
     }
 
-    // TODO: change this.topics to this.currentTopics
     ngOnInit(): void {
         // The color of the flower must be random, but never use twice the same in the same assessment
         this.flowersColors.sort(() => Math.random() - 0.5);
@@ -90,17 +90,23 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
             this.assessmentService.getAssessments().pipe(
                 map((assessments: Assessment[]) => {
-                    // if no assessments, interrupt pipe
+                    // if no assessments, interrupt pipe and subsequent callback
                     if (!assessments?.length) {
                         return EMPTY;
                     }
                     this.assessmentId = assessments[0].id;
-                    assessments[0].topics.forEach(topic => {
-                        this.topics.push(topic);
+                    assessments.forEach((assessment, i) => {
+                        if (i === 0) {
+                            this.topics = assessment.topics;
+                        }
+                        assessment.topics.forEach((topic, j) => {
+                            this.setTopicProperties(assessments[0], topic, j);
+                        });
                     });
+                    this.assessments = assessments;
                     return assessments;
                 }),
-                switchMap((assessments: Assessment[]) => this.route.queryParamMap.pipe(
+                switchMap(() => this.route.queryParamMap.pipe(
                     map((queryParams: ParamMap) => {
                         const recentTopicId = queryParams.get('recent_topic_id');
                         if (!recentTopicId) {
@@ -108,40 +114,32 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         }
                         const recentTopic = this.topics.find(topic => topic.id === parseInt(recentTopicId, 10));
                         if (recentTopic && !recentTopic.completed) {
+                            this.topicsCompletionUpdate = true;
                             return recentTopic;
                         }
                         return null;
                     }),
-                    switchMap((recentCompletedTopic: Topic) =>
-                        recentCompletedTopic ? this.registerTopicCompletion(recentCompletedTopic, user) : of(null)),
-                    map(() => assessments)
-                ))).subscribe((assessments: Assessment[]) => {
-                    assessments.forEach(assessment => {
-                        assessment.topics.forEach((topic, i) => {
-                            const cachedCompetency = (this.user.profile.topics_competencies?.find(
-                                c => c.topic === topic.id && topic.assessment === assessment.id
-                            ))?.competency;
-                            topic.competency = [false, false, false].map(
-                                (value, index) => index + 1 <= cachedCompetency
-                            );
-                            const stars = topic.competency.filter((item) => item === true).length;
-                            topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
-                                stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
-                            topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
-
-                            // Students will have to finish the previous topic to unlock the next one
-                            // (whether they failed or not the topic)
-                            topic.can_start = i > 0 ? assessment.topics[i - 1]?.completed : true;
-                        });
-                    });
-                    this.assessments = assessments;
-                    this.allAssessmentTopicsCompleted = this.topics.every((topic: Topic) => topic.completed);
-                    if (this.topicsCompletionUpdate || !this.allAssessmentTopicsCompleted) {
-                        this.showBee$.next(true);
-                        if (this.allAssessmentTopicsCompleted) {
-                            this.showOutro();
-                        }
+                    switchMap((completedTopic: Topic) =>
+                        completedTopic ? this.registerTopicCompletion(completedTopic, user).then(() => completedTopic.id) :
+                        of(null)),
+                    )
+                )
+            ).subscribe((completedTopicId: number | null) => {
+                if (completedTopicId) {
+                    this.setTopicProperties(
+                        this.assessments.find(e => e.id === this.assessmentId),
+                        this.topics.find(e => e.id === completedTopicId),
+                        this.topics.findIndex(e => e.id === completedTopicId)
+                    );
+                }
+                this.canShowAssessments = true;
+                this.allAssessmentTopicsCompleted = this.topics.every((topic: Topic) => topic.completed);
+                if (this.topicsCompletionUpdate || !this.allAssessmentTopicsCompleted) {
+                    this.showBee$.next(true);
+                    if (this.allAssessmentTopicsCompleted) {
+                        this.showOutro();
                     }
+                }
             });
         });
         this.assisstantService.setPageID(this.pageID);
@@ -153,16 +151,33 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.showBee$.subscribe((value: boolean) => {
             if (!value) { return; }
             if (this.flowerComponents?.length) {
-                this.setBeeStates();
+                this.setAnimations();
             } else {
                 this.flowerComponents.changes.pipe(take(1)).subscribe(() => {
-                    this.setBeeStates();
+                    this.setAnimations();
                 });
             }
         });
     }
 
-    private setBeeStates(): void {
+    private setTopicProperties(assessment: Assessment, topic: Topic, topicIndex: number): void {
+        const cachedCompetency = (this.user.profile.topics_competencies?.find(
+            c => c.topic === topic.id && topic.assessment === assessment.id
+        ))?.competency;
+        topic.competency = [false, false, false].map(
+            (value, index) => index + 1 <= cachedCompetency
+        );
+        const stars = topic.competency.filter((item) => item === true).length;
+        topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
+            stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
+        topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
+
+        // Students will have to finish the previous topic to unlock the next one
+        // (whether they failed or not the topic)
+        topic.can_start = topicIndex > 0 ? assessment.topics[topicIndex - 1]?.completed : true;
+    }
+
+    private setAnimations(): void {
         if (!this.topics?.length) {
             return;
         }
@@ -175,23 +190,15 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         const orientation = (this.allAssessmentTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
-            action: BeeAction.STAY,
+            action: this.topicsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,
             position: {
                 x: initialPos.x,
                 y: initialPos.y
             },
             orientation,
+            honeypots: this.topicsCompletionUpdate ? this.effort : null
         });
         if (this.topicsCompletionUpdate) {
-            this.beeState$.next({
-                action: BeeAction.PRAISE,
-                position: {
-                    x: initialPos.x,
-                    y: initialPos.y
-                },
-                orientation,
-                honeypots: this.topicsCompletionUpdate ? this.effort : null
-            });
             if (this.allAssessmentTopicsCompleted) {
                 this.beeState$.next({
                     action: BeeAction.MOVE,

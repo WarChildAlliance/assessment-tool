@@ -20,7 +20,7 @@ export interface BeeState {
 @Component({
   selector: 'app-topics-bee',
   templateUrl: './bee.component.html',
-  styleUrls: ['./bee.component.scss']
+  styleUrls: ['./bee.component.scss'],
 })
 export class BeeComponent implements OnInit {
   private stateQueue: BeeState[] = [];
@@ -37,7 +37,7 @@ export class BeeComponent implements OnInit {
     let positionVars = this.previousState?.position ?
       `--previous-x: ${this.previousState.position.x}px; --previous-y: ${this.previousState.position.y}px;` : '';
     positionVars += this.currentState?.position ?
-      `--x: ${this.currentState.position.x}px; --y: ${this.currentState.position.y}px;` : '';
+      ` --x: ${this.currentState.position.x}px; --y: ${this.currentState.position.y}px;` : '';
     return this.sanitizer.bypassSecurityTrustStyle(positionVars);
   }
 
@@ -73,7 +73,6 @@ export class BeeComponent implements OnInit {
       }
       this.animationPlaying = true;
     }, 0);
-
   }
 
   public onAnimationEnd(): void {

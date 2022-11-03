@@ -1,5 +1,5 @@
 :host {
-  --bee-height: 100px;
+  --bee-height: 110px;
 }
 .container {
   position: absolute;
@@ -13,6 +13,7 @@
   .bee-container {
     position: static;
     height: 100%;
+    width: 100%;
 
     #flyingbee {
       height: 100%;
@@ -29,7 +30,6 @@
       position: absolute;
       top: 50%;
       height: 30%;
-      transform: rotate(2.97deg) translateX(-100%);
     }
   }
 }
@@ -40,38 +40,44 @@
 }
 .bee-praise {
   animation-duration: 10s, 10s;
+  animation-fill-mode: forwards;
+  --praise-y: calc(50% - var(--bee-height) / 2);
 
-  @keyframes bee-praise {
+  @keyframes enlarge {
     0% {
       height: 0;
       width: 0;
     }
-    25% {
-      height: 30%;
-    }
-    75% {
-      height: 30%;
-    }
-    100% {
+    12% {
       height: var(--bee-height);
       width: auto;
     }
+    25% {
+      transform: scale(2);
+    }
+    75% {
+      transform: scale(2);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
   &.translate-left {
-    animation-name: translate-left, bee-praise;
+    animation-name: translate-left, enlarge;
 
     @keyframes translate-left {
       0% {
-        top: var(--previous-y);
+        top: var(--x);
         left: var(--previous-x);
+        transform: translate(-50%, -50%);
       }
       25% {
-        top: 35%;
-        left: 20%;
+        top: var(--praise-y);
+        left: 30vw;
       }
       75% {
-        top: 35%;
-        left: 20%;
+        top: var(--praise-y);
+        left: 30vw;
       }
       100% {
         top: var(--y);
@@ -80,20 +86,21 @@
     }
   }
   &.translate-right {
-    animation-name: translate-right, bee-praise;
+    animation-name: translate-right, enlarge;
 
     @keyframes translate-right {
       0% {
-        top: var(--previous-y);
-        left: var(--previous-x);
+        top: var(--y);
+        left: var(--x);
+        transform: translate(-50%, -50%);
       }
       25% {
-        top: 35%;
-        left: 70%;
+        top: var(--praise-y);
+        left: 70vw;
       }
       75% {
-        top: 35%;
-        left: 70%;
+        top: var(--praise-y);
+        left: 70vw;
       }
       100% {
         top: var(--y);
@@ -122,7 +129,7 @@
 }
 app-ballon {
   position: absolute;
-  z-index: 3;
+  z-index: 10;
   top: 50%;
   transform: translateY(-50%);
   font-size: clamp(1rem, 4.5vw, 2rem);
