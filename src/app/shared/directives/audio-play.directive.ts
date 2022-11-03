@@ -5,19 +5,19 @@ import { from, fromEvent, Observable } from 'rxjs';
     selector: '[appAudioPlay]'
 })
 export class AudioPlayDirective implements OnChanges {
-    private audio: HTMLAudioElement;
-    private isPlaying: boolean;
     @Input() appAudioPlay: string;
+
+    private audio: HTMLAudioElement;
 
     constructor() {
     }
 
+    @HostListener('click', ['$event'])
+
     ngOnChanges(): void {
         this.audio = new Audio(this.appAudioPlay);
-        this.isPlaying = false;
     }
 
-    @HostListener('click', ['$event'])
     onClick(): void {
         // const playing = fromEvent(this.audio, 'ended');
         if (this.appAudioPlay){

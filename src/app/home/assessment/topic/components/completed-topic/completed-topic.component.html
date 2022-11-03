@@ -2,18 +2,19 @@
     <div class="topic-completed-page">
         <div class="completed-banner">
             <img src="assets/icons/flying-bee.svg" width="120px">
-            <div class="points-container">
-                <h5>{{ 'topics.completedTopic.gainedPoints' | translate }}</h5>
-                <div class="points-display">
-                    <div class="effort">
-                        <h2>{{this.effort}}</h2>
-                        <img src="assets/icons/honeypot.svg">
+            <div [ngSwitch]="topic?.completed" class="points-container">
+                <ng-container *ngSwitchCase="true">
+                    <h5>{{ 'topics.completedTopic.alreadyAnswered' | translate }}</h5>
+                </ng-container>
+                <ng-container *ngSwitchCase="false">
+                    <h5>{{ 'topics.completedTopic.gainedPoints' | translate }}</h5>
+                    <div class="points-display">
+                        <div class="effort">
+                            <h2>{{this.effort}}</h2>
+                            <img src="assets/icons/honeypot.svg">
+                        </div>
                     </div>
-                    <div class="competency" *ngIf="topic.evaluated">
-                        <h2>{{this.competency}}</h2>
-                        <img src="assets/icons/star.svg">
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
         <div class="buttons">

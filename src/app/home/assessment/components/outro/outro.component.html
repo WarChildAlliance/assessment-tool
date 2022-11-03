@@ -1,0 +1,12 @@
+<div *ngIf="isShown" @fade class="container light-green-bg">
+  <img *ngFor="let _ of [].constructor(2)" class="fireworks" src="assets/animations/fireworks_multiple.gif" alt="fireworks_multiple">
+  <div class="bee-container">
+    <img src="assets/icons/bee-sunglasses.svg" alt="bee-sunglasses">
+    <app-ballon
+      [placement]="'left'"
+      [iconXPosition]="5"
+    >
+      <p [innerHTML]="'assessments.outro.html' | translate: { name: firstName }"></p>
+    </app-ballon>
+  </div>
+</div>

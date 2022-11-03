@@ -15,10 +15,12 @@ import { LanguageService } from './language.service';
 })
 export class UserService {
 
-  private userSource = new BehaviorSubject<User>(null);
+  public userSource = new BehaviorSubject<User>(null);
+
   public currentUser = this.userSource.asObservable();
 
   public user: User;
+
 
   constructor(
     private http: HttpClient,
@@ -77,5 +79,9 @@ export class UserService {
   public resetUser(): void {
     this.user = null;
     this.userSource.next(null);
+  }
+
+  public updateUserNoCache(user: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${environment.API_URL}/users/${user.id}/`, user);
   }
 }

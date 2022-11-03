@@ -1,7 +1,8 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDBPDatabase, openDB, deleteDB } from 'idb';
-import { BehaviorSubject, forkJoin, from, fromEvent, interval, merge, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, fromEvent, interval, Observable } from 'rxjs';
 import { first, map, throttle } from 'rxjs/operators';
 import { AnswerSession } from '../models/answer-session.model';
 
@@ -9,10 +10,11 @@ import { AnswerSession } from '../models/answer-session.model';
   providedIn: 'root'
 })
 export class CacheService {
-  private dbName = 'api-storage-la';
-  private activeSessionStorage = 'session';
 
   public networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
+
+  private dbName = 'api-storage-la';
+  private activeSessionStorage = 'session';
 
   constructor(private http: HttpClient) {
 
@@ -27,48 +29,14 @@ export class CacheService {
     });
   }
 
-  private sendStoredMutations(): void {
-    from(this.getRequests()).subscribe((requests: { key: number, value: HttpRequest<unknown> }[]) => {
-        for (const request of requests) {
-            let requestToSend: Observable<any> = null;
-            if (request.value.method === 'POST') {
-                requestToSend = this.http.post(request.value.urlWithParams, request.value.body);
-            } else if (request.value.method === 'PUT') {
-                requestToSend = this.http.put(request.value.urlWithParams, request.value.body);
-            } else if (request.value.method === 'DELETE') {
-                requestToSend = this.http.delete(request.value.urlWithParams);
-            }
-
-            if (requestToSend) {
-                requestToSend.subscribe((_) => {
-                    this.deleteRequest(request.key);
-                });
-            }
-        }
-    });
-  }
-
-  private indexedDbContext(): Promise<IDBPDatabase> {
-    deleteDB('api-storage');
-    return openDB(this.dbName, undefined, {
-      upgrade(db): void {
-        db.createObjectStore('mutations', { autoIncrement: true });
-        db.createObjectStore('assessments');
-        db.createObjectStore('session');
-        db.createObjectStore('topic-answer');
-        db.createObjectStore('user');
-      }
-    });
-  }
-
   public setRequest(request: HttpRequest<unknown>): void {
     this.indexedDbContext().then(db => db.add('mutations', request));
   }
 
-  public async getRequests(): Promise<{ key: number, value: HttpRequest<unknown> }[]> {
+  public async getRequests(): Promise<{ key: number; value: HttpRequest<unknown> }[]> {
     const allTest = this.indexedDbContext().then(db => db.getAll('mutations'));
     let cursor = await this.indexedDbContext().then(db => db.transaction('mutations').store.openCursor());
-    const requests: { key: number, value: HttpRequest<unknown> }[] = [];
+    const requests: { key: number; value: HttpRequest<unknown> }[] = [];
     while (cursor) {
       requests.push({ key: cursor.key as number, value: cursor.value });
       cursor = await cursor.continue();
@@ -113,5 +81,39 @@ export class CacheService {
       }),
       first()
     );
+  }
+
+  private sendStoredMutations(): void {
+    from(this.getRequests()).subscribe((requests: { key: number; value: HttpRequest<unknown> }[]) => {
+        for (const request of requests) {
+            let requestToSend: Observable<any> = null;
+            if (request.value.method === 'POST') {
+                requestToSend = this.http.post(request.value.urlWithParams, request.value.body);
+            } else if (request.value.method === 'PUT') {
+                requestToSend = this.http.put(request.value.urlWithParams, request.value.body);
+            } else if (request.value.method === 'DELETE') {
+                requestToSend = this.http.delete(request.value.urlWithParams);
+            }
+
+            if (requestToSend) {
+                requestToSend.subscribe((_) => {
+                    this.deleteRequest(request.key);
+                });
+            }
+        }
+    });
+  }
+
+  private indexedDbContext(): Promise<IDBPDatabase> {
+    deleteDB('api-storage');
+    return openDB(this.dbName, undefined, {
+      upgrade(db): void {
+        db.createObjectStore('mutations', { autoIncrement: true });
+        db.createObjectStore('assessments');
+        db.createObjectStore('session');
+        db.createObjectStore('topic-answer');
+        db.createObjectStore('user');
+      }
+    });
   }
 }
