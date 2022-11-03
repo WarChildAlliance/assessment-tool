@@ -3,6 +3,7 @@ import { Attachment } from './attachment.model';
 export interface Question {
   id: number;
   title: string;
+  title_audio: string;
   order: number;
   question_type: QuestionTypeEnum;
   hint: Hint;
@@ -14,20 +15,26 @@ export interface QuestionInput extends Question {
   valid_answer: string;
 }
 
+export interface QuestionSEL extends Question {
+  sel_type: string;
+}
+
 export interface QuestionNumberLine extends Question {
   expected_value: number;
   start: number;
   end: number;
   step: number;
-  tick_step: number;
-  show_value: boolean;
-  show_ticks: boolean;
+  shuffle: boolean;
 }
 
 export interface QuestionSelect extends Question {
-  multiple: boolean;
   options: SelectOption[];
   // display_type: 'grid' | 'horizontal' | 'vertical';
+}
+
+export interface QuestionDomino extends Question {
+  expected_value: number;
+  options: DominoOption[];
 }
 
 export interface QuestionSort extends Question {
@@ -41,13 +48,21 @@ export interface QuestionDragDrop extends Question {
   draggable_options: DraggableOption[];
 }
 
-export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop;
+export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop
+ | QuestionDomino | QuestionSEL;
 
 export interface SelectOption {
   id: number;
   title: string;
   valid: boolean;
   attachments: Attachment[];
+}
+
+export interface DominoOption {
+  id: number;
+  left_side_value: number;
+  right_side_value: number;
+  valid: boolean;
 }
 
 export interface SortOption {
@@ -59,16 +74,18 @@ export interface SortOption {
 
 export interface DraggableOption {
   id: number;
-  area_option: number[];
+  area_option: number;
   attachments: Attachment[];
 }
 
 export enum QuestionTypeEnum {
+  SEL = 'SEL',
   Input = 'INPUT',
   Select = 'SELECT',
   Sort = 'SORT',
   NumberLine = 'NUMBER_LINE',
-  DragAndDrop = 'DRAG_AND_DROP'
+  DragAndDrop = 'DRAG_AND_DROP',
+  Domino = 'DOMINO'
 }
 
 export interface Hint {

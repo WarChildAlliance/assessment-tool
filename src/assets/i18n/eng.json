@@ -7,7 +7,7 @@
     "close": "Close",
     "exit": "Exit",
     "hello": "Hello",
-    "hi": "Hi, {{name}} !",
+    "hi": "Hi, {{name}}!",
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
@@ -18,17 +18,24 @@
     "yes": "Yes",
     "of": "of",
     "reopen": "Reopen question",
-    "typeHere": "Type here..."
+    "typeHere": "Type here...",
+    "welcomeStudent": "Welcome"
   },
   "assessments": {
     "assessmentLocked": "(locked)",
     "congratulations": "Congratulations",
-    "noAssessments": "No assessments"
+    "noAssessments": "No assessments",
+    "maths": "maths",
+    "replayIntro": "Replay intro",
+    "outro": {
+      "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
+      "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
+    }
   },
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",
     "completedTopicAssisstant": "\"YEAEAHEAH\" well done you have completed all the questions. You can be very proud of yourself!",
-    "profileAssisstant": "This is your profile. You can see all the stars and honeypots you have gathered. If you have enough honeypots, you can unlock new avatars. Choose the avatar you like best to be on your profile.",
+    "profileAssisstant": "This is your profile. You can see all the honeypots you have gathered. If you have enough honeypots, you can unlock new avatars. Choose the avatar you like best to be on your profile.",
     "questionAssisstant": "You see the question on top that you need to answer. Type your answer in the white field.",
     "questionNumberLineAssisstant": "You see a question on top. Drag the slider to the correct place on the numberline and press the green button",
     "questionSelectAssisstant": "On top you see the question. Below are possible answers. Choose the one that you think is correct and press the green button",
@@ -67,7 +74,8 @@
     "finishPrevious": "You have to finish the previous topic.",
     "topicCompleted": "Well done! You completed the topic.",
     "completedTopic": {
-      "gainedPoints": "You got"
+      "gainedPoints": "You got",
+      "alreadyAnswered": "You have already answered this topic, and therefore can't get more honeypots for it."
     },
     "praise": {
       "praise1": "You must have tried hard on this question!",
@@ -91,7 +99,10 @@
       "exitConfirmation": "Exit confirmation",
       "exitInfo": "If you exit now, you will be redirected to the Topics page.",
       "questionNotAvailable": "This question is not available",
-      "skipSure": "Are you sure you want to skip this question?"
+      "skipSure": "Are you sure you want to skip this question?",
+      "notReallyLikeMe": "Not really like me",
+      "aLittleLikeMe": "A little like me",
+      "aLotLikeMe": "A lot like me"
     }
   },
   "tutorial": {
@@ -110,7 +121,6 @@
     "screenSizeErrorContent": "Please ensure your screen is large enough to display the tutorial correctly.",
     "selectQuestionOptions": "Below are possible answers. Choose the one that you think is correct and press the green button.",
     "selectQuestionTitle": "On top you see the question",
-    "starsCollection": "You collect stars with correct answer",
     "startAssessment": "Click the flower/button to start",
     "startQuestion": "You will get some practise questions now. Click the green button",
     "startTopic": "Click the picture",
@@ -118,5 +128,9 @@
     "toProfilePage": "Let's fly to your profile page to find out what you can do with the honeypots.",
     "unlockingAvatars": "You can unlock a character now",
     "welcome": "Welcome"
+  },
+  "intro": {
+     "enterBallon": "Did you know the more flowers I get the nicer the honey taste?",
+     "secondBallon": "Would you help me collect pollen to make honey?"
   }
 }

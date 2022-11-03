@@ -47,7 +47,7 @@ build_test:
     when: on_success
     paths:
       - dist/
-  script: npm run build -- --prod
+  script: npm run build
   cache:
     key:
       files:
@@ -72,7 +72,7 @@ deploy_sandbox:
     - chmod 644 ~/.ssh/known_hosts
     - npm i
   script:
-    - npm run build -- --prod
+    - npm run build
     - rsync -e "ssh -o StrictHostKeyChecking=no -o PubkeyAuthentication=yes" -avzr --delete dist/assessment-tool/* reliefapps@92.243.25.191:/var/www/html/assessment-tool/main-tool
 
 # Build project for Azure deployment + store artifacts.

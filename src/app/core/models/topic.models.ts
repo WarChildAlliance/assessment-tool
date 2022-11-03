@@ -5,6 +5,7 @@ export interface Topic {
   id: number;
   name: string;
   order: number;
+  assessment: number;
   description?: string;
   attachments?: Attachment[];
   questions?: GeneralQuestion[];
@@ -14,6 +15,7 @@ export interface Topic {
   allow_skip?: boolean;
   evaluated?: boolean;
   max_wrong_answers: number;
+  has_sel_question?: boolean;
   icon: string;
   ribbon?: string;
   completed?: boolean;

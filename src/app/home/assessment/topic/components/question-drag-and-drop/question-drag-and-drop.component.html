@@ -28,7 +28,7 @@
               (cdkDragStarted)="onDragEvent()"
               (cdkDragEnded)="onDragEvent()"
             >
-              <img [src]="getImageAttachment(areaAnswer.attachments)">
+          <img [src]="getImageAttachment(areaAnswer.attachments)" [ngClass]="checkRightAnswer(i) ? '' : 'vibration'">
             </mat-card>
           </ng-container>
         </div>
@@ -44,7 +44,8 @@
       draggableOptions,
       answerDropListData.indexOf($event.item.data),
       $event.currentIndex,
-      false
+      false,
+      true
     );"
   >
     <ng-container *ngFor="let option of draggableOptions; let i = index">

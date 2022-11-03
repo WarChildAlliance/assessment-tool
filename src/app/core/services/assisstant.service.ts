@@ -7,11 +7,12 @@ import { AssisstantContentModel } from '../models/assisstant-content.model';
 })
 export class AssisstantService {
 
-  constructor() { }
 
   private pageID: string;
   private pageContent: AssisstantContentModel;
   private assisstantContent = AssisstantContent;
+
+  constructor() { }
 
   public setPageID(currentPageID: string): void {
     this.pageID = currentPageID;

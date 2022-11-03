@@ -1,36 +1,26 @@
-<div dir="ltr" [class]="headerConfig === 'home' ? 'white-opacity-bg' : 'white-bg'" [ngSwitch]="headerConfig">
-    <div class="header-home">
+<div class="header-home" dir="ltr" [class]="questionHeader ? 'light-green-bg' : ''" *ngIf="headerConfig === 'home'">
+    <div class="header-user">
+        <svg class="elevated-invalid top-left-logo" (click)="logout.emit()"
+            width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_i_1935_40067)">
+                <circle cx="20" cy="20" r="17" fill="#FC502B"/>
+            </g>
+            <circle cx="20" cy="20" r="18.5" stroke="white" stroke-width="3"/>
+            <path d="M26.5542 13.698C25.8986 13.0229 24.7615 13.1028 24.1694 13.803C23.6822 14.3813 23.6331 15.2808 24.2728 15.9552C25.4123 17.1518 26.0396 18.7222 26.0396 20.3762C26.0396 23.9154 23.1929 26.7736 19.6246 26.7871C19.6244 26.7871 19.624 26.787 19.6238 26.787C16.1231 26.7998 13.1927 24.0487 13.2117 20.3602C13.2201 18.7242 13.8349 17.152 14.9755 15.9544C15.6133 15.286 15.5683 14.3808 15.082 13.8084C14.4868 13.1035 13.3175 13.0401 12.6581 13.7356C10.9437 15.533 10 17.8912 10 20.3762C10 25.7042 14.3152 30 19.6238 30C24.9009 30 29.2396 25.8151 29.2493 20.3761C29.2538 17.887 28.3186 15.5301 26.5542 13.698Z" fill="#FAFAFA" stroke="#FAFAFA"/>
+            <path d="M19.6247 10C18.7405 10 18.0208 10.5709 18.0208 11.2723V17.6337C18.0208 18.3351 18.7405 18.906 19.6247 18.906C20.5089 18.906 21.2287 18.3351 21.2287 17.6337V11.2723C21.2287 10.5709 20.5089 10 19.6247 10Z" fill="#FAFAFA" stroke="#FAFAFA"/>
+            <defs>
+                <filter id="filter0_i_1935_40067" x="0" y="0" width="40" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dx="-4" dy="-4"/>
+                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+                    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1935_40067"/>
+                </filter>
+            </defs>
+        </svg>
 
-        <div class="header-container">
-            <div class="header-user"> 
-                <img class="pointer avatar" [src]="getImageUrl()"
-                     [routerLink]="['/profile']" alt="avatar">
-                <h3 class="display_name">{{user.first_name}}</h3>
-            </div>
-            <div class="header-stats">
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/honeypot.svg">
-                    <h2>
-                        {{ user.profile.effort }}
-                    </h2>
-                </div>
-                <div class="profile_stats">
-                    <img class="icon" src="assets/icons/star.svg">
-                    <h2>
-                        {{ user.profile.total_competency }}
-                    </h2>
-                </div>
-            </div>
-            <app-assisstant class="header-assistant"></app-assisstant>
-        </div>
-        <div class="header-actions" *ngIf="headerConfig === 'home'">
-            <img class="elevated-invalid top-left-logo" (click)="logout.emit()" src="assets/icons/switch_off_32.svg">
-        </div>
-        <div class="header-actions" *ngIf="headerConfig === 'profile'">
-            <img class="elevated-valid top-left-logo" [routerLink]="['/home']" [src]="translate.currentLang === 'ara' ?
-            'assets/icons/right_arrow_24.svg' : 'assets/icons/left_arrow_24.svg'">
-        </div>
-
+        <h3 class="display_name">{{user.first_name}}</h3>
     </div>
-
 </div>

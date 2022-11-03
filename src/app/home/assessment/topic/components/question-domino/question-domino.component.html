@@ -1,0 +1,80 @@
+<div class="container">
+    <span class="left-number">{{question.expected_value}}</span>
+    <mat-radio-group [formControl]="valueForm" class="dominoes">
+        <ng-container *ngFor="let option of question.options; let i = index">
+            <div class="option -card">
+                <mat-card [value]="option" [class]="getOptionBtnStyle(option)"
+                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
+                    <div class="half">
+                        <div class="part">
+                            <div *ngIf="option.left_side_value > 1" class="dot left"
+                                [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                            </div>
+                            <div *ngIf="option.left_side_value > 3" class="dot right"
+                                [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                            </div>
+                        </div>
+
+                        <div class="part">
+                            <div *ngIf="(option.left_side_value)%2 !== 0" class="dot middle"
+                                [style]="'background-color: ' + getDotColor(option.left_side_value)"></div>
+                            <ng-container *ngIf="option.left_side_value === 6">
+                                <div class="dot right"
+                                    [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                                </div>
+                                <div class="dot left"
+                                    [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="part">
+                            <div *ngIf="option.left_side_value > 3" class="dot left"
+                                [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                            </div>
+                            <div *ngIf="option.left_side_value > 1" class="dot right"
+                                [style]="'background-color: ' + getDotColor(option.left_side_value)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider-line"></div>
+
+                    <div class="half">
+                        <div class="part">
+                            <div *ngIf="option. right_side_value > 1" class="dot left"
+                                [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                            </div>
+                            <div *ngIf="option. right_side_value > 3" class="dot right"
+                                [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                            </div>
+                        </div>
+
+                        <div class="part">
+                            <div *ngIf="(option. right_side_value)%2 !== 0" class="dot middle"
+                                [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                            </div>
+                            <ng-container *ngIf="option. right_side_value === 6">
+                                <div class="dot right"
+                                    [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                                </div>
+                                <div class="dot left"
+                                    [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="part">
+                            <div *ngIf="option. right_side_value > 3" class="dot left"
+                                [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                            </div>
+                            <div *ngIf="option. right_side_value > 1" class="dot right"
+                                [style]="'background-color: ' + getDotColor(option. right_side_value)">
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </ng-container>
+    </mat-radio-group>
+</div>

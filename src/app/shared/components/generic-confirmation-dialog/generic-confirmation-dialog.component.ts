@@ -11,8 +11,10 @@ interface DialogData {
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
     imageURL: string;
-    animation: { src: string, frameCount: number, loop: boolean };
+    animation: { src: string; frameCount: number; loop: boolean };
     audioURL?: string;
+    openDialogAudioURL?: string;
+    confirmAudioURL?: string;
 }
 
 @Component({
@@ -32,8 +34,9 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public confirmBtnText = 'general.OK';
     public confirmBtnColor: ThemePalette = 'primary';
     public imageURL = 'assets/icons/flying-bee.svg'; // if customized, add the path here relative to assets folder
-    public animation: { src: string, frameCount: number, loop: boolean } = null;
+    public animation: { src: string; frameCount: number; loop: boolean } = null;
     public audioURL = '';  // if customized, add the path here relative to assets folder
+    public confirmAudioURL = '';
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
         if (data.title) {
@@ -66,35 +69,22 @@ export class GenericConfirmationDialogComponent implements OnInit {
         if (data.audioURL) {
             this.audioURL = 'assets/audios/' + data.audioURL;
         }
-
+        if (data.openDialogAudioURL) {
+            const audio = new Audio(data.openDialogAudioURL);
+            audio.load();
+            audio.play();
+        }
+        if (data.confirmAudioURL) {
+            this.confirmAudioURL = data.confirmAudioURL;
+        }
     }
 
     ngOnInit(): void {
     }
 
-    /*
-    playAudio(): void {
-        console.log('audio', this.audio);
-        if (this.isAudioPlaying) {
-            const newAudio = new Audio(this.audioURL)
-            this.audio.pause();
-            newAudio.load();
-            newAudio.play();
-            this.audio = newAudio;
-        } else {
-            this.audio = new Audio(this.audioURL)
-            this.audio.load();
-            this.audio.play();
-            this.isAudioPlaying = true;
-        }
-    }
-
-    ngOnDestroy(): void {
-        if (this.audio) {
-            this.audio.pause()
-        }
-    }*/
-
-    public closeModal(): void {
+    public playConfirmAudio(): void {
+        const audio = new Audio(this.confirmAudioURL);
+        audio.load();
+        audio.play();
     }
 }

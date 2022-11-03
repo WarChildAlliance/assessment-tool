@@ -1,30 +1,28 @@
-<img class="flower" src="assets/flower_green.svg" />
+<img class="flower green" src="assets/flower_green.svg" />
 <div class="light-yellow-bg auth-background">
     <button mat-icon-button appAudioPlay="assets/audios/login.ogg">
         <img src="assets/icons/audio-button.svg" alt="">
     </button>
-    <mat-grid-list cols="1">
-        <mat-grid-tile>
-            <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                <img src="assets/icons/flying-bee.svg" />
-                <div>
-                    <mat-form-field appearance="outline">
-                        <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}" />
-                    </mat-form-field>
-                    <app-action-btn [text]="'auth.login' | translate" [iconUrl]="translate.currentLang === 'ara' ?
-                                        'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
-                        [isDisabled]="authForm.invalid"></app-action-btn>
-                    <div class="browser-disclaimer">
+    <div class="container">
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+            <img class="flower" src="assets/icons/flying-bee.svg" />
+            <div>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="code" placeholder="{{'auth.code' | translate}}" />
+                </mat-form-field>
+                <app-action-btn [text]="'auth.login' | translate" [iconUrl]="translate.currentLang === 'ara' ?
+                                    'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                    [isDisabled]="authForm.invalid"></app-action-btn>
+                <div class="browser-disclaimer">
 
-                        <p>{{ 'auth.browserDisclaimer' | translate }}</p>
-                        <a class="browser-link" href="https://www.google.com/chrome/" target="_blank" rel="noreferrer noopener">
-                            <mat-icon class="browser-icon">public</mat-icon>
-                        </a>
-                    </div>
+                    <p>{{ 'auth.browserDisclaimer' | translate }}</p>
+                    <a class="browser-link" href="https://www.google.com/chrome/" target="_blank" rel="noreferrer noopener">
+                        <mat-icon class="browser-icon">public</mat-icon>
+                    </a>
                 </div>
-            </form>
-        </mat-grid-tile>
-        <img class="flower" src="assets/flower_purple.svg" />
-    </mat-grid-list>
+            </div>
+        </form>
+    </div>
 </div>
-<img class="flower" src="assets/flower_cyan.svg" />
+<img class="flower purple" src="assets/flower_purple.svg" />
+<img class="flower cyan" src="assets/flower_cyan.svg" />

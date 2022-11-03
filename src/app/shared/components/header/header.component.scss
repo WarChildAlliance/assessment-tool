@@ -1,112 +1,33 @@
-h1 {
-  margin-left: 0.5rem;
-}
-h2.profile {
-  position: absolute;
-  top: 1rem;
-  font-weight: 500;
-  margin: 0;
-}
-.avatar{
-  width: 60px;
-  height: 60px;
-  background-color: #FEF1C2;
-  border-radius: 50%;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #FEF1C2;
-
-  @media (max-width: 780px) {
-    width: 50px;
-    height: 50px;
-  }
-}
 h3 {
   font-size: 24px;
   margin-left: 10px;
+  font-weight: 500;
 }
+
 @media (max-width: 521px) {
   .display_name {
     display: none;
   }
-  .icon{
-    width: 35px !important;
-    height: 35px !important;
-  }
 }
-.icon{
-  width: 40px;
-  height: 40px;
-}
-.profile_stats{
-  display: flex;
-  align-items: baseline;
-  justify-items: center;
-  border-width: 2px;
-  border-bottom-style: solid;
-  height: 50px;
+
+.header-home {
+  min-height: 10vh;
+  width: 100%;
 
   @media (max-width: 780px) {
-    margin-top: 15px;
-    height: 40px;
+    margin: 5px 0 15px 2%;
+    padding: 0;
+    width: 96%;
   }
-  h2{
-    margin: 1px 5px;
-    padding: 1px 5px;
-    font-size: 42px;
 
-    @media (max-width: 780px) {
-      font-size: 38px;
-    }
-  }
-}
-.test {
-  text-align: left;
-  font-size: larger;
-}
-.header-home {
-  display: flex;
-  flex-direction: column;
-
-  .header-container {
-    margin: 10px 0;
-    padding: 10px 0;
-    width: 100%;
-    position: relative;
+  .header-user {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: flex;
-    justify-content: center;
-
-    @media (max-width: 780px) {
-      margin: 5px 0 15px 2%;
-      padding: 0;
-      width: 96%;
-    }
-    .header-user {
-      position: absolute;
-      left: 0;
-      top: 0;
-      display: flex;
-      justify-content: baseline;
-    }
-    .header-stats {
-      display: flex;
-      gap: 0 10vw;
-    }
-    .header-assistant {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  .header-actions {
-    width: 100%;
-    margin-bottom: 15px;
-
-    img {
-      float: left;
-      margin-left: 10px;
-      width: 30px;
-      height: 30px;
-    }
+    justify-content: baseline;
+    max-height: 50px;
+    align-items: center;
+    margin: 1rem;
   }
 }

@@ -1,7 +1,4 @@
-<div class="yellow-gradient-bg">
+<div style="overflow: hidden;">
     <app-header headerConfig="home" (logout)="logout()"></app-header>
-    <h2>
-        {{'general.hi' | translate: {name: user?.first_name} }}
-    </h2>
     <app-assessments></app-assessments>
 </div>

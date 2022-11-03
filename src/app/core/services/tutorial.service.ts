@@ -12,10 +12,11 @@ import { UserService } from './user.service';
 })
 export class TutorialService {
 
-  private tourDict = {};
-  private audio = new Audio();
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  private tourDict = {};
+  private audio = new Audio();
 
   constructor(
     private guidedTourService: GuidedTourService,
@@ -157,10 +158,6 @@ export class TutorialService {
       content: this.translateService.instant('tutorial.answerSubmit'),
       orientation: Orientation.Top,
       action: () => { this.playAudio('assets/tutorial/audio/TutorialSubmitButton.ogg'); }
-    });
-    steps.push({
-      content: this.translateService.instant('tutorial.starsCollection'),
-      action: () => { this.playAudio('assets/tutorial/audio/TutorialStars.ogg'); }
     });
     this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.question);
   }

@@ -18,23 +18,30 @@
     "yes": "Oui",
     "of": "sur",
     "reopen": "Rouvrir la question",
-    "typeHere": "Écrivez ici..."
+    "typeHere": "Écrivez ici...",
+    "welcomeStudent": "Bienvenue étudiant"
   },
   "assessments": {
     "assessmentLocked": "(fermé à clé)",
     "congratulations": "Toutes nos félicitations",
-    "noAssessments": "Aucune évaluation"
+    "noAssessments": "Aucune évaluation",
+    "maths": "maths",
+    "replayIntro": "Rejouer l'intro",
+    "outro": {
+      "html": "GÉNIAL !!<br>Félicitations, {{ name }} !<br>Tu t'es très bien débrouillé !!",
+      "plain": "GÉNIAL !! Félicitations, {{ name }} ! Tu t'es très bien débrouillé !!"
+    }
   },
   "assisstant": {
     "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",
     "completedTopicAssisstant": "\"YEAEAHEAH\" Bravo, vous avez répondu à toutes les questions. Vous pouvez être très fier de vous !",
-    "profileAssisstant": "Ceci est votre profil. Vous pouvez voir toutes les étoiles et les pots de miel que vous avez rassemblés. Si vous avez suffisamment de pots de miel, vous pouvez débloquer de nouveaux avatars. Choisissez l'avatar que vous préférez pour être sur votre profil.",
+    "profileAssisstant": "Ceci est votre profil. Vous pouvez voir tous les pots de miel que vous avez rassemblés. Si vous avez suffisamment de pots de miel, vous pouvez débloquer de nouveaux avatars. Choisissez l'avatar que vous préférez pour être sur votre profil.",
     "questionAssisstant": "Vous voyez la question en haut à laquelle vous devez répondre. Tapez votre réponse dans le champ blanc.",
     "questionNumberLineAssisstant": "Vous voyez une question en haut. Faites glisser le curseur au bon endroit sur la ligne numérique et appuyez sur le bouton vert",
     "questionSelectAssisstant": "En haut, vous voyez la question. Vous trouverez ci-dessous des réponses possibles. Choisissez celui qui vous semble correct et appuyez sur le bouton vert",
     "questionSortPage": "Vous devez faire glisser les réponses dans les bonnes catégories. Lorsque toutes les réponses sont dans l'une des catégories, appuyez sur le bouton vert.",
     "topicAssisstant": "Voici l'aperçu du sujet. Lisez attentivement la description avant de commencer. Cliquez sur le bouton vert pour commencer.",
-    "topicsAssisstant": "Ici vous pouvez voir tous les sujets auxquels il est possible de répondre. S'il y a un ruban rouge, cela signifie que vous avez déjà répondu au sujet. Pour certains sujets, vous pouvez obtenir des étoiles. Plus il y a d'étoiles, mieux c'est ! Cliquez sur un sujet pour le démarrer."
+    "topicsAssisstant": "Ici vous pouvez voir tous les sujets auxquels il est possible de répondre. S'il y a un ruban rouge, cela signifie que vous avez déjà répondu au sujet. Pour certains sujets, vous pouvez obtenir des étoiles. Plus il y a d'étoiles, mieux c'est ! Cliquez sur un sujet pour le démarrer."
   },
   "auth": {
     "browserDisclaimer": "Veuillez utiliser le naviguateur Chrome pour une meilleure expérience",
@@ -67,7 +74,8 @@
     "finishPrevious": "Vous devez terminer le sujet précédent.",
     "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
     "completedTopic": {
-      "gainedPoints": "Vous avez"
+      "gainedPoints": "Vous avez",
+      "alreadyAnswered": "Vous avez déjà répondu à ce sujet et ne pouvez donc pas obtenir plus de pots de miel pour cela."
     },
     "praise": {
       "praise1": "Bon travail!",
@@ -91,7 +99,10 @@
       "exitConfirmation": "Es-tu sûr de vouloir quitter?",
       "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page des sujets.",
       "questionNotAvailable": "Cette question n'est pas disponible",
-      "skipSure": "Es-tu sûr de vouloir sauter cette question ?"
+      "skipSure": "Es-tu sûr de vouloir sauter cette question ?",
+      "notReallyLikeMe": "Pas vraiment comme moi",
+      "aLittleLikeMe": "Un peu comme moi",
+      "aLotLikeMe": "Un peu comme moi"
     }
   },
   "tutorial": {
@@ -110,7 +121,6 @@
     "screenSizeErrorContent": "Assurez-vous que votre écran est suffisamment grand pour afficher correctement le didacticiel.",
     "selectQuestionOptions": "Vous trouverez ci-dessous des réponses possibles. Choisissez celui qui vous semble correct et appuyez sur le bouton vert.",
     "selectQuestionTitle": "En haut vous voyez la question",
-    "starsCollection": "Vous collectez des étoiles avec la bonne réponse",
     "startAssessment": "Cliquez sur la fleur/le bouton pour commencer",
     "startQuestion": "Vous aurez maintenant quelques questions pratiques. Cliquez sur le bouton vert",
     "startTopic": "Cliquez sur l'image",
@@ -118,5 +128,9 @@
     "toProfilePage": "Volons vers votre page de profil pour découvrir ce que vous pouvez faire avec les pots de miel.",
     "unlockingAvatars": "Vous pouvez débloquer un personnage maintenant",
     "welcome": "Bienvenue"
+  },
+  "intro" : {
+    "enterBallon": "Saviez-vous que plus je reçois de fleurs, plus le goût du miel est agréable?",
+    "secondBallon": "Pourriez-vous m'aider à collecter du pollen pour faire du miel?"
   }
 }
