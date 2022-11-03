@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from '../core/services/tutorial.service';
 import { GenericConfirmationDialogComponent } from '../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
+import { LogoutAudio } from './audio-logout.dictionary';
 
 @Component({
     selector: 'app-home',
@@ -39,6 +40,16 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        const audio = new Audio('/assets/audios/Lit123[22]ambience_garden_loop.mp3');
+        audio.load();
+        audio.loop = true;
+
+        // Prompt for permissions: to autoplay background sound in the home page
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then((stream) => {
+                audio.play();
+            });
+
         this.userService.currentUser.subscribe( activeUser => {
             this.user = activeUser;
         });
@@ -64,21 +75,29 @@ export class HomeComponent implements OnInit {
     }
 
     public logout(): void {
-        const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-            disableClose: false,
-            data: {
-                content: 'auth.logoutPrompt',
-                cancelBtn: true,
-                cancelBtnText: 'general.no',
-                confirmBtnText: 'general.yes',
-                confirmBtnColor: 'warn',
-            }
-        });
-        dialogRef.afterClosed().subscribe((value) => {
-            if (value) {
-                this.userService.resetUser();
-                this.authService.logout();
-            }
-        });
+        const audio = new Audio(LogoutAudio.disconnectButton);
+        audio.load();
+        audio.play();
+
+        setTimeout(() => {
+            const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+                disableClose: false,
+                data: {
+                    content: 'auth.logoutPrompt',
+                    cancelBtn: true,
+                    cancelBtnText: 'general.no',
+                    confirmBtnText: 'general.yes',
+                    confirmBtnColor: 'warn',
+                    openDialogAudioURL: LogoutAudio.popupAreYouSure,
+                    confirmAudioURL: LogoutAudio.confirmLogout
+                }
+            });
+            dialogRef.afterClosed().subscribe((value) => {
+                if (value) {
+                    this.userService.resetUser();
+                    this.authService.logout();
+                }
+            });
+        }, 600);
     }
 }

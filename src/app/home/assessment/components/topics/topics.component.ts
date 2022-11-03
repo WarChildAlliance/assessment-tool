@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ComponentFactoryResolver, ViewContainerRef, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { BehaviorSubject, Subject, throwError } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject, throwError, of, EMPTY } from 'rxjs';
+import { switchMap, concatMap, take, tap, map } from 'rxjs/operators';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -18,6 +18,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { FlowerComponent } from '../flower/flower.component';
 import { BeeState, BeeAction } from '../bee/bee.component';
+import { Assessment } from 'src/app/core/models/assessment.model';
+import { SwiperOptions } from 'swiper';
 
 @Component({
     selector: 'app-topics',
@@ -28,10 +30,12 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private readonly pageID = 'topics-page';
     private assessmentId: number;
     private topicsCompletionUpdate = false;
-    private allTopicsCompleted = false;
+    private allAssessmentTopicsCompleted = false;
     private effort = 2;
 
-    public topics: Topic[];
+    public onSlideChange;
+    public assessments: Assessment[];
+    public topics: Topic[] = [];
     public assessmentTitle = '';
     public assessmentSubject: string;
     public user: User = null;
@@ -41,6 +45,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
     @ViewChildren('flowerComponent')
     public flowerComponents: QueryList<FlowerComponent>;
+    public config: SwiperOptions;
 
     constructor(
         private route: ActivatedRoute,
@@ -55,59 +60,89 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         private profileService: ProfileService,
         private userService: UserService,
         private router: Router
-    ) {}
+    ) {
+        const audio = new Audio('/assets/audios/swipingAssessmentsLeft-Right.mp3');
+        audio.load();
 
+        this.onSlideChange = (event?: any) => {
+            audio.play();
+            this.assessmentId = this.assessments[event.activeIndex].id;
+        };
+
+        this.config = {
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            },
+            spaceBetween: 30,
+            on: { slideChange: this.onSlideChange }
+        };
+    }
+
+    // TODO: change this.topics to this.currentTopics
     ngOnInit(): void {
         // The color of the flower must be random, but never use twice the same in the same assessment
         this.flowersColors.sort(() => Math.random() - 0.5);
 
         this.cacheService.getData('user').then(user => {
             this.user = user;
-            this.route.paramMap.pipe(
-                switchMap((params: ParamMap) => {
-                    this.assessmentSubject = params.get('subject');
-                    if (!params.has('assessment_id')) {
-                        throwError('No assessment id provided');
+
+            this.assessmentService.getAssessments().pipe(
+                map((assessments: Assessment[]) => {
+                    // if no assessments, interrupt pipe
+                    if (!assessments?.length) {
+                        return EMPTY;
                     }
-                    this.assessmentId = parseInt(params.get('assessment_id'), 10);
-                    this.assessmentService.getAssessment(this.assessmentId).subscribe((assessment) => {
-                        this.assessmentTitle = assessment.title;
+                    this.assessmentId = assessments[0].id;
+                    assessments[0].topics.forEach(topic => {
+                        this.topics.push(topic);
                     });
-                    return this.assessmentService.getAssessmentTopics(this.assessmentId);
-                })
-            ).subscribe(
-                topics => {
-                    this.route.queryParamMap.subscribe(async (params: ParamMap) => {
-                        const recentTopicId = params.get('recent_topic_id');
-                        if (recentTopicId) {
-                            const recentTopic = topics.find(topic => topic.id === parseInt(recentTopicId, 10));
-                            if (recentTopic && !recentTopic.completed) {
-                                this.topicsCompletionUpdate = true;
-                                await this.registerTopicCompletion(recentTopic, user);
-                            }
+                    return assessments;
+                }),
+                switchMap((assessments: Assessment[]) => this.route.queryParamMap.pipe(
+                    map((queryParams: ParamMap) => {
+                        const recentTopicId = queryParams.get('recent_topic_id');
+                        if (!recentTopicId) {
+                            return null;
                         }
-                        topics.forEach((topic, i) => {
-                            const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
-                            topic.competency = [false, false, false].map((value, index) => index + 1 <= cachedCompetency);
+                        const recentTopic = this.topics.find(topic => topic.id === parseInt(recentTopicId, 10));
+                        if (recentTopic && !recentTopic.completed) {
+                            return recentTopic;
+                        }
+                        return null;
+                    }),
+                    switchMap((recentCompletedTopic: Topic) =>
+                        recentCompletedTopic ? this.registerTopicCompletion(recentCompletedTopic, user) : of(null)),
+                    map(() => assessments)
+                ))).subscribe((assessments: Assessment[]) => {
+                    assessments.forEach(assessment => {
+                        assessment.topics.forEach((topic, i) => {
+                            const cachedCompetency = (this.user.profile.topics_competencies?.find(
+                                c => c.topic === topic.id && topic.assessment === assessment.id
+                            ))?.competency;
+                            topic.competency = [false, false, false].map(
+                                (value, index) => index + 1 <= cachedCompetency
+                            );
                             const stars = topic.competency.filter((item) => item === true).length;
                             topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
                                 stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
                             topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
+
                             // Students will have to finish the previous topic to unlock the next one
-                            // (whether they failed or not the topic).
-                            topic.can_start = i > 0 ? topics[i - 1]?.completed : true;
+                            // (whether they failed or not the topic)
+                            topic.can_start = i > 0 ? assessment.topics[i - 1]?.completed : true;
                         });
-                        this.topics = topics;
-                        this.allTopicsCompleted = topics.every((topic: Topic) => topic.completed);
-                        if (this.topicsCompletionUpdate || !this.allTopicsCompleted) {
-                            this.showBee$.next(true);
-                            if (this.allTopicsCompleted) {
-                                this.showOutro();
-                            }
-                        }
                     });
-                }
-            );
+                    this.assessments = assessments;
+                    this.allAssessmentTopicsCompleted = this.topics.every((topic: Topic) => topic.completed);
+                    if (this.topicsCompletionUpdate || !this.allAssessmentTopicsCompleted) {
+                        this.showBee$.next(true);
+                        if (this.allAssessmentTopicsCompleted) {
+                            this.showOutro();
+                        }
+                    }
+            });
         });
         this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
@@ -137,7 +172,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         if (!this.topicsCompletionUpdate && initialIndex !== 0) {
             initialIndex += 1;
         }
-        const orientation = (this.allTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
+        const orientation = (this.allAssessmentTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
             action: BeeAction.STAY,
@@ -157,7 +192,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                 orientation,
                 honeypots: this.topicsCompletionUpdate ? this.effort : null
             });
-            if (this.allTopicsCompleted) {
+            if (this.allAssessmentTopicsCompleted) {
                 this.beeState$.next({
                     action: BeeAction.MOVE,
                     position: {
@@ -217,7 +252,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
 
         const questionId = selectedTopic.questions[0].id;
         this.answerService.startTopicAnswer(id).subscribe();
-        this.router.navigate(['topics', id, 'questions', questionId], {relativeTo: this.route});
+        this.router.navigate(['topics', id, 'questions', questionId], { relativeTo: this.route });
     }
 
     private async isNotFirstTry(topicId: number): Promise<boolean> {

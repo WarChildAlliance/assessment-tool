@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
 import { GenericConfirmationDialogComponent } from '../../../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -136,9 +135,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
     const tID = this.route.snapshot.paramMap.get('topic_id') || '';
     const qID = this.route.snapshot.paramMap.get('question_id') || '';
     this.previousPageUrl = this.router.url.replace(`topics/${tID}/questions/${qID}`, '');
+
     this.userService.getUser().subscribe(({grade}) => {
       this.showTitle = +grade >= 3;
     });
+
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
         this.questionTimeStart = moment().format();
@@ -316,8 +317,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   private playAnswerAudioFeedback(isCorrectAnswer: boolean): void {
     const soundArr = isCorrectAnswer ? FeedbackAudio.rightAnswer : FeedbackAudio.wrongAnswer;
-    const randIndex = Math.floor(Math.random() * soundArr.length);
-    const audio = new Audio(soundArr[randIndex]);
+    const audio = new Audio(soundArr);
 
     audio.load();
     audio.play();
@@ -400,15 +400,16 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public submitAnswerAndGoNextPage(): void {
     if (!this.isSkipped && this.answer.valid) {
       this.showPraise();
+      setTimeout(() => {
+        const audioProgressBar = new Audio('/assets/audios/answers/correct-answer-01.mp3');
+        audioProgressBar.load();
+        audioProgressBar.play();
+      }, this.timeout);
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
       });
     }
-  }
-
-  public getSource(path: string): string{
-    return environment.API_URL + path;
   }
 
   ngOnDestroy(): void {

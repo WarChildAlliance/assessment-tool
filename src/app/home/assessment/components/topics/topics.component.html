@@ -7,14 +7,23 @@
   >
   </app-back-navigation>
 
-  <div class="flowers" *ngIf="topics && topics.length; else noTopics">
-    <app-flower
-      #flowerComponent
-      *ngFor="let topic of topics; let i = index"
-      [index]="i"
-      [topic]="topics[i]"
-      [flowerColor]="flowersColors[i]"
-    ></app-flower>
+  <div *ngIf="assessments && assessments.length; else noTopics">
+    <swiper [config]="config">
+      <div class="swiper-wrapper" >
+        <div class="swiper-slide" *ngFor="let assessment of assessments">
+          <div class="flowers">
+            <app-flower
+              #flowerComponent
+              *ngFor="let topic of assessment.topics; let i = index"
+              [index]="i"
+              [topic]="assessment.topics[i]"
+              [flowerColor]="flowersColors[i]"
+            ></app-flower>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </swiper>
   </div>
 
   <ng-template #noTopics>
@@ -22,4 +31,7 @@
   </ng-template>
 </div>
 
-<app-topics-bee *ngIf="showBee$ | async" [instructions$]="beeState$"></app-topics-bee>
+<app-topics-bee *ngIf="showBee$ | async"
+  [instructions$]="beeState$"
+>
+</app-topics-bee>
