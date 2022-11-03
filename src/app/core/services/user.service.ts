@@ -15,10 +15,12 @@ import { LanguageService } from './language.service';
 })
 export class UserService {
 
-  private userSource = new BehaviorSubject<User>(null);
+  public userSource = new BehaviorSubject<User>(null);
+
   public currentUser = this.userSource.asObservable();
 
   public user: User;
+
 
   constructor(
     private http: HttpClient,

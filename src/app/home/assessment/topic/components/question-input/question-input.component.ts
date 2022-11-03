@@ -1,7 +1,4 @@
 import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewInit, ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -27,9 +24,9 @@ export class QuestionInputComponent implements OnInit {
 
   @Output() answerChange = new EventEmitter<AnswerInput>();
 
-  private readonly pageID = 'question-input-page';
-
   public valueForm = new FormControl(null);
+
+  private readonly pageID = 'question-input-page';
 
   constructor(
     private assisstantService: AssisstantService,

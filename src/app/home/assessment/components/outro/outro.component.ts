@@ -61,8 +61,6 @@ export class OutroComponent implements OnInit {
       audio.load();
       return audio.play();
     })
-    .catch(() => {
-      return Promise.resolve();
-    });
+    .catch(() => Promise.resolve());
   }
 }

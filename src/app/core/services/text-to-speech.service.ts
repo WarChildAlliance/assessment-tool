@@ -27,10 +27,11 @@ export class TextToSpeechService {
         pitch: 2
       }
     }).pipe(
-      map((res: {audioContent: string}) => {
-        return `data:audio/mp3;base64,${res.audioContent}`;
-      }),
+      map((res: {audioContent: string}) => `data:audio/mp3;base64,${res.audioContent}`),
       catchError(() => EMPTY)
     );
   }
+
+  // export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+
 }

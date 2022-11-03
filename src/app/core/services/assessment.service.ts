@@ -20,10 +20,6 @@ export class AssessmentService {
   private storedAssessmentsSource: BehaviorSubject<Assessment[]> = new BehaviorSubject<Assessment[]>([]);
   // storedAssessments: Observable<Assessment[]> = this.storedAssessmentsSource.asObservable();
 
-  public get storedAssessments(): Observable<Assessment[]> {
-    return this.storedAssessmentsSource.asObservable();
-  }
-
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
@@ -32,43 +28,8 @@ export class AssessmentService {
     this.loadAllAssessments();
   }
 
-  // Fetch the icon from the backend to allow accessing it offline
-  private getIcon(icon: string): void {
-    if (!icon) { return; }
-    this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
-  }
-
-  // Fetch the attachments from the backend to allow accessing them offline
-  //  (this could probably be refactored in a single function with the above)
-  private getAttachments(attachments: Attachment[]): void {
-    if (!attachments || !attachments.length) { return; }
-
-    for (const attachment of attachments) {
-      const path = attachment.file.includes(environment.API_URL) ? attachment.file :
-        environment.API_URL + attachment.file;
-      this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
-    }
-  }
-
-  private getQuestionTitleAudio(question: GeneralQuestion, language: string): void {
-    this.ttsService.getSynthesizedSpeech(
-      language === 'ENG' ? 'en-US' : 'ar-XA',
-      question.title
-    ).subscribe((audioURL: string) => {
-      if (audioURL) {
-        question.title_audio = audioURL;
-      }
-    });
-  }
-
-  private getAssessmentsDeep(): Observable<Assessment[]> {
-    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessments/`);
-  }
-
-  private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {
-    return this.http.get(
-      `${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/${questionId}/draggable/`
-    );
+  public get storedAssessments(): Observable<Assessment[]> {
+    return this.storedAssessmentsSource.asObservable();
   }
 
   public loadAllAssessments(): void {
@@ -118,17 +79,13 @@ export class AssessmentService {
 
   public getTutorial(): Observable<Assessment> {
     return this.storedAssessments.pipe(
-      map(assessmentsList => {
-        return assessmentsList.find(a => a.subject === 'TUTORIAL');
-      })
+      map(assessmentsList => assessmentsList.find(a => a.subject === 'TUTORIAL'))
     );
   }
 
   public getAssessments(): Observable<Assessment[]> {
     return this.storedAssessments.pipe(
-      map(assessmentsList => {
-        return this.sortAssessments(assessmentsList);
-      })
+      map(assessmentsList => this.sortAssessments(assessmentsList))
     );
   }
 
@@ -147,9 +104,7 @@ export class AssessmentService {
       assessment.order = assessment.order === undefined ? i : assessment.order;
     });
 
-    mutatedAssessmentList.sort((a, b) => {
-      return a.order - b.order;
-    });
+    mutatedAssessmentList.sort((a, b) => a.order - b.order);
 
     // If tutorial and not complete, return tutorial unlocked and everything else locked
     const tutorial = mutatedAssessmentList.find(assessment => assessment.subject === 'TUTORIAL');
@@ -163,42 +118,71 @@ export class AssessmentService {
   }
 
   public getAssessment(assessmentId: number): Observable<Assessment> {
-    return this.storedAssessments.pipe(map((assessments) => {
-      return assessments
-        .find(assessment => (assessment.id === assessmentId));
-    }));
+    return this.storedAssessments.pipe(map((assessments) => assessments
+        .find(assessment => (assessment.id === assessmentId))));
   }
 
   public getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
-    return this.storedAssessments.pipe(map((assessments) => {
-      return assessments
-        .find(assessment => (assessment.id === assessmentId)).topics;
-    }));
+    return this.storedAssessments.pipe(map((assessments) => assessments
+        .find(assessment => (assessment.id === assessmentId)).topics));
   }
 
   public getAssessmentTopic(assessmentId: number, topicId: number): Observable<Topic> {
-    return this.storedAssessments.pipe(map((assessments) => {
-      return assessments
+    return this.storedAssessments.pipe(map((assessments) => assessments
         .find(assessment => (assessment.id === assessmentId)).topics
-        .find(topic => (topic.id === topicId));
-    }));
+        .find(topic => (topic.id === topicId))));
   }
 
   public getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
-    return this.storedAssessments.pipe(map((assessments) => {
-      return assessments
+    return this.storedAssessments.pipe(map((assessments) => assessments
         .find(assessment => (assessment.id === assessmentId)).topics
-        .find(topic => (topic.id === topicId)).questions;
-    }));
+        .find(topic => (topic.id === topicId)).questions));
   }
 
   public getAssessmentTopicQuestion(assessmentId: number, topicId: number, questionId: number): Observable<GeneralQuestion> {
-    return this.storedAssessments.pipe(map((assessments) => {
-      return assessments
+    return this.storedAssessments.pipe(map((assessments) => assessments
         .find(assessment => (assessment.id === assessmentId)).topics
         .find(topic => (topic.id === topicId)).questions
-        .find(question => (question.id === questionId));
-    }
+        .find(question => (question.id === questionId))
     ));
+  }
+
+  // Fetch the icon from the backend to allow accessing it offline
+  private getIcon(icon: string): void {
+    if (!icon) { return; }
+    this.http.get(environment.API_URL + icon, { responseType: 'arraybuffer' }).subscribe();
+  }
+
+  // Fetch the attachments from the backend to allow accessing them offline
+  //  (this could probably be refactored in a single function with the above)
+  private getAttachments(attachments: Attachment[]): void {
+    if (!attachments || !attachments.length) { return; }
+
+    for (const attachment of attachments) {
+      const path = attachment.file.includes(environment.API_URL) ? attachment.file :
+        environment.API_URL + attachment.file;
+      this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
+    }
+  }
+
+  private getQuestionTitleAudio(question: GeneralQuestion, language: string): void {
+    this.ttsService.getSynthesizedSpeech(
+      language === 'ENG' ? 'en-US' : 'ar-XA',
+      question.title
+    ).subscribe((audioURL: string) => {
+      if (audioURL) {
+        question.title_audio = audioURL;
+      }
+    });
+  }
+
+  private getAssessmentsDeep(): Observable<Assessment[]> {
+    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessment/`);
+  }
+
+  private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {
+    return this.http.get(
+      `${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/${questionId}/draggable/`
+    );
   }
 }

@@ -16,7 +16,6 @@ interface DialogData {
 })
 
 export class TutorialDialogComponent implements OnInit {
-  private audio: HTMLAudioElement;
 
   public title ? = '';
   public content ? = '';
@@ -24,6 +23,8 @@ export class TutorialDialogComponent implements OnInit {
   public audioURL = '';
   public index = 0;
   public steps: any[] =  null;
+
+  private audio: HTMLAudioElement;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -38,6 +39,31 @@ export class TutorialDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.playAudio();
+  }
+
+  public getImage(): string{
+    return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
+  }
+
+  public onNextStep(): void {
+    this.index += 1;
+    this.stopAudio();
+    this.playAudio();
+  }
+
+  public onPreviousStep(): void {
+    if (this.index > 1) {
+      this.index -= 1;
+    } else {
+      this.index = 0;
+    }
+    this.stopAudio();
+    this.playAudio();
+  }
+
+  public closeTutorial(): void {
+    this.audio.pause();
+    this.redirect();
   }
 
   private getAudio(): string{
@@ -73,30 +99,5 @@ export class TutorialDialogComponent implements OnInit {
         }
       });
     }
-  }
-
-  public getImage(): string{
-    return 'assets/tutorial/images/' + this.steps[this.index].pictureURL;
-  }
-
-  public onNextStep(): void {
-    this.index += 1;
-    this.stopAudio();
-    this.playAudio();
-  }
-
-  public onPreviousStep(): void {
-    if (this.index > 1) {
-      this.index -= 1;
-    } else {
-      this.index = 0;
-    }
-    this.stopAudio();
-    this.playAudio();
-  }
-
-  public closeTutorial(): void {
-    this.audio.pause();
-    this.redirect();
   }
 }
