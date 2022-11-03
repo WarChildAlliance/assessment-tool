@@ -55,7 +55,9 @@ export class AssessmentService {
       language === 'ENG' ? 'en-US' : 'ar-XA',
       question.title
     ).subscribe((audioURL: string) => {
-      question.title_audio = audioURL;
+      if (audioURL) {
+        question.title_audio = audioURL;
+      }
     });
   }
 
