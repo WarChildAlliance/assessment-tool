@@ -77,7 +77,9 @@
       "gainedPoints": "You just got",
       "alreadyAnswered": "You have already answered this topic, and therefore can't get more honeypots for it.",
       "praise": {
-        "1": "Un-Bee-lievable!!"
+        "1": "Bee-utiful!!",
+        "2": "Un-Bee-lievable!!",
+        "3": "Well done, busy bee!"
       }
     },
     "praise": {

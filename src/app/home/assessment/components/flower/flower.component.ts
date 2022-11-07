@@ -5,6 +5,7 @@ import { Topic } from 'src/app/core/models/topic.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { environment } from 'src/environments/environment';
 import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
+import { ProgressionAudio } from '../audio-progression/audio-progression.dictionary';
 
 @Component({
   selector: 'app-flower',
@@ -12,10 +13,27 @@ import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedb
   styleUrls: ['./flower.component.scss'],
 })
 export class FlowerComponent implements OnInit {
-  @Input() topic: Topic;
+  private currentTopic: Topic;
+
+  @Input()
+  set topic(topic: Topic) {
+    if (topic.can_start && this.currentTopic && !this.currentTopic.can_start) {
+      this.fadeCorollaIn = true;
+    }
+    if (topic.completed && this.currentTopic && !this.currentTopic.completed) {
+      this.fadeHoneypotsIn = true;
+      this.playShowHoneypotsAudio(topic.honeypots);
+    }
+    this.currentTopic = topic;
+  }
+  get topic(): Topic { return this.currentTopic; }
+
+  public flowerColorLighter: string;
+  public fadeCorollaIn = false;
+  public fadeHoneypotsIn = false;
+
   @Input() index: number;
   @Input() flowerColor: string;
-  public flowerColorLighter: string;
 
   constructor(
     public elementRef: ElementRef,
@@ -26,6 +44,18 @@ export class FlowerComponent implements OnInit {
 
   ngOnInit(): void {
     this.flowerColorLighter = lighten(0.25, this.flowerColor);
+  }
+
+  private playShowHoneypotsAudio(honeypotsNbr: number): void {
+    const sound = new Audio(ProgressionAudio.showHoneypots);
+    sound.load();
+    sound.play().then(() => {
+      setTimeout(() => {
+        if (honeypotsNbr > 1) {
+          this.playShowHoneypotsAudio(honeypotsNbr - 1);
+        }
+      }, 500);
+    });
   }
 
   public getTopicIcon(): string {

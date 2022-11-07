@@ -31,7 +31,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     private assessmentId: number;
     private topicsCompletionUpdate = false;
     private allAssessmentTopicsCompleted = false;
-    private effort = 2;
+    private completedTopic: Topic;
 
     public onSlideChange;
     public assessments: Assessment[];
@@ -104,16 +104,17 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                         });
                     });
                     this.assessments = assessments;
-                    return assessments;
+                    return null;
                 }),
                 switchMap(() => this.route.queryParamMap.pipe(
+                    // if previous route was last question of a topic last question of a topic
                     map((queryParams: ParamMap) => {
                         const recentTopicId = queryParams.get('recent_topic_id');
                         if (!recentTopicId) {
                             return null;
                         }
                         const recentTopic = this.topics.find(topic => topic.id === parseInt(recentTopicId, 10));
-                        if (recentTopic && !recentTopic.completed) {
+                        if (recentTopic && recentTopic?.completed === false) {
                             this.topicsCompletionUpdate = true;
                             return recentTopic;
                         }
@@ -121,24 +122,24 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                     }),
                     switchMap((completedTopic: Topic) =>
                         completedTopic ? this.registerTopicCompletion(completedTopic, user).then(() => completedTopic.id) :
-                        of(null)),
+                        of(null))
                     )
                 )
             ).subscribe((completedTopicId: number | null) => {
+                this.canShowAssessments = true;
                 if (completedTopicId) {
+                    const completedTopicIndex = this.topics.findIndex(e => e.id === completedTopicId);
+                    const assessment = this.assessments.find(e => e.id === this.assessmentId);
+                    this.completedTopic = {...this.topics[completedTopicIndex]};
                     this.setTopicProperties(
-                        this.assessments.find(e => e.id === this.assessmentId),
-                        this.topics.find(e => e.id === completedTopicId),
-                        this.topics.findIndex(e => e.id === completedTopicId)
+                        assessment,
+                        this.completedTopic,
+                        completedTopicIndex
                     );
                 }
-                this.canShowAssessments = true;
                 this.allAssessmentTopicsCompleted = this.topics.every((topic: Topic) => topic.completed);
                 if (this.topicsCompletionUpdate || !this.allAssessmentTopicsCompleted) {
                     this.showBee$.next(true);
-                    if (this.allAssessmentTopicsCompleted) {
-                        this.showOutro();
-                    }
                 }
             });
         });
@@ -165,11 +166,10 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             c => c.topic === topic.id && topic.assessment === assessment.id
         ))?.competency;
         topic.competency = [false, false, false].map(
-            (value, index) => index + 1 <= cachedCompetency
+            (_, index) => index + 1 <= cachedCompetency
         );
-        const stars = topic.competency.filter((item) => item === true).length;
-        topic.ribbon = stars === 1 ? 'assets/banner_1.svg' :
-            stars === 2 ? 'assets/banner_2.svg' : stars === 3 ? 'assets/banner_3.svg' : 'assets/banner_0.svg';
+        const score = topic.competency.filter((item) => item === true).length;
+        topic.honeypots = Math.max(score, 1);
         topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
 
         // Students will have to finish the previous topic to unlock the next one
@@ -181,13 +181,10 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         if (!this.topics?.length) {
             return;
         }
-        let initialIndex = this.topics.slice().reverse().findIndex(topic => topic.completed);
-        initialIndex = initialIndex === -1 ? 0 : this.topics.length - 1 - initialIndex;
-        // placing bee on next available topic straight away instead of triggering move if praise doesn't occur
-        if (!this.topicsCompletionUpdate && initialIndex !== 0) {
-            initialIndex += 1;
-        }
-        const orientation = (this.allAssessmentTopicsCompleted && this.topicsCompletionUpdate) ? 'left' : 'right';
+        let initialIndex = this.completedTopic ? this.topics.findIndex(e => e.id === this.completedTopic.id) :
+            this.topics.findIndex(e => !e.completed);
+        initialIndex = initialIndex === -1 ? 0 : initialIndex;
+        const orientation = (this.topicsCompletionUpdate && initialIndex > this.topics.length / 2) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
             action: this.topicsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,
@@ -196,43 +193,48 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                 y: initialPos.y
             },
             orientation,
-            honeypots: this.topicsCompletionUpdate ? this.effort : null
+            honeypots: this.topicsCompletionUpdate ? this.completedTopic?.honeypots : null
         });
-        if (this.topicsCompletionUpdate) {
-            if (this.allAssessmentTopicsCompleted) {
-                this.beeState$.next({
-                    action: BeeAction.MOVE,
-                    position: {
-                        x: -100,
-                        y: 50
-                    },
-                    orientation,
-                });
-                return;
-            } else {
-                this.beeState$.next({
-                    action: BeeAction.STAY,
-                    position: {
-                        x: initialPos.x,
-                        y: initialPos.y
-                    },
-                    orientation,
-                });
-            }
+        if (this.topicsCompletionUpdate && this.allAssessmentTopicsCompleted) {
+            this.beeState$.next({
+                action: BeeAction.LEAVE,
+                orientation,
+            });
         }
-        if (!this.topics[initialIndex]?.completed) { return; }
-        const nextPos = this.flowerComponents.get(initialIndex + 1).elementRef.nativeElement.getBoundingClientRect();
+    }
+
+    public unlockNextTopic(): void {
+        let topicIndex = this.topics.findIndex(e => e.id === this.completedTopic.id);
+        this.topics[topicIndex] = this.completedTopic;
+        if (topicIndex < this.topics.length - 1) {
+            topicIndex++;
+            const nextTopicClone = {...this.topics[topicIndex]};
+            this.setTopicProperties(
+                this.assessments[0],
+                nextTopicClone,
+                topicIndex
+            );
+            this.topics[topicIndex] = nextTopicClone;
+        }
+        if (topicIndex >= this.topics.length - 1) {
+            this.beeState$.next({
+                action: BeeAction.LEAVE,
+                orientation: 'left'
+            });
+            return;
+        }
+        const pos = this.flowerComponents.get(topicIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
             action: BeeAction.MOVE,
             position: {
-                x: nextPos.x,
-                y: nextPos.y
+                x: pos.x,
+                y: pos.y
             },
-            orientation
+            orientation: 'right'
         });
     }
 
-    private showOutro(): void {
+    public showOutro(): void {
         const factory = this.componentFactoryResolver.resolveComponentFactory(OutroComponent);
         const componentRef = this.viewContainerRef.createComponent(factory);
         (componentRef.instance as OutroComponent).outroComplete.subscribe(() => {
@@ -287,6 +289,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         const answers = response.answers;
         const correctAnswers = answers.filter(ans => ans.valid);
         let competency = 1;
+        let effort = 2;
 
         if (topic.evaluated) {
             competency = Math.ceil(correctAnswers.length * 3 / answers.length);
@@ -303,10 +306,10 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         } else {
             // set new competency and effort
             newCompetency = competency;
-            this.effort = 5;
+            effort = 5;
         }
 
-        user.profile.effort += this.effort;
+        user.profile.effort += effort;
 
         if (user.profile.topics_competencies.length) {
             user.profile.topics_competencies.forEach(element => {

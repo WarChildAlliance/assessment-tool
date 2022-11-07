@@ -17,10 +17,10 @@
       alt="bee-sunglasses"
       [class]="currentState?.orientation"
     >
-    <img *ngIf="currentState?.action === 'bee-move' && currentState?.orientation === 'left'"
+    <img *ngIf="currentState?.action === 'bee-leave' && currentState?.orientation === 'left'"
       id="beetrail"
       src="assets/bee-trail-loop.svg"
-      style="transform: rotate(-2.97deg) scaleX(-1) translateX(100%);"
+      style="transform: rotate(-2.97deg) scaleX(-1);"
     >
   </div>
 </div>
@@ -31,11 +31,11 @@
   [iconXPosition]="currentState?.orientation === 'right' ? 5 : -5"
   [class]="currentState?.orientation === 'right' ? 'right-side' : 'left-side'"
 >
-  <div style="padding: 24px 72px;">
+  <div style="padding: 0 2em; white-space: nowrap;">
     <h2 style="white-space: nowrap;">
-      {{ 'topics.completedTopic.praise.1' | translate }}
+      {{ this.praise | translate }}
     </h2>
-    <span *ngIf="currentState?.honeypots" style="display: flex;">
+    <span *ngIf="currentState?.honeypots">
       {{ 'topics.completedTopic.gainedPoints' | translate }}
       <img src="assets/icons/honeypot.svg" />
       <h2>+{{ currentState.honeypots }}</h2>

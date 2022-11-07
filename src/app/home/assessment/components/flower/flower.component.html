@@ -5,12 +5,12 @@
         [ngClass]="{'no-allow-click': !topic.questions.length || !topic.can_start}"
     >
         <ng-container [ngSwitch]="topic.questions.length && topic.can_start">
-            <svg *ngSwitchCase="true" class="flower-corolla"  [ngStyle]="{'margin-bottom': index%2 ? '0':'-0.7em'}" width="162" height="161" viewBox="0 0 162 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg *ngSwitchCase="true" class="flower-corolla" [ngClass]="{ 'fade-in': fadeCorollaIn }" [ngStyle]="{'margin-bottom': index%2 ? '0':'-0.7em'}" width="162" height="161" viewBox="0 0 162 161" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path [style.fill]="flowerColor" d="M160.075 101.644V102.147C156.047 117.25 140.945 125.808 125.842 121.781L120.304 120.271L121.815 125.808C125.842 140.911 116.781 156.014 102.181 160.041H101.678C86.5749 164.069 71.4724 155.007 67.4449 140.407L65.9345 134.87L61.907 138.897C50.8316 149.973 33.2116 149.973 22.6399 138.897L22.1365 138.394C11.0611 127.319 11.0611 109.699 22.1365 98.6231L26.164 94.5957L20.6265 93.0853C5.5236 89.0578 -3.03436 73.9552 0.992772 58.8524V58.349C5.02026 43.7498 20.1228 35.1915 35.2257 39.219L40.2599 40.7294L39.2532 35.1919C35.2257 20.089 44.2874 4.98643 58.8869 0.958942H59.3903C74.4931 -3.06854 89.5957 5.99312 93.6232 20.5927L95.1336 26.1302L99.161 22.1027C110.236 11.0273 127.856 11.0273 138.932 22.1027L139.435 22.6061C150.511 33.6815 150.511 51.3014 139.435 61.8731L135.408 65.9006L140.945 67.411C155.544 71.4382 164.102 86.541 160.075 101.644Z" />
                 <path fill="#FFDF74" d="M80.3977 112.336C98.037 112.336 112.337 98.037 112.337 80.3977C112.337 62.7584 98.037 48.4589 80.3977 48.4589C62.7584 48.4589 48.4589 62.7584 48.4589 80.3977C48.4589 98.037 62.7584 112.336 80.3977 112.336Z" />
             </svg>
 
-            <div *ngSwitchCase="false" class="locked-flower"  [ngStyle]="{left:  index%2 ?'10px':'-10px' , transform: index%2 ?'rotate(-8deg)':'rotate(10deg)'}">
+            <div *ngSwitchCase="false" class="locked-flower"  [ngClass]="{ 'fade-out': fadeCorollaIn }" [ngStyle]="{left:  index%2 ?'10px':'-10px' , transform: index%2 ?'rotate(-8deg)':'rotate(10deg)'}">
                 <div class="disk-flower"></div>
                 <div class="ellipse-2" [ngStyle]="{'background-color': flowerColor}"></div>
                 <div class="ellipse-1" [ngStyle]="{'background-image': 'linear-gradient(' + flowerColor + ' 0%, '+ flowerColorLighter +' 100%)'}"></div> 
@@ -39,5 +39,13 @@
         </defs>
     </svg>
 
+    <img *ngIf="topic.completed"
+        src="assets/honeypots_{{ topic.honeypots }}.svg"
+        class="honeypots"
+        [ngClass]="{ 'fade-in': fadeHoneypotsIn }"
+        alt="honeypots"
+    >
+    <!--
     <img class="complete" *ngIf="topic.completed" src="assets/icons/check_24.svg" alt="completed">
+    -->
 </div>

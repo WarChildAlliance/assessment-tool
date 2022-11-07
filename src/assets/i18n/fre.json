@@ -75,7 +75,12 @@
     "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
     "completedTopic": {
       "gainedPoints": "Vous avez",
-      "alreadyAnswered": "Vous avez déjà répondu à ce sujet et ne pouvez donc pas obtenir plus de pots de miel pour cela."
+      "alreadyAnswered": "Vous avez déjà répondu à ce sujet et ne pouvez donc pas obtenir plus de pots de miel pour cela.",
+      "praise": {
+        "1": "",
+        "2": "",
+        "3": ""
+      }
     },
     "praise": {
       "praise1": "Bon travail!",

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 
@@ -26,11 +26,21 @@ export class BeeComponent implements OnInit {
   private stateQueue: BeeState[] = [];
   private stateLoading = false;
   private animationPlaying = false;
+  private praises = [
+    'topics.completedTopic.praise.1',
+    'topics.completedTopic.praise.2',
+    'topics.completedTopic.praise.3'
+  ];
+
+  @Input() instructions$: Observable<BeeState>;
+  @Output() praiseEnded = new EventEmitter<void>();
+  @Output() beeLeft = new EventEmitter<void>();
 
   public previousState: BeeState = null;
   public currentState: BeeState = null;
-
-  @Input() instructions$: Observable<BeeState>;
+  public get praise(): string {
+    return this.praises[Math.floor(Math.random() * (this.praises.length - 1))];
+  }
 
   @HostBinding('style')
   public get style(): SafeStyle {
@@ -41,7 +51,7 @@ export class BeeComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustStyle(positionVars);
   }
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.instructions$.subscribe((state: BeeState) => {
@@ -77,6 +87,8 @@ export class BeeComponent implements OnInit {
 
   public onAnimationEnd(): void {
     this.animationPlaying = false;
+    if (this.currentState.action === BeeAction.PRAISE) { this.praiseEnded.emit(); }
+    if (this.currentState.action === BeeAction.LEAVE) { this.beeLeft.emit(); }
     this.registerNextState();
   }
 }

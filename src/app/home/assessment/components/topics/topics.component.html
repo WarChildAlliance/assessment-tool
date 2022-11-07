@@ -14,7 +14,7 @@
           <div class="flowers">
             <app-flower
               #flowerComponent
-              *ngFor="let topic of assessment.topics; let i = index"
+              *ngFor="let _ of [].constructor(assessment.topics.length); let i = index"
               [index]="i"
               [topic]="assessment.topics[i]"
               [flowerColor]="flowersColors[i]"
@@ -33,5 +33,7 @@
 
 <app-topics-bee *ngIf="showBee$ | async"
   [instructions$]="beeState$"
+  (praiseEnded)="unlockNextTopic()"
+  (beeLeft)="showOutro()"
 >
 </app-topics-bee>
