@@ -1,0 +1,38 @@
+.container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 0 10rem;
+
+  img.fireworks {
+    height: 90%;
+    margin-bottom: 5%;
+
+    &:last-of-type {
+      transform: matrix(-0.2, 0.98, 0.98, 0.2, 0, 0);
+      height: 50%;
+      margin-right: 5%;
+    }
+  }
+  .bee-container {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    p {
+      font-size: clamp(1rem, 4.5vw, 3rem);
+    }
+    app-ballon {
+      width: 50vw;
+      max-width: 700px;
+      min-width: 325px;
+    }
+  }
+}

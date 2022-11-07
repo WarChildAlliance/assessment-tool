@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AnswerSEL } from 'src/app/core/models/answer.model';
 import { QuestionSEL } from 'src/app/core/models/question.model';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-question-sel',
@@ -16,21 +17,29 @@ export class QuestionSelComponent implements OnInit {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Output() answerChange = new EventEmitter<AnswerSEL>();
 
-  private readonly pageID = 'question-sel-page';
 
   public valueForm = new FormControl(null);
+  public showTitle = false;
+
   public selOptions = [
     {id: 'NOT_REALLY', path: 'notReallyLikeMe'},
     {id: 'A_LITTLE', path: 'aLittleLikeMe'},
     {id: 'A_LOT', path: 'aLotLikeMe'}
   ];
 
+  private readonly pageID = 'question-sel-page';
+
   constructor(
     private assisstantService: AssisstantService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
+
+    this.userService.getUser().subscribe(({grade}) => {
+      this.showTitle = +grade >= 3;
+    });
 
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {

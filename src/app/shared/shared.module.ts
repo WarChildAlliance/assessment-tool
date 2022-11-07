@@ -16,6 +16,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
 import { SpriteAnimationComponent } from './components/animation/sprite-animation.component';
+import { BallonComponent } from './components/ballon/ballon.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { SpriteAnimationComponent } from './components/animation/sprite-animatio
         ActionBtnComponent,
         SpinnerComponent,
         TutorialDialogComponent,
-        SpriteAnimationComponent
+        SpriteAnimationComponent,
+        BallonComponent
     ],
     imports: [
         CommonModule,
@@ -47,7 +49,8 @@ import { SpriteAnimationComponent } from './components/animation/sprite-animatio
         SpinnerComponent,
         AssisstantComponent,
         BackNavigationComponent,
-        ActionBtnComponent
+        ActionBtnComponent,
+        BallonComponent
     ]
 })
 export class SharedModule {

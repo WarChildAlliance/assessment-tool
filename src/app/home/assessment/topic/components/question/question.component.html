@@ -6,18 +6,23 @@
         <div class="progress-header">
             <!--  flyingBee = 35px so the bee stays before the first question path -->
             <div class="progress-bar" #progressBar [style.width]="(topic.questions.length  * path + flyingBee) + 'px'"> 
-                <svg  width="36px" *ngFor="let question of topic.questions; let i=index" height="0.35em"   fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path [style.stroke]="questionIndex > i ? '#70504a' : 'white'" stroke-width="2" stroke-dasharray="4 4"
+                <svg  width="36px" *ngFor="let question of topic.questions; let i=index" height="0.35em" [style.fill]="questionIndex > i ? 'none' : 'white'" xmlns="http://www.w3.org/2000/svg">
+                    <path *ngIf="questionIndex > i" [style.stroke]="'#70504a'" stroke-width="2" stroke-dasharray="4 4"
                     d="M0 0C0 2.65216 1.89076 5.1957 5.25632 7.07107C8.62189 8.94643 13.1866 10 17.9462 10C22.7058 10 27.2705 8.94643 30.6361 7.07107C34.0017 5.1957 35.8924 2.65216 35.8924 0"/>
+                    <circle *ngIf="questionIndex <= i" r="4" cy="50%"></circle>
                 </svg>
                 <img *ngIf="translate.currentLang !== 'ara'" [style.left]="(questionIndex * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee-right.svg'">
                 <img *ngIf="translate.currentLang === 'ara'" [style.left]="((topic.questions.length - questionIndex) * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee.svg'">
             </div>
             <div class="icons">
-                <!-- only using topic icon for now, it'll change to the flower the children choose  -->
-                <!-- <img *ngIf="assessment.icon" [src]="getSource(assessment.icon)"> -->
-                <img *ngIf="topic.icon" [src]="getSource(topic.icon)">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M31.8023 20.2025V20.3026C31.0021 23.3044 28.0017 25.0053 25.0012 24.2049L23.901 23.9047L24.2011 25.0053C25.0013 28.0072 23.201 31.0089 20.3004 31.8094H20.2004C17.1999 32.6099 14.1995 30.8088 13.3994 27.907L13.0993 26.8064L12.2991 27.6069C10.0988 29.8082 6.59819 29.8082 4.49789 27.6069L4.39789 27.5069C2.19753 25.3055 2.19753 21.8034 4.39789 19.6021L5.19804 18.8016L4.09789 18.5014C1.09738 17.7009 -0.60284 14.6992 0.197235 11.6974V11.5973C0.997381 8.69562 3.99782 6.99458 6.99833 7.79508L7.99848 8.09528L7.79848 6.99465C6.99833 3.99284 8.79862 0.991091 11.6991 0.190597H11.7991C14.7996 -0.609897 17.8001 1.19118 18.6002 4.09295L18.9003 5.19358L19.7004 4.39308C21.9008 2.19176 25.4014 2.19176 27.6018 4.39308L27.7018 4.49313C29.9021 6.69445 29.9021 10.1966 27.7018 12.2978L26.9016 13.0983L28.0018 13.3985C30.9021 14.1989 32.6024 17.2007 31.8023 20.2025Z" fill="#FE7E7E"/>
+                    <path d="M31.8023 20.2025V20.3026C31.0021 23.3044 28.0017 25.0053 25.0012 24.2049L23.901 23.9047L24.2011 25.0053C25.0013 28.0072 23.201 31.0089 20.3004 31.8094H20.2004C17.1999 32.6099 14.1995 30.8088 13.3994 27.907L13.0993 26.8064L12.2991 27.6069C10.0988 29.8082 6.59819 29.8082 4.49789 27.6069L4.39789 27.5069C2.19753 25.3055 2.19753 21.8034 4.39789 19.6021L5.19804 18.8016L4.09789 18.5014C1.09738 17.7009 -0.60284 14.6992 0.197235 11.6974V11.5973C0.997381 8.69562 3.99782 6.99458 6.99833 7.79508L7.99848 8.09528L7.79848 6.99465C6.99833 3.99284 8.79862 0.991091 11.6991 0.190597H11.7991C14.7996 -0.609897 17.8001 1.19118 18.6002 4.09295L18.9003 5.19358L19.7004 4.39308C21.9008 2.19176 25.4014 2.19176 27.6018 4.39308L27.7018 4.49313C29.9021 6.69445 29.9021 10.1966 27.7018 12.2978L26.9016 13.0983L28.0018 13.3985C30.9021 14.1989 32.6024 17.2007 31.8023 20.2025Z" fill="#FE7E7E"/>
+                    <path d="M15.9728 22.3278C19.4772 22.3278 22.3181 19.4856 22.3181 15.9797C22.3181 12.4737 19.4772 9.63159 15.9728 9.63159C12.4683 9.63159 9.62744 12.4737 9.62744 15.9797C9.62744 19.4856 12.4683 22.3278 15.9728 22.3278Z" fill="#FFDF74"/>
+                </svg>
             </div>
+
+                
         </div>
     </div>
 
@@ -30,7 +35,7 @@
     </div>
 
     <div class="question" [@popOverState]="stateName" *ngIf="!question.on_popup">
-        <h2 *ngIf="question.question_type !== 'NUMBER_LINE'" class="question-title">{{ question.title }}</h2>
+        <h2 *ngIf="showTitle" class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>
@@ -116,7 +121,7 @@
 <!-- To open question in modal -->
 <ng-template #questionDialog>
     <div class="question-popup">
-        <h2 class="question-title">{{ question.title }}</h2>
+        <h2 *ngIf="showTitle" class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>

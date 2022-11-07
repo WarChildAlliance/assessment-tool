@@ -7,7 +7,7 @@
     "close": "Close",
     "exit": "Exit",
     "hello": "Hello",
-    "hi": "Hi, {{name}} !",
+    "hi": "Hi, {{name}}!",
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
@@ -19,12 +19,18 @@
     "of": "of",
     "reopen": "Reopen question",
     "typeHere": "Type here...",
-    "welcomeStudent": "Welcome student"
+    "welcomeStudent": "Welcome"
   },
   "assessments": {
     "assessmentLocked": "(locked)",
     "congratulations": "Congratulations",
-    "noAssessments": "No assessments"
+    "noAssessments": "No assessments",
+    "maths": "maths",
+    "replayIntro": "Replay intro",
+    "outro": {
+      "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
+      "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
+    }
   },
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",
@@ -122,5 +128,9 @@
     "toProfilePage": "Let's fly to your profile page to find out what you can do with the honeypots.",
     "unlockingAvatars": "You can unlock a character now",
     "welcome": "Welcome"
+  },
+  "intro": {
+     "enterBallon": "Did you know the more flowers I get the nicer the honey taste?",
+     "secondBallon": "Would you help me collect pollen to make honey?"
   }
 }

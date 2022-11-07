@@ -6,7 +6,6 @@ import { filter } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
 import { environment } from 'src/environments/environment';
-import { GenericConfirmationDialogComponent } from '../generic-confirmation-dialog/generic-confirmation-dialog.component';
 
 @Component({
     selector: 'app-header',
@@ -59,18 +58,5 @@ export class HeaderComponent implements OnInit {
         return this.user.profile.current_avatar?.image ?
             (environment.API_URL + this.user.profile.current_avatar.image) :
             'assets/avatars/award_120.svg';
-    }
-
-    public openConfirmationDialog(): void {
-        this.dialog.open(GenericConfirmationDialogComponent, {
-            disableClose: true,
-            autoFocus: true,
-            data: {
-                title: 'general.hi',
-                content: 'general.info',
-                confirmBtnText: 'general.OK',
-                confirmBtnColor: 'primary',
-            }
-        });
     }
 }

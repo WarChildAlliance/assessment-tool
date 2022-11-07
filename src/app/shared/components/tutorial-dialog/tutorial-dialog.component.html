@@ -11,7 +11,7 @@
         iconUrl="assets/icons/left_arrow_24.svg">
     </app-action-btn>
 
-    <app-action-btn *ngIf="index != 0" (click)=onPreviousStep() width="250px" [type]="secondary" [text]="'tutorial.previous' | translate"
+    <app-action-btn *ngIf="index !== 0" (click)=onPreviousStep() width="250px" [type]="secondary" [text]="'tutorial.previous' | translate"
         iconUrl="assets/icons/right_arrow_24.svg">
     </app-action-btn>
 </mat-dialog-actions>

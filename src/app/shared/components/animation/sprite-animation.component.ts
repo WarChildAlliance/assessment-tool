@@ -13,12 +13,12 @@ export class SpriteAnimationComponent implements OnInit, OnDestroy {
   @Input() frameCount;
   @Input() loop = false;
 
-  private spritesheetWidth = 0;
-  private animateInterval: ReturnType<typeof setTimeout>;
-
   public pxFrameWidth = 0;
   public pxFrameHeight = 0;
   public backgroundPosX = 0;
+
+  private spritesheetWidth = 0;
+  private animateInterval: ReturnType<typeof setTimeout>;
 
   constructor() { }
 
@@ -32,13 +32,17 @@ export class SpriteAnimationComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getImgDimensions(imgURL: string): Observable<{width: number, height: number}> {
-    const mapLoadedImage = (event) => {
-      return {
+  ngOnDestroy(): void {
+    if (this.loop) {
+      clearInterval(this.animateInterval);
+    }
+  }
+
+  private getImgDimensions(imgURL: string): Observable<{width: number; height: number}> {
+    const mapLoadedImage = (event) => ({
           width: event.target.width,
           height: event.target.height
-      };
-    };
+      });
     const image = new Image();
     const $loadedImg = fromEvent(image, 'load').pipe(take(1), map(mapLoadedImage));
     image.src = imgURL;
@@ -55,11 +59,5 @@ export class SpriteAnimationComponent implements OnInit, OnDestroy {
         this.backgroundPosX -= this.pxFrameWidth;
       }
     }, 33);
-  }
-
-  ngOnDestroy(): void {
-    if (this.loop) {
-      clearInterval(this.animateInterval);
-    }
   }
 }

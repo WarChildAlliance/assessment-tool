@@ -27,13 +27,14 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Input() isEvaluated: boolean;
 
-    @Output() answerChange = new EventEmitter<{answer: AnswerSelect, next: boolean}>();
+    @Output() answerChange = new EventEmitter<{answer: AnswerSelect; next: boolean}>();
 
-    private readonly pageID = 'question-select-page';
     public multipleValidAnswers = 0;
     public timeout = 500;
 
     public valueForm = new FormControl(null);
+
+    private readonly pageID = 'question-select-page';
 
     constructor(
         private assisstantService: AssisstantService,
@@ -77,8 +78,9 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         this.setOptionsContainerStyle();
     }
 
-    private isValid(): boolean {
-        return this.valueForm.value?.valid;
+    ngOnDestroy(): void {
+        this.displayCorrectAnswer.next(false);
+        this.answer = null;
     }
 
     public getOptionBtnStyle(option: any): string {
@@ -128,8 +130,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         }
     }
 
-    ngOnDestroy(): void {
-        this.displayCorrectAnswer.next(false);
-        this.answer = null;
+    private isValid(): boolean {
+        return this.valueForm.value?.valid;
     }
 }

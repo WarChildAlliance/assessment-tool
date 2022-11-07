@@ -20,13 +20,14 @@ import { Topic } from 'src/app/core/models/topic.models';
 })
 export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
-    private blockNavigation = true;
-    private readonly pageID = 'completed-topic-page';
-
     public competency = 1;
     public effort = 2;
     public topic: Topic = null;
     public assessmentId: number = null;
+
+    private blockNavigation = true;
+    private readonly pageID = 'completed-topic-page';
+    private topicsCompletionUpdate = false;
 
     constructor(
         private router: Router,
@@ -72,6 +73,31 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.blockNavigation = false;
         this.tutorialService.currentPage.next(PageNames.topicCompleted);
+    }
+
+    /* Shows modal confirmation before leave the page if is evluated topic
+     */
+    public canDeactivate(event: any): Observable<boolean> | boolean {
+        if (this.blockNavigation) {
+            return false;
+        }
+        this.blockNavigation = true;
+        return true;
+    }
+
+    public goToHomePage(): void {
+        this.blockNavigation = false;
+        this.router.navigate(['../../../']);
+    }
+
+    public goToTopicPage(): void {
+        this.blockNavigation = false;
+        this.router.navigate(['../../'], {
+            relativeTo: this.route,
+            queryParams: {
+                topicsCompletionUpdate: this.topicsCompletionUpdate
+            }
+        });
     }
 
     private registerTopicCompletion(): void {
@@ -142,27 +168,9 @@ export class CompletedTopicComponent implements OnInit, AfterViewInit {
 
                 this.cacheService.setData(searchString, test);
                 this.answerService.endTopicAnswer().subscribe();
+
+                this.topicsCompletionUpdate = true;
             });
         });
-    }
-
-    /* Shows modal confirmation before leave the page if is evluated topic
-     */
-    public canDeactivate(event: any): Observable<boolean> | boolean {
-        if (this.blockNavigation) {
-            return false;
-        }
-        this.blockNavigation = true;
-        return true;
-    }
-
-    public goToHomePage(): void {
-        this.blockNavigation = false;
-        this.router.navigate(['../../../']);
-    }
-
-    public goToTopicPage(): void {
-        this.blockNavigation = false;
-        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }

@@ -16,6 +16,8 @@ export interface User {
   created_by?: number;
   profile?: Profile;
   avatars?: Avatar[];
+  see_intro: boolean;
+  grade?: string;
 }
 
 export enum UserRoles {

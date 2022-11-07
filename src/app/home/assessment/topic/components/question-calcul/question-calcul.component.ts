@@ -15,7 +15,7 @@ export class QuestionCalculComponent implements OnInit {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
   @Input() isEvaluated: boolean;
-  @Output() answerChange = new EventEmitter<{ answer: AnswerCalcul, next: boolean }>();
+  @Output() answerChange = new EventEmitter<{ answer: AnswerCalcul; next: boolean }>();
 
   public operatorSymbol: string;
   public answerNumber: number;

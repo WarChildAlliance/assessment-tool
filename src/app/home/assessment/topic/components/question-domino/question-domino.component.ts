@@ -16,11 +16,11 @@ export class QuestionDominoComponent implements OnInit {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
   @Input() isEvaluated: boolean;
-  @Output() answerChange = new EventEmitter<{ answer: AnswerDomino, next: boolean }>();
-
-  private readonly pageID = 'question-domino-page';
+  @Output() answerChange = new EventEmitter<{ answer: AnswerDomino; next: boolean }>();
 
   public valueForm = new FormControl(null);
+
+  private readonly pageID = 'question-domino-page';
 
   constructor(
     private assisstantService: AssisstantService,

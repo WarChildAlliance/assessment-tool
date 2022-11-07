@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   API_URL: 'http://localhost:8002',
   TTS_API_URL: 'https://texttospeech.googleapis.com/v1/text:synthesize',
-  TTS_API_KEY: 'AIzaSyAmR4bv7FuWavYEqS2DqTUifnlFp_Ay1GU'
+  TTS_API_KEY: ''
+  // TTS_API_KEY: 'AIzaSyAmR4bv7FuWavYEqS2DqTUifnlFp_Ay1GU'
 };
 
 /*
@@ -16,4 +17,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

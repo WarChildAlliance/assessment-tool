@@ -24,6 +24,7 @@ export interface QuestionNumberLine extends Question {
   start: number;
   end: number;
   step: number;
+  shuffle: boolean;
 }
 
 export interface QuestionCalcul extends Question {
