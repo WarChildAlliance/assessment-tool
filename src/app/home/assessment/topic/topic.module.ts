@@ -26,6 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
 import { QuestionDominoComponent } from './components/question-domino/question-domino.component';
 import { QuestionSelComponent } from './components/question-sel/question-sel.component';
+import { QuestionCalculComponent } from './components/question-calcul/question-calcul.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { QuestionSelComponent } from './components/question-sel/question-sel.com
         QuestionDragAndDropComponent,
         QuestionDominoComponent,
         QuestionSelComponent,
+        QuestionCalculComponent,
     ],
     imports: [
         SharedModule,

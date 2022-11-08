@@ -3,7 +3,7 @@
     <mat-radio-group [formControl]="valueForm" class="dominoes">
         <ng-container *ngFor="let option of question.options; let i = index">
             <div class="option -card">
-                <mat-card [value]="option" [class]="getOptionBtnStyle(option)"
+                <mat-card [value]="option" [class]="getOptionBtnStyle(option)" id="domino-{{i}}"
                     (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
                     <div class="half">
                         <div class="part">
