@@ -13,7 +13,24 @@ import { ProgressionAudio } from '../audio-progression/audio-progression.diction
   styleUrls: ['./flower.component.scss'],
 })
 export class FlowerComponent implements OnInit {
+
+  @Input() index: number;
+  @Input() flowerColor: string;
+
+  public flowerColorLighter: string;
+  public fadeCorollaIn = false;
+  public fadeHoneypotsIn = false;
+
   private currentTopic: Topic;
+
+  constructor(
+    public elementRef: ElementRef,
+    private route: ActivatedRoute,
+    private router: Router,
+    private answerService: AnswerService
+  ) {}
+
+  public get topic(): Topic { return this.currentTopic; }
 
   @Input()
   set topic(topic: Topic) {
@@ -26,36 +43,24 @@ export class FlowerComponent implements OnInit {
     }
     this.currentTopic = topic;
   }
-  get topic(): Topic { return this.currentTopic; }
-
-  public flowerColorLighter: string;
-  public fadeCorollaIn = false;
-  public fadeHoneypotsIn = false;
-
-  @Input() index: number;
-  @Input() flowerColor: string;
-
-  constructor(
-    public elementRef: ElementRef,
-    private route: ActivatedRoute,
-    private router: Router,
-    private answerService: AnswerService
-  ) {}
 
   ngOnInit(): void {
     this.flowerColorLighter = lighten(0.25, this.flowerColor);
   }
 
-  private playShowHoneypotsAudio(honeypotsNbr: number): void {
-    const sound = new Audio(ProgressionAudio.showHoneypots);
-    sound.load();
-    sound.play().then(() => {
-      setTimeout(() => {
-        if (honeypotsNbr > 1) {
-          this.playShowHoneypotsAudio(honeypotsNbr - 1);
-        }
-      }, 500);
-    });
+  public playLockedTopicAudioFeedback(topicIndex: number): void {
+    const topicElement = document.getElementById(
+      'topic-' + topicIndex.toString()
+    ) as HTMLElement;
+    topicElement.classList.add('vibration');
+    setTimeout(() => {
+      topicElement.classList.remove('vibration');
+    }, 500);
+    // TODO: change to angry bee sound when available
+    const sound = FeedbackAudio.wrongAnswer[0];
+    const audio = new Audio(sound);
+    audio.load();
+    audio.play();
   }
 
   public getTopicIcon(): string {
@@ -79,25 +84,22 @@ export class FlowerComponent implements OnInit {
     });
   }
 
+  private playShowHoneypotsAudio(honeypotsNbr: number): void {
+    const sound = new Audio(ProgressionAudio.showHoneypots);
+    sound.load();
+    sound.play().then(() => {
+      setTimeout(() => {
+        if (honeypotsNbr > 1) {
+          this.playShowHoneypotsAudio(honeypotsNbr - 1);
+        }
+      }, 500);
+    });
+  }
+
   private async isNotFirstTry(): Promise<boolean> {
     const answers = await this.answerService
       .getCompleteStudentAnswersForTopic(this.topic.id)
       .toPromise();
     return answers.length > 0;
-  }
-
-  public playLockedTopicAudioFeedback(topicIndex: number): void {
-    const topicElement = document.getElementById(
-      'topic-' + topicIndex.toString()
-    ) as HTMLElement;
-    topicElement.classList.add('vibration');
-    setTimeout(() => {
-      topicElement.classList.remove('vibration');
-    }, 500);
-    // TODO: change to angry bee sound when available
-    const sound = FeedbackAudio.wrongAnswer[0];
-    const audio = new Audio(sound);
-    audio.load();
-    audio.play();
   }
 }

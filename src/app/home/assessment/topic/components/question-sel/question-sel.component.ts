@@ -17,7 +17,6 @@ export class QuestionSelComponent implements OnInit {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Output() answerChange = new EventEmitter<AnswerSEL>();
 
-  private readonly pageID = 'question-sel-page';
 
   public valueForm = new FormControl(null);
   public showTitle = false;
@@ -27,6 +26,8 @@ export class QuestionSelComponent implements OnInit {
     {id: 'A_LITTLE', path: 'aLittleLikeMe'},
     {id: 'A_LOT', path: 'aLotLikeMe'}
   ];
+
+  private readonly pageID = 'question-sel-page';
 
   constructor(
     private assisstantService: AssisstantService,

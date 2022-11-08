@@ -27,11 +27,8 @@ import { SwiperOptions } from 'swiper';
     styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent implements OnInit, AfterViewInit {
-    private readonly pageID = 'topics-page';
-    private assessmentId: number;
-    private topicsCompletionUpdate = false;
-    private allAssessmentTopicsCompleted = false;
-    private completedTopic: Topic;
+    @ViewChildren('flowerComponent')
+    public flowerComponents: QueryList<FlowerComponent>;
 
     public onSlideChange;
     public assessments: Assessment[];
@@ -45,8 +42,11 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     public beeState$ = new Subject<BeeState>();
     public canShowAssessments = false;
 
-    @ViewChildren('flowerComponent')
-    public flowerComponents: QueryList<FlowerComponent>;
+    private readonly pageID = 'topics-page';
+    private assessmentId: number;
+    private topicsCompletionUpdate = false;
+    private allAssessmentTopicsCompleted = false;
+    private completedTopic: Topic;
 
     constructor(
         private route: ActivatedRoute,
@@ -161,48 +161,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         });
     }
 
-    private setTopicProperties(assessment: Assessment, topic: Topic, topicIndex: number): void {
-        const cachedCompetency = (this.user.profile.topics_competencies?.find(
-            c => c.topic === topic.id && topic.assessment === assessment.id
-        ))?.competency;
-        topic.competency = [false, false, false].map(
-            (_, index) => index + 1 <= cachedCompetency
-        );
-        const score = topic.competency.filter((item) => item === true).length;
-        topic.honeypots = Math.max(score, 1);
-        topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
-
-        // Students will have to finish the previous topic to unlock the next one
-        // (whether they failed or not the topic)
-        topic.can_start = topicIndex > 0 ? assessment.topics[topicIndex - 1]?.completed : true;
-    }
-
-    private setAnimations(): void {
-        if (!this.topics?.length) {
-            return;
-        }
-        let initialIndex = this.completedTopic ? this.topics.findIndex(e => e.id === this.completedTopic.id) :
-            this.topics.findIndex(e => !e.completed);
-        initialIndex = initialIndex === -1 ? 0 : initialIndex;
-        const orientation = (this.topicsCompletionUpdate && initialIndex > this.topics.length / 2) ? 'left' : 'right';
-        const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
-        this.beeState$.next({
-            action: this.topicsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,
-            position: {
-                x: initialPos.x,
-                y: initialPos.y
-            },
-            orientation,
-            honeypots: this.topicsCompletionUpdate ? this.completedTopic?.honeypots : null
-        });
-        if (this.topicsCompletionUpdate && this.allAssessmentTopicsCompleted) {
-            this.beeState$.next({
-                action: BeeAction.LEAVE,
-                orientation,
-            });
-        }
-    }
-
     public unlockNextTopic(): void {
         let topicIndex = this.topics.findIndex(e => e.id === this.completedTopic.id);
         this.topics[topicIndex] = this.completedTopic;
@@ -248,6 +206,19 @@ export class TopicsComponent implements OnInit, AfterViewInit {
             'assets/yellow_circle.svg';
     }
 
+    public playLockedTopicAudioFeedback(topicIndex: number): void {
+        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
+        topicElement.classList.add('vibration');
+        setTimeout(() => {
+            topicElement.classList.remove('vibration');
+        }, 500);
+        // TODO: change to angry bee sound when available
+        const sound = FeedbackAudio.wrongAnswer[0];
+        const audio = new Audio(sound);
+        audio.load();
+        audio.play();
+    }
+
     public async startTopic(id: number): Promise<void> {
         const selectedTopic = this.topics.find(topic => topic.id === id);
         if (selectedTopic.has_sel_question) {
@@ -264,22 +235,51 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         this.router.navigate(['topics', id, 'questions', questionId], { relativeTo: this.route });
     }
 
+    private setTopicProperties(assessment: Assessment, topic: Topic, topicIndex: number): void {
+        const cachedCompetency = (this.user.profile.topics_competencies?.find(
+            c => c.topic === topic.id && topic.assessment === assessment.id
+        ))?.competency;
+        topic.competency = [false, false, false].map(
+            (_, index) => index + 1 <= cachedCompetency
+        );
+        const score = topic.competency.filter((item) => item === true).length;
+        topic.honeypots = Math.max(score, 1);
+        topic.completed = (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
+
+        // Students will have to finish the previous topic to unlock the next one
+        // (whether they failed or not the topic)
+        topic.can_start = topicIndex > 0 ? assessment.topics[topicIndex - 1]?.completed : true;
+    }
+
+    private setAnimations(): void {
+        if (!this.topics?.length) {
+            return;
+        }
+        let initialIndex = this.completedTopic ? this.topics.findIndex(e => e.id === this.completedTopic.id) :
+            this.topics.findIndex(e => !e.completed);
+        initialIndex = initialIndex === -1 ? 0 : initialIndex;
+        const orientation = (this.topicsCompletionUpdate && initialIndex > this.topics.length / 2) ? 'left' : 'right';
+        const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
+        this.beeState$.next({
+            action: this.topicsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,
+            position: {
+                x: initialPos.x,
+                y: initialPos.y
+            },
+            orientation,
+            honeypots: this.topicsCompletionUpdate ? this.completedTopic?.honeypots : null
+        });
+        if (this.topicsCompletionUpdate && this.allAssessmentTopicsCompleted) {
+            this.beeState$.next({
+                action: BeeAction.LEAVE,
+                orientation,
+            });
+        }
+    }
+
     private async isNotFirstTry(topicId: number): Promise<boolean> {
         const answers = await this.answerService.getCompleteStudentAnswersForTopic(topicId).toPromise();
         return answers.length > 0;
-    }
-
-    public playLockedTopicAudioFeedback(topicIndex: number): void {
-        const topicElement = document.getElementById('topic-' + topicIndex.toString()) as HTMLElement;
-        topicElement.classList.add('vibration');
-        setTimeout(() => {
-            topicElement.classList.remove('vibration');
-        }, 500);
-        // TODO: change to angry bee sound when available
-        const sound = FeedbackAudio.wrongAnswer[0];
-        const audio = new Audio(sound);
-        audio.load();
-        audio.play();
     }
 
     private async registerTopicCompletion(topic: Topic, user: any): Promise<any> {

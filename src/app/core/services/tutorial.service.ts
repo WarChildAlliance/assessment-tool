@@ -12,10 +12,11 @@ import { UserService } from './user.service';
 })
 export class TutorialService {
 
-  private tourDict = {};
-  private audio = new Audio();
   public currentPage: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public hasCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  private tourDict = {};
+  private audio = new Audio();
 
   constructor(
     private guidedTourService: GuidedTourService,

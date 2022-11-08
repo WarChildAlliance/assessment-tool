@@ -11,7 +11,7 @@ interface DialogData {
     confirmBtnText?: string;
     confirmBtnColor?: 'warn' | 'primary' | 'accent';
     imageURL: string;
-    animation: { src: string, frameCount: number, loop: boolean };
+    animation: { src: string; frameCount: number; loop: boolean };
     audioURL?: string;
     openDialogAudioURL?: string;
     confirmAudioURL?: string;
@@ -34,7 +34,7 @@ export class GenericConfirmationDialogComponent implements OnInit {
     public confirmBtnText = 'general.OK';
     public confirmBtnColor: ThemePalette = 'primary';
     public imageURL = 'assets/icons/flying-bee.svg'; // if customized, add the path here relative to assets folder
-    public animation: { src: string, frameCount: number, loop: boolean } = null;
+    public animation: { src: string; frameCount: number; loop: boolean } = null;
     public audioURL = '';  // if customized, add the path here relative to assets folder
     public confirmAudioURL = '';
 

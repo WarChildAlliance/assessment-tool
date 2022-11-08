@@ -15,12 +15,13 @@ import { AssessmentService } from 'src/app/core/services/assessment.service';
   styleUrls: ['./topic.component.scss']
 })
 export class TopicComponent implements OnInit, AfterViewInit {
-  private readonly pageID = 'topic-page';
 
   public topic: Topic;
   public assessment: Assessment;
   public firstTry: boolean;
   public icons: any = {};
+
+  private readonly pageID = 'topic-page';
 
   constructor(
     private route: ActivatedRoute,

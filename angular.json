@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "f747c059-6dce-4173-a19a-4d49d724f9bd"
+    "analytics": "f747c059-6dce-4173-a19a-4d49d724f9bd",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   },
   "defaultProject": "assessment-tool",
   "newProjectRoot": "projects",
@@ -107,15 +110,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "exclude": [
-              "**/node_modules/**"
-            ],
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
