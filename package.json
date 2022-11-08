@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "service-worker": "ng build --configuration production && http-server -p 8080 -c-1 dist/assessment-tool",
-    "build:azure": "ng build --configuration=azure"
+    "build:uat": "ng build --configuration=uat",
+    "build:prod": "ng build --configuration=production"
   },
   "private": true,
   "dependencies": {
