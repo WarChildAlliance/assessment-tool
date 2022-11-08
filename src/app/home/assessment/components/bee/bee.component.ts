@@ -11,8 +11,8 @@ export enum BeeAction {
 export interface BeeState {
   action: BeeAction;
   position?: {
-    x: number,
-    y: number
+    x: number;
+    y: number;
   };
   orientation?: 'left' | 'right';
   honeypots?: number;
@@ -23,6 +23,13 @@ export interface BeeState {
   styleUrls: ['./bee.component.scss'],
 })
 export class BeeComponent implements OnInit {
+  @Input() instructions$: Observable<BeeState>;
+  @Output() praiseEnded = new EventEmitter<void>();
+  @Output() beeLeft = new EventEmitter<void>();
+
+  public previousState: BeeState = null;
+  public currentState: BeeState = null;
+
   private stateQueue: BeeState[] = [];
   private stateLoading = false;
   private animationPlaying = false;
@@ -32,15 +39,7 @@ export class BeeComponent implements OnInit {
     'topics.completedTopic.praise.3'
   ];
 
-  @Input() instructions$: Observable<BeeState>;
-  @Output() praiseEnded = new EventEmitter<void>();
-  @Output() beeLeft = new EventEmitter<void>();
-
-  public previousState: BeeState = null;
-  public currentState: BeeState = null;
-  public get praise(): string {
-    return this.praises[Math.floor(Math.random() * (this.praises.length - 1))];
-  }
+  constructor(private sanitizer: DomSanitizer) {}
 
   @HostBinding('style')
   public get style(): SafeStyle {
@@ -51,7 +50,9 @@ export class BeeComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustStyle(positionVars);
   }
 
-  constructor(private sanitizer: DomSanitizer) {}
+  public get praise(): string {
+    return this.praises[Math.floor(Math.random() * (this.praises.length - 1))];
+  }
 
   ngOnInit(): void {
     this.instructions$.subscribe((state: BeeState) => {
@@ -60,6 +61,13 @@ export class BeeComponent implements OnInit {
         this.registerNextState();
       }
     });
+  }
+
+  public onAnimationEnd(): void {
+    this.animationPlaying = false;
+    if (this.currentState.action === BeeAction.PRAISE) { this.praiseEnded.emit(); }
+    if (this.currentState.action === BeeAction.LEAVE) { this.beeLeft.emit(); }
+    this.registerNextState();
   }
 
   private registerNextState(): void {
@@ -83,12 +91,5 @@ export class BeeComponent implements OnInit {
       }
       this.animationPlaying = true;
     }, 0);
-  }
-
-  public onAnimationEnd(): void {
-    this.animationPlaying = false;
-    if (this.currentState.action === BeeAction.PRAISE) { this.praiseEnded.emit(); }
-    if (this.currentState.action === BeeAction.LEAVE) { this.beeLeft.emit(); }
-    this.registerNextState();
   }
 }
