@@ -1,41 +1,43 @@
 import {
   Component,
-  OnDestroy,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { User } from '../core/models/user.model';
 import { TextToSpeechService } from '../core/services/text-to-speech.service';
 import { UserService } from '../core/services/user.service';
+import { LanguageService } from '../core/services/language.service';
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.scss'],
 })
-export class IntroComponent implements OnInit, OnDestroy {
+export class IntroComponent implements OnInit {
   public onEnterAnimation = false;
   public onSecondBallon = false;
   public onBeeLeave = false;
   public userData: User;
-  private userSubscription: Subscription = new Subscription();
+  public direction = 'ltr';
+
   private quotes: Record<string, string>;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private ttsService: TextToSpeechService,
+    private languageService: LanguageService,
     public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.userService
-      .getUser()
-      .subscribe(async (userData) => {
-        this.userData = userData;
-      });
+    this.languageService.getDirection().subscribe((direction) => {
+      this.direction = direction.toLowerCase();
+    });
+    this.userService.currentUser.subscribe((userData) => {
+      this.userData = userData;
+    });
   }
 
   async init(): Promise<void> {
@@ -50,10 +52,6 @@ export class IntroComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate(['/']);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
   }
 
   timeout(ms: number): Promise<unknown> {
