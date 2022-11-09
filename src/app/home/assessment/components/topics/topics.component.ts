@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { Topic } from 'src/app/core/models/topic.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
@@ -15,6 +14,7 @@ import { OutroComponent } from '../outro/outro.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { SwiperOptions } from 'swiper';
+
 @Component({
     selector: 'app-topics',
     templateUrl: './topics.component.html',

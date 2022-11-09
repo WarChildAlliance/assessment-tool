@@ -120,7 +120,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   public checkRightAnswer(areaIndex: number): boolean {
     const answerOption = [...this.answerDropListData][areaIndex];
     return this.correctAnswer.some(answer =>
-      answerOption.id === answer.id && answer.area_option === answerOption.area_option[0]
+      answerOption.id === answer.id && answer.area_option === answerOption.area_option
     );
   }
 

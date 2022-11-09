@@ -75,6 +75,13 @@
                         [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
                     </app-question-domino>
                 </ng-container>
+
+                <ng-container *ngIf="question.question_type === 'CALCUL'">
+                    <app-question-calcul [question]="question" [answer]="answer" 
+                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                    </app-question-calcul>
+                </ng-container>
     
                 <ng-container *ngIf="question.question_type === 'SORT'">
                     <app-question-sort [question]="question" [(answer)]="answer"
@@ -168,6 +175,13 @@
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'DOMINO'">
+                <app-question-domino [question]="question" [answer]="answer" 
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-domino>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'CALCUL'">
                 <app-question-domino [question]="question" [answer]="answer" 
                     (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
                     [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
