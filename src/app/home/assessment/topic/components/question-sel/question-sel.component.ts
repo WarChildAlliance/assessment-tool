@@ -15,7 +15,7 @@ export class QuestionSelComponent implements OnInit {
   @Input() question: QuestionSEL;
   @Input() answer: AnswerSEL;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
-  @Output() answerChange = new EventEmitter<AnswerSEL>();
+  @Output() answerChange = new EventEmitter<{answer: AnswerSEL; next: boolean}>();
 
 
   public valueForm = new FormControl(null);
@@ -48,13 +48,13 @@ export class QuestionSelComponent implements OnInit {
             statement: value.id,
             question: this.question.id,
             // There is no right or wrong answer for SEL questions, they are not considered
-            valid: false
+            valid: true
           };
         } else {
           this.answer.statement = value.id;
         }
 
-        this.answerChange.emit(this.answer);
+        this.answerChange.emit({answer: this.answer, next: this.answer.valid});
       }
     });
   }
