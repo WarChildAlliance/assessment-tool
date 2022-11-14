@@ -21,8 +21,8 @@ export class QuestionInputComponent implements OnInit {
   @Input() question: QuestionInput;
   @Input() answer: AnswerInput;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
+  @Output() answerChange = new EventEmitter<{answer: AnswerInput; next: boolean}>();
 
-  @Output() answerChange = new EventEmitter<AnswerInput>();
 
   public valueForm = new FormControl(null);
 
@@ -47,9 +47,12 @@ export class QuestionInputComponent implements OnInit {
           this.answer.value = value;
           this.answer.valid = this.isValid();
         }
-        this.answerChange.emit(this.answer);
       }
     });
+  }
+
+  public handleSubmit(): void {
+    this.answerChange.emit({answer: this.answer, next: this.answer.valid});
   }
 
   private isValid(): boolean {

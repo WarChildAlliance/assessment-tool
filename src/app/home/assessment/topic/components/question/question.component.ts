@@ -58,6 +58,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   // Size of the HTML elements (in px) used for the progress bar evolution
   public path = 36;
   public flyingBee = 35;
+  public cursorPosition = {x:0, y:0};
+  public showRightAnswerAnimation = false;
 
   private goNextQuestion = false;
   private isSkipped = false;
@@ -88,6 +90,13 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public get isQuestionInput(): boolean {
     return this.question.question_type === 'INPUT';
+  }
+
+  @HostListener('mousemove', ['$event'])
+  mouseMove($event: MouseEvent) {
+    if (!this.showRightAnswerAnimation) {
+      this.cursorPosition = {x: $event.clientX, y:$event.clientY};
+    }
   }
 
   // Shows modal confirmation before leave the page if is evaluated topic
@@ -233,6 +242,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public checkAnswer(answerEvet): void {
     this.answer = answerEvet.answer;
+    if (this.answer.valid) {
+      this.showRightAnswerAnimation = true;
+    }
     this.playAnswerAudioFeedback(this.answer.valid);
     setTimeout(() => {
       if (answerEvet.next) {
@@ -240,6 +252,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
       } else if (!this.answer.valid) {
         this.resetAnswer.next(true);
       }
+      this.showRightAnswerAnimation = false;
     }, this.timeoutNextQuestion);
   }
 
@@ -277,6 +290,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public submitAnswerAndGoNextPage(): void {
     if (!this.isSkipped && this.answer.valid) {
       this.showPraise();
+      setTimeout(() => {
+        const audioProgressBar = new Audio(FeedbackAudio.progressBar);
+        audioProgressBar.load();
+        audioProgressBar.play();
+      }, this.timeout);
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
