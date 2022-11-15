@@ -15,6 +15,7 @@ const routes: Routes = [
   {
     path: 'intro',
     loadChildren: () => IntroModule,
+    resolve: { user: UserResolver }
   },
   {
     /*

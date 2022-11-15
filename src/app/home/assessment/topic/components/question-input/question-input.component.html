@@ -14,3 +14,9 @@
     </mat-card-actions>
 
 </mat-card>
+
+<div class="submit-button">
+    <app-action-btn [text]="('general.submit' | translate)" (click)="handleSubmit()" class="main-btn submit"
+        iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
+    </app-action-btn>
+</div>

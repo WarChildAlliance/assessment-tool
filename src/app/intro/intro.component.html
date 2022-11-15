@@ -1,4 +1,4 @@
-<div class="container" (click)="init()">
+<div class="container" [dir]="direction">
   <div
     class="bee-container"
     [ngClass]="{
@@ -6,6 +6,7 @@
       'bee-speak': this.onSecondBallon,
       'bee-leave': this.onBeeLeave
     }"
+    dir="ltr"
   >
     <app-ballon
       [placement]="'right'"
@@ -15,7 +16,7 @@
         hide: !this.onSecondBallon
       }"
     >
-      <p style="padding: 16px; margin: 0 8px">
+      <p style="padding: 16px; margin: 0 8px" [dir]="direction">
         {{ "intro.secondBallon" | translate }}
       </p>
     </app-ballon>
@@ -43,8 +44,8 @@
         'enter-animation-delay-md': this.onEnterAnimation
       }"
     >
-      <div style="padding: 24px">
-        <h1>{{ "general.hi" | translate: { name: userData?.first_name } }}</h1>
+      <div style="padding: 24px" [dir]="direction">
+        <h1>{{ "general.hi" | translate }}</h1>
         <p>{{ "intro.enterBallon" | translate }}</p>
       </div>
     </app-ballon>

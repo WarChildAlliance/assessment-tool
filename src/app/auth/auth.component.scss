@@ -12,14 +12,9 @@
 .container {
   display: flex;
   height: 100%;
+  width: 100vw;
   justify-content: center;
   align-items: center;
-}
-
-@media (max-height: 430px) {
-  .container1 {
-    margin-top: 10% !important;
-  }
 }
 
 form {
@@ -45,7 +40,7 @@ form > div {
 
 form > img {
   position: relative;
-  max-width: 150px;
+  width: clamp(60px, 10vw, 150px);
   padding-bottom: 20px;
 }
 
@@ -98,9 +93,10 @@ input:-webkit-autofill {
 
 button {
   float: right;
-  margin-top: 2.5rem;
   margin-right: 4.5rem;
   z-index: 99;
+  margin-top: 0;
+  transform: translateY(2.5rem);
 
   @media (max-width: 780px) {
     margin-top: 1.5rem;
@@ -114,7 +110,7 @@ button {
   justify-content: center;
 
   & > p {
-    font-size: smaller;
+    font-size: clamp(1rem, 2vw, 28px);
     line-height: normal;
   }
   
