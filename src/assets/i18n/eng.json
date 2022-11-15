@@ -7,7 +7,7 @@
     "close": "Close",
     "exit": "Exit",
     "hello": "Hello",
-    "hi": "Hi, {{name}}!",
+    "hi": "Hi!",
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
@@ -28,8 +28,8 @@
     "maths": "maths",
     "replayIntro": "Replay intro",
     "outro": {
-      "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
-      "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
+      "html": "SWEEEEET!!<br>Congratulations!<br>You did amazing!!",
+      "plain": "SWEEEEET!! Congratulations! You did amazing!!"
     }
   },
   "assisstant": {

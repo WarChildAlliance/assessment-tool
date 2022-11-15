@@ -219,6 +219,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
       return;
     }
     this.titleAudio.play();
+    this.titleAudio.onended = () => {
+      this.isTitleAudioPlaying = false;
+    };
   }
 
   public submitQuestion(): void {
