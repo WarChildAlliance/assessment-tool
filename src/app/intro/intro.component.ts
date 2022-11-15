@@ -24,7 +24,7 @@ export class IntroComponent implements OnInit, OnDestroy {
 
   private quotes: Record<string, string>;
   private introAudio: HTMLAudioElement;
-  
+
   constructor(
     private userService: UserService,
     private router: Router,
