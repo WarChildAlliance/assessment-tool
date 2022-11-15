@@ -91,10 +91,6 @@ mat-progress-bar{
   padding-bottom: 50px;
 }
 
-.question-buttons {
-  margin: 50px 0px;
-}
-
 .question-popup {
   display: flex;
   flex-direction: column;
@@ -119,4 +115,12 @@ mat-progress-bar{
   width: 70px;
   height: auto;
   cursor: pointer;
+}
+
+.right-answer-animation {
+  width: 20vw;
+  z-index: 15;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

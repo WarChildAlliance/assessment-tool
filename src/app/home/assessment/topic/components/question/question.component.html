@@ -44,13 +44,14 @@
             <div class="question-content">
                 <ng-container *ngIf="question.question_type === 'SEL'">
                     <app-question-sel [question]="question" [(answer)]="answer"
-                        (answerChange)="submitQuestion()"
+                        (answerChange)="checkAnswer($event)"
                         [displayCorrectAnswer]="displayCorrectAnswer">
                     </app-question-sel>
                 </ng-container>
 
                 <ng-container *ngIf="question.question_type === 'INPUT'">
                     <app-question-input [question]="question" [(answer)]="answer"
+                        (answerChange)="checkAnswer($event)"
                         [displayCorrectAnswer]="displayCorrectAnswer">
                     </app-question-input>
                 </ng-container>
@@ -103,12 +104,6 @@
             </ng-container>
 
         </div>
-
-        <div class="question-buttons" *ngIf="isQuestionInput">
-            <app-action-btn [text]="('general.submit' | translate)" (click)="submitQuestion()" class="main-btn submit"
-                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
-            </app-action-btn>
-        </div>
     </div>
 </div>
 
@@ -131,15 +126,16 @@
         <div class="question-content">
             <ng-container *ngIf="question.question_type === 'SEL'">
                 <app-question-sel [question]="question" [(answer)]="answer"
-                    (answerChange)="submitQuestion()"
+                    (answerChange)="checkAnswer($event)"
                     [displayCorrectAnswer]="displayCorrectAnswer">
                 </app-question-sel>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'INPUT'">
                 <app-question-input [question]="question" [(answer)]="answer"
-                    [displayCorrectAnswer]="displayCorrectAnswer">
-                </app-question-input>
+                        [displayCorrectAnswer]="displayCorrectAnswer"
+                        (answerChange)="checkAnswer($event)">
+                    </app-question-input>
             </ng-container>
 
             <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
@@ -188,11 +184,14 @@
                 </app-question-domino>
             </ng-container>
         </div>
-
-        <div class="buttons" *ngIf="isQuestionInput">
-            <app-action-btn [text]="('general.submit' | translate)" (click)="submitQuestion()" class="main-btn submit"
-                iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
-            </app-action-btn>
-        </div>
     </div>
 </ng-template>
+
+
+<img 
+    *ngIf="showRightAnswerAnimation"
+    class="right-answer-animation"
+    src="/assets/animations/confeti_light_multicolor.gif"
+    alt="right answer animation"
+    [style.transform]="'translate('+cursorPosition.x+'px,'+cursorPosition.y+'px) translateX(-50%) translateY(-50%)'"
+>

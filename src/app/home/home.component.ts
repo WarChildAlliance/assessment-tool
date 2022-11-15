@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit {
     public loading = true;
     public competencies = [];
 
+    private backgroundSound?: HTMLAudioElement;
+
     constructor(
         private http: HttpClient,
         private dialog: MatDialog,
@@ -40,14 +42,13 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const audio = new Audio('/assets/audios/Lit123[22]ambience_garden_loop.mp3');
-        audio.load();
-        audio.loop = true;
-
+        this.backgroundSound = new Audio('/assets/audios/Lit123[22]ambience_garden_loop.mp3');
+        this.backgroundSound.load();
+        this.backgroundSound.loop = true;
         // Prompt for permissions: to autoplay background sound in the home page
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then((stream) => {
-                audio.play();
+                this.backgroundSound.play();
             });
 
         this.userService.currentUser.subscribe( activeUser => {
@@ -75,6 +76,7 @@ export class HomeComponent implements OnInit {
     }
 
     public logout(): void {
+        this.backgroundSound?.pause();
         const audio = new Audio(LogoutAudio.disconnectButton);
         audio.load();
         audio.play();
