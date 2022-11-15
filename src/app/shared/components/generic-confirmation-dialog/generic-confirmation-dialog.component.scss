@@ -4,10 +4,21 @@
 
 img {
   margin-bottom: 1rem;
+  max-width: 12vw;
 }
 
 app-action-btn {
   margin: 1rem;
+}
+
+app-action-btn  {
+  font-size: clamp(1rem, 3vw, 2.5rem);
+  width: 250px;
+  
+}
+
+mat-dialog-content div{
+  font-size: clamp(1rem, 3vw, 2.5rem);
 }
 
 mat-dialog-actions {
@@ -16,7 +27,6 @@ mat-dialog-actions {
 
 #container {
   text-align: center;
-  padding: 0 2rem 2rem 2rem;
 
   @media (max-width: 780px) {
     padding: 0rem;

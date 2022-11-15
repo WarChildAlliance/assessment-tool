@@ -1,18 +1,14 @@
 .header {
-  justify-items: center;
-  display: inline-grid;
-  padding: 1rem;
-  justify-content: space-between;
-  grid-template-columns: 1fr 20fr;
+  width: 80%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
   align-items: center;
-
-  img {
-    margin: 0 0.5rem;
-    width: 35px;
-  }
+  margin: 0  auto;
 }
 
 .progress-header {
+  margin: 0 auto;
   display: inline-flex;
   position: relative;
   align-items: center;
@@ -38,7 +34,7 @@
 
 h2 {
   font-weight: 500;
-  margin: 10px 0px 0px 0px;
+  margin: 0;
 }
 
 button {
@@ -52,7 +48,6 @@ mat-progress-bar{
   border-radius: 0.5rem;
   min-height: 3rem;
 }
-
 
 .icons {
   position: absolute;
@@ -81,14 +76,12 @@ mat-progress-bar{
 }
 
 .question-title {
-  @media (max-width: 780px) {
-    font-size: 38px !important;
-  }
+  font-size: clamp(1rem, 4.5vw, 3rem);
 }
 
 .question {
   position: relative;
-  padding-bottom: 50px;
+  height: calc(100vh - 80px);
 }
 
 .question-popup {

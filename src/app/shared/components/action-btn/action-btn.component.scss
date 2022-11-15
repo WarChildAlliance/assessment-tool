@@ -1,7 +1,7 @@
 button {
   border-radius: 6.25rem;
   padding: 0.5rem;
-  font-size: 35px;
+  font-size: clamp(1rem, 3vw, 2.5rem) ;
 
   &:disabled {
     cursor: default;
