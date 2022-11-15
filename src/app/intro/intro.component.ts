@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -14,7 +15,7 @@ import { LanguageService } from '../core/services/language.service';
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.scss'],
 })
-export class IntroComponent implements OnInit {
+export class IntroComponent implements OnInit, OnDestroy {
   public onEnterAnimation = false;
   public onSecondBallon = false;
   public onBeeLeave = false;
@@ -22,6 +23,7 @@ export class IntroComponent implements OnInit {
   public direction = 'ltr';
 
   private quotes: Record<string, string>;
+  private introAudio: HTMLAudioElement;
 
   constructor(
     private userService: UserService,
@@ -32,15 +34,25 @@ export class IntroComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.introAudio = new Audio('assets/audios/intro-music.mp3');
+    this.introAudio.volume=0.2;
+    this.introAudio.load();
+    this.introAudio.play();
     this.languageService.getDirection().subscribe((direction) => {
       this.direction = direction.toLowerCase();
     });
     this.userService.currentUser.subscribe((userData) => {
       this.userData = userData;
     });
+
+    this.initAnimation();
   }
 
-  async init(): Promise<void> {
+  ngOnDestroy(): void {
+    this.introAudio.pause();
+  }
+
+  async initAnimation(): Promise<void> {
     await this.setQuotes(this.userData);
 
     await this.runEnterAnimation();
