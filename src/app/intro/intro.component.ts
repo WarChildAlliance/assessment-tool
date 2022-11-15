@@ -6,9 +6,9 @@ import {
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../core/models/user.model';
-import { TextToSpeechService } from '../core/services/text-to-speech.service';
 import { UserService } from '../core/services/user.service';
 import { LanguageService } from '../core/services/language.service';
+import { once } from 'events';
 
 @Component({
   selector: 'app-intro',
@@ -23,12 +23,29 @@ export class IntroComponent implements OnInit, OnDestroy {
   public direction = 'ltr';
 
   private quotes: Record<string, string>;
+  private currentLang: string;
+  private readonly quotesAudio = {
+    hi: {
+      eng: '/assets/audios/from-text/hi_eng.mp3',
+      ara: '/assets/audios/from-text/hi_ara.mp3',
+      fre: '/assets/audios/from-text/hi_fre.mp3'
+    },
+    enterBallon: {
+      eng: '/assets/audios/from-text/intro-enterBallon_eng.mp3',
+      ara: '/assets/audios/from-text/intro-enterBallon_ara.mp3',
+      fre: '/assets/audios/from-text/intro-enterBallon_fre.mp3'
+    },
+    secondBallon: {
+      eng: '/assets/audios/from-text/intro-secondBallon_eng.mp3',
+      ara: '/assets/audios/from-text/intro-secondBallon_ara.mp3',
+      fre: '/assets/audios/from-text/intro-secondBallon_fre.mp3'
+    }
+  };
   private introAudio: HTMLAudioElement;
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private ttsService: TextToSpeechService,
     private languageService: LanguageService,
     public translate: TranslateService
   ) {}
@@ -43,17 +60,19 @@ export class IntroComponent implements OnInit, OnDestroy {
     });
     this.userService.currentUser.subscribe((userData) => {
       this.userData = userData;
+      this.currentLang = this.userData.language.code.toLowerCase();
     });
 
     this.initAnimation();
   }
+
 
   ngOnDestroy(): void {
     this.introAudio.pause();
   }
 
   async initAnimation(): Promise<void> {
-    await this.setQuotes(this.userData);
+    await this.setQuotes();
 
     await this.runEnterAnimation();
     await this.runSecondSpeech();
@@ -66,56 +85,46 @@ export class IntroComponent implements OnInit, OnDestroy {
       });
   }
 
-  timeout(ms: number): Promise<unknown> {
+  private timeout(ms: number): Promise<unknown> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  async runEnterAnimation(): Promise<void> {
+  private async runEnterAnimation(): Promise<void> {
     this.onEnterAnimation = true;
-    await this.playAudio(this.quotes['general.hi']);
-    await this.timeout(500);
-    await this.playAudio(this.quotes['intro.enterBallon']);
-    await this.timeout(4500);
+    await this.playAudio(this.quotesAudio.hi[this.currentLang], 500);
+    await this.playAudio(this.quotesAudio.enterBallon[this.currentLang], 4500);
     this.onEnterAnimation = false;
   }
 
-  async runSecondSpeech(): Promise<void> {
+  private async runSecondSpeech(): Promise<void> {
     this.onSecondBallon = true;
-    await this.playAudio(this.quotes['intro.secondBallon']);
-    await this.timeout(4500);
+    await this.playAudio(this.quotesAudio.secondBallon[this.currentLang], 4500);
     this.onSecondBallon = false;
   }
 
-  async runBeeLeaves(): Promise<void> {
+  private async runBeeLeaves(): Promise<void> {
     this.onBeeLeave = true;
   }
 
-  async setQuotes(userData: User): Promise<void> {
+  private async setQuotes(): Promise<void> {
     this.quotes = await this.translate
       .get(['general.hi', 'intro.enterBallon', 'intro.secondBallon'])
       .toPromise();
 
     this.quotes = {
       ...this.quotes,
-      'general.hi': this.quotes['general.hi'].replace(
-        '{{name}}',
-        userData.first_name
-      ),
+      'general.hi': this.quotes['general.hi'],
     };
   }
 
-  async playAudio(quote: string): Promise<void> {
-    const audioURL = await this.ttsService
-      .getSynthesizedSpeech(
-        this.userData.language.code === 'ENG' ? 'en-US' : 'ar-XA',
-        quote
-      )
-      .toPromise();
-    if (!audioURL) {
+  private async playAudio(audioSrc: string, msFallbackTimeout: number): Promise<void> {
+    if (!audioSrc) {
+      await this.timeout(msFallbackTimeout);
       return;
     }
-    const titleAudio = new Audio(audioURL);
-    titleAudio.load();
-    await titleAudio.play();
+    const audio = new Audio(audioSrc);
+    audio.load();
+    audio.play();
+    await once(audio, 'ended');
   }
 }

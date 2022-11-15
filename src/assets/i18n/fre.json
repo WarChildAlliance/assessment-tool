@@ -7,7 +7,7 @@
     "close": "Fermer",
     "exit": "Quitter",
     "hello": "Bonjour",
-    "hi": "Salut, {{name}} !",
+    "hi": "Salut !",
     "home": "Accueil",
     "info": "Les infos arrivent ici",
     "next": "Suivant",
@@ -28,8 +28,8 @@
     "maths": "maths",
     "replayIntro": "Rejouer l'intro",
     "outro": {
-      "html": "GÉNIAL !!<br>Félicitations, {{ name }} !<br>Tu t'es très bien débrouillé !!",
-      "plain": "GÉNIAL !! Félicitations, {{ name }} ! Tu t'es très bien débrouillé !!"
+      "html": "GÉNIAL !!<br>Félicitations !<br>Tu t'es très bien débrouillé !!",
+      "plain": "GÉNIAL !! Félicitations ! Tu t'es très bien débrouillé !!"
     }
   },
   "assisstant": {
