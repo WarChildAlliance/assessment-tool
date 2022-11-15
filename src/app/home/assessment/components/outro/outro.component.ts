@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { TextToSpeechService } from 'src/app/core/services/text-to-speech.service';
@@ -19,11 +19,13 @@ import { User } from 'src/app/core/models/user.model';
     ])
   ],
 })
-export class OutroComponent implements OnInit {
+export class OutroComponent implements OnInit, OnDestroy {
   @Output() outroComplete = new EventEmitter<void>();
 
   public firstName = '';
   public isShown = true;
+
+  private applauseSound: HTMLAudioElement;
 
   constructor(
     private translateService: TranslateService,
@@ -32,6 +34,10 @@ export class OutroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.applauseSound = new Audio('/assets/audios/Applause.mp3');
+    this.applauseSound.load();
+    this.applauseSound.play();
+
     this.userService.currentUser.subscribe((user: User) => {
       this.firstName = user.first_name;
       const locale = user.language.code === 'ENG' ? 'en-US' : 'ar-XA';
@@ -50,6 +56,10 @@ export class OutroComponent implements OnInit {
         }, 5000);
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.applauseSound?.pause();
   }
 
   private async playOutroSpeech(locale: 'en-US' | 'ar-XA', text: string): Promise<any> {
