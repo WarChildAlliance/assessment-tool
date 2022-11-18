@@ -9,9 +9,9 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class TextToSpeechService {
   private readonly voices = {
-    'en-US': 'en-US-Wavenet-F',
+    'en-US': 'en-GB-Neural2-A',
     'ar-XA': 'ar-XA-Wavenet-D',
-    'fr-FR': 'fr-FR-Wavenet-C'
+    'fr-FR': 'fr-FR-Neural2-A'
   };
 
   constructor(private http: HttpClient) { }
