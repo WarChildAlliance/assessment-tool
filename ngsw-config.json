@@ -1,5 +1,21 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "dataGroups": [
+    {
+      "name": "apis",
+      "urls": [
+        "http://localhost:8002",
+        "https://glmt-api.development.humanitarian.tech",
+        "https://assessment-tool-api.westeurope.cloudapp.azure.com"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "2d",
+        "timeout": "5s"
+      }
+    }
+  ],
   "assetGroups": [
     {
       "installMode": "prefetch",
