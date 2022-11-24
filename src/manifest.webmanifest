@@ -1,29 +1,29 @@
 {
   "name": "assessment-tool",
   "short_name": "assessment-tool",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
-  "display": "standalone",
+  "theme_color": "#fcd133",
+  "background_color": "#fffbeb",
+  "display": "fullscreen",
   "scope": "./",
   "start_url": "./",
   "icons": [
     {
-      "src": "assets/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "src": "assets/icons/helper-bee.svg",
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-96x96.png",
-      "sizes": "96x96",
+      "src": "assets/icons/helper-bee-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "maskable"
     },
     {
-      "src": "assets/icons/icon-128x128.png",
-      "sizes": "128x128",
+      "src": "assets/icons/helper-bee-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "maskable"
     }
   ]
 }

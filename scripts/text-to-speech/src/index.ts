@@ -13,7 +13,7 @@ class SpeechSynthesizer {
   private languageConfig = {
     English: {
       languageCode: 'en-US',
-      voice: 'en-US-Wavenet-F'
+      voice: 'en-GB-Neural2-A'
     },
     Arabic: {
       languageCode: 'ar-XA',
@@ -21,7 +21,7 @@ class SpeechSynthesizer {
     },
     French: {
       languageCode: 'fr-FR',
-      voice: 'fr-FR-Wavenet-C'
+      voice: 'fr-FR-Neural2-A'
     }
   };
 
