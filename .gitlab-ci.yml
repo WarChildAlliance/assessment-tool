@@ -36,8 +36,8 @@ lint:
       - node_modules
     policy: pull
 
-# Build project for Sandbox deployment + store artifacts.
-build_test:
+# Build project for UAT deployment + store artifacts.
+build_uat:
   stage: build
   only:
     - stage
@@ -47,7 +47,7 @@ build_test:
     when: on_success
     paths:
       - dist/
-  script: npm run build
+  script: npm run build:uat
   cache:
     key:
       files:
@@ -56,8 +56,8 @@ build_test:
       - node_modules
     policy: pull
 
-# Deploy on Sandbox.
-deploy_sandbox:
+# Deploy on UAT environment.
+deploy_uat:
   stage: deploy
   only:
     - stage
@@ -72,10 +72,9 @@ deploy_sandbox:
     - chmod 644 ~/.ssh/known_hosts
     - npm i
   script:
-    - npm run build
     - rsync -e "ssh -o StrictHostKeyChecking=no -o PubkeyAuthentication=yes" -avzr --delete dist/assessment-tool/* reliefapps@92.243.25.191:/var/www/html/assessment-tool/main-tool
 
-# Build project for Azure deployment + store artifacts.
+# Build project for PROD deployment + store artifacts.
 build_prod:
   stage: build
   only:
@@ -86,7 +85,7 @@ build_prod:
     when: on_success
     paths:
       - dist/
-  script: npm run build:azure
+  script: npm run build:prod
   cache:
     key:
       files:
@@ -95,7 +94,7 @@ build_prod:
       - node_modules
     policy: pull
 
-# Deploy on azure environment.
+# Deploy on PROD environment.
 deploy_azure:
   stage: deploy
   image: mcr.microsoft.com/azure-cli
