@@ -48,25 +48,18 @@ export class FlowerComponent implements OnInit {
       : 'assets/yellow_circle.svg';
   }
 
-  public async startTopic(): Promise<void> {
-    if (this.topic.has_sel_question && (await this.isNotFirstTry())) {
+  public startTopic(): void {
+    if (this.topic.has_sel_question && !this.topic.isFirstTry) {
       // If has SEL questions and isn't the student first try: filter questions to remove SEL questions
       this.topic.questions = this.topic.questions?.filter(
         (question) => question.question_type !== 'SEL'
       );
     }
-
+    this.topic.isFirstTry = false;
     const questionId = this.topic.questions[0].id;
     this.answerService.startTopicAnswer(this.topic.id).subscribe();
     this.router.navigate(['topics', this.topic.id, 'questions', questionId], {
       relativeTo: this.route,
     });
-  }
-
-  private async isNotFirstTry(): Promise<boolean> {
-    const answers = await this.answerService
-      .getCompleteStudentAnswersForTopic(this.topic.id)
-      .toPromise();
-    return answers.length > 0;
   }
 }

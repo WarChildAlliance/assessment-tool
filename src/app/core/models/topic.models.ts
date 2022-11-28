@@ -20,4 +20,5 @@ export interface Topic {
   ribbon?: string;
   completed?: boolean;
   can_start?: boolean;
+  isFirstTry?: boolean;
 }

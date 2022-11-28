@@ -2,11 +2,11 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "dataGroups": [
     {
-      "name": "apis",
+      "name": "api",
       "urls": [
-        "http://localhost:8002",
-        "https://glmt-api.development.humanitarian.tech",
-        "https://assessment-tool-api.westeurope.cloudapp.azure.com"
+        "http://localhost:8002/**",
+        "https://glmt-api.development.humanitarian.tech/**",
+        "https://api.gobee-education.org/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -31,7 +31,8 @@
         ],
         "urls": [
           "https://glmt-api.development.humanitarian.tech/media/*",
-          "http://localhost:8002/media/*"
+          "http://localhost:8002/media/*",
+          "https://api.gobee-education.org/media/*"
         ]
       },
       "updateMode": "prefetch"

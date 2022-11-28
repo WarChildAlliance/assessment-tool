@@ -13,7 +13,7 @@ export class CacheService {
 
   public networkStatus: BehaviorSubject<boolean> = new BehaviorSubject(navigator.onLine);
 
-  private dbName = 'api-storage-la';
+  private dbName = 'api-storage';
   private activeSessionStorage = 'session';
 
   constructor(private http: HttpClient) {
@@ -34,7 +34,6 @@ export class CacheService {
   }
 
   public async getRequests(): Promise<{ key: number; value: HttpRequest<unknown> }[]> {
-    const allTest = this.indexedDbContext().then(db => db.getAll('mutations'));
     let cursor = await this.indexedDbContext().then(db => db.transaction('mutations').store.openCursor());
     const requests: { key: number; value: HttpRequest<unknown> }[] = [];
     while (cursor) {
@@ -65,7 +64,7 @@ export class CacheService {
   }
 
   public deleteAllData(): void {
-    deleteDB('api-storage-la');
+    deleteDB('api-storage');
   }
 
   public hasActiveSession(): Observable<boolean> {
@@ -105,7 +104,6 @@ export class CacheService {
   }
 
   private indexedDbContext(): Promise<IDBPDatabase> {
-    deleteDB('api-storage');
     return openDB(this.dbName, undefined, {
       upgrade(db): void {
         db.createObjectStore('mutations', { autoIncrement: true });

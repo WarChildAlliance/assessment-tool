@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CacheService } from '../services/cache.service';
 

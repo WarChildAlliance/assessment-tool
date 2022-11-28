@@ -68,7 +68,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private timeoutNextQuestion = 1000;
   private subscription: Subscription;
   private questionTimeStart: string;
-  private isFirstTry: boolean;
+  // private isFirstTry: boolean;
   private invalidAnswersStreak = 0;
   private titleAudio: HTMLAudioElement;
   private isTitleAudioPlaying = false;
@@ -171,7 +171,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.subscription = this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(topic => {
             this.topic = topic;
             this.isEvaluated = topic.evaluated;
-            this.isFirst(this.topic.id);
+            // this.isFirst(this.topic.id);
           });
 
           this.assessmentService.getAssessmentTopicQuestion(assessmentId, topicId, questionId).subscribe(question => {
@@ -314,16 +314,16 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   // feature show feedback at the end: remove?
-  private canShowFeedback(): boolean {
-    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
-    return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.isFirstTry);
-  }
+  // private canShowFeedback(): boolean {
+  //   // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
+  //   return this.topic.show_feedback === 1 || (this.topic.show_feedback === 2 && !this.isFirstTry);
+  // }
 
-  private isFirst(topicId): any {
-    return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
-      this.isFirstTry = topics.length === 0;
-    });
-  }
+  // private isFirst(topicId): any {
+  //   return this.answerService.getCompleteStudentAnswersForTopic(topicId).subscribe(topics => {
+  //     this.isFirstTry = topics.length === 0;
+  //   });
+  // }
 
   private showPraise(): void {
     // determine if we show praise or not by a 1/topic.praise chance
