@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    --font-size: 32px;
+    --font-size-symbols: 42px;
+    --square-size: 60px;
+
+    @media (max-width: 1024px) {
+        --font-size: 24px;
+        --font-size-symbols: 32px;
+        --square-size: 46px;
+    }
+
+    .shapes {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+        flex-flow: wrap;
+    }
+
+    .calc {
+        width: 40%;
+        display: flex;
+        font-weight: 600;
+        font-size: var(--font-size-symbols);
+        line-height: 55px;
+        align-self: center;
+        margin-top: 0.5em;
+
+        .drop-area {
+            max-width: var(--square-size);
+            height: var(--square-size);
+            background-color: #fff;
+            border: dashed 3px #89CF87;
+            border-radius: 10%;
+        }
+
+        div {
+            margin: auto;
+            flex: 1;
+            text-align-last: center;
+        }
+
+        div:nth-child(2),
+        div:nth-child(4) {
+            color: #4AA0DB;
+        }
+    }
+
+    .numbers-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-top: 1em;
+
+        .number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--square-size);
+            height: var(--square-size);
+            border-radius: 9px;
+            background: #89CF87;
+            font-size: var(--font-size);
+        }
+    }
+}
