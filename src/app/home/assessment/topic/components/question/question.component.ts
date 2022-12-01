@@ -40,7 +40,6 @@ import { UserService } from 'src/app/core/services/user.service';
 
 export class QuestionComponent implements OnInit, OnDestroy {
 
-  @ViewChild('questionDialog') questionDialog: TemplateRef<any>;
   @ViewChild('questionNotAvailable') questionNotAvailable: TemplateRef<any>;
   @HostListener('window:popstate', ['$event'])
 
@@ -190,10 +189,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
           setTimeout(x => {
             this.show = true;
           }, this.timeout);
-
-          if (this.question.on_popup) {
-            this.openQuestionModal();
-          }
         }
       }
     );
@@ -201,12 +196,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  public openQuestionModal(): void {
-    this.dialog.open(this.questionDialog, {
-      panelClass: 'mat-dialog-custom-class'
-    });
   }
 
   public playStopTitleAudio(): void {
