@@ -61,21 +61,33 @@
         flex-direction: row;
         flex-wrap: wrap;
         padding-top: 1em;
-
-        .number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: var(--square-size);
-            height: var(--square-size);
-            border-radius: 9px;
-            background: #89CF87;
-            font-size: var(--font-size);
-            cursor: pointer;
-        }
     }
 }
 
+.number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--square-size);
+    height: var(--square-size);
+    border-radius: 9px;
+    background: #89CF87;
+    font-size: var(--font-size);
+    cursor: move;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 150ms ease-in-out;
+}
+
+.cdk-drag-animating {
+    transition: transform 50ms ease-in;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
 .cdk-drop-list-dragging {
-    cursor: grabbing !important;
+    cursor: move !important;
 }
