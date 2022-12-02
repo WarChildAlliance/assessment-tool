@@ -84,23 +84,6 @@ mat-progress-bar{
   height: calc(100vh - 80px);
 }
 
-.question-popup {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  overflow: auto;
-  max-height: 100%;
-
-  img {
-    position: relative;
-    max-width: 150px;
-    align-self: end;
-  }
-
-  .buttons {
-    margin-top: 1em;
-  }
-}
 .tts-btn-placeholder {
   position: absolute;
   bottom: 20px;
