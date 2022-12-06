@@ -164,6 +164,13 @@ export class TopicsComponent implements OnInit, AfterViewInit {
     public unlockNextTopic(): void {
         let topicIndex = this.topics.findIndex(e => e.id === this.completedTopic.id);
         this.topics[topicIndex] = this.completedTopic;
+        if (topicIndex >= this.topics.length - 1) {
+            this.beeState$.next({
+                action: BeeAction.LEAVE,
+                orientation: 'left'
+            });
+            return;
+        }
         if (topicIndex < this.topics.length - 1) {
             topicIndex++;
             const nextTopicClone = {...this.topics[topicIndex]};
@@ -173,13 +180,6 @@ export class TopicsComponent implements OnInit, AfterViewInit {
                 topicIndex
             );
             this.topics[topicIndex] = nextTopicClone;
-        }
-        if (topicIndex >= this.topics.length - 1) {
-            this.beeState$.next({
-                action: BeeAction.LEAVE,
-                orientation: 'left'
-            });
-            return;
         }
         const pos = this.flowerComponents.get(topicIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
@@ -258,7 +258,7 @@ export class TopicsComponent implements OnInit, AfterViewInit {
         let initialIndex = this.completedTopic ? this.topics.findIndex(e => e.id === this.completedTopic.id) :
             this.topics.findIndex(e => !e.completed);
         initialIndex = initialIndex === -1 ? 0 : initialIndex;
-        const orientation = (this.topicsCompletionUpdate && initialIndex > this.topics.length / 2) ? 'left' : 'right';
+        const orientation = (this.topicsCompletionUpdate && (initialIndex > (this.topics.length / 2))) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
             action: this.topicsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,
