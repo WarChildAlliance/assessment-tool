@@ -366,7 +366,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
         setTimeout(show => {
           this.show = false;
           setTimeout( navigate => {
-            this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+            this.router.navigate(['../../../'], {
+              relativeTo: this.route,
+            });
           }, this.timeout);
         }, this.timeout);
       });
@@ -386,7 +388,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
       setTimeout(show => {
         this.show = false;
         setTimeout( navigate => {
-          this.router.navigate(['../../', 'completed'], { relativeTo: this.route });
+          this.router.navigate(['../../../'], {
+            relativeTo: this.route,
+            queryParams: {
+              recent_topic_id: this.topic.id
+            }
+          });
         }, this.timeout);
       }, this.timeout);
 
