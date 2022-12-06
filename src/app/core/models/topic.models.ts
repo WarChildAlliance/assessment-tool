@@ -17,7 +17,7 @@ export interface Topic {
   max_wrong_answers: number;
   has_sel_question?: boolean;
   icon: string;
-  ribbon?: string;
+  honeypots?: number;
   completed?: boolean;
   can_start?: boolean;
 }
