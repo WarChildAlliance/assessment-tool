@@ -1,4 +1,4 @@
-<div [ngClass]="{ container: assessments && assessments.length}">
+<div [ngClass]="{ container: topics && topics.length }">
   <app-back-navigation
     [text]="
       'topics.backTo' | translate: { page: 'topics.assessments' | translate }
@@ -7,13 +7,14 @@
   >
   </app-back-navigation>
 
-  <div *ngIf="assessments && assessments.length; else noTopics">
+  <div *ngIf="assessments && assessments.length && canShowAssessments; else noTopics">
     <swiper [config]="config">
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let assessment of assessments">
           <div class="flowers">
-            <app-flower 
-              *ngFor="let topic of assessment.topics; let i = index"
+            <app-flower
+              #flowerComponent
+              *ngFor="let _ of [].constructor(assessment.topics.length); let i = index"
               [index]="i"
               [topic]="assessment.topics[i]"
               [flowerColor]="flowersColors[i]"
@@ -29,3 +30,10 @@
     <p>{{ "topics.noTopics" | translate }}</p>
   </ng-template>
 </div>
+
+<app-topics-bee *ngIf="showBee$ | async"
+  [instructions$]="beeState$"
+  (praiseEnded)="unlockNextTopic()"
+  (beeLeft)="showOutro()"
+>
+</app-topics-bee>
