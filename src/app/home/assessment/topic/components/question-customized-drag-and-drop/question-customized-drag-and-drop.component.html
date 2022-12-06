@@ -1,0 +1,48 @@
+<div class="container" *ngIf="question" [dir]="translate.currentLang === 'ara' ? 'rtl' : 'ltr'" cdkDropListGroup>
+    <div class="shapes">
+        <app-shapes [shape]="question.shape" [style]="question.first_style" [quantity]="question.first_value"></app-shapes>
+        <app-shapes [shape]="question.shape" [style]="question.second_style" [quantity]="question.second_value"></app-shapes>
+    </div>
+    
+    <div class="calc">
+        <div cdkDropList class="drop-area" [style.border-color]="firstColor"
+            [cdkDropListData]="valueForm.controls.first_value"
+            (cdkDropListDropped)="valueForm.controls.first_value.setValue($event.previousContainer.data[$event.previousIndex])"
+        > {{ valueForm.controls.first_value.value }} </div>
+
+        <div> {{operatorSymbol}} </div>
+
+        <div cdkDropList class="drop-area" [style.border-color]="secondColor"
+        [cdkDropListData]="valueForm.controls.second_value"
+        (cdkDropListDropped)="valueForm.controls.second_value.setValue($event.previousContainer.data[$event.previousIndex])"
+        > {{ valueForm.controls.second_value.value }} </div>
+
+        <div> = </div>
+
+        <div cdkDropList class="drop-area"
+        [cdkDropListData]="valueForm.controls.final_value"
+        (cdkDropListDropped)="valueForm.controls.final_value.setValue($event.previousContainer.data[$event.previousIndex])"
+        > {{ valueForm.controls.final_value.value }} </div>
+    </div>
+
+    <div class="numbers-container"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="draggableNumbers"
+        [cdkDropListDisabled]="isValid()"
+    >
+        <div *ngFor="let number of draggableNumbers"
+            class="number"
+            cdkDrag
+            [cdkDragData]="number"
+            [matchSize]="true"
+            (cdkDropListDropped)="copyArrayItem(
+                $event.previousContainer.data,
+                $event.previousIndex,
+                $event.currentIndex
+            )" 
+        >
+            {{number}}
+        </div>
+    </div>
+</div>

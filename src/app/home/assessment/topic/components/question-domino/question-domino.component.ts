@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerDomino } from 'src/app/core/models/answer.model';
-import { QuestionDomino } from 'src/app/core/models/question.model';
+import { DominoOption, QuestionDomino } from 'src/app/core/models/question.model';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class QuestionDominoComponent implements OnInit {
 
   public valueForm = new FormControl(null);
 
-  private readonly pageID = 'question-number-line-page';
+  private readonly pageID = 'question-domino-page';
 
   constructor(
     private assisstantService: AssisstantService,
@@ -49,6 +49,7 @@ export class QuestionDominoComponent implements OnInit {
           this.answer.selected_domino = value.id;
           this.answer.valid = this.isValid();
         }
+        this.wrongAnswerVibration(value);
         this.answerChange.emit({ answer: this.answer, next: this.answer.valid });
       }
     });
@@ -65,6 +66,20 @@ export class QuestionDominoComponent implements OnInit {
     return (!!this.answer && this.answer.selected_domino === option.id && !option.valid ?
       'elevated-invalid--outline' : (this.displayCorrectAnswer.getValue() && option.valid) ?
         'elevated-valid--outline' : 'elevated-neutral--outline');
+  }
+
+  private wrongAnswerVibration(option: DominoOption): void {
+    if (!this.isValid()) {
+      const index = this.question.options.indexOf(option);
+      const checkedOption = document.getElementById('domino-' + index.toString()) as HTMLInputElement;
+      checkedOption.classList.add('vibration');
+
+      this.valueForm.reset();
+      setTimeout(() => {
+        checkedOption.classList.add('elevated-neutral--outline');
+        checkedOption.classList.remove('vibration');
+      }, 500);
+    }
   }
 
   private isValid(): boolean {

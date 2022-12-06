@@ -1,0 +1,93 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    --font-size: 32px;
+    --font-size-symbols: 42px;
+    --square-size: 60px;
+
+    @media (max-width: 1024px) {
+        --font-size: 24px;
+        --font-size-symbols: 32px;
+        --square-size: 46px;
+    }
+
+    .shapes {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-flow: wrap;
+        justify-content: center;
+
+        app-shapes:nth-child(1) {
+            padding-right: 1em;
+        }
+    }
+
+    .calc {
+        display: flex;
+        font-weight: 600;
+        font-size: var(--font-size-symbols);
+        line-height: 55px;
+        align-self: center;
+        margin-top: 0.5em;
+        justify-content: center;
+        white-space: pre;
+
+        .drop-area {
+            max-width: var(--square-size);
+            min-width: var(--square-size);
+            height: var(--square-size);
+            background-color: #fff;
+            border: dashed 3px #89CF87;
+            border-radius: 10%;
+        }
+
+        div {
+            margin: auto;
+            text-align-last: center;
+        }
+
+        div:nth-child(2),
+        div:nth-child(4) {
+            color: #4AA0DB;
+        }
+    }
+
+    .numbers-container {
+        width: 80%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-top: 1em;
+    }
+}
+
+.number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--square-size);
+    height: var(--square-size);
+    border-radius: 9px;
+    background: #89CF87;
+    font-size: var(--font-size);
+    cursor: move;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 150ms ease-in-out;
+}
+
+.cdk-drag-animating {
+    transition: transform 50ms ease-in;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drop-list-dragging {
+    cursor: move !important;
+}

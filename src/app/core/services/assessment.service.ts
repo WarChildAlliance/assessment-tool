@@ -42,13 +42,13 @@ export class AssessmentService {
       return;
     }
 
-    this.getAssessmentsDeep().subscribe(assessments => {
+    this.getAssessmentsDeep().subscribe(async assessments => {
       for (const assessment of assessments) {
         this.getIcon(assessment.icon);
         for (const topic of assessment.topics) {
           this.getIcon(topic.icon);
           for (const question of topic.questions) {
-            this.getQuestionTitleAudio(question, assessment.language);
+            await this.getQuestionTitleAudio(question, assessment.language);
             this.getAttachments(question.attachments);
             if (question.hasOwnProperty('options')) {
               for (const option of (question as QuestionSort | QuestionSelect).options) {
@@ -71,9 +71,9 @@ export class AssessmentService {
             }
           }
         }
+        this.cacheService.setData('assessments', assessments);
+        this.storedAssessmentsSource.next(assessments);
       }
-      this.cacheService.setData('assessments', assessments);
-      this.storedAssessmentsSource.next(assessments);
     });
   }
 
@@ -165,19 +165,16 @@ export class AssessmentService {
     }
   }
 
-  private getQuestionTitleAudio(question: GeneralQuestion, language: string): void {
-    this.ttsService.getSynthesizedSpeech(
-      language === 'ENG' ? 'en-US' : 'ar-XA',
-      question.title
-    ).subscribe((audioURL: string) => {
-      if (audioURL) {
-        question.title_audio = audioURL;
-      }
-    });
+  private async getQuestionTitleAudio(question: GeneralQuestion, language: string): Promise<void> {
+    if (!!question.title_audio) { return; }
+
+    const locales = { ENG: 'en-US', FRE: 'fr-FR', ARA: 'ar-XA' };
+    const audioURL = await this.ttsService.getSynthesizedSpeech(locales[language], question.title).toPromise();
+    if (audioURL) { question.title_audio = audioURL; }
   }
 
   private getAssessmentsDeep(): Observable<Assessment[]> {
-    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessment/`);
+    return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessments/`);
   }
 
   private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {

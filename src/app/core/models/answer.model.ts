@@ -19,6 +19,10 @@ export interface AnswerNumberLine extends Answer {
   value: number;
 }
 
+export interface AnswerCalcul extends Answer {
+  value: number;
+}
+
 export interface AnswerSEL extends Answer {
   statement: SELStatements;
 }
@@ -45,12 +49,18 @@ export interface AnswerDomino extends Answer {
   selected_domino: DominoOption | number;
 }
 
+export interface AnswerCustomizedDragAndDrop extends Answer {
+  left_value: number;
+  right_value: number;
+  final_value: number;
+}
+
 export interface SkippedAnswer extends Answer {
   skipped: true;
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort
- | AnswerDragAndDrop | AnswerDomino | AnswerSEL | SkippedAnswer;
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop
+ | AnswerDomino | AnswerSEL | AnswerCalcul | AnswerCustomizedDragAndDrop |SkippedAnswer;
 
 export enum SELStatements {
   'Not really like me' = 'NOT_REALLY',

@@ -127,3 +127,6 @@
     }
   }
 }
+.container[dir="rtl"] {
+  margin-right: calc(-1 * clamp(325px, 60vw, 700px) + 15vw);
+}

@@ -8,17 +8,22 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TextToSpeechService {
+  private readonly voices = {
+    'en-US': 'en-GB-Neural2-A',
+    'ar-XA': 'ar-XA-Wavenet-D',
+    'fr-FR': 'fr-FR-Neural2-A'
+  };
 
   constructor(private http: HttpClient) { }
 
-  public getSynthesizedSpeech(locale: 'en-US' | 'ar-XA', text: string): Observable<string | never> {
+  public getSynthesizedSpeech(locale: 'en-US' | 'ar-XA' | 'fr-FR', text: string): Observable<string | never> {
     return this.http.post(`${environment.TTS_API_URL}?key=${environment.TTS_API_KEY}`, {
       input: {
         text
       },
       voice: {
         languageCode: locale,
-        name: locale === 'en-US' ? 'en-US-Wavenet-H' : 'ar-XA-Wavenet-A',
+        name: this.voices[locale],
         ssmlGender: 'FEMALE'
       },
       audioConfig: {
@@ -31,7 +36,4 @@ export class TextToSpeechService {
       catchError(() => EMPTY)
     );
   }
-
-  // export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, '/assets/i18n/', '.json');
-
 }

@@ -9,7 +9,7 @@
 
   <div *ngIf="assessments && assessments.length && canShowAssessments; else noTopics">
     <swiper [config]="config">
-      <div class="swiper-wrapper" >
+      <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let assessment of assessments">
           <div class="flowers">
             <app-flower

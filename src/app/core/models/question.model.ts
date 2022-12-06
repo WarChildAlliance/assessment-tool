@@ -8,7 +8,6 @@ export interface Question {
   question_type: QuestionTypeEnum;
   hint: Hint;
   attachments: Attachment[];
-  on_popup: boolean;
 }
 
 export interface QuestionInput extends Question {
@@ -25,6 +24,12 @@ export interface QuestionNumberLine extends Question {
   end: number;
   step: number;
   shuffle: boolean;
+}
+
+export interface QuestionCalcul extends Question {
+  first_value: number;
+  second_value: number;
+  operator: string;
 }
 
 export interface QuestionSelect extends Question {
@@ -48,8 +53,17 @@ export interface QuestionDragDrop extends Question {
   draggable_options: DraggableOption[];
 }
 
+export interface QuestionCustomizedDragAndDrop extends Question {
+  first_value: number;
+  first_style: string;
+  second_value: number;
+  second_style: string;
+  operator: string;
+  shape: string;
+}
+
 export type GeneralQuestion = QuestionInput | QuestionNumberLine | QuestionSelect | QuestionSort | QuestionDragDrop
- | QuestionDomino | QuestionSEL;
+ | QuestionDomino | QuestionSEL | QuestionCalcul | QuestionCustomizedDragAndDrop;
 
 export interface SelectOption {
   id: number;
@@ -85,7 +99,9 @@ export enum QuestionTypeEnum {
   Sort = 'SORT',
   NumberLine = 'NUMBER_LINE',
   DragAndDrop = 'DRAG_AND_DROP',
-  Domino = 'DOMINO'
+  CustomizedDragAndDrop = 'CUSTOMIZED_DRAG_AND_DROP',
+  Domino = 'DOMINO',
+  Calcul = 'CALCUL'
 }
 
 export interface Hint {

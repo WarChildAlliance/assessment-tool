@@ -148,9 +148,8 @@ $assessment-tool-theme: mat.define-light-theme(
 .sunny-field-bg {
   background: url("/assets/background-image.png");
   background-position-x: center;
-  background-repeat: round;
-  background-size: 100%;
-  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 div.light-yellow-bg,
@@ -261,7 +260,7 @@ $btn-colors: (
   $btn-color: map.get($colors, 'btn');
   $shadow-color: map.get($colors, 'shadow');
 
-  button.elevated-#{$name}, label.elevated-#{$name}, mat-card.elevated-#{$name} {
+  button.elevated-#{$name}, label.elevated-#{$name}, mat-card.elevated-#{$name}, .elevated-#{$name} {
     &--filled {
       background-color: #{$btn-color};
       border: none;
