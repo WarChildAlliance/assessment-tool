@@ -12,7 +12,7 @@ class SpeechSynthesizer {
   private client: any;
   private languageConfig = {
     English: {
-      languageCode: 'en-US',
+      languageCode: 'en-GB',
       voice: 'en-GB-Neural2-A'
     },
     Arabic: {
