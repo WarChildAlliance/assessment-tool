@@ -5,24 +5,30 @@
     </div>
     
     <div class="calc">
-        <div cdkDropList class="drop-area" [style.border-color]="firstColor"
-            [cdkDropListData]="valueForm.controls.first_value"
-            (cdkDropListDropped)="valueForm.controls.first_value.setValue($event.previousContainer.data[$event.previousIndex])"
-        > {{ valueForm.controls.first_value.value }} </div>
+        <ng-container *ngFor="let control of valueForm.controls.first_value['controls']">
+            <div cdkDropList class="drop-area" [style.border-color]="firstColor"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
 
-        <div> {{operatorSymbol}} </div>
+        <div class="operator"> {{operatorSymbol}} </div>
 
-        <div cdkDropList class="drop-area" [style.border-color]="secondColor"
-        [cdkDropListData]="valueForm.controls.second_value"
-        (cdkDropListDropped)="valueForm.controls.second_value.setValue($event.previousContainer.data[$event.previousIndex])"
-        > {{ valueForm.controls.second_value.value }} </div>
+        <ng-container *ngFor="let control of valueForm.controls.second_value['controls']">
+            <div cdkDropList class="drop-area"  [style.border-color]="secondColor"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
 
-        <div> = </div>
+        <div class="operator"> = </div>
 
-        <div cdkDropList class="drop-area"
-        [cdkDropListData]="valueForm.controls.final_value"
-        (cdkDropListDropped)="valueForm.controls.final_value.setValue($event.previousContainer.data[$event.previousIndex])"
-        > {{ valueForm.controls.final_value.value }} </div>
+        <ng-container *ngFor="let control of valueForm.controls.final_value['controls']">
+            <div cdkDropList class="drop-area"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
     </div>
 
     <div class="numbers-container"

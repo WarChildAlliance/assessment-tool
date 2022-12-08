@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerCustomizedDragAndDrop } from 'src/app/core/models/answer.model';
@@ -18,7 +18,10 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
   @Input() resetAnswer: BehaviorSubject<boolean>;
   @Output() answerChange = new EventEmitter<{ answer: AnswerCustomizedDragAndDrop; next: boolean }>();
 
-  public draggableNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public draggableNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  public studentAnswer: number[];
+  public studentFirstValue: number[];
+  public studentSecondValue: number[];
 
   public operatorSymbol: string;
   public operatorTypes = [
@@ -29,9 +32,9 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
   ];
 
   public valueForm: FormGroup = new FormGroup({
-    first_value: new FormControl(null),
-    second_value: new FormControl(null),
-    final_value: new FormControl(null)
+    first_value: new FormArray([]),
+    second_value: new FormArray([]),
+    final_value: new FormArray([])
   });
 
   public firstColor: string;
@@ -55,7 +58,7 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
   constructor(
     private assisstantService: AssisstantService,
     public translate: TranslateService,
-
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -71,20 +74,43 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
     });
 
     this.valueForm.valueChanges.subscribe(value => {
-      const checkValues = this.valueForm.controls.first_value.value
-        && this.valueForm.controls.second_value.value
-        && this.valueForm.controls.final_value.value;
+      const finalValue = (this.valueForm.controls.final_value as FormArray).controls.every(
+        (control: any) => control.controls.digit.value !== null
+      );
 
-      if (checkValues) {
+      const firstValue = (this.valueForm.controls.first_value as FormArray).controls.every(
+        (control: any) => control.controls.digit.value !== null
+      );
+
+      const secondValue = (this.valueForm.controls.second_value as FormArray).controls.every(
+        (control: any) => control.controls.digit.value !== null
+      );
+
+      if (firstValue && secondValue && finalValue) {
         this.submitAnswer();
       }
     });
   }
 
+  private setAnswerFormArray(formArray: string): void {
+    const formGroup: FormGroup = this.formBuilder.group({
+      digit: this.formBuilder.control(null)
+    });
+    (this.valueForm.get(formArray) as FormArray).push(formGroup);
+  }
+
+  private getStudentAnswer(formArray: string): number {
+    let value = '';
+     (this.valueForm.get(formArray) as FormArray).controls.forEach((control: any) => {
+      value += control.controls.digit.value !== null ? control.controls.digit.value: '';
+    });
+    return Number(value);
+  }
+
   private isValid(): boolean {
-    return this.answerNumber === this.valueForm.controls.final_value.value
-      && this.valueForm.controls.first_value.value === this.question.first_value
-      && this.valueForm.controls.second_value.value === this.question.second_value;
+    return this.answerNumber === this.getStudentAnswer('final_value')
+      && this.getStudentAnswer('first_value') === this.question.first_value
+      && this.getStudentAnswer('second_value') === this.question.second_value;
   }
 
   private setOperator(): void {
@@ -99,6 +125,13 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
     } else {
       this.answerNumber = this.question.first_value * this.question.second_value;
     }
+    this.studentAnswer = Array.from(String(this.answerNumber), value => Number(value));
+    this.studentFirstValue = Array.from(String(this.question.first_value), value => Number(value));
+    this.studentSecondValue = Array.from(String(this.question.second_value), value => Number(value));
+
+    this.studentAnswer.forEach(() => this.setAnswerFormArray('final_value'));
+    this.studentFirstValue.forEach(() => this.setAnswerFormArray('first_value'));
+    this.studentSecondValue.forEach(() => this.setAnswerFormArray('second_value'));
   }
 
   private setColors(): void {
