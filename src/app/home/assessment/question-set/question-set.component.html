@@ -9,10 +9,6 @@
 
     <app-attachments [attachments]="questionSet.attachments"></app-attachments>
 
-    <p *ngIf="questionSet.allow_skip">{{ 'questionSets.skipQuestions' | translate }}</p>
-    <p *ngIf="!questionSet.allow_skip">{{ 'questionSets.noSkipQuestions' | translate }}</p>
-
-
     <p *ngIf="!questionSet || !questionSet.questions || !questionSet.questions.length ">{{ "questionSets.noQuestionSetsInAssessment" | translate }}</p>
     <app-action-btn *ngIf="questionSet && questionSet.questions && questionSet.questions.length"
                      [routerLink]="['./questions', questionSet.questions[0].id]" (click)="startQuestionSet()"
