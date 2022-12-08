@@ -18,8 +18,8 @@ import { QuestionNumberLineComponent } from './components/question-number-line/q
 import { QuestionSelectComponent } from './components/question-select/question-select.component';
 import { QuestionSortComponent } from './components/question-sort/question-sort.component';
 import { QuestionComponent } from './components/question/question.component';
-import { TopicRoutingModule } from './topic-routing.module';
-import { TopicComponent } from './topic.component';
+import { QuestionSetRoutingModule } from './question-set-routing.module';
+import { QuestionSetComponent } from './question-set.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
@@ -33,7 +33,7 @@ import { ShapesComponent } from './components/shapes/shapes.component';
 
 @NgModule({
     declarations: [
-        TopicComponent,
+        QuestionSetComponent,
         QuestionComponent,
         QuestionInputComponent,
         QuestionSelectComponent,
@@ -49,7 +49,7 @@ import { ShapesComponent } from './components/shapes/shapes.component';
     ],
     imports: [
         SharedModule,
-        TopicRoutingModule,
+        QuestionSetRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         DragDropModule,
@@ -67,5 +67,5 @@ import { ShapesComponent } from './components/shapes/shapes.component';
         MatCheckboxModule
     ]
 })
-export class TopicModule {
+export class QuestionSetModule {
 }

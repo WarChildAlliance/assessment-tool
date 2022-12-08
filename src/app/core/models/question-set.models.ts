@@ -1,7 +1,7 @@
 import { Attachment } from './attachment.model';
 import { GeneralQuestion } from './question.model';
 
-export interface Topic {
+export interface QuestionSet {
   id: number;
   name: string;
   order: number;

@@ -7,17 +7,17 @@ export const AssisstantContent = [
     tutorialID: ''
     },
     {
-    pageID: 'topics-page',
+    pageID: 'question-sets-page',
     content: '',
     pictureURL: '',
-    audioURL: 'topicsAssisstant.ogg',
+    audioURL: 'questionSetsAssisstant.ogg',
     tutorialID: ''
     },
     {
-    pageID: 'topic-page',
+    pageID: 'question-set-page',
     content: '',
     pictureURL: '',
-    audioURL: 'topicAssisstant.ogg',
+    audioURL: 'questionSetAssisstant.ogg',
     tutorialID: ''
     },
     {
@@ -49,10 +49,10 @@ export const AssisstantContent = [
     tutorialID: ''
     },
     {
-    pageID: 'completed-topic-page',
+    pageID: 'completed-question-set-page',
     content: '',
     pictureURL: '',
-    audioURL: 'completedTopicAssisstant.ogg',
+    audioURL: 'completedQuestionSetAssisstant.ogg',
     tutorialID: ''
     },
     {

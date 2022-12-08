@@ -5,14 +5,14 @@
             [src]="translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
         <div class="progress-header">
             <!--  flyingBee = 35px so the bee stays before the first question path -->
-            <div class="progress-bar" #progressBar [style.width]="(topic.questions.length  * path + flyingBee) + 'px'"> 
-                <svg  width="36px" *ngFor="let question of topic.questions; let i=index" height="0.35em" [style.fill]="questionIndex > i ? 'none' : 'white'" xmlns="http://www.w3.org/2000/svg">
+            <div class="progress-bar" #progressBar [style.width]="(questionSet.questions.length  * path + flyingBee) + 'px'">
+                <svg  width="36px" *ngFor="let question of questionSet.questions; let i=index" height="0.35em" [style.fill]="questionIndex > i ? 'none' : 'white'" xmlns="http://www.w3.org/2000/svg">
                     <path *ngIf="questionIndex > i" [style.stroke]="'#70504a'" stroke-width="2" stroke-dasharray="4 4"
                     d="M0 0C0 2.65216 1.89076 5.1957 5.25632 7.07107C8.62189 8.94643 13.1866 10 17.9462 10C22.7058 10 27.2705 8.94643 30.6361 7.07107C34.0017 5.1957 35.8924 2.65216 35.8924 0"/>
                     <circle *ngIf="questionIndex <= i" r="4" cy="50%"></circle>
                 </svg>
                 <img *ngIf="translate.currentLang !== 'ara'" [style.left]="(questionIndex * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee-right.svg'">
-                <img *ngIf="translate.currentLang === 'ara'" [style.left]="((topic.questions.length - questionIndex) * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee.svg'">
+                <img *ngIf="translate.currentLang === 'ara'" [style.left]="((questionSet.questions.length - questionIndex) * path) + 'px'" class="bee" [src]="'/assets/icons/flying-bee.svg'">
             </div>
             <div class="icons">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +85,7 @@
                 <ng-container *ngIf="question.question_type === 'DRAG_AND_DROP'">
                 <app-question-drag-and-drop
                     [assessmentId]="assessment.id"
-                    [topicId]="topic.id"
+                    [questionSetId]="questionSet.id"
                     [question]="question"
                     [answer]="answer"
                     (answerChange)="checkAnswer($event)"
@@ -98,7 +98,7 @@
             <ng-container *ngIf="question.question_type === 'CUSTOMIZED_DRAG_AND_DROP'">
                 <app-question-customized-drag-and-drop
                     [assessmentId]="assessment.id"
-                    [topicId]="topic.id"
+                    [questionSetId]="questionSet.id"
                     [question]="question"
                     [answer]="answer"
                     (answerChange)="checkAnswer($event)"
@@ -112,7 +112,7 @@
 
 <ng-template #questionNotAvailable>
     <div>
-        {{ 'topics.question.questionNotAvailable' | translate }}
+        {{ 'questionSets.question.questionNotAvailable' | translate }}
     </div>
 </ng-template>
 

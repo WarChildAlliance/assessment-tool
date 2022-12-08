@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lighten } from 'polished';
-import { Topic } from 'src/app/core/models/topic.models';
+import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { environment } from 'src/environments/environment';
-import { FeedbackAudio } from '../../topic/components/audio-feedback/audio-feedback.dictionary';
+import { FeedbackAudio } from '../../question-set/components/audio-feedback/audio-feedback.dictionary';
 import { ProgressionAudio } from '../audio-progression/audio-progression.dictionary';
 
 @Component({
@@ -21,7 +21,7 @@ export class FlowerComponent implements OnInit {
   public fadeCorollaIn = false;
   public fadeHoneypotsIn = false;
 
-  private currentTopic: Topic;
+  private currentQuestionSet: QuestionSet;
 
   constructor(
     public elementRef: ElementRef,
@@ -30,31 +30,31 @@ export class FlowerComponent implements OnInit {
     private answerService: AnswerService
   ) {}
 
-  public get topic(): Topic { return this.currentTopic; }
+  public get questionSet(): QuestionSet { return this.currentQuestionSet; }
 
   @Input()
-  set topic(topic: Topic) {
-    if (topic.can_start && this.currentTopic && !this.currentTopic.can_start) {
+  set questionSet(questionSet: QuestionSet) {
+    if (questionSet.can_start && this.currentQuestionSet && !this.currentQuestionSet.can_start) {
       this.fadeCorollaIn = true;
     }
-    if (topic.completed && this.currentTopic && !this.currentTopic.completed) {
+    if (questionSet.completed && this.currentQuestionSet && !this.currentQuestionSet.completed) {
       this.fadeHoneypotsIn = true;
-      this.playShowHoneypotsAudio(topic.honeypots);
+      this.playShowHoneypotsAudio(questionSet.honeypots);
     }
-    this.currentTopic = topic;
+    this.currentQuestionSet = questionSet;
   }
 
   ngOnInit(): void {
     this.flowerColorLighter = lighten(0.25, this.flowerColor);
   }
 
-  public playLockedTopicAudioFeedback(topicIndex: number): void {
-    const topicElement = document.getElementById(
-      'topic-' + topicIndex.toString()
+  public playLockedQuestionSetAudioFeedback(questionSetIndex: number): void {
+    const questionSetElement = document.getElementById(
+      'question-set-' + questionSetIndex.toString()
     ) as HTMLElement;
-    topicElement.classList.add('vibration');
+    questionSetElement.classList.add('vibration');
     setTimeout(() => {
-      topicElement.classList.remove('vibration');
+      questionSetElement.classList.remove('vibration');
     }, 500);
     // TODO: change to angry bee sound when available
     const sound = FeedbackAudio.wrongAnswer[0];
@@ -63,23 +63,23 @@ export class FlowerComponent implements OnInit {
     audio.play();
   }
 
-  public getTopicIcon(): string {
-    return this.topic.icon
-      ? environment.API_URL + this.topic.icon
+  public getQuestionSetIcon(): string {
+    return this.questionSet.icon
+      ? environment.API_URL + this.questionSet.icon
       : 'assets/yellow_circle.svg';
   }
 
-  public async startTopic(): Promise<void> {
-    if (this.topic.has_sel_question && (await this.isNotFirstTry())) {
+  public async startQuestionSet(): Promise<void> {
+    if (this.questionSet.has_sel_question && (await this.isNotFirstTry())) {
       // If has SEL questions and isn't the student first try: filter questions to remove SEL questions
-      this.topic.questions = this.topic.questions?.filter(
+      this.questionSet.questions = this.questionSet.questions?.filter(
         (question) => question.question_type !== 'SEL'
       );
     }
 
-    const questionId = this.topic.questions[0].id;
-    this.answerService.startTopicAnswer(this.topic.id).subscribe();
-    this.router.navigate(['topics', this.topic.id, 'questions', questionId], {
+    const questionId = this.questionSet.questions[0].id;
+    this.answerService.startQuestionSetAnswer(this.questionSet.id).subscribe();
+    this.router.navigate(['question-sets', this.questionSet.id, 'questions', questionId], {
       relativeTo: this.route,
     });
   }
@@ -98,7 +98,7 @@ export class FlowerComponent implements OnInit {
 
   private async isNotFirstTry(): Promise<boolean> {
     const answers = await this.answerService
-      .getCompleteStudentAnswersForTopic(this.topic.id)
+      .getCompleteStudentAnswersForQuestionSet(this.questionSet.id)
       .toPromise();
     return answers.length > 0;
   }

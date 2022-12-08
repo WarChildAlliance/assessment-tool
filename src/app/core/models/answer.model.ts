@@ -1,10 +1,10 @@
 import { GeneralQuestion, SelectOption, SortOption, DraggableOption, DominoOption } from './question.model';
-import { TopicAnswer } from './topic-answer.model';
+import { QuestionSetAnswer } from './question-set-answer.model';
 import { Moment } from 'moment';
 
 export interface Answer {
   id?: number;
-  topic_answer?: TopicAnswer | number;
+  question_set_answer?: QuestionSetAnswer | number;
   question: GeneralQuestion | number;
   start_datetime?: Moment | string;
   end_datetime?: Moment | string;

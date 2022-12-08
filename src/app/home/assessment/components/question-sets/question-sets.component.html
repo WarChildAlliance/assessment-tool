@@ -1,22 +1,22 @@
-<div [ngClass]="{ container: topics && topics.length }">
+<div [ngClass]="{ container: questionSets && questionSets.length }">
   <app-back-navigation
     [text]="
-      'topics.backTo' | translate: { page: 'topics.assessments' | translate }
+      'questionSets.backTo' | translate: { page: 'questionSets.assessments' | translate }
     "
     [routerLink]="['../../home']"
   >
   </app-back-navigation>
 
-  <div *ngIf="assessments && assessments.length && canShowAssessments; else noTopics">
+  <div *ngIf="assessments && assessments.length && canShowAssessments; else noQuestionSets">
     <swiper [config]="config">
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let assessment of assessments">
           <div class="flowers">
             <app-flower
               #flowerComponent
-              *ngFor="let _ of [].constructor(assessment.topics.length); let i = index"
+              *ngFor="let _ of [].constructor(assessment.question_sets.length); let i = index"
               [index]="i"
-              [topic]="assessment.topics[i]"
+              [questionSet]="assessment.question_sets[i]"
               [flowerColor]="flowersColors[i]"
             ></app-flower>
           </div>
@@ -26,14 +26,14 @@
     </swiper>
   </div>
 
-  <ng-template #noTopics>
-    <p>{{ "topics.noTopics" | translate }}</p>
+  <ng-template #noQuestionSets>
+    <p>{{ "questionSets.noQuestionSets" | translate }}</p>
   </ng-template>
 </div>
 
-<app-topics-bee *ngIf="showBee$ | async"
+<app-question-sets-bee *ngIf="showBee$ | async"
   [instructions$]="beeState$"
-  (praiseEnded)="unlockNextTopic()"
+  (praiseEnded)="unlockNextQuestionSet()"
   (beeLeft)="showOutro()"
 >
-</app-topics-bee>
+</app-question-sets-bee>
