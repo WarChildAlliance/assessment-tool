@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Assessment } from 'src/app/core/models/assessment.model';
-import { Topic } from 'src/app/core/models/topic.models';
-import { AnswerService } from 'src/app/core/services/answer.service';
+import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { PageNames } from 'src/app/core/utils/constants';
 import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
@@ -10,18 +9,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 
 @Component({
-  selector: 'app-topic',
-  templateUrl: './topic.component.html',
-  styleUrls: ['./topic.component.scss']
+  selector: 'app-question-set',
+  templateUrl: './question-set.component.html',
+  styleUrls: ['./question-set.component.scss']
 })
-export class TopicComponent implements OnInit, AfterViewInit {
+export class QuestionSetComponent implements OnInit, AfterViewInit {
 
-  public topic: Topic;
+  public questionSet: QuestionSet;
   public assessment: Assessment;
   public firstTry: boolean;
   public icons: any = {};
 
-  private readonly pageID = 'topic-page';
+  private readonly pageID = 'question-set-page';
 
   constructor(
     private route: ActivatedRoute,
@@ -35,11 +34,11 @@ export class TopicComponent implements OnInit, AfterViewInit {
     this.assisstantService.setPageID(this.pageID);
     this.route.paramMap.subscribe((params) => {
       const assessmentId = parseInt(params.get('assessment_id'), 10);
-      const topicId = parseInt(params.get('topic_id'), 10);
-      this.assessmentService.getAssessmentTopic(assessmentId, topicId).subscribe(
-        (topic) => {
-          this.topic = topic;
-          this.icons.topicIcon = topic.icon;
+      const questionSetId = parseInt(params.get('question_set_id'), 10);
+      this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(
+        (questionSet) => {
+          this.questionSet = questionSet;
+          this.icons.questionSetIcon = questionSet.icon;
         }
       );
       this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {
@@ -50,6 +49,6 @@ export class TopicComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    this.tutorialSerice.currentPage.next(PageNames.topic);
+    this.tutorialSerice.currentPage.next(PageNames.questionSet);
   }
 }

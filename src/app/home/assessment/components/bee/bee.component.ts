@@ -18,7 +18,7 @@ export interface BeeState {
   honeypots?: number;
 }
 @Component({
-  selector: 'app-topics-bee',
+  selector: 'app-question-sets-bee',
   templateUrl: './bee.component.html',
   styleUrls: ['./bee.component.scss'],
 })
@@ -34,9 +34,9 @@ export class BeeComponent implements OnInit {
   private stateLoading = false;
   private animationPlaying = false;
   private praises = [
-    'topics.completedTopic.praise.1',
-    'topics.completedTopic.praise.2',
-    'topics.completedTopic.praise.3'
+    'questionSets.completedQuestionSet.praise.1',
+    'questionSets.completedQuestionSet.praise.2',
+    'questionSets.completedQuestionSet.praise.3'
   ];
 
   constructor(private sanitizer: DomSanitizer) {}

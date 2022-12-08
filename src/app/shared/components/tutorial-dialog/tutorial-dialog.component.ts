@@ -82,16 +82,16 @@ export class TutorialDialogComponent implements OnInit {
   private redirect(): void{
     const redirect = this.steps[this.index].redirect ? this.steps[this.index].redirect : null;
     if (redirect) {
-      this.assessmentService.getTutorial().subscribe( tutorial => {
+      this.assessmentService.getTutorial().subscribe(tutorial => {
         let url = '/';
         if (tutorial){
           if (redirect[0] === 'assessment') {
             url = url + 'assessments' + '/' + tutorial.title + '/' + tutorial.id;
-          } else if (redirect[0] === 'topic') {
-            const topic = tutorial.topics[redirect[1]];
-            this.answerService.startTopicAnswer(topic.id);
-            url = url + 'assessments' + '/' + tutorial.title + '/' + tutorial.id + '/' + 'topics' +
-            '/' + topic.id + '/' + 'questions' + '/' + topic.questions[0].id;
+          } else if (redirect[0] === 'question-set') {
+            const questionSet = tutorial.question_sets[redirect[1]];
+            this.answerService.startQuestionSetAnswer(questionSet.id);
+            url = url + 'assessments' + '/' + tutorial.title + '/' + tutorial.id + '/' + 'question-sets' +
+            '/' + questionSet.id + '/' + 'questions' + '/' + questionSet.questions[0].id;
           } else {
             url = url + redirect[0];
           }

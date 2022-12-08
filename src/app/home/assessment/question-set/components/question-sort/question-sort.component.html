@@ -31,7 +31,7 @@
     </div>
 </div>
 <div *ngIf="displayCorrectAnswer.getValue()" class="correct-answer">
-    {{ "topics.question.correctAnswer" | translate }}
+    {{ "questionSets.question.correctAnswer" | translate }}
     <p *ngFor="let option of question.options">
         {{ option.title }} {{ option.category }}
     </p>

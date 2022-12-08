@@ -1,13 +1,12 @@
-.topic-content {
+.question-set-content {
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .topic-name {
+  .question-set-name {
     font-size: 1.5rem;
   }
-
 }
 
 app-action-btn {

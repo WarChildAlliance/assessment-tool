@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
   }
 
   private endSession(): Observable<AnswerSession> {
-    return this.answerService.endTopicAnswer().pipe(
+    return this.answerService.endQuestionSetAnswer().pipe(
       switchMap(_ => this.answerService.endSession())
     );
   }
