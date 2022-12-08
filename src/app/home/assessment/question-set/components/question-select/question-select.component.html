@@ -31,6 +31,7 @@
                 >
                     {{ option.title }}
                 </label>
+                <p *ngIf="question.show_options_value"> {{option.value}} </p>
             </div>
         </ng-container>
     </mat-radio-group>

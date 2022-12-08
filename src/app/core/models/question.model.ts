@@ -34,6 +34,7 @@ export interface QuestionCalcul extends Question {
 
 export interface QuestionSelect extends Question {
   options: SelectOption[];
+  show_options_value: boolean;
   // display_type: 'grid' | 'horizontal' | 'vertical';
 }
 
