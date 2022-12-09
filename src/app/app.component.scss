@@ -10,3 +10,10 @@
   }
 }
 
+@media only screen and (orientation:portrait) {
+  body {
+    width: 100vh;
+    transform: rotate(90deg);
+  }
+}
+
