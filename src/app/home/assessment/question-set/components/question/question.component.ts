@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { GeneralAnswer, SkippedAnswer } from 'src/app/core/models/answer.model';
+import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { PraiseTexts } from '../praise/praises.dictionary';
@@ -61,14 +61,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public showRightAnswerAnimation = false;
 
   private goNextQuestion = false;
-  private isSkipped = false;
   private show = false;
   private timeout = 250;
   private timeoutNextQuestion = 1000;
   private subscription: Subscription;
   private questionTimeStart: string;
-  private isFirstTry: boolean;
-  private invalidAnswersStreak = 0;
   private titleAudio: HTMLAudioElement;
   private isTitleAudioPlaying = false;
 
@@ -170,7 +167,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.subscription = this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(questionSet => {
             this.questionSet = questionSet;
             this.isEvaluated = questionSet.evaluated;
-            this.isFirst(this.questionSet.id);
           });
 
           this.assessmentService.getAssessmentQuestionSetQuestion(assessmentId, questionSetId, questionId).subscribe(question => {
@@ -215,7 +211,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public submitQuestion(): void {
     if (this.answer) {
-    this.isSkipped = false;
     this.answer.end_datetime = moment().format();
     this.answer.start_datetime = this.questionTimeStart;
     if (!this.isQuestionInput) {
@@ -248,39 +243,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }, this.timeoutNextQuestion);
   }
 
-  // Skip question feature: remove?
-  public skipQuestion(): void {
-    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-      disableClose: true,
-      data: {
-        content: 'questionSets.question.skipSure',
-        cancelBtn: true,
-        confirmBtnText: 'general.skip',
-        confirmBtnColor: 'warn',
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(value => {
-      if (value === false) {
-        dialogRef.close();
-      } else if (value === true) {
-        this.isSkipped = true;
-
-        this.answer = {
-          question: this.question.id,
-          start_datetime: this.questionTimeStart,
-          end_datetime: moment().format(),
-          valid: false,
-          skipped: true
-        };
-
-        this.submitAnswerAndGoNextPage();
-      }
-    });
-  }
-
   public submitAnswerAndGoNextPage(): void {
-    if (!this.isSkipped && this.answer.valid) {
+    if (this.answer.valid) {
       this.showPraise();
       setTimeout(() => {
         const audioProgressBar = new Audio(FeedbackAudio.progressBar);
@@ -302,79 +266,40 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.router.navigate([this.previousPageUrl]);
   }
 
-  // feature show feedback at the end: remove?
-  private canShowFeedback(): boolean {
-    // if we have feedback on 1 == SHOW_ALWAYS, or on 2 == SHOW_ON_SECOND_TRY otherwise it is NEVER
-    return this.questionSet.show_feedback === 1 || (this.questionSet.show_feedback === 2 && !this.isFirstTry);
-  }
-
-  private isFirst(questionSetId): any {
-    return this.answerService.getCompleteStudentAnswersForQuestionSet(questionSetId).subscribe(questionSets => {
-      this.isFirstTry = questionSets.length === 0;
-    });
-  }
-
   private showPraise(): void {
-    // determine if we show praise or not by a 1/questionSet.praise chance
-    const praiseProbability = Math.ceil(Math.random() * (this.questionSet.praise));
+    // always showing praise
     const randIndex = Math.floor(Math.random() * PraiseTexts.length);
     const praise = PraiseTexts[randIndex];
-    if (praiseProbability === 1) {
-      const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-        disableClose: true,
-        data: {
-          content: praise.text,
-          animation: praise.animation ?? null,
-          audioURL: praise.audio,
-          confirmBtnText: 'questionSets.question.continue',
-          confirmBtnColor: 'primary',
-          cancelBtn: false,
-        }
-      });
+    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
+      disableClose: true,
+      data: {
+        content: praise.text,
+        animation: praise.animation ?? null,
+        audioURL: praise.audio,
+        confirmBtnText: 'questionSets.question.continue',
+        confirmBtnColor: 'primary',
+        cancelBtn: false,
+      }
+    });
 
-      dialogRef.afterClosed().subscribe(_ => {
-        this.answerService.submitAnswer(this.answer).subscribe(res => {
-          this.goToNextPage();
-        });
-      });
-    } else {
+    dialogRef.afterClosed().subscribe(_ => {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
         this.goToNextPage();
       });
-    }
+    });
   }
 
   private goToNextPage(): void {
 
     this.goNextQuestion = true;
 
-    // this is to hide the correct answer feedback and display it only if the questionSet has show feedback activated
-    // and after the user submit their answer
+    // this is to hide the correct answer and display it only after the user submit their answer
     this.displayCorrectAnswer.next(false);
-
-    // Holds the number of successive invalid answers
-    this.invalidAnswersStreak = (!this.questionSet.evaluated || (this.answer && this.answer.valid)) ? 0 : this.invalidAnswersStreak + 1;
 
     this.answer = null;
 
-    // If the maximum number of invalid answers has been reached
-    if (this.questionSet.max_wrong_answers && (this.invalidAnswersStreak >= this.questionSet.max_wrong_answers)) {
-
-      // Get all the questions left unanswered by the student
-      const questionsLeft = this.questionSet.questions.slice(this.questionIndex + 1);
-      this.setQuestions(questionsLeft).then( _ => {
-        setTimeout(show => {
-          this.show = false;
-          setTimeout( navigate => {
-            this.router.navigate(['../../../'], {
-              relativeTo: this.route,
-            });
-          }, this.timeout);
-        }, this.timeout);
-      });
-
-      // Else, if there are unanswered questions left, navigate to the page corresponding to the question
-    } else if (this.questionIndex + 1 < this.questionSet.questions.length) {
+    // If there are unanswered questions left, navigate to the page corresponding to the question
+    if (this.questionIndex + 1 < this.questionSet.questions.length) {
       const nextId = this.questionSet.questions[this.questionIndex + 1].id;
       setTimeout(show => {
         this.show = false;
@@ -400,24 +325,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
 
     this.dialog.closeAll();
-  }
-
-  private async setQuestions(leftQuestions): Promise<void>{
-    for (const question of leftQuestions) {
-      const skippedAnswer: SkippedAnswer = {
-        question: question.id,
-        start_datetime: moment().format(),
-        end_datetime: moment().format(),
-        valid: false,
-        skipped: true
-      };
-      await new Promise ((resolve, reject) => {
-          this.answerService.submitAnswer(skippedAnswer)
-              .subscribe(location => {
-                  resolve(true);
-               });
-      });
-    }
   }
 
   private playAnswerAudioFeedback(isCorrectAnswer: boolean): void {

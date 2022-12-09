@@ -55,12 +55,8 @@ export interface AnswerCustomizedDragAndDrop extends Answer {
   final_value: number;
 }
 
-export interface SkippedAnswer extends Answer {
-  skipped: true;
-}
-
 export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop
- | AnswerDomino | AnswerSEL | AnswerCalcul | AnswerCustomizedDragAndDrop |SkippedAnswer;
+ | AnswerDomino | AnswerSEL | AnswerCalcul | AnswerCustomizedDragAndDrop;
 
 export enum SELStatements {
   'Not really like me' = 'NOT_REALLY',

@@ -10,11 +10,7 @@ export interface QuestionSet {
   attachments?: Attachment[];
   questions?: GeneralQuestion[];
   competency?: any;
-  show_feedback?: number;
-  praise: number;
-  allow_skip?: boolean;
   evaluated?: boolean;
-  max_wrong_answers: number;
   has_sel_question?: boolean;
   icon: string;
   honeypots?: number;
