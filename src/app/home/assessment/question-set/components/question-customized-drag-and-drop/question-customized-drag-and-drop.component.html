@@ -1,0 +1,54 @@
+<div class="container" *ngIf="question" [dir]="translate.currentLang === 'ara' ? 'rtl' : 'ltr'" cdkDropListGroup>
+    <div class="shapes">
+        <app-shapes [shape]="question.shape" [style]="question.first_style" [quantity]="question.first_value"></app-shapes>
+        <app-shapes [shape]="question.shape" [style]="question.second_style" [quantity]="question.second_value"></app-shapes>
+    </div>
+    
+    <div class="calc">
+        <ng-container *ngFor="let control of valueForm.controls.first_value['controls']">
+            <div cdkDropList class="drop-area" [style.border-color]="firstColor"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
+
+        <div class="operator"> {{operatorSymbol}} </div>
+
+        <ng-container *ngFor="let control of valueForm.controls.second_value['controls']">
+            <div cdkDropList class="drop-area"  [style.border-color]="secondColor"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
+
+        <div class="operator"> = </div>
+
+        <ng-container *ngFor="let control of valueForm.controls.final_value['controls']">
+            <div cdkDropList class="drop-area"
+            [cdkDropListData]="control.controls.digit"
+            (cdkDropListDropped)="control.setValue({digit: $event.previousContainer.data[$event.previousIndex]})"
+            > {{ control.controls.digit.value }} </div>
+        </ng-container>
+    </div>
+
+    <div class="numbers-container"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="draggableNumbers"
+        [cdkDropListDisabled]="isValid()"
+    >
+        <div *ngFor="let number of draggableNumbers"
+            class="number"
+            cdkDrag
+            [cdkDragData]="number"
+            [matchSize]="true"
+            (cdkDropListDropped)="copyArrayItem(
+                $event.previousContainer.data,
+                $event.previousIndex,
+                $event.currentIndex
+            )" 
+        >
+            {{number}}
+        </div>
+    </div>
+</div>

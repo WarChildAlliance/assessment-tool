@@ -1,0 +1,20 @@
+<app-back-navigation [text]="'questionSets.backTo' | translate: {page: 'questionSets.questionSets' | translate}"
+[icons]="icons" [routerLink]="['../../']"
+></app-back-navigation>
+
+<div class="light-yellow-bg question-set-content" *ngIf="questionSet">
+    <p class="question-set-name">{{ questionSet?.name }}</p>
+
+    <p *ngIf="questionSet.description">{{ questionSet.description }}</p>
+
+    <app-attachments [attachments]="questionSet.attachments"></app-attachments>
+
+    <p *ngIf="!questionSet || !questionSet.questions || !questionSet.questions.length ">{{ "questionSets.noQuestionSetsInAssessment" | translate }}</p>
+    <app-action-btn *ngIf="questionSet && questionSet.questions && questionSet.questions.length"
+                     [routerLink]="['./questions', questionSet.questions[0].id]" (click)="startQuestionSet()"
+                     [text]=" 'questionSets.start' | translate "
+                     [iconUrl]="translate.currentLang === 'ara' ?
+                    'assets/icons/left_arrow_24.svg' : 'assets/icons/right_arrow_24.svg'"
+                    class="start-button"
+    ></app-action-btn>
+</div>

@@ -111,7 +111,7 @@ export class CacheService {
         db.createObjectStore('mutations', { autoIncrement: true });
         db.createObjectStore('assessments');
         db.createObjectStore('session');
-        db.createObjectStore('topic-answer');
+        db.createObjectStore('question-set-answer');
         db.createObjectStore('user');
       }
     });

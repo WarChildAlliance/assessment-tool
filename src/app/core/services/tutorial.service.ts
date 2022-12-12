@@ -46,12 +46,12 @@ export class TutorialService {
     this.translateService.use((this.userService.user.language.code).toLowerCase());
     this.translateService.onLangChange.subscribe(() => {
           this.createTourAssessment();
-          this.createTourTopics();
-          this.createTourTopic();
+          this.createTourQuestionSets();
+          this.createTourQuestionSet();
           this.createTourQuestionSelectGeneral();
           this.createTourQuestionNumberLineGeneral();
           this.createTourSubmitAnswer();
-          this.createTourCompletedTopic();
+          this.createTourCompletedQuestionSet();
           this.createTourProfile();
       });
   }
@@ -79,19 +79,19 @@ export class TutorialService {
   }
 
 
-  private createTourTopics(): void {
+  private createTourQuestionSets(): void {
     const steps: TourStep[] = [];
     steps.push({
-      selector: '.topics-container',
-      content: this.translateService.instant('tutorial.startTopic'),
+      selector: '.question-sets-container',
+      content: this.translateService.instant('tutorial.startQuestionSet'),
       orientation: Orientation.Bottom,
-      action: () => { this.playAudio('assets/tutorial/audio/TutorialStartTopic.ogg'); }
+      action: () => { this.playAudio('assets/tutorial/audio/TutorialStartQuestionSet.ogg'); }
     });
 
-    this.tourDict[PageNames.topics] = this.defineTour(steps, PageNames.topics);
+    this.tourDict[PageNames.questionSets] = this.defineTour(steps, PageNames.questionSets);
   }
 
-  private createTourTopic(): void {
+  private createTourQuestionSet(): void {
     const steps: TourStep[] = [];
     steps.push({
       selector: '.start-button',
@@ -99,7 +99,7 @@ export class TutorialService {
       orientation: Orientation.Bottom,
       action: () => { this.playAudio('assets/tutorial/audio/TutorialPractiseQuestions.ogg'); }
     });
-    this.tourDict[PageNames.topic] = this.defineTour(steps, PageNames.topic);
+    this.tourDict[PageNames.questionSet] = this.defineTour(steps, PageNames.questionSet);
   }
 
   private createTourQuestionSelectGeneral(): void {
@@ -162,7 +162,7 @@ export class TutorialService {
     this.tourDict[PageNames.question] = this.defineTour(steps, PageNames.question);
   }
 
-  private createTourCompletedTopic(): void {
+  private createTourCompletedQuestionSet(): void {
     const steps: TourStep[] = [];
     steps.push({
       content: this.translateService.instant('tutorial.honeypotCollection'),
@@ -175,7 +175,7 @@ export class TutorialService {
         this.router.navigate(['../../../profile']);
       }
     });
-    this.tourDict[PageNames.topicCompleted] = this.defineTour(steps, PageNames.topicCompleted);
+    this.tourDict[PageNames.questionSetCompleted] = this.defineTour(steps, PageNames.questionSetCompleted);
   }
 
   private createTourProfile(): void {

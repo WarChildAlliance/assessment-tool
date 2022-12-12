@@ -12,7 +12,6 @@
     "info": "Les infos arrivent ici",
     "next": "Suivant",
     "no": "Non",
-    "skip": "Passer",
     "submit": "Envoyer",
     "unknownUser": "Utilisateur inconnu. Contacte ton superviseur pour retrouver ton code.",
     "yes": "Oui",
@@ -34,14 +33,14 @@
   },
   "assisstant": {
     "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",
-    "completedTopicAssisstant": "\"YEAEAHEAH\" Bravo, vous avez répondu à toutes les questions. Vous pouvez être très fier de vous !",
+    "completedQuestionSetAssisstant": "\"YEAEAHEAH\" Bravo, vous avez répondu à toutes les questions. Vous pouvez être très fier de vous !",
     "profileAssisstant": "Ceci est votre profil. Vous pouvez voir tous les pots de miel que vous avez rassemblés. Si vous avez suffisamment de pots de miel, vous pouvez débloquer de nouveaux avatars. Choisissez l'avatar que vous préférez pour être sur votre profil.",
     "questionAssisstant": "Vous voyez la question en haut à laquelle vous devez répondre. Tapez votre réponse dans le champ blanc.",
     "questionNumberLineAssisstant": "Vous voyez une question en haut. Faites glisser le curseur au bon endroit sur la ligne numérique et appuyez sur le bouton vert",
     "questionSelectAssisstant": "En haut, vous voyez la question. Vous trouverez ci-dessous des réponses possibles. Choisissez celui qui vous semble correct et appuyez sur le bouton vert",
     "questionSortPage": "Vous devez faire glisser les réponses dans les bonnes catégories. Lorsque toutes les réponses sont dans l'une des catégories, appuyez sur le bouton vert.",
-    "topicAssisstant": "Voici l'aperçu du sujet. Lisez attentivement la description avant de commencer. Cliquez sur le bouton vert pour commencer.",
-    "topicsAssisstant": "Ici vous pouvez voir tous les sujets auxquels il est possible de répondre. S'il y a un ruban rouge, cela signifie que vous avez déjà répondu au sujet. Pour certains sujets, vous pouvez obtenir des étoiles. Plus il y a d'étoiles, mieux c'est ! Cliquez sur un sujet pour le démarrer."
+    "questionSetAssisstant": "Voici l'aperçu du sujet. Lisez attentivement la description avant de commencer. Cliquez sur le bouton vert pour commencer.",
+    "questionSetsAssisstant": "Ici vous pouvez voir tous les sujets auxquels il est possible de répondre. S'il y a un ruban rouge, cela signifie que vous avez déjà répondu au sujet. Pour certains sujets, vous pouvez obtenir des étoiles. Plus il y a d'étoiles, mieux c'est ! Cliquez sur un sujet pour le démarrer."
   },
   "auth": {
     "browserDisclaimer": "Veuillez utiliser le naviguateur Chrome pour une meilleure expérience",
@@ -62,18 +61,16 @@
     "shop": "Magasin",
     "unlocked": "Déverouillé"
   },
-  "topics": {
+  "questionSets": {
     "backTo": "Retour aux {{page}}",
     "assessments": "évaluations",
-    "topics": "sujets",
-    "noSkipQuestions": "Les questions ne peuvent pas être passées",
-    "noTopics": "Aucun sujet",
-    "noTopicsInAssessment": "Aucun sujet dans cette évaluation",
-    "skipQuestions": "Les questions peuvent être passées",
+    "questionSets": "sujets",
+    "noQuestionSets": "Aucun sujet",
+    "noQuestionSetsInAssessment": "Aucun sujet dans cette évaluation",
     "start": "Démarrer",
     "finishPrevious": "Vous devez terminer le sujet précédent.",
-    "topicCompleted": "Bon travail! Vous avez terminé le sujet.",
-    "completedTopic": {
+    "questionSetCompleted": "Bon travail! Vous avez terminé le sujet.",
+    "completedQuestionSet": {
       "gainedPoints": "Vous avez",
       "alreadyAnswered": "Vous avez déjà répondu à ce sujet et ne pouvez donc pas obtenir plus de pots de miel pour cela.",
       "praise": {
@@ -104,7 +101,6 @@
       "exitConfirmation": "Es-tu sûr de vouloir quitter?",
       "exitInfo": "Si tu quittes maintenant, tu serais redirigé vers la page des sujets.",
       "questionNotAvailable": "Cette question n'est pas disponible",
-      "skipSure": "Es-tu sûr de vouloir sauter cette question ?",
       "notReallyLikeMe": "Pas vraiment comme moi",
       "aLittleLikeMe": "Un peu comme moi",
       "aLotLikeMe": "Un peu comme moi"
@@ -128,7 +124,7 @@
     "selectQuestionTitle": "En haut vous voyez la question",
     "startAssessment": "Cliquez sur la fleur/le bouton pour commencer",
     "startQuestion": "Vous aurez maintenant quelques questions pratiques. Cliquez sur le bouton vert",
-    "startTopic": "Cliquez sur l'image",
+    "startQuestionSet": "Cliquez sur l'image",
     "theFriendlyBee": "Si vous ne savez pas quoi faire sur une page, cliquez sur moi, je vais répéter l'instruction",
     "toProfilePage": "Volons vers votre page de profil pour découvrir ce que vous pouvez faire avec les pots de miel.",
     "unlockingAvatars": "Vous pouvez débloquer un personnage maintenant",
