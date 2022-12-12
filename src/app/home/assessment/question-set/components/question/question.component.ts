@@ -227,14 +227,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-  public checkAnswer(answerEvet): void {
-    this.answer = answerEvet.answer;
+  public checkAnswer(answerEvent): void {
+    this.answer = answerEvent.answer;
     if (this.answer.valid) {
       this.showRightAnswerAnimation = true;
     }
     this.playAnswerAudioFeedback(this.answer.valid);
     setTimeout(() => {
-      if (answerEvet.next) {
+      if (answerEvent.next) {
         this.submitQuestion();
       } else if (!this.answer.valid) {
         this.resetAnswer.next(true);
@@ -245,11 +245,13 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public submitAnswerAndGoNextPage(): void {
     if (this.answer.valid) {
-      this.showPraise();
       setTimeout(() => {
         const audioProgressBar = new Audio(FeedbackAudio.progressBar);
         audioProgressBar.load();
         audioProgressBar.play();
+        this.answerService.submitAnswer(this.answer).subscribe(res => {
+          this.goToNextPage();
+        });
       }, this.timeout);
     } else {
       this.answerService.submitAnswer(this.answer).subscribe(res => {
@@ -266,31 +268,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.router.navigate([this.previousPageUrl]);
   }
 
-  private showPraise(): void {
-    // always showing praise
-    const randIndex = Math.floor(Math.random() * PraiseTexts.length);
-    const praise = PraiseTexts[randIndex];
-    const dialogRef = this.dialog.open(GenericConfirmationDialogComponent, {
-      disableClose: true,
-      data: {
-        content: praise.text,
-        animation: praise.animation ?? null,
-        audioURL: praise.audio,
-        confirmBtnText: 'questionSets.question.continue',
-        confirmBtnColor: 'primary',
-        cancelBtn: false,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(_ => {
-      this.answerService.submitAnswer(this.answer).subscribe(res => {
-        this.goToNextPage();
-      });
-    });
-  }
-
   private goToNextPage(): void {
-
     this.goNextQuestion = true;
 
     // this is to hide the correct answer and display it only after the user submit their answer
