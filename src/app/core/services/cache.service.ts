@@ -111,7 +111,9 @@ export class CacheService {
         db.createObjectStore('mutations', { autoIncrement: true });
         db.createObjectStore('assessments');
         db.createObjectStore('session');
-        db.createObjectStore('question-set-answer');
+        // TODO: Find out why we can't change topic-answer to question-set-answer
+        // In the objectStoreNames, it stays as topic-answer
+        db.createObjectStore('topic-answer');
         db.createObjectStore('user');
       }
     });

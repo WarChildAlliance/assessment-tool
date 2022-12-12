@@ -15,7 +15,9 @@ import { UserService } from './user.service';
 })
 export class AnswerService {
   private activeSessionStorage = 'session';
-  private activeQuestionSetAnswerStorage = 'question-set-answer';
+  // TODO: Find out why we can't change topic-answer to question-set-answer
+  // In the objectStoreNames, it stays as topic-answer
+  private activeQuestionSetAnswerStorage = 'topic-answer';
 
 
   constructor(
@@ -43,7 +45,7 @@ export class AnswerService {
     return from(this.cacheService.getData(this.activeQuestionSetAnswerStorage));
   }
 
-  public submitAnswer(answer: GeneralAnswer, questionSetId?: number): Observable<any> {
+  public submitAnswer(answer: GeneralAnswer): Observable<any> {
     return from(this.cacheService.getData(this.activeQuestionSetAnswerStorage).then(questionSetAnswers => {
       questionSetAnswers.answers.push(answer);
       this.cacheService.setData(this.activeQuestionSetAnswerStorage, questionSetAnswers);
