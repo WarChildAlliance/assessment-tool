@@ -68,6 +68,10 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         this.onSlideChange = (event?: any) => {
             audio.play();
             this.assessmentId = this.assessments[event.activeIndex].id;
+            const url = this.router.createUrlTree([], { relativeTo: this.route }).toString();
+            const newUrl =  url.split('/');
+            newUrl[newUrl.length - 1] = this.assessmentId.toString();
+            this.router.navigateByUrl(newUrl.join('/'));
         };
 
         this.config = {
