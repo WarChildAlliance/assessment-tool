@@ -168,7 +168,7 @@ export class AssessmentService {
   private async getQuestionTitleAudio(question: GeneralQuestion, language: string): Promise<void> {
     if (!!question.title_audio) { return; }
 
-    const locales = { ENG: 'en-US', FRE: 'fr-FR', ARA: 'ar-XA' };
+    const locales = { ENG: 'en-GB', FRE: 'fr-FR', ARA: 'ar-XA' };
     const audioURL = await this.ttsService.getSynthesizedSpeech(locales[language], question.title).toPromise();
     if (audioURL) { question.title_audio = audioURL; }
   }
