@@ -43,7 +43,6 @@ export class AssessmentService {
     }
 
     this.getAssessmentsDeep().subscribe(async assessments => {
-      // TODO: Optimize using map
       for (const assessment of assessments) {
         this.getIcon(assessment.icon);
         for (const questionSet of assessment.question_sets) {
