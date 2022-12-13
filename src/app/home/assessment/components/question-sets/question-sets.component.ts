@@ -284,7 +284,9 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     }
 
     private async registerQuestionSetCompletion(questionSet: QuestionSet, user: any): Promise<any> {
-        const searchString = 'question-set-answer';
+        // TODO: Find out why we can't change topic-answer to question-set-answer
+        // In the objectStoreNames, it stays as topic-answer
+        const searchString = 'topic-answer';
         const response = await this.cacheService.getData(searchString);
         if (!response) { return; }
         const answers = response.answers;
