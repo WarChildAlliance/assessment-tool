@@ -7,6 +7,9 @@
                 <div class="option-attachments">
                     <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
                         class="image-attachment"
+                        id="option-{{i}}-image"
+                        [ngClass]="{ 'without-title': !question.show_options_title }"
+                        (click)="!question.show_options_title ? (!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null) : continue"
                     >
                         <img *ngIf="imageAttachment" [src]="getSource(imageAttachment.file)" alt="">
                     </div>
@@ -28,10 +31,10 @@
                     id="option-{{i}}-label"
                     [class]="getOptionBtnStyle(option)"
                     (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
+                    *ngIf="question.show_options_title"
                 >
                     {{ option.title }}
                 </label>
-                <p *ngIf="question.show_options_value"> {{option.value}} </p>
             </div>
         </ng-container>
     </mat-radio-group>
