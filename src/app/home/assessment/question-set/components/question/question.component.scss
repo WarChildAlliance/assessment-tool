@@ -1,0 +1,102 @@
+.header {
+  width: 80%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0  auto;
+}
+
+.progress-header {
+  margin: 0 auto;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  place-content: flex-end;
+
+  .progress-bar {
+    position: relative;
+
+    .path {
+      position: relative;
+      border: 3px dashed #70504a;
+      border-radius: 0 0 50% 50%/60px;
+    }
+    .bee {
+      position: absolute;
+      margin: 0 0 2em;
+    }
+    svg {
+      overflow: visible;
+    }
+  }
+}
+
+h2 {
+  font-weight: 500;
+  margin: 0;
+}
+
+button {
+  width: 60%;
+}
+
+mat-progress-bar{
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+  height: 15px;
+  border-radius: 0.5rem;
+  min-height: 3rem;
+}
+
+.icons {
+  position: absolute;
+  display: flex;
+  text-align: left;
+  height: inherit;
+  svg {
+    margin-top: 32%;
+  }
+}
+
+.question-attachment {
+  display: block;
+  margin: auto;
+}
+
+.question-container {
+  display: grid;
+  width: 80%;
+  margin: 0 auto;
+  overflow: auto;
+
+  @media (max-width: 780px) {
+    width: 100%;
+  }
+}
+
+.question-title {
+  font-size: clamp(1rem, 4.5vw, 3rem);
+}
+
+.question {
+  position: relative;
+  height: calc(100vh - 80px);
+}
+
+.tts-btn-placeholder {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+}
+
+.right-answer-animation {
+  width: 20vw;
+  z-index: 15;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

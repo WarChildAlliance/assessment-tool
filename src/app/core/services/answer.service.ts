@@ -6,7 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AnswerSession } from '../models/answer-session.model';
 import { GeneralAnswer } from '../models/answer.model';
-import { TopicAnswer } from '../models/topic-answer.model';
+import { QuestionSetAnswer } from '../models/question-set-answer.model';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 
@@ -15,7 +15,9 @@ import { UserService } from './user.service';
 })
 export class AnswerService {
   private activeSessionStorage = 'session';
-  private activeTopicAnswerStorage = 'topic-answer';
+  // TODO: Find out why we can't change topic-answer to question-set-answer
+  // In the objectStoreNames, it stays as topic-answer
+  private activeQuestionSetAnswerStorage = 'topic-answer';
 
 
   constructor(
@@ -28,36 +30,36 @@ export class AnswerService {
      return this.createSession();
   }
 
-  public startTopicAnswer(topicId: number): Observable<any> {
+  public startQuestionSetAnswer(questionSetId: number): Observable<any> {
     this.cacheService.getData(this.activeSessionStorage).then(res => {
     });
 
-    const topicAnswer: TopicAnswer = {
-      topic: topicId,
+    const questionSetAnswer: QuestionSetAnswer = {
+      question_set: questionSetId,
       start_date: moment().format(),
       end_date: null,
       answers: [],
     };
 
-    this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswer);
-    return from(this.cacheService.getData(this.activeTopicAnswerStorage));
+    this.cacheService.setData(this.activeQuestionSetAnswerStorage, questionSetAnswer);
+    return from(this.cacheService.getData(this.activeQuestionSetAnswerStorage));
   }
 
-  public submitAnswer(answer: GeneralAnswer, topicId?: number): Observable<any> {
-    return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( topicAnswers => {
-      topicAnswers.answers.push(answer);
-      this.cacheService.setData(this.activeTopicAnswerStorage, topicAnswers);
+  public submitAnswer(answer: GeneralAnswer): Observable<any> {
+    return from(this.cacheService.getData(this.activeQuestionSetAnswerStorage).then(questionSetAnswers => {
+      questionSetAnswers.answers.push(answer);
+      this.cacheService.setData(this.activeQuestionSetAnswerStorage, questionSetAnswers);
     }));
   }
 
-  public endTopicAnswer(): Observable<any> {
-    return from(this.cacheService.getData(this.activeTopicAnswerStorage).then( cachedAnswers => {
-      this.cacheService.getData(this.activeSessionStorage).then( res => {
+  public endQuestionSetAnswer(): Observable<any> {
+    return from(this.cacheService.getData(this.activeQuestionSetAnswerStorage).then(cachedAnswers => {
+      this.cacheService.getData(this.activeSessionStorage).then(res => {
         cachedAnswers.session = res.id;
         cachedAnswers.end_date = moment().format();
-        this.http.post<TopicAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/topics/create_all/`,
+        this.http.post<QuestionSetAnswer>(`${environment.API_URL}/answers/${this.userService.user.id}/question-sets/create_all/`,
         { cachedAnswers }).subscribe();
-        this.cacheService.deleteData(this.activeTopicAnswerStorage);
+        this.cacheService.deleteData(this.activeQuestionSetAnswerStorage);
       });
     }));
   }
@@ -86,9 +88,11 @@ export class AnswerService {
     );
   }
 
-  public getCompleteStudentAnswersForTopic(topicId: number): Observable<any[]> {
-    return this.http.get<any[]>
-    (`${environment.API_URL}/answers/${this.userService.user.id}/topics/?complete=true&topic_access__topic=${topicId}`);
+  public getCompleteStudentAnswersForQuestionSet(questionSetId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${environment.API_URL}/answers/${this.userService.user.id}
+/question-sets/?complete=true&question_set_access__question_set=${questionSetId}`
+    );
   }
 
   private createSession(): Observable<AnswerSession> {

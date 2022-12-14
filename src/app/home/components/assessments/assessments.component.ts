@@ -58,21 +58,21 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
         this.cacheService.getData('user').then(user => {
           this.assessments.forEach(assessment => {
-            assessment.complete_topics = 0;
-            assessment.topics?.forEach(topic => {
-              const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
+            assessment.complete_question_sets = 0;
+            assessment.question_sets?.forEach(questionSet => {
+              const cachedCompetency = (user.profile.question_sets_competencies?.find(c => c.question_set === questionSet.id))?.competency;
               if (cachedCompetency !== undefined && cachedCompetency !== null) {
-                topic.completed = true;
-                assessment.complete_topics++;
+                questionSet.completed = true;
+                assessment.complete_question_sets++;
               } else {
-                topic.completed = false;
+                questionSet.completed = false;
               }
             });
           });
         });
 
         const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
-        if (tutorial && !tutorial.all_topics_complete) {
+        if (tutorial && !tutorial.all_question_sets_complete) {
           this.tutorialSlideshowService.startTutorial().then(x => {
             if (x) {
               this.tutorialSlideshowService.showTutorialForPage('assessments-page');
@@ -81,8 +81,8 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
           );
         }
         if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
-          this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete &&
-          this.subscriptionCount === 2 && previousPageID === 'completed-topic-page') {
+          this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_question_sets_complete &&
+          this.subscriptionCount === 2 && previousPageID === 'completed-question-set-page') {
           this.dialog.open(GenericConfirmationDialogComponent, {
             disableClose: true,
             data: {

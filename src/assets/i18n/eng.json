@@ -7,12 +7,11 @@
     "close": "Close",
     "exit": "Exit",
     "hello": "Hello",
-    "hi": "Hi, {{name}}!",
+    "hi": "Hi!",
     "home": "Home",
     "info": "Info here is coming up",
     "next": "Next",
     "no": "No",
-    "skip": "Skip",
     "submit": "Submit",
     "unknownUser": "Unknown username. Contact your teacher in case you forgot your code.",
     "yes": "Yes",
@@ -28,20 +27,20 @@
     "maths": "maths",
     "replayIntro": "Replay intro",
     "outro": {
-      "html": "SWEEEEET!!<br>Congratulations, {{ name }}!<br>You did amazing!!",
-      "plain": "SWEEEEET!! Congratulations, {{ name }}! You did amazing!!"
+      "html": "SWEEEEET!!<br>Congratulations!<br>You did amazing!!",
+      "plain": "SWEEEEET!! Congratulations! You did amazing!!"
     }
   },
   "assisstant": {
     "assessmentsAssisstant": "Here are all the assessments. Go click on a flower to start an assessment. Rather want to see your profile? Click on your name to go to the profile page. ",
-    "completedTopicAssisstant": "\"YEAEAHEAH\" well done you have completed all the questions. You can be very proud of yourself!",
+    "completedQuestionSetAssisstant": "\"YEAEAHEAH\" well done you have completed all the questions. You can be very proud of yourself!",
     "profileAssisstant": "This is your profile. You can see all the honeypots you have gathered. If you have enough honeypots, you can unlock new avatars. Choose the avatar you like best to be on your profile.",
     "questionAssisstant": "You see the question on top that you need to answer. Type your answer in the white field.",
     "questionNumberLineAssisstant": "You see a question on top. Drag the slider to the correct place on the numberline and press the green button",
     "questionSelectAssisstant": "On top you see the question. Below are possible answers. Choose the one that you think is correct and press the green button",
     "questionSortPage": "You need to drag the answers to the correct categories. When all the answers are in one of the categories, press the green button.",
-    "topicAssisstant": "Here is the overview of the topic. View the description carefully, before you start. Click on the green button to begin.",
-    "topicsAssisstant": "Here you can see all the topics that can be answered. If there is a red ribbon, it means you already answered the topic. For some topics you can get stars. The more stars the better! Click on a topic to start it. "
+    "questionSetAssisstant": "Here is the overview of the set of questions. View the description carefully, before you start. Click on the green button to begin.",
+    "questionSetsAssisstant": "Here you can see all the sets of questions that can be answered. If there is a red ribbon, it means you already answered the set of questions. For some sets of questions you can get stars. The more stars the better! Click on a set of questions to start it. "
   },
   "auth": {
     "browserDisclaimer": "Please use Chrome browser for a better experience",
@@ -62,20 +61,23 @@
     "shop": "Shop",
     "unlocked": "Unlocked"
   },
-  "topics": {
+  "questionSets": {
     "backTo": "Back to {{page}}",
     "assessments": "assessments",
-    "topics": "topics",
-    "noSkipQuestions": "Questions can't be skipped",
-    "noTopics": "No topics",
-    "noTopicsInAssessment": "No topics in this assessment",
-    "skipQuestions": "Questions can be skipped",
+    "questionSets": "sets of questions",
+    "noQuestionSets": "No sets of questions",
+    "noQuestionSetsInAssessment": "No sets of questions in this assessment",
     "start": "Start",
-    "finishPrevious": "You have to finish the previous topic.",
-    "topicCompleted": "Well done! You completed the topic.",
-    "completedTopic": {
-      "gainedPoints": "You got",
-      "alreadyAnswered": "You have already answered this topic, and therefore can't get more honeypots for it."
+    "finishPrevious": "You have to finish the previous set of questions.",
+    "questionSetCompleted": "Well done! You completed the set of questions.",
+    "completedQuestionSet": {
+      "gainedPoints": "You just got",
+      "alreadyAnswered": "You have already answered this set of questions, and therefore can't get more honeypots for it.",
+      "praise": {
+        "1": "Bee-utiful!!",
+        "2": "Un-Bee-lievable!!",
+        "3": "Well done, busy bee!"
+      }
     },
     "praise": {
       "praise1": "You must have tried hard on this question!",
@@ -97,9 +99,8 @@
       "continue": "Continue",
       "correctAnswer": "Correct answer:",
       "exitConfirmation": "Exit confirmation",
-      "exitInfo": "If you exit now, you will be redirected to the Topics page.",
+      "exitInfo": "If you exit now, you will be redirected to the QuestionSets page.",
       "questionNotAvailable": "This question is not available",
-      "skipSure": "Are you sure you want to skip this question?",
       "notReallyLikeMe": "Not really like me",
       "aLittleLikeMe": "A little like me",
       "aLotLikeMe": "A lot like me"
@@ -123,7 +124,7 @@
     "selectQuestionTitle": "On top you see the question",
     "startAssessment": "Click the flower/button to start",
     "startQuestion": "You will get some practise questions now. Click the green button",
-    "startTopic": "Click the picture",
+    "startQuestionSet": "Click the picture",
     "theFriendlyBee": "If you dont know what to do on a page, click on me I will repeat the instruction",
     "toProfilePage": "Let's fly to your profile page to find out what you can do with the honeypots.",
     "unlockingAvatars": "You can unlock a character now",

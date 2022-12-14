@@ -56,12 +56,12 @@ export const TutorialContent =
             ],
             },
             {
-            pageID: 'topics-page',
+            pageID: 'question-sets-page',
             completed: false,
             steps: [
                 {
                 text: '',
-                pictureURL: 'T11-topics.png',
+                pictureURL: 'T11-question-sets.png',
                 audioURL: 'slideshow_11.ogg',
                 },
                 {
@@ -76,9 +76,9 @@ export const TutorialContent =
                 },
                 {
                 text: '',
-                pictureURL: 'T14-topic-evaluated.png',
+                pictureURL: 'T14-question-set-evaluated.png',
                 audioURL: 'slideshow_14.ogg',
-                redirect: ['topic', 0],
+                redirect: ['question-set', 0],
                 },
             ],
             },
@@ -165,7 +165,7 @@ export const TutorialContent =
             ]
             },
             {
-            pageID: 'completed-topic-page',
+            pageID: 'completed-question-set-page',
             completed: false,
             steps: [
                 {
@@ -177,12 +177,12 @@ export const TutorialContent =
             ]
             },
             {
-            pageID: 'topics-page',
+            pageID: 'question-sets-page',
             completed: false,
             steps: [
                 {
                 text: '',
-                pictureURL: 'T31-topics-evaluated-ready.png',
+                pictureURL: 'T31-question-sets-evaluated-ready.png',
                 audioURL: 'slideshow_31.ogg',
                 },
                 {
@@ -194,7 +194,7 @@ export const TutorialContent =
                 text: '',
                 pictureURL: 'T33-select-unevaluated.png',
                 audioURL: 'slideshow_33.ogg',
-                redirect: ['topic', 1],
+                redirect: ['question-set', 1],
                 }
             ]
             },
@@ -240,7 +240,7 @@ export const TutorialContent =
             ]
             },
             {
-            pageID: 'completed-topic-page',
+            pageID: 'completed-question-set-page',
             completed: false,
             steps: [
                 {

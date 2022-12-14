@@ -2,12 +2,13 @@
   cursor: not-allowed !important;
 }
 
-.start-topic {
+.start-question-set {
   display: contents;
   cursor: pointer;
 }
 
 .flower {
+  position: relative;
   flex-direction: column;
   display: flex;
   justify-content: space-between;
@@ -15,39 +16,53 @@
 
   .flower-corolla {
     z-index: 2;
+    width: clamp(130px, 15vw, 230px);
   }
 
   .flower-stem {
-    margin-top: -10px;
+    margin-top: -20px;
+
   }
 
-  .complete {
-    width: 60px;
-    margin-top: -2rem;
+  .stem-left {
+    height: clamp(80px, 15vw, 220px);
+  }
+
+  .stem-right {
+    height:clamp(128px, 15vw, 250px);
+  }
+
+  .honeypots {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
     height: auto;
+
   }
 }
 
 
 .ellipse-1 {
-  width: 40px;
-  height: 80px;
+  width: clamp(30px, 5vw, 75px);
+  height: clamp(60px, 10vw, 130px);
   border-radius: 50%;
   transform: rotate(-18deg) translateX(-25%);
   opacity: 100%;
 }   
 
 .ellipse-2 {
-  width: 40px;
-  height: 80px;
+  width: clamp(30px, 5vw, 75px);
+  height: clamp(60px, 10vw, 130px);
   border-radius: 50%;
   position: absolute;
   top: 0%;
 }   
 
 .ellipse-3 {
-  width: 40px;
-  height: 80px;
+  width: clamp(30px, 5vw, 75px);
+  height: clamp(60px, 10vw, 130px);
   border-radius: 50%;
   transform: rotate(18deg) translateX(25%);
   opacity: 100%;
@@ -58,7 +73,7 @@
 .disk-flower {
   background: #FFDF74;
   border-radius: 50%;
-  width: 50px;
+  width: clamp(50px, 6vw, 80px);
   height: 40px;
   position: absolute;
   top: -5px;
@@ -67,4 +82,24 @@
 
 .locked-flower { 
   position: relative;
+}
+.fade-in {
+  animation-duration: 4s;
+  animation-name: fade-in;
+  animation-fill-mode: forwards;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+.fade-out {
+  animation-duration: 4s;
+  animation-name: fade-out;
+  animation-fill-mode: forwards;
+
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
 }

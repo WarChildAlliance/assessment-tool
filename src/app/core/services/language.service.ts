@@ -27,6 +27,10 @@ export class LanguageService {
     this.setDirection(language.direction);
   }
 
+  public getDirection(): Observable<'RTL' | 'LTR'> {
+    return this.direction.asObservable();
+  }
+
   private setDirection(direction: 'RTL' | 'LTR'): void {
     document.getElementsByTagName('html')[0].setAttribute('dir', direction.toLowerCase());
     document.getElementsByTagName('html')[0].classList.add(direction.toLowerCase());

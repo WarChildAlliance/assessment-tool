@@ -1,0 +1,98 @@
+.number-line {
+  height: calc(100vh - 68px);
+  text-align: center;
+  font-family: "Mada", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(-10%);
+  gap: 50px 0;
+  // initialize css variables used for the ruler layout
+  --tick-step: calc(100% / (var(--tick-nb) + 1));
+  --ruler-width: 95%;
+  --ruler-height: 50px;
+  --font-size: 32px;
+  --stroke-width: 3.5px;
+  --square-size: 60px;
+
+  @media (max-width: 1024px) {
+    --ruler-height: 36px;
+    --font-size: 24px;
+    --stroke-width: 2.5px;
+    --square-size: 46px;
+  }
+
+  .inline-grid {
+    display: inline-grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    place-items: center;
+  }
+  .answer-container {
+    width: 100%;
+
+    .ruler {
+      position: relative;
+      width: var(--ruler-width);
+      height: var(--ruler-height);
+
+      .line {
+        border-radius: 150px;
+        border: var(--stroke-width) solid #00AB4F;
+
+        &.horizontal {
+          position: absolute;
+          width: calc(100% - var(--tick-step));
+          height: 0;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+        }
+        &.tick {
+          height: 100%;
+          width: 0;
+        }
+      }
+    }
+    .numbers-container {
+      position: relative;
+      width: var(--ruler-width);
+
+      p {
+        font-size: var(--font-size);
+      }
+      .drop-area {
+        width: var(--square-size);
+        height: var(--square-size);
+        border-radius: 9px;
+        background: #89CF87;
+        border: dashed 2px #00AB4F;
+      }
+    }
+  }
+  .options-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--square-size);
+  height: var(--square-size);
+  border-radius: 9px;
+  border: solid 4px #89CF87;
+  background: #fff;
+  font-size: var(--font-size);
+}
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 150ms ease-in-out;
+}
+.cdk-drag-animating {
+  transition: transform 50ms ease-in;
+}
+.cursor-move {
+  cursor: move;
+}

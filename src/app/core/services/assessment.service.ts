@@ -7,7 +7,7 @@ import { Assessment } from '../models/assessment.model';
 import { Attachment } from '../models/attachment.model';
 import { DraggableOption, GeneralQuestion, QuestionDragDrop,
   QuestionSelect, QuestionSort, QuestionTypeEnum } from '../models/question.model';
-import { Topic } from '../models/topic.models';
+import { QuestionSet } from '../models/question-set.models';
 import { CacheService } from './cache.service';
 import { TextToSpeechService } from './text-to-speech.service';
 
@@ -42,13 +42,13 @@ export class AssessmentService {
       return;
     }
 
-    this.getAssessmentsDeep().subscribe(assessments => {
+    this.getAssessmentsDeep().subscribe(async assessments => {
       for (const assessment of assessments) {
         this.getIcon(assessment.icon);
-        for (const topic of assessment.topics) {
-          this.getIcon(topic.icon);
-          for (const question of topic.questions) {
-            this.getQuestionTitleAudio(question, assessment.language);
+        for (const questionSet of assessment.question_sets) {
+          this.getIcon(questionSet.icon);
+          for (const question of questionSet.questions) {
+            await this.getQuestionTitleAudio(question, assessment.language);
             this.getAttachments(question.attachments);
             if (question.hasOwnProperty('options')) {
               for (const option of (question as QuestionSort | QuestionSelect).options) {
@@ -60,7 +60,7 @@ export class AssessmentService {
                 e => e.attachment_type === 'IMAGE' && e.background_image);
               this.getAttachments([bgImage]);
 
-              this.getQuestionDraggableOptions(assessment.id, topic.id, question.id).subscribe(
+              this.getQuestionDraggableOptions(assessment.id, questionSet.id, question.id).subscribe(
                 (res: DraggableOption[]) => {
                   (question as QuestionDragDrop).draggable_options = res ?? [];
                   for (const option of res) {
@@ -71,9 +71,9 @@ export class AssessmentService {
             }
           }
         }
+        this.cacheService.setData('assessments', assessments);
+        this.storedAssessmentsSource.next(assessments);
       }
-      this.cacheService.setData('assessments', assessments);
-      this.storedAssessmentsSource.next(assessments);
     });
   }
 
@@ -108,7 +108,7 @@ export class AssessmentService {
 
     // If tutorial and not complete, return tutorial unlocked and everything else locked
     const tutorial = mutatedAssessmentList.find(assessment => assessment.subject === 'TUTORIAL');
-    if (!!tutorial && !tutorial.all_topics_complete) {
+    if (!!tutorial && !tutorial.all_question_sets_complete) {
       mutatedAssessmentList.map(assessment => {
         assessment.locked = !(assessment.subject === 'TUTORIAL');
       });
@@ -122,27 +122,27 @@ export class AssessmentService {
         .find(assessment => (assessment.id === assessmentId))));
   }
 
-  public getAssessmentTopics(assessmentId: number): Observable<Topic[]> {
+  public getAssessmentQuestionSets(assessmentId: number): Observable<QuestionSet[]> {
     return this.storedAssessments.pipe(map((assessments) => assessments
-        .find(assessment => (assessment.id === assessmentId)).topics));
+        .find(assessment => (assessment.id === assessmentId)).question_sets));
   }
 
-  public getAssessmentTopic(assessmentId: number, topicId: number): Observable<Topic> {
+  public getAssessmentQuestionSet(assessmentId: number, questionSetId: number): Observable<QuestionSet> {
     return this.storedAssessments.pipe(map((assessments) => assessments
-        .find(assessment => (assessment.id === assessmentId)).topics
-        .find(topic => (topic.id === topicId))));
+        .find(assessment => (assessment.id === assessmentId)).question_sets
+        .find(questionSet => (questionSet.id === questionSetId))));
   }
 
-  public getAssessmentTopicQuestions(assessmentId: number, topicId: number): Observable<GeneralQuestion[]> {
+  public getAssessmentQuestionSetQuestions(assessmentId: number, questionSetId: number): Observable<GeneralQuestion[]> {
     return this.storedAssessments.pipe(map((assessments) => assessments
-        .find(assessment => (assessment.id === assessmentId)).topics
-        .find(topic => (topic.id === topicId)).questions));
+        .find(assessment => (assessment.id === assessmentId)).question_sets
+        .find(questionSet => (questionSet.id === questionSetId)).questions));
   }
 
-  public getAssessmentTopicQuestion(assessmentId: number, topicId: number, questionId: number): Observable<GeneralQuestion> {
+  public getAssessmentQuestionSetQuestion(assessmentId: number, questionSetId: number, questionId: number): Observable<GeneralQuestion> {
     return this.storedAssessments.pipe(map((assessments) => assessments
-        .find(assessment => (assessment.id === assessmentId)).topics
-        .find(topic => (topic.id === topicId)).questions
+        .find(assessment => (assessment.id === assessmentId)).question_sets
+        .find(questionSet => (questionSet.id === questionSetId)).questions
         .find(question => (question.id === questionId))
     ));
   }
@@ -165,24 +165,21 @@ export class AssessmentService {
     }
   }
 
-  private getQuestionTitleAudio(question: GeneralQuestion, language: string): void {
-    this.ttsService.getSynthesizedSpeech(
-      language === 'ENG' ? 'en-US' : 'ar-XA',
-      question.title
-    ).subscribe((audioURL: string) => {
-      if (audioURL) {
-        question.title_audio = audioURL;
-      }
-    });
+  private async getQuestionTitleAudio(question: GeneralQuestion, language: string): Promise<void> {
+    if (!!question.title_audio) { return; }
+
+    const locales = { ENG: 'en-GB', FRE: 'fr-FR', ARA: 'ar-XA' };
+    const audioURL = await this.ttsService.getSynthesizedSpeech(locales[language], question.title).toPromise();
+    if (audioURL) { question.title_audio = audioURL; }
   }
 
   private getAssessmentsDeep(): Observable<Assessment[]> {
     return this.http.get<Assessment[]>(`${environment.API_URL}/assessments/get_assessments/`);
   }
 
-  private getQuestionDraggableOptions(assessmentId: number, topicId: number, questionId: number): Observable<any> {
+  private getQuestionDraggableOptions(assessmentId: number, questionSetId: number, questionId: number): Observable<any> {
     return this.http.get(
-      `${environment.API_URL}/assessments/${assessmentId}/topics/${topicId}/questions/${questionId}/draggable/`
+      `${environment.API_URL}/assessments/${assessmentId}/question-sets/${questionSetId}/questions/${questionId}/draggable/`
     );
   }
 }

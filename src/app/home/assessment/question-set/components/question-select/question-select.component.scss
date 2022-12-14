@@ -1,0 +1,94 @@
+.options-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  gap: 12px;
+
+  &.default {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    @media (max-width: 780px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &.grid {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 780px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &.vertical {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  &.horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  .option {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 1rem 0;
+
+    &-attachments {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 0 2rem;
+      align-items: center;
+      gap: 0 20px;
+      margin: 0 .5rem;
+
+      .image-attachment {
+        img {
+          height: 120px;
+          width: auto;
+
+          @media (max-width: 780px) {
+            height: 50px;
+          }
+        }
+      }
+    }
+
+    p {
+      margin-top: 0;
+      font-size: 0.7em;
+    }
+  }
+  input {
+    opacity: .01;
+  }
+  label {
+    display: block;
+    padding: .5rem 1rem;
+    border-radius: 1.25rem;
+    margin: .5rem;
+
+    // making label text unselectable
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    @media (max-width: 780px) {
+      padding: 0 1rem;
+    }
+  }
+  input:checked + label.elevated-basic--outline {
+    background-color: #FFDC64;
+  }
+}
