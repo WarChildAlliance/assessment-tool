@@ -11,10 +11,9 @@
                 >
                 <label for="option-radio-{{i}}"
                     [ngClass]="answer?.statement === option.id ? 'elevated-valid--outline' : 'elevated-neutral--outline'"
-                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
-                >
+                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
                     <img [src]="'assets/icons/SEL_faces_' + option.path + '.svg'" alt="">
-                    <ng-container *ngIf="showTitle">
+                    <ng-container>
                         {{ "questionSets.question." + option.path | translate }}
                     </ng-container>
                 </label>
