@@ -8,6 +8,7 @@ export interface Question {
   question_type: QuestionTypeEnum;
   hint: Hint;
   attachments: Attachment[];
+  shuffle: boolean;
 }
 
 export interface QuestionInput extends Question {
@@ -23,7 +24,6 @@ export interface QuestionNumberLine extends Question {
   start: number;
   end: number;
   step: number;
-  shuffle: boolean;
 }
 
 export interface QuestionCalcul extends Question {

@@ -48,7 +48,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         // shuffle evaluated options
-        if (this.isEvaluated) {
+        if (this.isEvaluated && this.question.shuffle) {
             this.question.options = this.question.options.map(question => ({
                 question,
                 sort: Math.random()
