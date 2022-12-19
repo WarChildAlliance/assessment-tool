@@ -121,9 +121,8 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                             questionSet => questionSet.id === parseInt(recentQuestionSetId, 10));
                         if (recentQuestionSet && recentQuestionSet?.completed === false) {
                             this.questionSetsCompletionUpdate = true;
-                            return recentQuestionSet;
                         }
-                        return null;
+                        return recentQuestionSet;
                     }),
                     switchMap((completedQuestionSet: QuestionSet) => completedQuestionSet ?
                         this.registerQuestionSetCompletion(completedQuestionSet, user).then(() => completedQuestionSet.id) :
@@ -135,10 +134,10 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 if (completedQuestionSetId) {
                     const completedQuestionSetIndex = this.questionSets.findIndex(e => e.id === completedQuestionSetId);
                     const assessment = this.assessments.find(e => e.id === this.assessmentId);
-                    this.completedQuestionSet = {...this.questionSets[completedQuestionSetIndex]};
+                    this.completedQuestionSet = this.questionSets[completedQuestionSetIndex];
                     this.setQuestionSetProperties(
                         assessment,
-                        this.completedQuestionSet,
+                        this.questionSets[completedQuestionSetIndex],
                         completedQuestionSetIndex
                     );
                 }
@@ -178,13 +177,11 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         }
         if (questionSetIndex < this.questionSets.length - 1) {
             questionSetIndex++;
-            const nextQuestionSetClone = {...this.questionSets[questionSetIndex]};
             this.setQuestionSetProperties(
                 this.assessments[0],
-                nextQuestionSetClone,
+                this.questionSets[questionSetIndex],
                 questionSetIndex
             );
-            this.questionSets[questionSetIndex] = nextQuestionSetClone;
         }
         const pos = this.flowerComponents.get(questionSetIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
