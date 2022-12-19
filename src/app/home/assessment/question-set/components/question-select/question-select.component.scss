@@ -60,11 +60,9 @@
           }
         }
       }
-    }
-
-    p {
-      margin-top: 0;
-      font-size: 0.7em;
+      .without-title {
+        cursor: pointer;
+      }
     }
   }
   input {
