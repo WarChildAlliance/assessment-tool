@@ -9,8 +9,8 @@
           [class.drop-placeholder]="isDropAreaVisible"
           [style.left]="(dropArea.x * scale) + 'px'"
           [style.top]="(dropArea.y * scale) + 'px'"
-          [style.width]="(dropArea.width * scale) + 'px'"
-          [style.height]="(dropArea.height * scale) + 'px'"
+          [style.width]="(dropArea.width) + 'px'"
+          [style.height]="(dropArea.height) + 'px'"
           cdkDropList
           [cdkDropListData]="answerDropListData"
           (cdkDropListDropped)="swapArrayItem(
