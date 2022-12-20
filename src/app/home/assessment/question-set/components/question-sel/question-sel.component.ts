@@ -37,9 +37,10 @@ export class QuestionSelComponent implements OnInit {
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
 
-    this.userService.getUser().subscribe(({grade}) => {
-      this.showTitle = +grade >= 3;
-    });
+    // Do not show title for this phase
+    // this.userService.getUser().subscribe(({grade}) => {
+    //   this.showTitle = +grade >= 3;
+    // });
 
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {
