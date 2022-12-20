@@ -157,18 +157,11 @@ export class AssessmentService {
   //  (this could probably be refactored in a single function with the above)
   private getAttachments(attachments: Attachment[]): void {
     if (!attachments || !attachments.length) { return; }
-    console.log('attachment = ', attachments);
     for (const attachment of attachments) {
-      console.log('attachment = ', attachment);
-      console.log('environ api = ', environment.API_URL);
-      const test = 'https://glmt-api.development.humanitarian.tech/';
-      console.log('https = ', test.slice(0, 4));
-      console.log('reste = ', test.slice(5, test.length));
-      console.log('TEST = ', [test.slice(0, 4), (test.slice(5, test.length))].join(''));
+      // TODO: Fix attachment being saved and get as 'http' when they should be served over 'https'
       const path = attachment.file.includes(environment.API_URL) ? attachment.file :
         attachment.file.includes([environment.API_URL.slice(0, 4), environment.API_URL.slice(5, environment.API_URL.length)].join('')) ?
-        attachment.file : environment.API_URL + attachment.file;
-        console.log('path = ', path);
+        [attachment.file.slice(0, 4), 's', attachment.file.slice(4)].join('') : environment.API_URL + attachment.file;
       this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
     }
   }
