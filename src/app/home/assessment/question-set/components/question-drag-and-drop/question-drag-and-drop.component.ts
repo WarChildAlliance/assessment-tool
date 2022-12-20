@@ -125,8 +125,18 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   }
 
   private isAnswerValid(): boolean {
-    return this.answerDropListData.every(
+    const valid = this.answerDropListData.every(
       (e: DraggableOption, index: number) => e.area_option === this.question.drop_areas[index].id);
+
+    this.goNextQuestion = this.question.draggable_options.every(option =>
+      (option.area_option === null) || (
+        this.answersPerArea.find(answer =>
+          answer.selected_draggable_option === option.id && option.area_option === answer.area)
+      )
+    );
+
+    this.validatedAnswers += valid ? 1 : 0;
+    return valid;
   }
 
   private saveAnswer(): void {
