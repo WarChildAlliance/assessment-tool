@@ -161,7 +161,9 @@ export class AssessmentService {
     for (const attachment of attachments) {
       console.log('attachment = ', attachment);
       console.log('environ api = ', environment.API_URL);
+      console.log('TEST = ', [environment.API_URL.slice(0, 4), 's', environment.API_URL.slice(4)].join(''));
       const path = attachment.file.includes(environment.API_URL) ? attachment.file :
+        attachment.file.includes([environment.API_URL.slice(0, 4), 's', environment.API_URL.slice(4)].join('')) ? attachment.file :
         environment.API_URL + attachment.file;
         console.log('path = ', path);
       this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
