@@ -157,10 +157,13 @@ export class AssessmentService {
   //  (this could probably be refactored in a single function with the above)
   private getAttachments(attachments: Attachment[]): void {
     if (!attachments || !attachments.length) { return; }
-
+    console.log('attachment = ', attachments);
     for (const attachment of attachments) {
+      console.log('attachment = ', attachment);
+      console.log('environ api = ', environment.API_URL);
       const path = attachment.file.includes(environment.API_URL) ? attachment.file :
         environment.API_URL + attachment.file;
+        console.log('path = ', path);
       this.http.get(path, { responseType: 'arraybuffer' }).subscribe();
     }
   }
