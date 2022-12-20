@@ -48,7 +48,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         // shuffle evaluated options
-        if (this.isEvaluated) {
+        if (this.isEvaluated && this.question.shuffle) {
             this.question.options = this.question.options.map(question => ({
                 question,
                 sort: Math.random()
@@ -118,13 +118,17 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     // check selected option: if it's wrong displays vibration animation
     private wrongAnswerVibration(areaIndex: number): void {
         if (!this.isValid()) {
-            const checkedOption = document.getElementById('option-' + areaIndex.toString() + '-label') as HTMLLabelElement;
+            const checkedOption = document.getElementById(
+                'option-'+ areaIndex.toString() + (this.question.show_options_title ? '-label' : '-image')
+            ) as HTMLElement;
             checkedOption.classList.add('vibration');
             this.valueForm.setValue(null);
 
             setTimeout(() => {
-                checkedOption.classList.remove('elevated-invalid--outline');
-                checkedOption.classList.add('elevated-basic--outline');
+                if (this.question.show_options_title) {
+                    checkedOption.classList.remove('elevated-invalid--outline');
+                    checkedOption.classList.add('elevated-basic--outline');
+                }
                 checkedOption.classList.remove('vibration');
             }, this.timeout);
         }

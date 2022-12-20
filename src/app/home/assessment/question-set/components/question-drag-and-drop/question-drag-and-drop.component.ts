@@ -83,7 +83,9 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   }
 
   public getSource(path: string): string {
-    return path.includes(environment.API_URL) ? path : environment.API_URL + path;
+    return path.includes(environment.API_URL) ? path :
+      path.includes([environment.API_URL.slice(0, 4), environment.API_URL.slice(5, environment.API_URL.length)].join('')) ?
+      [path.slice(0, 4), 's', path.slice(4)].join('') : environment.API_URL + path;
   }
 
   public getImageAttachment(attachments: Attachment[]): string {
@@ -125,8 +127,18 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   }
 
   private isAnswerValid(): boolean {
-    return this.answerDropListData.every(
+    const valid = this.answerDropListData.every(
       (e: DraggableOption, index: number) => e.area_option === this.question.drop_areas[index].id);
+
+    this.goNextQuestion = this.question.draggable_options.every(option =>
+      (option.area_option === null) || (
+        this.answersPerArea.find(answer =>
+          answer.selected_draggable_option === option.id && option.area_option === answer.area)
+      )
+    );
+
+    this.validatedAnswers += valid ? 1 : 0;
+    return valid;
   }
 
   private saveAnswer(): void {
