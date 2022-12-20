@@ -83,7 +83,9 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   }
 
   public getSource(path: string): string {
-    return path.includes(environment.API_URL) ? path : environment.API_URL + path;
+    return path.includes(environment.API_URL) ? path :
+      path.includes([environment.API_URL.slice(0, 4), environment.API_URL.slice(5, environment.API_URL.length)].join('')) ?
+      [path.slice(0, 4), 's', path.slice(4)].join('') : environment.API_URL + path;
   }
 
   public getImageAttachment(attachments: Attachment[]): string {
