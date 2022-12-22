@@ -103,7 +103,9 @@
       "questionNotAvailable": "Cette question n'est pas disponible",
       "notReallyLikeMe": "Pas vraiment comme moi",
       "aLittleLikeMe": "Un peu comme moi",
-      "aLotLikeMe": "Un peu comme moi"
+      "aLotLikeMe": "Un peu comme moi",
+      "replayQuestion": "Réécouter la question",
+      "stopQuestionAudio": "Stop"
     }
   },
   "tutorial": {
@@ -130,7 +132,7 @@
     "unlockingAvatars": "Vous pouvez débloquer un personnage maintenant",
     "welcome": "Bienvenue"
   },
-  "intro" : {
+  "intro": {
     "enterBallon": "Sais-tu que plus je reçois de fleurs, plus le goût du miel est agréable?",
     "secondBallon": "Pourrais-tu m'aider à collecter du pollen pour faire du miel?"
   }

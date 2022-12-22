@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -13,8 +13,16 @@ export class TextToSpeechService {
     'ar-XA': 'ar-XA-Wavenet-D',
     'fr-FR': 'fr-FR-Neural2-A'
   };
+  private readonly ttsAudioPlayingSource = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) { }
+
+  public get ttsAudioPlaying$(): Observable<any> {
+    return this.ttsAudioPlayingSource.asObservable();
+  }
+  public set ttsAudioPlaying(value: boolean) {
+    this.ttsAudioPlayingSource.next(value);
+  }
 
   public getSynthesizedSpeech(locale: 'en-GB' | 'ar-XA' | 'fr-FR', text: string): Observable<string | never> {
     return this.http.post(`${environment.TTS_API_URL}?key=${environment.TTS_API_KEY}`, {
