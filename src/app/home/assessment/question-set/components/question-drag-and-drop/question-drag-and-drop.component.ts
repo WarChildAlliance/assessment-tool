@@ -82,6 +82,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
     this.answer = null;
   }
 
+  // TODO: this is called BILLIONS of times and also when we hover the images
   public getSource(path: string): string {
     return path.includes(environment.API_URL) ? path :
       path.includes([environment.API_URL.slice(0, 4), environment.API_URL.slice(5, environment.API_URL.length)].join('')) ?
