@@ -103,7 +103,9 @@
       "questionNotAvailable": "This question is not available",
       "notReallyLikeMe": "Not really like me",
       "aLittleLikeMe": "A little like me",
-      "aLotLikeMe": "A lot like me"
+      "aLotLikeMe": "A lot like me",
+      "replayQuestion": "Replay question",
+      "stopQuestionAudio": "Stop question audio"
     }
   },
   "tutorial": {

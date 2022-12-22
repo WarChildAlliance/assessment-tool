@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
 import { UserService } from 'src/app/core/services/user.service';
+import { TextToSpeechService } from 'src/app/core/services/text-to-speech.service';
 
 @Component({
   selector: 'app-question',
@@ -64,7 +65,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private show = false;
   private timeout = 250;
   private timeoutNextQuestion = 1000;
-  private subscription: Subscription;
+  private audioTimeoutId: any;
+  private subscriptions: Subscription[] = [];
   private questionTimeStart: string;
   private titleAudio: HTMLAudioElement;
   private isTitleAudioPlaying = false;
@@ -76,6 +78,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private assessmentService: AssessmentService,
     private changeDetector: ChangeDetectorRef,
     private userService: UserService,
+    private ttsService: TextToSpeechService,
     public translate: TranslateService,
     public dialog: MatDialog,
   ) { }
@@ -165,23 +168,25 @@ export class QuestionComponent implements OnInit, OnDestroy {
             this.assessment = res;
           });
 
-          this.subscription = this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(questionSet => {
+          this.subscriptions.push(this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(questionSet => {
             this.questionSet = questionSet;
             this.isEvaluated = questionSet.evaluated;
-          });
+          }));
 
-          this.assessmentService.getAssessmentQuestionSetQuestion(assessmentId, questionSetId, questionId).subscribe(question => {
-            this.question = question;
-            this.questionIndex = this.questionSet.questions.findIndex(q => q.id === questionId);
-            if (!this.question.title_audio) {
-              return;
-            }
-            this.titleAudio = new Audio(this.question.title_audio);
-            this.titleAudio.addEventListener('playing', () => this.isTitleAudioPlaying = true);
-            this.titleAudio.addEventListener('ended', () => this.isTitleAudioPlaying = false);
-            this.titleAudio.load();
-            setTimeout(() => this.playStopTitleAudio(), 500);
-          });
+          this.subscriptions.push(
+            this.assessmentService.getAssessmentQuestionSetQuestion(assessmentId, questionSetId, questionId).subscribe(question => {
+              this.question = question;
+              this.questionIndex = this.questionSet.questions.findIndex(q => q.id === questionId);
+              if (!this.question.title_audio) {
+                return;
+              }
+              this.titleAudio = new Audio(this.question.title_audio);
+              this.titleAudio.load();
+              this.audioTimeoutId = setTimeout(() => {
+                this.playStopTitleAudio();
+              }, 500);
+            })
+          );
 
           setTimeout(x => {
             this.show = true;
@@ -192,7 +197,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    clearTimeout(this.audioTimeoutId);
   }
 
   public playStopTitleAudio(): void {
@@ -200,13 +206,18 @@ export class QuestionComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.isTitleAudioPlaying) {
+      this.titleAudio.pause();
       this.titleAudio.load();
       this.isTitleAudioPlaying = false;
+      this.ttsService.ttsAudioPlaying = false;
       return;
     }
+    this.isTitleAudioPlaying = true;
+    this.ttsService.ttsAudioPlaying = true;
     this.titleAudio.play();
     this.titleAudio.onended = () => {
       this.isTitleAudioPlaying = false;
+      this.ttsService.ttsAudioPlaying = false;
     };
   }
 
