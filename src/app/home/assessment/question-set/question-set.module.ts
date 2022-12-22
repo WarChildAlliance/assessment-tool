@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { QuestionInputComponent } from './components/question-input/question-input.component';
@@ -64,7 +65,8 @@ import { ShapesComponent } from './components/shapes/shapes.component';
         MatInputModule,
         MatSelectModule,
         MatRadioModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatTooltipModule,
     ]
 })
 export class QuestionSetModule {
