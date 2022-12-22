@@ -94,17 +94,18 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
     if (!value) {
       return;
     }
+    const isValid = value === this.question.expected_value;
     if (!this.answer) {
       this.answer = {
         value,
         question: this.question.id,
-        valid: value === this.question.expected_value
+        attempt: isValid,
+        valid: isValid
       };
     } else {
-      this.answer.value = value;
-      this.answer.valid = value === this.question.expected_value;
+      this.answer.attempt = isValid;
     }
     this.tutorialSerice.currentPage.next(PageNames.question);
-    this.answerChange.emit({answer: this.answer, next: this.answer.valid});
+    this.answerChange.emit({answer: this.answer, next: this.answer.attempt});
   }
 }

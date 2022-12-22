@@ -25,6 +25,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   public goNextQuestion: boolean;
   public validatedAnswers = 0;
   public answersPerArea: DragAndDropAreaEntry[];
+  public firstAttemptAnswers: DragAndDropAreaEntry[] = [];
 
   public draggableOptions: DraggableOption[];
   public answerDropListData: Array<DraggableOption>;
@@ -63,15 +64,15 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
 
     this.resetAnswer.subscribe((value: boolean) => {
       if (value) {
-      const previousIndex = this.answerDropListData.indexOf(
-        this.answerDropListData.find((e: DraggableOption, index: number) =>
-          e !== undefined && e?.area_option !== this.question.drop_areas[index].id
-        )
-      );
-      const targetIndex = this.draggableOptions.length;
+        const previousIndex = this.answerDropListData.indexOf(
+          this.answerDropListData.find((e: DraggableOption, index: number) =>
+            e !== undefined && e?.area_option !== this.question.drop_areas[index].id
+          )
+        );
+        const targetIndex = this.draggableOptions.length;
 
-      // Remove the wrong drag option of the area and puts it back at the end of draggableOptions array
-      this.swapArrayItem(this.answerDropListData, this.draggableOptions, previousIndex, targetIndex, false, false);
+        // Remove the wrong drag option of the area and puts it back at the end of draggableOptions array
+        this.swapArrayItem(this.answerDropListData, this.draggableOptions, previousIndex, targetIndex, false, false);
       }
     });
   }
@@ -145,18 +146,39 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
     if (this.answerDropListData.some(answer => answer !== undefined)) {
       this.answersPerArea = this.answerDropListData.map(
         (e: DraggableOption, index: number) => e ? {
-            selected_draggable_option: e.id,
-            area: this.question.drop_areas[index].id
-          } : null).filter(e => !!e);
+          selected_draggable_option: e.id,
+          area: this.question.drop_areas[index].id
+        } : null).filter(e => !!e);
 
       // only submit answer and play sound if new drag&drop answer
       if (this.answersPerArea.length !== this.validatedAnswers) {
-        this.answer = {
-          question: this.question.id,
-          valid: this.isAnswerValid(),
-          answers_per_area: this.answersPerArea
-        };
-        this.answerChange.emit({answer: this.answer, next: this.goNextQuestion});
+        const valid = this.isAnswerValid();
+        if (!this.answer) {
+          this.answer = {
+            question: this.question.id,
+            attempt: valid,
+            valid,
+            answers_per_area_attempt: [],
+            answers_per_area: []
+          };
+        }
+        // First attempt to answer
+        if (this.correctAnswer.length !== this.firstAttemptAnswers.length) {
+          this.answersPerArea.forEach(answer => {
+            if (!this.firstAttemptAnswers.find(op => op.area === answer.area)) {
+              this.firstAttemptAnswers.push(answer);
+            }
+          });
+          this.answer.answers_per_area = this.firstAttemptAnswers;
+          this.answer.valid = this.firstAttemptAnswers.every(
+            (e: DragAndDropAreaEntry) => this.correctAnswer.find(
+              a => e.area === a.area_option && e.selected_draggable_option === a.id
+            ));
+        }
+
+        this.answer.answers_per_area_attempt = this.answersPerArea;
+        this.answer.attempt = valid;
+        this.answerChange.emit({ answer: this.answer, next: this.goNextQuestion });
       }
     }
   }
