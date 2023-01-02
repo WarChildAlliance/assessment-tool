@@ -62,13 +62,13 @@ export class QuestionCalculComponent implements OnInit {
       this.answer = {
         value: studentNumber,
         question: this.question.id,
+        attempt: valid,
         valid
       };
     } else {
-      this.answer.value = studentNumber;
-      this.answer.valid = valid;
+      this.answer.attempt = valid;
     }
-    this.answerChange.emit({ answer: this.answer, next: this.answer.valid });
+    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
   }
 
   public enterKeyboard(value: any): void {

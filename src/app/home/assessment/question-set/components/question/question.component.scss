@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0  auto;
+  margin: 0 auto;
 }
 
 .progress-header {
@@ -16,16 +16,33 @@
 
   .progress-bar {
     position: relative;
+    width: 155px;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    height: 36px;
+    justify-content: center;
 
-    .path {
-      position: relative;
-      border: 3px dashed #70504a;
-      border-radius: 0 0 50% 50%/60px;
+    .paths {
+      display: flex;
+      flex-direction: row;
+      min-width: -webkit-fill-available;
+      align-self: center;
+      place-content: space-evenly;
+
+      .path {
+        border: dashed 3px #70504a;
+        border-color: #70504a transparent transparent transparent;
+        border-radius: 300%/100px 100px 0 0;
+        transform: rotateX(180deg);
+      }
     }
+
     .bee {
       position: absolute;
-      margin: 0 0 2em;
+      width: 36px;
     }
+
     svg {
       overflow: visible;
     }
@@ -41,7 +58,7 @@ button {
   width: 60%;
 }
 
-mat-progress-bar{
+mat-progress-bar {
   margin-left: 0.5rem;
   margin-top: 0.2rem;
   height: 15px;
@@ -50,12 +67,11 @@ mat-progress-bar{
 }
 
 .icons {
-  position: absolute;
-  display: flex;
-  text-align: left;
-  height: inherit;
+  z-index: 999;
+
   svg {
     margin-top: 32%;
+    margin-right: 100%;
   }
 }
 

@@ -33,6 +33,7 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     public timeout = 500;
 
     public valueForm = new FormControl(null);
+    public correctAnswer: number;
 
     private readonly pageID = 'question-select-page';
 
@@ -62,13 +63,13 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                     this.answer = {
                         selected_option: value.id,
                         question: this.question.id,
+                        attempt: this.isValid(),
                         valid: this.isValid()
                     };
                 } else {
-                    this.answer.selected_option = value.id;
-                    this.answer.valid = this.isValid();
+                    this.answer.attempt = this.isValid();
                 }
-                this.answerChange.emit({answer: this.answer, next: this.answer.valid});
+                this.answerChange.emit({answer: this.answer, next: this.answer.attempt});
             }
         });
     }
@@ -122,10 +123,10 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
                 'option-'+ areaIndex.toString() + (this.question.show_options_title ? '-label' : '-image')
             ) as HTMLElement;
             checkedOption.classList.add('vibration');
-            this.valueForm.setValue(null);
 
             setTimeout(() => {
                 if (this.question.show_options_title) {
+                    this.valueForm.setValue(null);
                     checkedOption.classList.remove('elevated-invalid--outline');
                     checkedOption.classList.add('elevated-basic--outline');
                 }

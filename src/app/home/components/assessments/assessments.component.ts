@@ -80,7 +80,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
           }
           );
         }
-        if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
+        if (this.assessments.length && this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
           this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_question_sets_complete &&
           this.subscriptionCount === 2 && previousPageID === 'completed-question-set-page') {
           this.dialog.open(GenericConfirmationDialogComponent, {
@@ -94,8 +94,12 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
             }
           });
         }
-        if (this.assessments && this.subscriptionCount > 1) {
-          this.displaySpinner = false;
+        if (this.displaySpinner) {
+          setTimeout(() => {
+            if (this.assessments && this.subscriptionCount > 0) {
+              this.displaySpinner = false;
+            }
+          }, 3000);
         }
       }
     );

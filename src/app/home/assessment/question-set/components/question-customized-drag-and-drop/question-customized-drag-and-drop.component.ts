@@ -160,14 +160,12 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
         right_value,
         final_value,
         question: this.question.id,
+        attempt: this.isValid(),
         valid: this.isValid()
       };
     } else {
-      this.answer.left_value = left_value;
-      this.answer.right_value = right_value;
-      this.answer.final_value = final_value;
-      this.answer.valid = this.isValid();
+      this.answer.attempt = this.isValid();
     }
-    this.answerChange.emit({ answer: this.answer, next: this.answer.valid });
+    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
   }
 }
