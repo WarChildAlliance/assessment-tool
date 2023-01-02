@@ -56,7 +56,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public resetAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public showTitle = false;
   // Size of the HTML elements (in px) used for the progress bar evolution
-  public path = 36;
+  public progressBarWidth = 120;
   public flyingBee = 35;
   public cursorPosition = {x:0, y:0};
   public showRightAnswerAnimation = false;
