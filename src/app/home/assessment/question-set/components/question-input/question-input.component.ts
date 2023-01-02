@@ -25,7 +25,7 @@ export class QuestionInputComponent implements OnInit {
 
 
   public valueForm = new FormControl(null);
-
+  public firstAttempt = true;
   private readonly pageID = 'question-input-page';
 
   constructor(
@@ -41,18 +41,23 @@ export class QuestionInputComponent implements OnInit {
           this.answer = {
             value,
             question: this.question.id,
+            attempt: this.isValid(),
             valid: this.isValid()
           };
         } else {
-          this.answer.value = value;
-          this.answer.valid = this.isValid();
+          this.answer.attempt = this.isValid();
         }
       }
     });
   }
 
   public handleSubmit(): void {
-    this.answerChange.emit({answer: this.answer, next: this.answer.valid});
+    if (this.firstAttempt) {
+      this.answer.value = this.valueForm.value;
+      this.answer.valid = this.isValid();
+      this.firstAttempt = false;
+    }
+    this.answerChange.emit({answer: this.answer, next: this.answer.attempt});
   }
 
   private isValid(): boolean {

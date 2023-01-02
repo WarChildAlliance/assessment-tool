@@ -43,14 +43,14 @@ export class QuestionDominoComponent implements OnInit {
           this.answer = {
             selected_domino: value.id,
             question: this.question.id,
+            attempt: this.isValid(),
             valid: this.isValid()
           };
         } else {
-          this.answer.selected_domino = value.id;
-          this.answer.valid = this.isValid();
+          this.answer.attempt = this.isValid();
         }
         this.wrongAnswerVibration(value);
-        this.answerChange.emit({ answer: this.answer, next: this.answer.valid });
+        this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
       }
     });
   }

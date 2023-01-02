@@ -56,7 +56,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public resetAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public showTitle = false;
   // Size of the HTML elements (in px) used for the progress bar evolution
-  public path = 36;
+  public progressBarWidth = 120;
   public flyingBee = 35;
   public cursorPosition = {x:0, y:0};
   public showRightAnswerAnimation = false;
@@ -241,14 +241,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public checkAnswer(answerEvent): void {
     this.answer = answerEvent.answer;
-    if (this.answer.valid) {
+    if (this.answer.attempt) {
       this.showRightAnswerAnimation = true;
     }
-    this.playAnswerAudioFeedback(this.answer.valid);
+    this.playAnswerAudioFeedback(this.answer.attempt);
     setTimeout(() => {
       if (answerEvent.next) {
         this.submitQuestion();
-      } else if (!this.answer.valid) {
+      } else if (!this.answer.attempt) {
         this.resetAnswer.next(true);
       }
       this.showRightAnswerAnimation = false;
