@@ -9,6 +9,7 @@ export interface Answer {
   start_datetime?: Moment | string;
   end_datetime?: Moment | string;
   valid?: boolean;
+  attempt?: boolean;
 }
 
 export interface AnswerInput extends Answer {
@@ -43,6 +44,7 @@ export interface DragAndDropAreaEntry {
 
 export interface AnswerDragAndDrop extends Answer {
   answers_per_area: DragAndDropAreaEntry[];
+  answers_per_area_attempt?: DragAndDropAreaEntry[];
 }
 
 export interface AnswerDomino extends Answer {
