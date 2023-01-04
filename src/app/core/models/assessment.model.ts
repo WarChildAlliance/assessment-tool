@@ -11,7 +11,6 @@ export interface Assessment {
   question_sets?: QuestionSet[];
   icon?: string;
   complete_question_sets?: number;
-
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   locked?: boolean;
   all_question_sets_complete?: boolean;
