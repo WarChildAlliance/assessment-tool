@@ -41,6 +41,7 @@
             [class.cursor-move]="!valueForm.value"
             [style]="'color: ' + getNumberColor(option)"
             cdkDrag
+            (cdkDragEnded)="dropPosition = $event.dropPoint"
             [cdkDragData]="option"
             [matchSize]="true"
             (cdkDropListDropped)="moveItemInArray(
