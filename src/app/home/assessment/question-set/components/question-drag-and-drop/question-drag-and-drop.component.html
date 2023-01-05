@@ -52,6 +52,7 @@
       <mat-card *ngIf="option"
         class="mat-elevation-z4"
         cdkDrag
+        (cdkDragEnded)="dropPosition = $event.dropPoint"
         [cdkDragData]="option"
         (cdkDragStarted)="onDragEvent()"
         (cdkDragEnded)="onDragEvent()"

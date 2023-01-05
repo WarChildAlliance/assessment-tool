@@ -20,12 +20,14 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   @Input() answer: AnswerNumberLine;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
-  @Output() answerChange = new EventEmitter<{answer: AnswerNumberLine; next: boolean}>();
+  @Output() answerChange = new EventEmitter<{
+    answer: AnswerNumberLine; next: boolean; answerAnimationPosition: {x: number; y: number};
+  }>();
 
   public dropListData: number[];
   public draggableOptions: number[];
   public valueForm = new FormControl(null);
-
+  public dropPosition: {x: number; y: number};
   private readonly pageID = 'question-number-line-page';
 
   constructor(
@@ -106,6 +108,6 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
       this.answer.attempt = isValid;
     }
     this.tutorialSerice.currentPage.next(PageNames.question);
-    this.answerChange.emit({answer: this.answer, next: this.answer.attempt});
+    this.answerChange.emit({answer: this.answer, next: this.answer.attempt, answerAnimationPosition: this.dropPosition});
   }
 }
