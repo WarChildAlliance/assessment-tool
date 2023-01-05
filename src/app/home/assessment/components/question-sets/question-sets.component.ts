@@ -227,14 +227,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
 
     public async startQuestionSet(id: number): Promise<void> {
         const selectedQuestionSet = this.questionSets.find(questionSet => questionSet.id === id);
-        if (selectedQuestionSet.has_sel_question) {
-            // If has SEL questions and isn't the student first try: filter questions to remove SEL quedtions
-            if (await this.isNotFirstTry(id)) {
-                this.questionSets.forEach(questionSet => {
-                    questionSet.questions = questionSet.questions?.filter(question => question.question_type !== 'SEL');
-                });
-            }
-        }
 
         const questionId = selectedQuestionSet.questions[0].id;
         this.answerService.startQuestionSetAnswer(id).subscribe();
@@ -281,11 +273,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 orientation,
             });
         }
-    }
-
-    private async isNotFirstTry(questionSetId: number): Promise<boolean> {
-        const answers = await this.answerService.getCompleteStudentAnswersForQuestionSet(questionSetId).toPromise();
-        return answers.length > 0;
     }
 
     private async registerQuestionSetCompletion(questionSet: QuestionSet, user: any): Promise<any> {
