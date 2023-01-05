@@ -31,6 +31,7 @@ import {
     QuestionCustomizedDragAndDropComponent
 } from './components/question-customized-drag-and-drop/question-customized-drag-and-drop.component';
 import { ShapesComponent } from './components/shapes/shapes.component';
+import { QuestionSetIntroComponent } from './components/question-set-intro/question-set-intro.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { ShapesComponent } from './components/shapes/shapes.component';
         QuestionCalculComponent,
         QuestionCustomizedDragAndDropComponent,
         ShapesComponent,
+        QuestionSetIntroComponent,
     ],
     imports: [
         SharedModule,

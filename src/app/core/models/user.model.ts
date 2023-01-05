@@ -17,6 +17,7 @@ export interface User {
   profile?: Profile;
   avatars?: Avatar[];
   see_intro: boolean;
+  skip_intro_for_assessments?: number[];
   grade?: string;
 }
 

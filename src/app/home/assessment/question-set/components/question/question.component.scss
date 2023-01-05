@@ -77,13 +77,11 @@ mat-progress-bar {
 
 .question-attachment {
   display: block;
-  margin: auto;
+  margin-right: 5%;
 }
 
 .question-container {
   display: grid;
-  width: 80%;
-  margin: 0 auto;
   overflow: auto;
 
   @media (max-width: 780px) {
@@ -98,6 +96,10 @@ mat-progress-bar {
 .question {
   position: relative;
   height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .tts-btn-placeholder {

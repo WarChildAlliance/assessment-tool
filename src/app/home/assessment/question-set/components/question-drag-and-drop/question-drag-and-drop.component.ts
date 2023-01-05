@@ -18,7 +18,9 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
 
-  @Output() answerChange = new EventEmitter<{answer: AnswerDragAndDrop; next: boolean}>();
+  @Output() answerChange = new EventEmitter<{
+    answer: AnswerDragAndDrop; next: boolean; answerAnimationPosition: {x: number; y: number};
+  }>();
 
   public backgroundImage: string = null;
   public isDropAreaVisible = false;
@@ -29,6 +31,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
 
   public draggableOptions: DraggableOption[];
   public answerDropListData: Array<DraggableOption>;
+  public dropPosition: {x: number; y: number};
 
   // Points to either answerDropListData or correctAnswer
   // depending on displayCorrectAnswer
@@ -179,7 +182,7 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
 
         this.answer.answers_per_area_attempt = this.answersPerArea;
         this.answer.attempt = valid;
-        this.answerChange.emit({ answer: this.answer, next: this.goNextQuestion });
+        this.answerChange.emit({ answer: this.answer, next: this.goNextQuestion, answerAnimationPosition: this.dropPosition });
       }
     }
   }

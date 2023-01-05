@@ -74,6 +74,9 @@ export class UserService {
   public updateUser(user: User): void {
     this.user = user;
     this.userSource.next(user);
+    if (this.cacheService.networkStatus.getValue()) {
+      this.cacheService.setData('user', user);
+    }
   }
 
   public resetUser(): void {

@@ -6,7 +6,6 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { GeneralAnswer } from 'src/app/core/models/answer.model';
 import { GeneralQuestion } from 'src/app/core/models/question.model';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
-import { PraiseTexts } from '../praise/praises.dictionary';
 import { FeedbackAudio } from '../audio-feedback/audio-feedback.dictionary';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
@@ -18,7 +17,6 @@ import { AnswerService } from 'src/app/core/services/answer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { trigger, animate, transition, style, state } from '@angular/animations';
-import { UserService } from 'src/app/core/services/user.service';
 import { TextToSpeechService } from 'src/app/core/services/text-to-speech.service';
 
 @Component({
@@ -58,7 +56,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   // Size of the HTML elements (in px) used for the progress bar evolution
   public progressBarWidth = 120;
   public flyingBee = 35;
-  public cursorPosition = {x:0, y:0};
+  public animationPosition = {x:0, y:0};
   public showRightAnswerAnimation = false;
 
   private goNextQuestion = false;
@@ -77,7 +75,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private answerService: AnswerService,
     private assessmentService: AssessmentService,
     private changeDetector: ChangeDetectorRef,
-    private userService: UserService,
     private ttsService: TextToSpeechService,
     public translate: TranslateService,
     public dialog: MatDialog,
@@ -92,9 +89,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('mousemove', ['$event'])
-  mouseMove($event: MouseEvent) {
+  @HostListener('touchmove', ['$event'])
+  mouseMove($event: MouseEvent | TouchEvent) {
     if (!this.showRightAnswerAnimation) {
-      this.cursorPosition = {x: $event.clientX, y:$event.clientY};
+      if ($event.type === 'mousemove') {
+        this.animationPosition = {x: ($event as MouseEvent).clientX, y: ($event as MouseEvent).clientY};
+      } else {
+        this.animationPosition = {x: ($event as TouchEvent).changedTouches[0].clientX, y: ($event as TouchEvent).changedTouches[0].clientY};
+      }
     }
   }
 
@@ -241,10 +243,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public checkAnswer(answerEvent): void {
     this.answer = answerEvent.answer;
-    if (this.answer.attempt) {
+    if (this.answer.attempt ?? this.answer.valid) {
+      if (answerEvent.answerAnimationPosition) {
+        // On mobile: touchmove event stops working when dragging elements, so we get the drop position to show the confetti animation
+        this.animationPosition = answerEvent.answerAnimationPosition;
+      }
       this.showRightAnswerAnimation = true;
     }
-    this.playAnswerAudioFeedback(this.answer.attempt);
+    this.playAnswerAudioFeedback(this.answer.attempt ?? this.answer.valid);
     setTimeout(() => {
       if (answerEvent.next) {
         this.submitQuestion();
