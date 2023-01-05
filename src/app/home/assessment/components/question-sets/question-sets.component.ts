@@ -34,7 +34,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     public assessments: Assessment[];
     public questionSets: QuestionSet[] = [];
     public assessmentTitle = '';
-    public assessmentSubject: string;
     public user: User = null;
     public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
     public config: SwiperOptions;
@@ -83,6 +82,11 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
             spaceBetween: 30,
             on: { slideChange: this.onSlideChange }
         };
+    }
+
+    public get currentAssessment(): Assessment {
+        if (!this.assessments?.length) { return null; }
+        return this.assessments.find( a => a.id = this.assessmentId);
     }
 
     ngOnInit(): void {

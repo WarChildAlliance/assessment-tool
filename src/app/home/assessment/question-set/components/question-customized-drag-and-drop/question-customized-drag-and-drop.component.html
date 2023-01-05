@@ -40,6 +40,7 @@
         <div *ngFor="let number of draggableNumbers"
             class="number"
             cdkDrag
+            (cdkDragEnded)="dropPosition = $event.dropPoint"
             [cdkDragData]="number"
             [matchSize]="true"
             (cdkDropListDropped)="copyArrayItem(

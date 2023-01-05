@@ -16,12 +16,15 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
   @Input() answer: AnswerCustomizedDragAndDrop;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
-  @Output() answerChange = new EventEmitter<{ answer: AnswerCustomizedDragAndDrop; next: boolean }>();
+  @Output() answerChange = new EventEmitter<{
+    answer: AnswerCustomizedDragAndDrop; next: boolean; answerAnimationPosition: {x: number; y: number};
+  }>();
 
   public draggableNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   public studentAnswer: number[];
   public studentFirstValue: number[];
   public studentSecondValue: number[];
+  public dropPosition: {x: number; y: number};
 
   public operatorSymbol: string;
   public operatorTypes = [
@@ -166,6 +169,6 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
     } else {
       this.answer.attempt = this.isValid();
     }
-    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
+    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt, answerAnimationPosition: this.dropPosition });
   }
 }

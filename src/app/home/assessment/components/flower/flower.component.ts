@@ -1,8 +1,11 @@
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lighten } from 'polished';
+import { Assessment } from 'src/app/core/models/assessment.model';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
+import { User } from 'src/app/core/models/user.model';
 import { AnswerService } from 'src/app/core/services/answer.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { environment } from 'src/environments/environment';
 import { FeedbackAudio } from '../../question-set/components/audio-feedback/audio-feedback.dictionary';
 import { ProgressionAudio } from '../audio-progression/audio-progression.dictionary';
@@ -16,18 +19,21 @@ export class FlowerComponent implements OnInit {
 
   @Input() index: number;
   @Input() flowerColor: string;
+  @Input() assessment: Assessment;
 
   public flowerColorLighter: string;
   public fadeCorollaIn = false;
   public fadeHoneypotsIn = false;
 
   private currentQuestionSet: QuestionSet;
+  private user: User;
 
   constructor(
     public elementRef: ElementRef,
     private route: ActivatedRoute,
     private router: Router,
-    private answerService: AnswerService
+    private answerService: AnswerService,
+    private userService: UserService
   ) {}
 
   public get questionSet(): QuestionSet { return this.currentQuestionSet; }
@@ -46,6 +52,9 @@ export class FlowerComponent implements OnInit {
 
   ngOnInit(): void {
     this.flowerColorLighter = lighten(0.25, this.flowerColor);
+    this.userService.currentUser.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   public playLockedQuestionSetAudioFeedback(questionSetIndex: number): void {
@@ -78,10 +87,22 @@ export class FlowerComponent implements OnInit {
     }
 
     const questionId = this.questionSet.questions[0].id;
+    const skipIntro = this.user.skip_intro_for_assessments?.includes(this.assessment.id);
     this.answerService.startQuestionSetAnswer(this.questionSet.id).subscribe();
-    this.router.navigate(['question-sets', this.questionSet.id, 'questions', questionId], {
-      relativeTo: this.route,
-    });
+    if (!skipIntro && this.index === 0 && (this.assessment?.subject === 'MATH' || this.assessment?.subject === 'LITERACY')) {
+      this.router.navigate(['question-sets', this.questionSet.id, 'intro'], {
+        relativeTo: this.route,
+        queryParams: {
+            assessment_id: this.assessment?.id,
+            subject: this.assessment?.subject,
+            question_id: questionId
+        }
+      });
+    } else {
+      this.router.navigate(['question-sets', this.questionSet.id, 'questions', questionId], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   private playShowHoneypotsAudio(honeypotsNbr: number): void {
