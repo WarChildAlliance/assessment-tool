@@ -243,14 +243,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   public checkAnswer(answerEvent): void {
     this.answer = answerEvent.answer;
-    if (this.answer.attempt) {
+    if (this.answer.attempt ?? this.answer.valid) {
       if (answerEvent.answerAnimationPosition) {
         // On mobile: touchmove event stops working when dragging elements, so we get the drop position to show the confetti animation
         this.animationPosition = answerEvent.answerAnimationPosition;
       }
       this.showRightAnswerAnimation = true;
     }
-    this.playAnswerAudioFeedback(this.answer.attempt);
+    this.playAnswerAudioFeedback(this.answer.attempt ?? this.answer.valid);
     setTimeout(() => {
       if (answerEvent.next) {
         this.submitQuestion();
