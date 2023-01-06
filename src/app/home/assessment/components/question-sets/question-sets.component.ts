@@ -40,7 +40,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     public showBee$ = new BehaviorSubject<boolean>(false);
     public beeState$ = new Subject<BeeState>();
     public canShowAssessments = false;
-
+    public slideIndex = 0;
     private readonly pageID = 'question-sets-page';
     private assessmentId: number;
     private questionSetsCompletionUpdate = false;
@@ -65,12 +65,15 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         audio.load();
 
         this.onSlideChange = (event?: any) => {
-            audio.play();
-            this.assessmentId = this.assessments[event.activeIndex].id;
-            const url = this.router.createUrlTree([], { relativeTo: this.route }).toString();
-            const newUrl =  url.split('/');
-            newUrl[newUrl.length - 1] = this.assessmentId.toString();
-            this.router.navigateByUrl(newUrl.join('/'));
+            if (this.assessments) {
+                audio.play();
+                this.slideIndex = event.activeIndex;
+                this.assessmentId = this.assessments[event.activeIndex].id;
+                const url = this.router.createUrlTree([], { relativeTo: this.route }).toString();
+                const newUrl = url.split('/');
+                newUrl[newUrl.length - 1] = this.assessmentId.toString();
+                this.router.navigateByUrl(newUrl.join('/'));
+            }
         };
 
         this.config = {
@@ -79,6 +82,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'
             },
+            initialSlide: this.slideIndex,
             spaceBetween: 30,
             on: { slideChange: this.onSlideChange }
         };
@@ -86,7 +90,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
 
     public get currentAssessment(): Assessment {
         if (!this.assessments?.length) { return null; }
-        return this.assessments.find( a => a.id = this.assessmentId);
+        return this.assessments.find(a => a.id === this.assessmentId);
     }
 
     ngOnInit(): void {
@@ -102,6 +106,10 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                     if (!assessments?.length) {
                         return EMPTY;
                     }
+                    const currentUrl = this.router.createUrlTree([], { relativeTo: this.route }).toString().split('/');
+                    const URLAssessmentId = Number(currentUrl[currentUrl.length - 1]);
+                    this.slideIndex = assessments.findIndex(a => a.id === URLAssessmentId);
+
                     this.assessmentId = assessments[0].id;
                     assessments.forEach((assessment, i) => {
                         if (i === 0) {
@@ -112,6 +120,11 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                         });
                     });
                     this.assessments = assessments;
+                    if (URLAssessmentId !== this.assessmentId) {
+                        // When finished Question Set, go back to the correct assessment
+                        this.onSlideChange({ activeIndex: this.slideIndex });
+                        this.config.initialSlide = this.slideIndex;
+                    }
                     return null;
                 }),
                 switchMap(() => this.route.queryParamMap.pipe(
@@ -321,14 +334,14 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
 
         // update all_question_sets_complete if necessary
         this.cacheService.getData('assessments').then(assessments => {
-            const currentAssessment = assessments.find( a => a.id = this.assessmentId);
+            const currentAssessment = assessments.find(a => a.id === this.assessmentId);
             let allComplete = true;
             currentAssessment.question_sets.forEach(currentQuestionSet => {
                 const cachedCompetency = user.profile.question_sets_competencies.find(
                     c => c.question_set === currentQuestionSet.id)?.competency;
                 allComplete =  (cachedCompetency !== undefined && cachedCompetency !== null) ? true : false;
             });
-            assessments.find(a => a.id = this.assessmentId).all_question_sets_complete = allComplete;
+            assessments.find(a => a.id === this.assessmentId).all_question_sets_complete = allComplete;
             this.cacheService.setData('assessments', assessments);
         });
 
