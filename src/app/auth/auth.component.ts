@@ -6,10 +6,9 @@ import { CacheService } from '../core/services/cache.service';
 import { GenericConfirmationDialogComponent } from '../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
-import { UserService } from '../core/services/user.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {filter, map} from 'rxjs/operators';
-import {LoginCodeRegex} from '../constants/regex.constant';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
+import { LoginCodeRegex } from '../constants/regex.constant';
 
 
 @Component({
@@ -23,18 +22,22 @@ export class AuthComponent implements OnInit {
         code: new FormControl(null, [Validators.required, Validators.pattern(LoginCodeRegex)])
     });
 
+    public deferredPrompt;
+
     constructor(
         private authService: AuthService,
         public translate: TranslateService,
         private cacheService: CacheService,
         public dialog: MatDialog,
-        private userService: UserService,
-        private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
     }
 
     ngOnInit(): void {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            this.deferredPrompt = e;
+            console.log('this def = ', this.deferredPrompt);
+        });
         if (!this.cacheService.networkStatus.getValue()){
             this.showOfflineModal();
         }
@@ -47,6 +50,17 @@ export class AuthComponent implements OnInit {
         } else {
             const code = this.authForm.get('code').value;
             this.authService.login(code);
+        }
+    }
+
+    public downloadPWA(): void {
+        if (this.deferredPrompt !== null) {
+            this.deferredPrompt.prompt();
+            this.deferredPrompt.userChoice.then((outcome: any) => {
+                if (outcome === 'accepted') {
+                    this.deferredPrompt = null;
+                }
+            });
         }
     }
 
