@@ -55,6 +55,7 @@ export class FlowerComponent implements OnInit {
     this.userService.currentUser.subscribe((user) => {
       this.user = user;
     });
+    console.log('this question set = ', this.questionSet);
   }
 
   public playLockedQuestionSetAudioFeedback(questionSetIndex: number): void {
@@ -79,12 +80,6 @@ export class FlowerComponent implements OnInit {
   }
 
   public async startQuestionSet(): Promise<void> {
-    if (this.questionSet.has_sel_question && (await this.isNotFirstTry())) {
-      // If has SEL questions and isn't the student first try: filter questions to remove SEL questions
-      this.questionSet.questions = this.questionSet.questions?.filter(
-        (question) => question.question_type !== 'SEL'
-      );
-    }
 
     const questionId = this.questionSet.questions[0].id;
     const skipIntro = this.user.skip_intro_for_assessments?.includes(this.assessment.id);
@@ -115,12 +110,5 @@ export class FlowerComponent implements OnInit {
         }
       }, 500);
     });
-  }
-
-  private async isNotFirstTry(): Promise<boolean> {
-    const answers = await this.answerService
-      .getCompleteStudentAnswersForQuestionSet(this.questionSet.id)
-      .toPromise();
-    return answers.length > 0;
   }
 }
