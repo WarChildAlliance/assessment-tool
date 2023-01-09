@@ -84,37 +84,7 @@ export class AssessmentService {
   }
 
   public getAssessments(): Observable<Assessment[]> {
-    return this.storedAssessments.pipe(
-      map(assessmentsList => this.sortAssessments(assessmentsList))
-    );
-  }
-
-  public sortAssessments(assessmentsList): Assessment[] {
-    const mutatedAssessmentList = assessmentsList;
-
-    let i = 1;
-
-    // Sorting assessments
-    mutatedAssessmentList.map(assessment => {
-      if (assessment.subject === 'TUTORIAL') { assessment.order = 0; }
-      if (assessment.subject === 'PRESEL') { assessment.order = 1; }
-      if (assessment.subject === 'POSTSEL') { assessment.order = assessmentsList.length; }
-
-      i = assessment.order ? i : i + 1;
-      assessment.order = assessment.order === undefined ? i : assessment.order;
-    });
-
-    mutatedAssessmentList.sort((a, b) => a.order - b.order);
-
-    // If tutorial and not complete, return tutorial unlocked and everything else locked
-    const tutorial = mutatedAssessmentList.find(assessment => assessment.subject === 'TUTORIAL');
-    if (!!tutorial && !tutorial.all_question_sets_complete) {
-      mutatedAssessmentList.map(assessment => {
-        assessment.locked = !(assessment.subject === 'TUTORIAL');
-      });
-    }
-
-    return mutatedAssessmentList;
+    return this.storedAssessments;
   }
 
   public getAssessment(assessmentId: number): Observable<Assessment> {
