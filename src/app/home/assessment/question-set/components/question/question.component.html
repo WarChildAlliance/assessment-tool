@@ -31,85 +31,83 @@
 
     <div class="question" [@popOverState]="stateName">
         <h2 *ngIf="showTitle" class="question-title">{{ question.title }}</h2>
-        <div class="question-attachment">
+        <div class="question-attachment" [ngClass]="{'dragdrop-attachment': question.question_type === 'DRAG_AND_DROP' && question.attachments.length > 1}">
             <app-attachments [attachments]="question.attachments"></app-attachments>
         </div>
 
-        <div class="question-container">
-            <div class="question-content">
-                <ng-container *ngIf="question.question_type === 'SEL'">
-                    <app-question-sel [question]="question" [(answer)]="answer"
-                        (answerChange)="checkAnswer($event)"
-                        [displayCorrectAnswer]="displayCorrectAnswer">
-                    </app-question-sel>
-                </ng-container>
-
-                <ng-container *ngIf="question.question_type === 'INPUT'">
-                    <app-question-input [question]="question" [(answer)]="answer"
-                        (answerChange)="checkAnswer($event)"
-                        [displayCorrectAnswer]="displayCorrectAnswer">
-                    </app-question-input>
-                </ng-container>
-    
-                <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
-                    <app-question-number-line [question]="question" [answer]="answer"
-                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
-                        [displayCorrectAnswer]="displayCorrectAnswer">
-                    </app-question-number-line>
-                </ng-container>
-    
-                <ng-container *ngIf="question.question_type === 'SELECT'">
-                    <app-question-select [question]="question" [answer]="answer" 
-                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
-                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
-                    </app-question-select>
-                </ng-container>
-
-                <ng-container *ngIf="question.question_type === 'DOMINO'">
-                    <app-question-domino [question]="question" [answer]="answer" 
-                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
-                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
-                    </app-question-domino>
-                </ng-container>
-
-                <ng-container *ngIf="question.question_type === 'CALCUL'">
-                    <app-question-calcul [question]="question" [answer]="answer" 
-                        (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
-                        [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
-                    </app-question-calcul>
-                </ng-container>
-    
-                <ng-container *ngIf="question.question_type === 'SORT'">
-                    <app-question-sort [question]="question" [(answer)]="answer"
-                        [displayCorrectAnswer]="displayCorrectAnswer">
-                    </app-question-sort>
-                </ng-container>
-    
-                <ng-container *ngIf="question.question_type === 'DRAG_AND_DROP'">
-                <app-question-drag-and-drop
-                    [assessmentId]="assessment.id"
-                    [questionSetId]="questionSet.id"
-                    [question]="question"
-                    [answer]="answer"
+        <div class="question-container" [ngClass]="{'dragdrop-container': question.question_type === 'DRAG_AND_DROP'}">
+            <ng-container *ngIf="question.question_type === 'SEL'">
+                <app-question-sel [question]="question" [(answer)]="answer"
                     (answerChange)="checkAnswer($event)"
-                    [resetAnswer]="resetAnswer"
                     [displayCorrectAnswer]="displayCorrectAnswer">
-                >
-                </app-question-drag-and-drop>
+                </app-question-sel>
             </ng-container>
 
-            <ng-container *ngIf="question.question_type === 'CUSTOMIZED_DRAG_AND_DROP'">
-                <app-question-customized-drag-and-drop
-                    [assessmentId]="assessment.id"
-                    [questionSetId]="questionSet.id"
-                    [question]="question"
-                    [answer]="answer"
+            <ng-container *ngIf="question.question_type === 'INPUT'">
+                <app-question-input [question]="question" [(answer)]="answer"
                     (answerChange)="checkAnswer($event)"
-                    [resetAnswer]="resetAnswer"
                     [displayCorrectAnswer]="displayCorrectAnswer">
-                </app-question-customized-drag-and-drop>
+                </app-question-input>
             </ng-container>
-        </div>
+
+            <ng-container *ngIf="question.question_type === 'NUMBER_LINE'">
+                <app-question-number-line [question]="question" [answer]="answer"
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer">
+                </app-question-number-line>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'SELECT'">
+                <app-question-select [question]="question" [answer]="answer" 
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-select>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'DOMINO'">
+                <app-question-domino [question]="question" [answer]="answer" 
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-domino>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'CALCUL'">
+                <app-question-calcul [question]="question" [answer]="answer" 
+                    (answerChange)="checkAnswer($event)" [resetAnswer]="resetAnswer"
+                    [displayCorrectAnswer]="displayCorrectAnswer" [isEvaluated]="isEvaluated">
+                </app-question-calcul>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'SORT'">
+                <app-question-sort [question]="question" [(answer)]="answer"
+                    [displayCorrectAnswer]="displayCorrectAnswer">
+                </app-question-sort>
+            </ng-container>
+
+            <ng-container *ngIf="question.question_type === 'DRAG_AND_DROP'">
+            <app-question-drag-and-drop
+                [assessmentId]="assessment.id"
+                [questionSetId]="questionSet.id"
+                [question]="question"
+                [answer]="answer"
+                (answerChange)="checkAnswer($event)"
+                [resetAnswer]="resetAnswer"
+                [displayCorrectAnswer]="displayCorrectAnswer">
+            >
+            </app-question-drag-and-drop>
+        </ng-container>
+
+        <ng-container *ngIf="question.question_type === 'CUSTOMIZED_DRAG_AND_DROP'">
+            <app-question-customized-drag-and-drop
+                [assessmentId]="assessment.id"
+                [questionSetId]="questionSet.id"
+                [question]="question"
+                [answer]="answer"
+                (answerChange)="checkAnswer($event)"
+                [resetAnswer]="resetAnswer"
+                [displayCorrectAnswer]="displayCorrectAnswer">
+            </app-question-customized-drag-and-drop>
+        </ng-container>
     </div>
 </div>
 
