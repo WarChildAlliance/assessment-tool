@@ -55,7 +55,6 @@ export class FlowerComponent implements OnInit {
     this.userService.currentUser.subscribe((user) => {
       this.user = user;
     });
-    console.log('this question set = ', this.questionSet);
   }
 
   public playLockedQuestionSetAudioFeedback(questionSetIndex: number): void {
