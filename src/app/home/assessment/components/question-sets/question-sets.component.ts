@@ -33,6 +33,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     public onSlideChange;
     public assessments: Assessment[];
     public questionSets: QuestionSet[] = [];
+    public allQuestionSets: QuestionSet[] = [];
     public assessmentTitle = '';
     public user: User = null;
     public flowersColors = ['#A67EFE', '#FE7E7E', '#55CCFF', '#5781D5', '#FFB13D', '#F23EEB'];
@@ -67,12 +68,16 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         this.onSlideChange = (event?: any) => {
             if (this.assessments) {
                 audio.play();
-                this.slideIndex = event.activeIndex;
+                this.questionSets = this.assessments[event.activeIndex].question_sets;
                 this.assessmentId = this.assessments[event.activeIndex].id;
+                this.slideIndex = event.activeIndex;
                 const url = this.router.createUrlTree([], { relativeTo: this.route }).toString();
                 const newUrl = url.split('/');
                 newUrl[newUrl.length - 1] = this.assessmentId.toString();
                 this.router.navigateByUrl(newUrl.join('/'));
+                setTimeout(() => {
+                    this.showBee$.next(true);
+                }, 300);
             }
         };
 
@@ -118,6 +123,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                         assessment.question_sets.forEach((questionSet, j) => {
                             this.setQuestionSetProperties(assessments[0], questionSet, j);
                         });
+                        this.allQuestionSets = this.allQuestionSets.concat(assessment.question_sets);
                     });
                     this.assessments = assessments;
                     if (URLAssessmentId !== this.assessmentId) {
@@ -266,10 +272,12 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         if (!this.questionSets?.length) {
             return;
         }
-        let initialIndex = this.completedQuestionSet ? this.questionSets.findIndex(e => e.id === this.completedQuestionSet.id) :
-            this.questionSets.findIndex(e => !e.completed);
+        let initialIndex = this.completedQuestionSet ? this.allQuestionSets.findIndex(e => e.id === this.completedQuestionSet.id) :
+            this.allQuestionSets.findIndex(e => !e.completed && e.assessment === this.assessmentId);
         initialIndex = initialIndex === -1 ? 0 : initialIndex;
-        const orientation = (this.questionSetsCompletionUpdate && (initialIndex > (this.questionSets.length / 2))) ? 'left' : 'right';
+
+        const questionSetIndex = this.questionSets.findIndex(qs => !qs.completed && qs.assessment === this.assessmentId);
+        const orientation = (this.questionSetsCompletionUpdate && (questionSetIndex > (this.questionSets.length / 2))) ? 'left' : 'right';
         const initialPos = this.flowerComponents.get(initialIndex).elementRef.nativeElement.getBoundingClientRect();
         this.beeState$.next({
             action: this.questionSetsCompletionUpdate ? BeeAction.PRAISE : BeeAction.STAY,

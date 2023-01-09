@@ -1,5 +1,8 @@
 <img class="flower green" src="assets/flower_green.svg" />
 <div class="light-yellow-bg auth-background">
+    <button *ngIf="deferredPrompt" (click)="downloadPWA">
+        Get Gobee on your phone ! <mat-icon class="browser-icon">public</mat-icon>
+    </button>
     <button mat-icon-button appAudioPlay="assets/audios/login.ogg">
         <img src="assets/icons/audio-button.svg" alt="">
     </button>
