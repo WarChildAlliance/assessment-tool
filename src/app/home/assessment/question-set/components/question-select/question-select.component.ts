@@ -6,7 +6,6 @@ import { Attachment } from 'src/app/core/models/attachment.model';
 import { BehaviorSubject } from 'rxjs';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { PageNames } from 'src/app/core/utils/constants';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 
@@ -38,14 +37,12 @@ export class QuestionSelectComponent implements OnInit, OnDestroy, AfterViewInit
     private readonly pageID = 'question-select-page';
 
     constructor(
-        private assisstantService: AssisstantService,
         private tutorialSerice: TutorialService,
         private tutorialSlideshowService: TutorialSlideshowService,
     ) {
     }
 
     ngOnInit(): void {
-        this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
 
         // shuffle evaluated options

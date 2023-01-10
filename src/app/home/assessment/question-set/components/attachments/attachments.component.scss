@@ -4,15 +4,8 @@
     justify-content: center;
     width: 100%;
 
-    @media (max-width: 780px) {
-        flex-direction: column;
-    }
-
     .img-attachment {
         width: 15vw;
-        @media (max-width: 780px) {
-            width: 20vw;
-        }
         img {
             height: auto;
             width: 100%;
@@ -24,9 +17,6 @@
         text-align: center;
         width: 15vw;
         order: 2;
-        @media (max-width: 780px) {
-            width: 20vw;
-        }
         button {
             width: 70px;
             height: auto;

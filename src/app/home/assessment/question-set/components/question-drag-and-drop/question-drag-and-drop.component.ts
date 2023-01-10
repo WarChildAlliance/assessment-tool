@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { QuestionDragDrop, DraggableOption } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { Attachment } from 'src/app/core/models/attachment.model';
 import { AnswerDragAndDrop, DragAndDropAreaEntry } from 'src/app/core/models/answer.model';
 import { environment } from 'src/environments/environment';
@@ -37,15 +36,11 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   // depending on displayCorrectAnswer
   public displayedAnswer: DraggableOption[] = [];
 
-  private readonly pageID = 'question-drag-and-drop-page';
   private correctAnswer: DraggableOption[] = [];
 
-  constructor(
-    private assisstantService: AssisstantService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
 
     const bgImageUrl = this.question.attachments.find(
       e => e.attachment_type === 'IMAGE' && e.background_image).file;

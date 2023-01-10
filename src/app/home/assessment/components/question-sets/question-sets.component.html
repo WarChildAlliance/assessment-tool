@@ -6,8 +6,8 @@
     [routerLink]="['../../home']"
   >
   </app-back-navigation>
-
-  <div *ngIf="assessments && assessments.length && canShowAssessments; else noQuestionSets">
+  <app-spinner *ngIf="loading"></app-spinner>
+  <div *ngIf="!loading && assessments && assessments.length && canShowAssessments">
     <swiper [config]="config">
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let assessment of assessments">
@@ -27,14 +27,11 @@
     </swiper>
   </div>
 
-  <ng-template #noQuestionSets>
+  <ng-container *ngIf="!loading && !assessments">
     <p>{{ "questionSets.noQuestionSets" | translate }}</p>
-  </ng-template>
+  </ng-container>
 </div>
 
-<app-question-sets-bee *ngIf="showBee$ | async"
-  [instructions$]="beeState$"
-  (praiseEnded)="unlockNextQuestionSet()"
-  (beeLeft)="showOutro()"
->
+<app-question-sets-bee *ngIf="showBee$ | async" [instructions$]="beeState$"
+ (praiseEnded)="unlockNextQuestionSet()" (beeLeft)="showOutro()">
 </app-question-sets-bee>
