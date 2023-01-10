@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { AnswerNumberLine } from 'src/app/core/models/answer.model';
 import { QuestionNumberLine } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { PageNames } from 'src/app/core/utils/constants';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
@@ -31,7 +30,6 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   private readonly pageID = 'question-number-line-page';
 
   constructor(
-    private assisstantService: AssisstantService,
     private tutorialSerice: TutorialService,
     public translate: TranslateService,
     private tutorialSlideshowService: TutorialSlideshowService,
@@ -44,7 +42,6 @@ export class QuestionNumberLineComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
     this.tutorialSlideshowService.showTutorialForPage(this.pageID);
     this.initNumberlineData();
     this.valueForm.valueChanges.subscribe(value => {

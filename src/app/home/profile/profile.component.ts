@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Avatar } from 'src/app/core/models/avatar.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
@@ -31,7 +30,6 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     public cacheService: CacheService,
     private profileService: ProfileService,
     private userService: UserService,
-    private assisstantService: AssisstantService,
     private alertService: AlertService,
     private tutorialService: TutorialService,
     private tutorialSlideshowService: TutorialSlideshowService,
@@ -39,7 +37,6 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     ) { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
     this.route.data.subscribe(
       (data: { user: User }) => {
         this.user = data.user;

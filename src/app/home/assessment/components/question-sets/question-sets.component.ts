@@ -5,7 +5,6 @@ import { switchMap, take, map } from 'rxjs/operators';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { CacheService } from 'src/app/core/services/cache.service';
@@ -42,6 +41,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     public beeState$ = new Subject<BeeState>();
     public canShowAssessments = false;
     public slideIndex = 0;
+    public loading = true;
     private readonly pageID = 'question-sets-page';
     private assessmentId: number;
     private questionSetsCompletionUpdate = false;
@@ -54,7 +54,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         private viewContainerRef: ViewContainerRef,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
-        private assisstantService: AssisstantService,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
         private answerService: AnswerService,
@@ -99,6 +98,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.loading = true;
         // The color of the flower must be random, but never use twice the same in the same assessment
         this.flowersColors.sort(() => Math.random() - 0.5);
 
@@ -109,6 +109,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 map((assessments: Assessment[]) => {
                     // if no assessments, interrupt pipe and subsequent callback
                     if (!assessments?.length) {
+                        this.loading = false;
                         return EMPTY;
                     }
                     const currentUrl = this.router.createUrlTree([], { relativeTo: this.route }).toString().split('/');
@@ -126,6 +127,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                         this.allQuestionSets = this.allQuestionSets.concat(assessment.question_sets);
                     });
                     this.assessments = assessments;
+                    this.loading = false;
                     if (URLAssessmentId !== this.assessmentId) {
                         // When finished Question Set, go back to the correct assessment
                         this.onSlideChange({ activeIndex: this.slideIndex });
@@ -170,7 +172,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 }
             });
         });
-        this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
     }
 
