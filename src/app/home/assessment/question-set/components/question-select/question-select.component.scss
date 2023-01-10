@@ -10,10 +10,11 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    @media (max-width: 780px) {
-      flex-direction: column;
-      align-items: center;
-    }
+    // TODO: maybe here check aspect ratio instead (phones portrait mode for ex)
+    // @media (max-width: 780px) {
+    //   flex-direction: column;
+    //   align-items: center;
+    // }
   }
 
   &.grid {
@@ -21,9 +22,9 @@
     place-items: center;
     grid-template-columns: 1fr 1fr;
 
-    @media (max-width: 780px) {
-      grid-template-columns: 1fr;
-    }
+    // @media (max-width: 780px) {
+    //   grid-template-columns: 1fr;
+    // }
   }
   &.vertical {
     display: grid;
@@ -55,9 +56,9 @@
           height: 120px;
           width: auto;
 
-          @media (max-width: 780px) {
-            height: 50px;
-          }
+          // @media (max-width: 780px) {
+          //   height: 50px;
+          // }
         }
       }
       .without-title {
@@ -82,9 +83,9 @@
     -ms-user-select: none;
     user-select: none;
 
-    @media (max-width: 780px) {
-      padding: 0 1rem;
-    }
+    // @media (max-width: 780px) {
+    //   padding: 0 1rem;
+    // }
   }
   input:checked + label.elevated-basic--outline {
     background-color: #FFDC64;

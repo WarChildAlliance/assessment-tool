@@ -2,13 +2,11 @@
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-  &.default {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
   .option {
     display: flex;
     flex-direction: column;
