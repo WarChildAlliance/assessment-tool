@@ -19,6 +19,7 @@ export class QuestionSetComponent implements OnInit, AfterViewInit {
   public assessment: Assessment;
   public firstTry: boolean;
   public icons: any = {};
+  public loading = true;
 
   private readonly pageID = 'question-set-page';
 
@@ -33,12 +34,14 @@ export class QuestionSetComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.assisstantService.setPageID(this.pageID);
     this.route.paramMap.subscribe((params) => {
+      this.loading = true;
       const assessmentId = parseInt(params.get('assessment_id'), 10);
       const questionSetId = parseInt(params.get('question_set_id'), 10);
       this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(
         (questionSet) => {
           this.questionSet = questionSet;
           this.icons.questionSetIcon = questionSet.icon;
+          this.loading = false;
         }
       );
       this.assessmentService.getAssessment(assessmentId).subscribe((assessment) => {

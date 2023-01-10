@@ -42,6 +42,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     public beeState$ = new Subject<BeeState>();
     public canShowAssessments = false;
     public slideIndex = 0;
+    public loading = true;
     private readonly pageID = 'question-sets-page';
     private assessmentId: number;
     private questionSetsCompletionUpdate = false;
@@ -99,6 +100,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.loading = true;
         // The color of the flower must be random, but never use twice the same in the same assessment
         this.flowersColors.sort(() => Math.random() - 0.5);
 
@@ -109,6 +111,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 map((assessments: Assessment[]) => {
                     // if no assessments, interrupt pipe and subsequent callback
                     if (!assessments?.length) {
+                        this.loading = false;
                         return EMPTY;
                     }
                     const currentUrl = this.router.createUrlTree([], { relativeTo: this.route }).toString().split('/');
@@ -126,6 +129,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                         this.allQuestionSets = this.allQuestionSets.concat(assessment.question_sets);
                     });
                     this.assessments = assessments;
+                    this.loading = false;
                     if (URLAssessmentId !== this.assessmentId) {
                         // When finished Question Set, go back to the correct assessment
                         this.onSlideChange({ activeIndex: this.slideIndex });
