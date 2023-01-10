@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerCalcul } from 'src/app/core/models/answer.model';
 import { QuestionCalcul } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-question-calcul',
@@ -31,12 +30,9 @@ export class QuestionCalculComponent implements OnInit {
 
   private readonly pageID = 'question-calcul-page';
 
-  constructor(
-    private assisstantService: AssisstantService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
 
     const operator = this.operatorTypes.find(op => op.id === this.question.operator);
     this.operatorSymbol = operator?.symbol;

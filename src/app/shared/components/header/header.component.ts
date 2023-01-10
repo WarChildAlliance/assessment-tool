@@ -36,7 +36,8 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit(): void {
-/*         this.route.data.subscribe(
+        /*
+        this.route.data.subscribe(
             (data: { user: User }) => this.user = data.user
         ); */
         this.userService.currentUser.subscribe(user => {

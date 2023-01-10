@@ -31,17 +31,6 @@
       "plain": "GÉNIAL !! Félicitations ! Tu t'es très bien débrouillé !!"
     }
   },
-  "assisstant": {
-    "assessmentsAssisstant": "Ton amie l'abeille te dit bonjour!",
-    "completedQuestionSetAssisstant": "\"YEAEAHEAH\" Bravo, vous avez répondu à toutes les questions. Vous pouvez être très fier de vous !",
-    "profileAssisstant": "Ceci est votre profil. Vous pouvez voir tous les pots de miel que vous avez rassemblés. Si vous avez suffisamment de pots de miel, vous pouvez débloquer de nouveaux avatars. Choisissez l'avatar que vous préférez pour être sur votre profil.",
-    "questionAssisstant": "Vous voyez la question en haut à laquelle vous devez répondre. Tapez votre réponse dans le champ blanc.",
-    "questionNumberLineAssisstant": "Vous voyez une question en haut. Faites glisser le curseur au bon endroit sur la ligne numérique et appuyez sur le bouton vert",
-    "questionSelectAssisstant": "En haut, vous voyez la question. Vous trouverez ci-dessous des réponses possibles. Choisissez celui qui vous semble correct et appuyez sur le bouton vert",
-    "questionSortPage": "Vous devez faire glisser les réponses dans les bonnes catégories. Lorsque toutes les réponses sont dans l'une des catégories, appuyez sur le bouton vert.",
-    "questionSetAssisstant": "Voici l'aperçu du sujet. Lisez attentivement la description avant de commencer. Cliquez sur le bouton vert pour commencer.",
-    "questionSetsAssisstant": "Ici vous pouvez voir tous les sujets auxquels il est possible de répondre. S'il y a un ruban rouge, cela signifie que vous avez déjà répondu au sujet. Pour certains sujets, vous pouvez obtenir des étoiles. Plus il y a d'étoiles, mieux c'est ! Cliquez sur un sujet pour le démarrer."
-  },
   "auth": {
     "browserDisclaimer": "Veuillez utiliser le naviguateur Chrome pour une meilleure expérience",
     "code": "Entrez le code",

@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerCustomizedDragAndDrop } from 'src/app/core/models/answer.model';
 import { QuestionCustomizedDragAndDrop } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-question-customized-drag-and-drop',
@@ -59,13 +58,11 @@ export class QuestionCustomizedDragAndDropComponent implements OnInit {
   private readonly pageID = 'question-customized-drag-and-drop';
 
   constructor(
-    private assisstantService: AssisstantService,
     public translate: TranslateService,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
     this.setOperator();
     this.setColors();
 
