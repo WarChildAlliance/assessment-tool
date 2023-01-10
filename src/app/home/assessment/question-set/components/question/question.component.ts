@@ -153,6 +153,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
     // this.userService.getUser().subscribe(({grade}) => {
     //   this.showTitle = +grade >= 3;
     // });
+    this.progressBarWidth = window.innerWidth * .35;
+    this.flyingBee = this.progressBarWidth * .1;
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {

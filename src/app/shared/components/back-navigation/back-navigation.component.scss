@@ -23,9 +23,13 @@
 }
 
 img {
-  width: 35px;
-  height: auto;
+  height: 36px;
+  width: auto;
   margin: 0 0.5rem;
+
+  @media (min-width: 1024px) {
+    height: 7vh;
+  }
 }
 
 

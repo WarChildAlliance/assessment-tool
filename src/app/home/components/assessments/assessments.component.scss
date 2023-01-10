@@ -2,6 +2,12 @@
   position: fixed;
   left: 0;
   bottom: 0;
+  height: 7rem;
+  cursor: pointer;
+
+  @media (min-width: 1024px) {
+    height: 20%;
+  }
 }
 
 .assessment-btn {
@@ -37,6 +43,12 @@ h1 {
   &.reading {
     margin-right: -0.5em;
   }
+  img {
+    width: 25px;
+    height: 25px;
+    margin: 0 0 -9em 13.5em;
+    position: absolute;
+  }
 
   // making label text unselectable
   -webkit-touch-callout: none;
@@ -46,18 +58,6 @@ h1 {
   -ms-user-select: none;
   user-select: none;
 }
-
-.intro-bee {
-  cursor: pointer;
-}
-
-img {
-  width: 25px;
-  height: 25px;
-  margin: 0 0 -9em 13.5em;
-  position: absolute;
-}
-
 .branch-enter {
   animation-duration: 5s;
   animation-fill-mode: forwards;
