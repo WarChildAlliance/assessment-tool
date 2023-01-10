@@ -1,9 +1,9 @@
 <!--<app-header></app-header>-->
-<div class="light-green-bg" *ngIf="question; else questionNotAvailable">
-    <div class="header">
+<div class="light-green-bg">
+    <div class="header" [style.justify-content]="loading ? 'space-between': ''">
         <img class="elevated-valid" (click)="onPrevious()"
-            [src]="translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
-        <div class="progress-header">
+        [src]="translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
+        <div class="progress-header" *ngIf="question">
             <!--  flyingBee = 35px so the bee stays before the first question path -->
             <div class="progress-bar" #progressBar [style.width]="(progressBarWidth + flyingBee) + 'px'">
                 <div class="paths">
@@ -28,8 +28,9 @@
                 
         </div>
     </div>
+    <app-spinner *ngIf="loading"></app-spinner>
 
-    <div class="question" [@popOverState]="stateName">
+    <div *ngIf="question; else questionNotAvailable" class="question" [@popOverState]="stateName">
         <h2 *ngIf="showTitle" class="question-title">{{ question.title }}</h2>
         <div class="question-attachment">
             <app-attachments [attachments]="question.attachments"></app-attachments>
@@ -113,7 +114,7 @@
     </div>
 </div>
 
-<ng-template #questionNotAvailable>
+<ng-template *ngIf="!loading" #questionNotAvailable>
     <div>
         {{ 'questionSets.question.questionNotAvailable' | translate }}
     </div>
