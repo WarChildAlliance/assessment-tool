@@ -10,7 +10,6 @@
     place-items: center;
     display: flex;
     justify-content: center;
-    padding-top: 1em;
 
     .left-number {
         color: #E66C33;
@@ -18,7 +17,7 @@
         font-weight: 500;
         font-size: 160px;
         line-height: 208px;
-        margin-right: 5%;
+        margin-right: .5em;
     }
 
     .dominoes {
@@ -94,10 +93,34 @@
             }
         }
     }
+}
 
-    @media (max-width: 780px) {
-        .dominoes {
-            grid-template-columns: auto;
+.question-container {
+    overflow: hidden;
+}
+
+@media (max-width: 940px) {
+    .left-number {
+        font-size: 100px !important;
+        margin-right: 0.1em !important;
+    }
+
+    .dominoes {
+        gap: 0.1em 0.1em !important;
+        gap: inherit !important;
+
+        .option {
+            min-width: 100px !important;
+
+            mat-card {
+                .half {
+                    .part {
+                        .dot {
+                            min-height: auto !important;
+                        }
+                    }
+                }
+            }
         }
     }
 }

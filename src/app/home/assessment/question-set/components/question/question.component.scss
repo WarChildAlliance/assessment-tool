@@ -77,9 +77,20 @@ mat-progress-bar {
 
 .question-attachment {
   display: block;
-  margin-right: 5%;
+  margin-right: .5em;
 }
 
+.dragdrop-attachment {
+  width: 20%;
+  margin-right: inherit;
+}
+
+.dragdrop-container {
+  width: 70% !important;
+  @media (max-width: 780px) {
+    width: 70% !important;
+  }
+}
 .question-container {
   display: grid;
   overflow: auto;
