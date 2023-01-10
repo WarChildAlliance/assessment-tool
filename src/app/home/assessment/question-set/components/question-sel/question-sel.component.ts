@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerSEL } from 'src/app/core/models/answer.model';
 import { QuestionSEL } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -27,15 +26,12 @@ export class QuestionSelComponent implements OnInit {
     {id: 'A_LOT', path: 'aLotLikeMe'}
   ];
 
-  private readonly pageID = 'question-sel-page';
 
   constructor(
-    private assisstantService: AssisstantService,
     private userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
 
     // Do not show title for this phase
     // this.userService.getUser().subscribe(({grade}) => {

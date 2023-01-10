@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { PageNames } from 'src/app/core/utils/constants';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
@@ -21,18 +20,14 @@ export class QuestionSetComponent implements OnInit, AfterViewInit {
   public icons: any = {};
   public loading = true;
 
-  private readonly pageID = 'question-set-page';
-
   constructor(
     private route: ActivatedRoute,
     private tutorialSerice: TutorialService,
-    private assisstantService: AssisstantService,
     public translate: TranslateService,
     public assessmentService: AssessmentService
   ) { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
     this.route.paramMap.subscribe((params) => {
       this.loading = true;
       const assessmentId = parseInt(params.get('assessment_id'), 10);

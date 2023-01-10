@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerDomino } from 'src/app/core/models/answer.model';
 import { DominoOption, QuestionDomino } from 'src/app/core/models/question.model';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 
 @Component({
   selector: 'app-question-domino',
@@ -20,14 +19,9 @@ export class QuestionDominoComponent implements OnInit {
 
   public valueForm = new FormControl(null);
 
-  private readonly pageID = 'question-domino-page';
-
-  constructor(
-    private assisstantService: AssisstantService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.assisstantService.setPageID(this.pageID);
 
     // shuffle evaluated options
     if (this.isEvaluated) {

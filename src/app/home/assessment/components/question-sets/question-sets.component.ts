@@ -5,7 +5,6 @@ import { switchMap, take, map } from 'rxjs/operators';
 import { QuestionSet } from 'src/app/core/models/question-set.models';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialService } from 'src/app/core/services/tutorial.service';
 import { CacheService } from 'src/app/core/services/cache.service';
@@ -55,7 +54,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         private viewContainerRef: ViewContainerRef,
         private assessmentService: AssessmentService,
         private tutorialService: TutorialService,
-        private assisstantService: AssisstantService,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
         private answerService: AnswerService,
@@ -174,7 +172,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
                 }
             });
         });
-        this.assisstantService.setPageID(this.pageID);
         this.tutorialSlideshowService.showTutorialForPage(this.pageID);
     }
 
