@@ -8,7 +8,6 @@ import { AnswerService } from '../core/services/answer.service';
 import { AssessmentService } from '../core/services/assessment.service';
 import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
-import { ProfileService } from '../core/services/profile.service';
 import { UserService } from '../core/services/user.service';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -37,7 +36,6 @@ export class HomeComponent implements OnInit {
         private authService: AuthService,
         private cacheService: CacheService,
         private userService: UserService,
-        private profileService: ProfileService,
         public translate: TranslateService,
         private tutorialService: TutorialService,
         private ttsService: TextToSpeechService
@@ -79,12 +77,6 @@ export class HomeComponent implements OnInit {
         ).subscribe();
 
         this.assessmentService.loadAllAssessments();
-
-        this.profileService.getAvatarsList().subscribe(avatars => {
-            for (const avatar of avatars) {
-                this.http.get(`${environment.API_URL}` + avatar.image, { responseType: 'arraybuffer' }).subscribe();
-            }
-        });
     }
 
     public logout(): void {

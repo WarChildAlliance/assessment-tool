@@ -53,11 +53,13 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public previousPageUrl = '';
   public resetAnswer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public showTitle = false;
+  public loading = true;
   // Size of the HTML elements (in px) used for the progress bar evolution
   public progressBarWidth = 120;
   public flyingBee = 35;
   public animationPosition = {x:0, y:0};
   public showRightAnswerAnimation = false;
+  public isTitleAudioPlaying = false;
 
   private goNextQuestion = false;
   private show = false;
@@ -67,7 +69,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private questionTimeStart: string;
   private titleAudio: HTMLAudioElement;
-  private isTitleAudioPlaying = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -166,33 +167,38 @@ export class QuestionComponent implements OnInit, OnDestroy {
           const questionSetId = parseInt(params.get('question_set_id'), 10);
           const questionId = parseInt(params.get('question_id'), 10);
 
-          this.assessmentService.getAssessment(assessmentId).subscribe(res => {
-            this.assessment = res;
+          this.assessmentService.loadingAssessments.subscribe(loading => {
+            this.loading = loading;
+            if (!loading) {
+              this.assessmentService.getAssessment(assessmentId).subscribe(res => {
+                this.assessment = res;
+              });
+              this.subscriptions.push(this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(
+                questionSet => {
+                  this.questionSet = questionSet;
+                  this.isEvaluated = questionSet.evaluated;
+              }));
+
+              this.subscriptions.push(
+                this.assessmentService.getAssessmentQuestionSetQuestion(assessmentId, questionSetId, questionId).subscribe(question => {
+                  this.question = question;
+                  this.questionIndex = this.questionSet.questions.findIndex(q => q.id === questionId);
+                  if (!this.question.title_audio) {
+                    return;
+                  }
+                  this.titleAudio = new Audio(this.question.title_audio);
+                  this.titleAudio.load();
+                  this.audioTimeoutId = setTimeout(() => {
+                    this.playStopTitleAudio();
+                  }, 500);
+                })
+              );
+
+              setTimeout(x => {
+                this.show = true;
+              }, this.timeout);
+            }
           });
-
-          this.subscriptions.push(this.assessmentService.getAssessmentQuestionSet(assessmentId, questionSetId).subscribe(questionSet => {
-            this.questionSet = questionSet;
-            this.isEvaluated = questionSet.evaluated;
-          }));
-
-          this.subscriptions.push(
-            this.assessmentService.getAssessmentQuestionSetQuestion(assessmentId, questionSetId, questionId).subscribe(question => {
-              this.question = question;
-              this.questionIndex = this.questionSet.questions.findIndex(q => q.id === questionId);
-              if (!this.question.title_audio) {
-                return;
-              }
-              this.titleAudio = new Audio(this.question.title_audio);
-              this.titleAudio.load();
-              this.audioTimeoutId = setTimeout(() => {
-                this.playStopTitleAudio();
-              }, 500);
-            })
-          );
-
-          setTimeout(x => {
-            this.show = true;
-          }, this.timeout);
         }
       }
     );
@@ -282,7 +288,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     return environment.API_URL + path;
   }
 
-  private onPrevious(): void {
+  public onPrevious(): void {
     this.router.navigate([this.previousPageUrl]);
   }
 

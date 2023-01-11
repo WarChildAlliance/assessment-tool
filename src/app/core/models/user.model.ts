@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
+import { Avatar } from './avatar.model';
 import { Language } from './language.model';
 import { Profile } from './profile.model';
-import { Avatar } from '../models/avatar.model';
 
 export interface User {
   id: number;
