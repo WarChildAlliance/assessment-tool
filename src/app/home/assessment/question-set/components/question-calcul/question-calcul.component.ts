@@ -33,7 +33,6 @@ export class QuestionCalculComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
     const operator = this.operatorTypes.find(op => op.id === this.question.operator);
     this.operatorSymbol = operator?.symbol;
     if (operator.id === 'ADDITION') {
@@ -53,7 +52,6 @@ export class QuestionCalculComponent implements OnInit {
     const studentNumber = parseInt(this.studentAnswer.join(''), 10);
     const valid = this.isValid(studentNumber);
     this.wrongAnswerVibration(valid);
-
     if (!this.answer) {
       this.answer = {
         value: studentNumber,
@@ -65,6 +63,7 @@ export class QuestionCalculComponent implements OnInit {
       this.answer.attempt = valid;
     }
     this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
+    this.studentAnswer.fill(undefined);
   }
 
   public enterKeyboard(value: any): void {

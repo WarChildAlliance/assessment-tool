@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerSEL } from 'src/app/core/models/answer.model';
 import { QuestionSEL } from 'src/app/core/models/question.model';
+import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -25,6 +26,8 @@ export class QuestionSelComponent implements OnInit {
     {id: 'A_LITTLE', path: 'aLittleLikeMe'},
     {id: 'A_LOT', path: 'aLotLikeMe'}
   ];
+  private SELAudio: HTMLAudioElement;
+  private user: User;
 
 
   constructor(
@@ -37,6 +40,7 @@ export class QuestionSelComponent implements OnInit {
     // this.userService.getUser().subscribe(({grade}) => {
     //   this.showTitle = +grade >= 3;
     // });
+    this.userService.getUser().subscribe((user) => this.user = user);
 
     this.valueForm.valueChanges.subscribe(value => {
       if (value) {
@@ -54,5 +58,14 @@ export class QuestionSelComponent implements OnInit {
         this.answerChange.emit({answer: this.answer, next: this.answer.valid});
       }
     });
+  }
+
+  onSELAudio(statement): void {
+    if (this.SELAudio) {
+      this.SELAudio.pause();
+    }
+    this.SELAudio = new Audio('/assets/audios/SEL/' + `${this.user.language.code}/${statement}.mp3`);
+    this.SELAudio.load();
+    this.SELAudio.play();
   }
 }
