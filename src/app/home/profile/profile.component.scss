@@ -1,0 +1,81 @@
+h2 {
+  font-weight: normal;
+  margin-bottom: 4rem;
+}
+
+.avatars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+    .selected {
+      border-radius: 10%;
+      height: 120px;
+      width: 120px;
+      background-color: #CCDAFC;
+      padding: 0.5rem;
+      margin: -0.5rem auto;
+
+      @media (max-width: 780px) {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  }
+}
+
+.avatar {
+  height: 120px;
+  width: 120px;
+  margin: auto;
+
+  @media (max-width: 780px) {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+button {
+  border-radius: 6.25rem;
+  padding: 0.6rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 150px;
+
+  @media (max-width: 780px) {
+    padding: 0rem;
+  }
+}
+
+.honeypot-icon {
+  height: 42px;
+  width: 42px;
+
+  @media (max-width: 780px) {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+span {
+  font-size: 24px;
+}
+
+.rewatch{
+  border-radius: 2.25rem;
+  padding: 0.6rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  font-size: 24px;
+
+  img {
+    width: 60px;
+    height: 60px;
+  }
+}

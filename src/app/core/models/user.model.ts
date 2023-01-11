@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { Avatar } from './avatar.model';
 import { Language } from './language.model';
 import { Profile } from './profile.model';
 
@@ -14,6 +15,7 @@ export interface User {
   country?: string;
   created_by?: number;
   profile?: Profile;
+  avatars?: Avatar[];
   see_intro: boolean;
   skip_intro_for_assessments?: number[];
   grade?: string;

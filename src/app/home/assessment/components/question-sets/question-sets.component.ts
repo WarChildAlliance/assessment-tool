@@ -18,6 +18,7 @@ import { FlowerComponent } from '../flower/flower.component';
 import { BeeState, BeeAction } from '../bee/bee.component';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { SwiperOptions } from 'swiper';
+import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
     selector: 'app-question-sets',
@@ -55,6 +56,7 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         private tutorialService: TutorialService,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
+        private profileService: ProfileService,
         private answerService: AnswerService,
         private userService: UserService,
         private router: Router
@@ -354,6 +356,8 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
 
         this.cacheService.setData('user', user);
         this.userService.updateUser(user);
+
+        this.profileService.updateProfile(user.profile).subscribe();
 
         const test = response;
         test.question_set_competency = newCompetency;

@@ -1,0 +1,21 @@
+<div class="light-yellow-bg">
+    <app-header headerConfig="profile"></app-header>
+    <h2>{{ 'profile.shop' | translate }}</h2>
+    <div class="avatars">
+        <div *ngFor="let avatar of avatars">
+            <div [class]="avatar.selected ? ('profile.selected' | translate) : '' ">
+                <img class="avatar" src="{{ getAvatarUrl(avatar) }}" />
+            </div>
+            <button (click)="avatar['clicked'] && !avatar.selected ? selectAvatar(avatar) : unlockAvatar(avatar)"
+                [disabled]="!avatar.unlocked && avatar.effort_cost > user.profile.effort" mat-flat-button
+                color="primary">
+                <img class="honeypot-icon" *ngIf="!avatar.unlocked && !avatar.selected && !avatar.clicked" src="assets/icons/honeypot.svg">
+                <span *ngIf="!avatar.unlocked  && !avatar.clicked">{{avatar.effort_cost}}</span>
+                <img *ngIf="avatar.clicked" src="assets/icons/check_24_low.svg" alt="completed">
+                <img *ngIf="avatar.unlocked" src="assets/icons/check_24.svg" alt="completed">
+            </button>
+        </div>
+    </div>
+</div>
+<button mat-button mat-flat-button color="primary" class="rewatch" (click)="rewatchTutorial()"><img
+        src="assets/icons/GobeeTutorialReWatchButton.png"></button>
