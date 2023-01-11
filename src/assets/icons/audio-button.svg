@@ -1,1 +1,23 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.79 198.79"><defs><style>.cls-1,.cls-2{fill:#fcd133;}.cls-2{stroke:#47261f;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px;}</style></defs><circle class="cls-1" cx="99.4" cy="99.4" r="99.4"/><path class="cls-2" d="M236.32,289H196.39C189,289,183,283.54,183,276.84V223.55c0-6.71,6-12.19,13.41-12.19h39.93" transform="translate(-151.08 -150.54)"/><polygon class="cls-2" points="114.96 160.96 85.24 138.49 85.24 60.82 114.96 38.35 114.96 160.96"/><line class="cls-2" x1="127.73" y1="66.7" x2="157.45" y2="44.23"/><line class="cls-2" x1="157.45" y1="155.11" x2="127.73" y2="132.63"/><line class="cls-2" x1="172.31" y1="99.67" x2="127.73" y2="99.67"/></svg>
+<svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="url(#filter0_i_3152_39241)">
+                    <circle cx="12" cy="11.9998" r="10.2" fill="#FCD133"/>
+                    </g>
+                    <circle cx="12" cy="11.9998" r="11.1" stroke="white" stroke-width="1.8"/>
+                    <path d="M10.9276 15.3358H7.68789C7.08703 15.3358 6.59985 14.8893 6.59985 14.3452V10.0175C6.59985 9.47344 7.08703 9.02686 7.68789 9.02686H10.9276" fill="#FCD133"/>
+                    <path d="M10.9276 15.3358H7.68789C7.08703 15.3358 6.59985 14.8893 6.59985 14.3452V10.0175C6.59985 9.47344 7.08703 9.02686 7.68789 9.02686H10.9276" stroke="#47261F" stroke-width="0.324674" stroke-miterlimit="10" stroke-linecap="round"/>
+                    <path d="M13.3474 17.163L10.9277 15.3361V9.02712L13.3474 7.2002V17.163Z" fill="#FCD133" stroke="#47261F" stroke-width="0.324674" stroke-miterlimit="10" stroke-linecap="round"/>
+                    <path d="M14.3785 9.50613L16.7901 7.6792" stroke="#47261F" stroke-width="0.324674" stroke-miterlimit="10" stroke-linecap="round"/>
+                    <path d="M16.7901 16.6834L14.3785 14.8564" stroke="#47261F" stroke-width="0.324674" stroke-miterlimit="10" stroke-linecap="round"/>
+                    <path d="M17.9999 12.1855H14.3785" stroke="#47261F" stroke-width="0.324674" stroke-miterlimit="10" stroke-linecap="round"/>
+                    <defs>
+                        <filter id="filter0_i_3152_39241" x="0" y="0" width="24" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dx="-2.4" dy="-2.4"/>
+                            <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+                            <feBlend mode="normal" in2="shape" result="effect1_innerShadow_3152_39241"/>
+                        </filter>
+                    </defs>
+                </svg>
