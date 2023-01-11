@@ -14,7 +14,6 @@ import { FeedbackAudio } from '../../question-set/components/audio-feedback/audi
 import { OutroComponent } from '../outro/outro.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { ProfileService } from 'src/app/core/services/profile.service';
 import { FlowerComponent } from '../flower/flower.component';
 import { BeeState, BeeAction } from '../bee/bee.component';
 import { Assessment } from 'src/app/core/models/assessment.model';
@@ -57,7 +56,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
         private answerService: AnswerService,
-        private profileService: ProfileService,
         private userService: UserService,
         private router: Router
     ) {
@@ -356,8 +354,6 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
 
         this.cacheService.setData('user', user);
         this.userService.updateUser(user);
-
-        this.profileService.updateProfile(user.profile).subscribe();
 
         const test = response;
         test.question_set_competency = newCompetency;
