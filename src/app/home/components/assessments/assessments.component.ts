@@ -63,7 +63,11 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
             });
           });
         });
-        this.loading = false;
+        if (this.loading) {
+          setTimeout(() => {
+              this.loading = false;
+          }, 5000);
+        }
       }
     );
     this.tutorialSlideshowService.showTutorialForPage('assessments-page');
