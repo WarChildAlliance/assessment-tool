@@ -10,6 +10,7 @@ import { DraggableOption, GeneralQuestion, QuestionDragDrop,
 import { QuestionSet } from '../models/question-set.models';
 import { CacheService } from './cache.service';
 import { TextToSpeechService } from './text-to-speech.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -18,12 +19,14 @@ import { TextToSpeechService } from './text-to-speech.service';
 export class AssessmentService {
 
   private storedAssessmentsSource: BehaviorSubject<Assessment[]> = new BehaviorSubject<Assessment[]>([]);
+  private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   // storedAssessments: Observable<Assessment[]> = this.storedAssessmentsSource.asObservable();
 
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
-    private ttsService: TextToSpeechService
+    private ttsService: TextToSpeechService,
+    private router: Router
   ) {
     this.loadAllAssessments();
   }
@@ -32,49 +35,59 @@ export class AssessmentService {
     return this.storedAssessmentsSource.asObservable();
   }
 
-  public loadAllAssessments(): void {
-    if (!this.cacheService.networkStatus.getValue()) {
+  public get loadingAssessments(): Observable<boolean> {
+    return this.loading.asObservable();
+  }
+
+  public async loadAllAssessments(): Promise<void> {
+    this.loading.next(true);
+    const url = this.router.url;
+    const entries = performance.getEntriesByType('navigation');
+    const reload = entries.some((entry: PerformanceNavigationTiming) => entry.type === 'reload') && url.includes('/questions/');
+    // If no connection or refresh the page while doing an assessment: get cached data
+    if (!this.cacheService.networkStatus.getValue() || reload) {
       this.cacheService.getData('assessments').then(
-        (assessments) => {
-          this.storedAssessmentsSource.next(assessments);
+        (cachedAssessments) => {
+          this.storedAssessmentsSource.next(cachedAssessments);
+          this.loading.next(false);
         }
       );
       return;
     }
 
-    this.getAssessmentsDeep().subscribe(async assessments => {
-      for (const assessment of assessments) {
-        this.getIcon(assessment.icon);
-        for (const questionSet of assessment.question_sets) {
-          this.getIcon(questionSet.icon);
-          for (const question of questionSet.questions) {
-            await this.getQuestionTitleAudio(question, assessment.language);
-            this.getAttachments(question.attachments);
-            if (question.hasOwnProperty('options')) {
-              for (const option of (question as QuestionSort | QuestionSelect).options) {
-                this.getAttachments(option.attachments);
-              }
-            }
-            if (question.question_type === QuestionTypeEnum.DragAndDrop) {
-              const bgImage = question.attachments.find(
-                e => e.attachment_type === 'IMAGE' && e.background_image);
-              this.getAttachments([bgImage]);
-
-              this.getQuestionDraggableOptions(assessment.id, questionSet.id, question.id).subscribe(
-                (res: DraggableOption[]) => {
-                  (question as QuestionDragDrop).draggable_options = res ?? [];
-                  for (const option of res) {
-                    this.getAttachments(option.attachments);
-                  }
-                }
-              );
+    const assessments = await this.getAssessmentsDeep().toPromise();
+    for (const assessment of assessments) {
+      this.getIcon(assessment.icon);
+      for (const questionSet of assessment.question_sets) {
+        this.getIcon(questionSet.icon);
+        for (const question of questionSet.questions) {
+          await this.getQuestionTitleAudio(question, assessment.language);
+          this.getAttachments(question.attachments);
+          if (question.hasOwnProperty('options')) {
+            for (const option of (question as QuestionSort | QuestionSelect).options) {
+              this.getAttachments(option.attachments);
             }
           }
+          if (question.question_type === QuestionTypeEnum.DragAndDrop) {
+            const bgImage = question.attachments.find(
+              e => e.attachment_type === 'IMAGE' && e.background_image);
+            this.getAttachments([bgImage]);
+
+            this.getQuestionDraggableOptions(assessment.id, questionSet.id, question.id).subscribe(
+              (res: DraggableOption[]) => {
+                (question as QuestionDragDrop).draggable_options = res ?? [];
+                for (const option of res) {
+                  this.getAttachments(option.attachments);
+                }
+              }
+            );
+          }
         }
-        this.cacheService.setData('assessments', assessments);
-        this.storedAssessmentsSource.next(assessments);
       }
-    });
+      this.cacheService.setData('assessments', assessments);
+      this.storedAssessmentsSource.next(assessments);
+    }
+    this.loading.next(false);
   }
 
   public getTutorial(): Observable<Assessment> {
