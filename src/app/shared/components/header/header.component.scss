@@ -2,14 +2,16 @@ h3 {
   font-size: 24px;
   margin-left: 10px;
   font-weight: 500;
-}
 
+  @media (min-width: 1024px) {
+    font-size: 36px;
+  }
+}
 @media (max-width: 521px) {
   .display_name {
     display: none;
   }
 }
-
 .header-home {
   min-height: 10vh;
   width: 100%;
@@ -29,5 +31,12 @@ h3 {
     max-height: 50px;
     align-items: center;
     margin: 1rem;
+
+    @media (min-width: 1024px) {
+      max-height: 10vh;
+      height: 10vh;
+      gap: 1rem;
+      img { height: 70%; }
+    }
   }
 }

@@ -1,17 +1,18 @@
 .number-line {
-  height: calc(100vh - 68px);
+  height: 80vh;
+  margin-top: 5vh;
   text-align: center;
   font-family: "Mada", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transform: translateY(-10%);
-  gap: 50px 0;
+  gap: 2rem 0;
   // initialize css variables used for the ruler layout
   --tick-step: calc(100% / (var(--tick-nb) + 1));
   --ruler-width: 95%;
   --ruler-height: 50px;
-  --font-size: 32px;
+  --font-size: inherit;
   --stroke-width: 3.5px;
   --square-size: 60px;
 
@@ -20,6 +21,7 @@
     --font-size: 24px;
     --stroke-width: 2.5px;
     --square-size: 46px;
+    gap: 1rem 0;
   }
 
   .inline-grid {
