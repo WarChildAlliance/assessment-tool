@@ -17,15 +17,16 @@
         text-align: center;
         width: 15vw;
         order: 2;
+
         button {
-            width: 70px;
-            height: auto;
-            display:block;
+            width: 40%;
+            aspect-ratio: 1/1;
+            display: block;
             margin:auto;
-            @media (max-width: 780px) {
-                width: 50px;
-                display:block;
-                margin:auto;
+
+            img {
+                width: 100%;
+                height: auto;
             }
             
         }

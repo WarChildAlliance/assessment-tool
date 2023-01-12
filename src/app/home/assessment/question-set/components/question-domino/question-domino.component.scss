@@ -9,6 +9,7 @@
     place-items: center;
     display: flex;
     padding: 2rem 0;
+    overflow-x: hidden;
 
     .left-number {
         color: #E66C33;
@@ -23,7 +24,6 @@
     .dominoes {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto auto auto;
         place-items: center;
         flex-grow: 4;
 
@@ -32,7 +32,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            min-width: 200px;
+            min-width: 80%;
 
             mat-card {
                 width: 100%;
@@ -61,8 +61,8 @@
 
                         .dot {
                             border-radius: 50%;
-                            width: 18px; // 10px;
-                            height: 18px; // 10px;
+                            width: 24%;
+                            aspect-ratio: 1/1;
                             background-color: black;
                             margin-top: 1px;
                         }
@@ -105,15 +105,13 @@
             gap: 0.1em 0.1em !important;
 
             .option {
-                min-width: 120px !important;
+                min-width: 60%;
 
                 mat-card {
                     .half {
                         .part {
                             .dot {
                                 min-height: auto !important;
-                                width: 10px;
-                                height: 10px;
                             }
                         }
                     }
