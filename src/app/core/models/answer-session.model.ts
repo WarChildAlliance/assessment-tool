@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { TopicAnswer } from './topic-answer.model';
+import { QuestionSetAnswer } from './question-set-answer.model';
 import { User } from './user.model';
 
 export interface AnswerSession {
@@ -7,6 +7,6 @@ export interface AnswerSession {
     start_date: Moment | string;
     end_date: Moment | string;
     student: User | number;
-    assessment_topic_answers?: TopicAnswer[];
-    topic_competency?: number;
+    assessment_question_set_answers?: QuestionSetAnswer[];
+    question_set_competency?: number;
 }

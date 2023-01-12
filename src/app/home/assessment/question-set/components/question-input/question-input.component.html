@@ -1,0 +1,22 @@
+<mat-card>
+    <mat-card-content>
+        <div [className]="displayCorrectAnswer.getValue() && answer.value !== question.valid_answer ? 'incorrect-answer' : ''">
+            <mat-form-field>
+                <input [readonly]="displayCorrectAnswer.getValue()" matInput type="text"
+                       [placeholder]="displayCorrectAnswer.getValue() ? '' : translate.instant('general.typeHere')" [formControl]="valueForm"/>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions *ngIf="displayCorrectAnswer.getValue()">
+        <div class="correct-answer">
+            {{ 'questionSets.question.correctAnswer' | translate }} {{question.valid_answer}}
+        </div>
+    </mat-card-actions>
+
+</mat-card>
+
+<div class="submit-button">
+    <app-action-btn [text]="('general.submit' | translate)" (click)="handleSubmit()" class="main-btn submit"
+        iconUrl="assets/icons/check_24.svg" width="60%" [isDisabled]="!answer">
+    </app-action-btn>
+</div>

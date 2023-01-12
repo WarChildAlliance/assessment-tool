@@ -1,4 +1,4 @@
-import { Topic } from './topic.models';
+import { QuestionSet } from './question-set.models';
 
 export interface Assessment {
   id: number;
@@ -8,13 +8,12 @@ export interface Assessment {
   language?: string;
   country?: string;
   private: boolean;
-  topics?: Topic[];
+  question_sets?: QuestionSet[];
   icon?: string;
-  complete_topics?: number;
-
+  complete_question_sets?: number;
   // THIS IS ONLY TEMPORARY FOR PRE-SEL AND POST-SEL, TODO REMOVE AFTERWARD
   locked?: boolean;
-  all_topics_complete?: boolean;
+  all_question_sets_complete?: boolean;
   // END OF TEMPORARY
 }
 

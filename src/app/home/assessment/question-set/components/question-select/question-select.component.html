@@ -1,0 +1,41 @@
+<!-- Options with only one choice -->
+<!-- In case of using display_type again: [class]="question.display_type | lowercase" -->
+<section>
+    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice">
+        <ng-container *ngFor="let option of question.options; let i = index">
+            <div class="option">
+                <div class="option-attachments">
+                    <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
+                        class="image-attachment"
+                        id="option-{{i}}-image"
+                        [ngClass]="{ 'without-title': !question.show_options_title }"
+                        (click)="!question.show_options_title ? (!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null) : continue"
+                    >
+                        <img *ngIf="imageAttachment" [src]="getSource(imageAttachment.file)" alt="">
+                    </div>
+                    <button *ngIf="getAttachmentOfType(option.attachments, 'AUDIO') as audioAttachment"
+                        mat-icon-button
+                        [appAudioPlay]="getSource(audioAttachment.file)"
+                    >
+                        <img class="elevated-basic" width="40" height="40" src="assets/icons/audio-button.svg" alt="">
+                    </button>
+                </div>
+                <input
+                    type="radio"
+                    id="option-radio-{{i}}"
+                    name="option-radio"
+                    [disabled]="displayCorrectAnswer.getValue()"
+                    [value]="option"
+                >
+                <label for="option-radio-{{i}}"
+                    id="option-{{i}}-label"
+                    [class]="getOptionBtnStyle(option)"
+                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null"
+                    *ngIf="question.show_options_title"
+                >
+                    {{ option.title }}
+                </label>
+            </div>
+        </ng-container>
+    </mat-radio-group>
+</section>

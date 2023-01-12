@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-header',
@@ -36,7 +35,8 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit(): void {
-/*         this.route.data.subscribe(
+        /*
+        this.route.data.subscribe(
             (data: { user: User }) => this.user = data.user
         ); */
         this.userService.currentUser.subscribe(user => {
@@ -52,11 +52,5 @@ export class HeaderComponent implements OnInit {
                 this.questionHeader = false;
             }
         });
-    }
-
-    public getImageUrl(): string {
-        return this.user.profile.current_avatar?.image ?
-            (environment.API_URL + this.user.profile.current_avatar.image) :
-            'assets/avatars/award_120.svg';
     }
 }

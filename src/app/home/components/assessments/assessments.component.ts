@@ -2,12 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { AssessmentService } from 'src/app/core/services/assessment.service';
 import { PageNames } from 'src/app/core/utils/constants';
-import { AssisstantService } from 'src/app/core/services/assisstant.service';
 import { environment } from 'src/environments/environment';
 import { TutorialSlideshowService } from 'src/app/core/services/tutorial-slideshow.service';
 import { MatDialog } from '@angular/material/dialog';
-import { GenericConfirmationDialogComponent }
-from './../../../shared/components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { CacheService } from 'src/app/core/services/cache.service';
 import { Router } from '@angular/router';
@@ -24,10 +21,8 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   public userData: User;
   public pageName = PageNames.assessment;
   public assessments: Assessment[];
-  public displaySpinner = true;
+  public loading = true;
 
-  private readonly pageID = 'assessments-page';
-  private subscriptionCount = 0;
   private subscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
 
@@ -35,7 +30,6 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   constructor(
     private assessmentService: AssessmentService,
     private tutorialSlideshowService: TutorialSlideshowService,
-    private assisstantService: AssisstantService,
     public dialog: MatDialog,
     private router: Router,
     private userService: UserService,
@@ -43,7 +37,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const previousPageID = this.assisstantService.getPageID();
+    this.loading = true;
 
     this.userSubscription = this.userService
     .getUser()
@@ -53,54 +47,31 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
     this.subscription = this.assessmentService.getAssessments().subscribe(
       assessments => {
-        this.subscriptionCount++;
         this.assessments = assessments;
 
         this.cacheService.getData('user').then(user => {
           this.assessments.forEach(assessment => {
-            assessment.complete_topics = 0;
-            assessment.topics?.forEach(topic => {
-              const cachedCompetency = (user.profile.topics_competencies?.find(c => c.topic === topic.id))?.competency;
+            assessment.complete_question_sets = 0;
+            assessment.question_sets?.forEach(questionSet => {
+              const cachedCompetency = (user.profile.question_sets_competencies?.find(c => c.question_set === questionSet.id))?.competency;
               if (cachedCompetency !== undefined && cachedCompetency !== null) {
-                topic.completed = true;
-                assessment.complete_topics++;
+                questionSet.completed = true;
+                assessment.complete_question_sets++;
               } else {
-                topic.completed = false;
+                questionSet.completed = false;
               }
             });
           });
         });
-
-        const tutorial = assessments.find(a => a.subject === 'TUTORIAL');
-        if (tutorial && !tutorial.all_topics_complete) {
-          this.tutorialSlideshowService.startTutorial().then(x => {
-            if (x) {
-              this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-            }
-          }
-          );
-        }
-        if (this.assessments.find(assessment => assessment.subject === 'POSTSEL') &&
-          this.assessments.find(assessment => assessment.subject === 'POSTSEL').all_topics_complete &&
-          this.subscriptionCount === 2 && previousPageID === 'completed-topic-page') {
-          this.dialog.open(GenericConfirmationDialogComponent, {
-            disableClose: true,
-            data: {
-              imageURL: 'icons/youDidIt.png',
-              confirmBtnText: 'general.OK',
-              confirmBtnColor: 'primary',
-              contentType: 'translation',
-              content: 'assessments.congratulations'
-            }
-          });
-        }
-        if (this.assessments && this.subscriptionCount > 1) {
-          this.displaySpinner = false;
+        //TODO: Remove the timeout and find how to set loading as false when everything is really loaded
+        if (this.loading) {
+          setTimeout(() => {
+              this.loading = false;
+          }, 5000);
         }
       }
     );
     this.tutorialSlideshowService.showTutorialForPage('assessments-page');
-    this.assisstantService.setPageID(this.pageID);
   }
 
   public getAssessmentIcon(assessment: Assessment): string {

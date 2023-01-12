@@ -6,5 +6,5 @@ export interface Profile {
     effort: number;
     current_avatar: Avatar;
     unlocked_avatars: Avatar[];
-    topics_competencies: any;
+    question_sets_competencies: any;
 }

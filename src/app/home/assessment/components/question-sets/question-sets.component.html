@@ -1,0 +1,37 @@
+<div [ngClass]="{ container: questionSets && questionSets.length }">
+  <app-back-navigation
+    [text]="
+      'questionSets.backTo' | translate: { page: 'questionSets.assessments' | translate }
+    "
+    [routerLink]="['../../home']"
+  >
+  </app-back-navigation>
+  <app-spinner *ngIf="loading"></app-spinner>
+  <div *ngIf="!loading && assessments && assessments.length && canShowAssessments">
+    <swiper [config]="config">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let assessment of assessments">
+          <div class="flowers">
+            <app-flower
+              #flowerComponent
+              *ngFor="let _ of [].constructor(assessment.question_sets.length); let i = index"
+              [index]="i"
+              [questionSet]="assessment.question_sets[i]"
+              [flowerColor]="flowersColors[i]"
+              [assessment]="currentAssessment"
+            ></app-flower>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </swiper>
+  </div>
+
+  <ng-container *ngIf="!loading && !assessments">
+    <p>{{ "questionSets.noQuestionSets" | translate }}</p>
+  </ng-container>
+</div>
+
+<app-question-sets-bee *ngIf="showBee$ | async" [instructions$]="beeState$"
+ (praiseEnded)="unlockNextQuestionSet()" (beeLeft)="showOutro()">
+</app-question-sets-bee>

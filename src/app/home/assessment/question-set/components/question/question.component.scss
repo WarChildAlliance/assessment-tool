@@ -1,0 +1,137 @@
+.header {
+  width: 80%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.progress-header {
+  margin: 0 auto;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  place-content: flex-end;
+
+  .progress-bar {
+    position: relative;
+    width: 155px;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    height: 36px;
+    justify-content: center;
+
+    .paths {
+      display: flex;
+      flex-direction: row;
+      min-width: -webkit-fill-available;
+      align-self: center;
+      place-content: space-evenly;
+
+      .path {
+        border: dashed 3px #70504a;
+        border-color: #70504a transparent transparent transparent;
+        border-radius: 300%/100px 100px 0 0;
+        transform: rotateX(180deg);
+      }
+    }
+
+    .bee {
+      position: absolute;
+      width: 36px;
+    }
+
+    svg {
+      overflow: visible;
+    }
+  }
+}
+
+h2 {
+  font-weight: 500;
+  margin: 0;
+}
+
+button {
+  width: 60%;
+}
+
+mat-progress-bar {
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+  height: 15px;
+  border-radius: 0.5rem;
+  min-height: 3rem;
+}
+
+.icons {
+  z-index: 999;
+
+  svg {
+    margin-top: 32%;
+    margin-right: 100%;
+  }
+}
+
+.question-attachment {
+  display: block;
+  margin-right: .5em;
+}
+
+.dragdrop-attachment {
+  width: 20%;
+  margin-right: inherit;
+}
+
+.dragdrop-container {
+  width: 70% !important;
+  @media (max-width: 780px) {
+    width: 70% !important;
+  }
+}
+.question-container {
+  display: grid;
+  overflow: auto;
+
+  @media (max-width: 780px) {
+    width: 100%;
+  }
+}
+
+.question-title {
+  font-size: clamp(1rem, 4.5vw, 3rem);
+}
+
+.question {
+  position: relative;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tts-btn-placeholder {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+}
+
+.right-answer-animation {
+  width: 45vw;
+  z-index: 15;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.bee-helper {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+}

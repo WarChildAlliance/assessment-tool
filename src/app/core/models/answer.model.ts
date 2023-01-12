@@ -1,14 +1,15 @@
 import { GeneralQuestion, SelectOption, SortOption, DraggableOption, DominoOption } from './question.model';
-import { TopicAnswer } from './topic-answer.model';
+import { QuestionSetAnswer } from './question-set-answer.model';
 import { Moment } from 'moment';
 
 export interface Answer {
   id?: number;
-  topic_answer?: TopicAnswer | number;
+  question_set_answer?: QuestionSetAnswer | number;
   question: GeneralQuestion | number;
   start_datetime?: Moment | string;
   end_datetime?: Moment | string;
   valid?: boolean;
+  attempt?: boolean;
 }
 
 export interface AnswerInput extends Answer {
@@ -43,18 +44,21 @@ export interface DragAndDropAreaEntry {
 
 export interface AnswerDragAndDrop extends Answer {
   answers_per_area: DragAndDropAreaEntry[];
+  answers_per_area_attempt?: DragAndDropAreaEntry[];
 }
 
 export interface AnswerDomino extends Answer {
   selected_domino: DominoOption | number;
 }
 
-export interface SkippedAnswer extends Answer {
-  skipped: true;
+export interface AnswerCustomizedDragAndDrop extends Answer {
+  left_value: number;
+  right_value: number;
+  final_value: number;
 }
 
-export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort
- | AnswerDragAndDrop | AnswerDomino | AnswerSEL | AnswerCalcul | SkippedAnswer;
+export type GeneralAnswer = AnswerInput | AnswerNumberLine | AnswerSelect | AnswerSort | AnswerDragAndDrop
+ | AnswerDomino | AnswerSEL | AnswerCalcul | AnswerCustomizedDragAndDrop;
 
 export enum SELStatements {
   'Not really like me' = 'NOT_REALLY',

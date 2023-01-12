@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { GenericConfirmationDialogComponent } from './components/generic-confirmation-dialog/generic-confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { AssisstantComponent } from './components/assisstant/assisstant.component';
 import { RouterModule } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BackNavigationComponent } from './components/back-navigation/back-navigation.component';
@@ -23,7 +22,6 @@ import { BallonComponent } from './components/ballon/ballon.component';
         AudioPlayDirective,
         GenericConfirmationDialogComponent,
         HeaderComponent,
-        AssisstantComponent,
         BackNavigationComponent,
         ActionBtnComponent,
         SpinnerComponent,
@@ -47,7 +45,6 @@ import { BallonComponent } from './components/ballon/ballon.component';
         AudioPlayDirective,
         HeaderComponent,
         SpinnerComponent,
-        AssisstantComponent,
         BackNavigationComponent,
         ActionBtnComponent,
         BallonComponent

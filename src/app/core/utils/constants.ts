@@ -1,10 +1,10 @@
 export enum PageNames {
   assessment = 'assessment',
-  topics = 'topics',
-  topic = 'topic',
+  questionSets = 'questionSets',
+  questionSet = 'questionSet',
   question = 'question',
   questionSelect = 'questionSelect',
   questionNumberLine = 'questionNumberLine',
-  topicCompleted = 'topicCompleted',
+  questionSetCompleted = 'questionSetCompleted',
   profile = 'profile'
 }

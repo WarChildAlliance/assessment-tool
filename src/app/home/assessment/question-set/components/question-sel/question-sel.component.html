@@ -1,0 +1,26 @@
+<section>
+    <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'">
+        <div *ngFor="let option of selOptions; let i = index">
+            <div class="option">
+                <input
+                    type="radio"
+                    id="option-radio-{{i}}"
+                    name="option-radio"
+                    [disabled]="displayCorrectAnswer.getValue()"
+                    [value]="option"
+                >
+                <label for="option-radio-{{i}}"
+                    [ngClass]="answer?.statement === option.id ? 'elevated-valid--outline' : 'elevated-neutral--outline'"
+                    (click)="!displayCorrectAnswer.getValue() ? valueForm.setValue(option) : null">
+                    <img [src]="'assets/icons/SEL_faces_' + option.path + '.svg'" alt="">
+                    <ng-container>
+                        {{ "questionSets.question." + option.path | translate }}
+                    </ng-container>
+                </label>
+            </div>
+            <button mat-icon-button (click)="onSELAudio(option.path)">
+                <img src="assets/icons/audio-button.svg" alt="">
+            </button>
+        </div>
+    </mat-radio-group>
+</section>

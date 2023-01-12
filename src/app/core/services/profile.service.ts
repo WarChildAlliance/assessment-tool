@@ -45,7 +45,7 @@ export class ProfileService {
     const formatProfile: any = {...profile};
     formatProfile.current_avatar = profile.current_avatar ? profile.current_avatar.id : null;
     formatProfile.unlocked_avatars = (profile.unlocked_avatars.filter(x => x.unlocked)).map(x => x.id);
-    delete formatProfile.topics_competencies;
+    delete formatProfile.question_sets_competencies;
     return this.http.put<Profile>(`${environment.API_URL}/gamification/profiles/`, {
       profile: formatProfile
     });
