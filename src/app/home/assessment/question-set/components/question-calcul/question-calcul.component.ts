@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnswerCalcul } from 'src/app/core/models/answer.model';
 import { QuestionCalcul } from 'src/app/core/models/question.model';
@@ -8,14 +8,18 @@ import { QuestionCalcul } from 'src/app/core/models/question.model';
   templateUrl: './question-calcul.component.html',
   styleUrls: ['./question-calcul.component.scss']
 })
-export class QuestionCalculComponent implements OnInit {
+export class QuestionCalculComponent implements OnInit, AfterViewInit {
   @Input() question: QuestionCalcul;
   @Input() answer: AnswerCalcul;
   @Input() displayCorrectAnswer: BehaviorSubject<boolean>;
   @Input() resetAnswer: BehaviorSubject<boolean>;
   @Input() isEvaluated: boolean;
-  @Output() answerChange = new EventEmitter<{ answer: AnswerCalcul; next: boolean }>();
+  @Output() answerChange = new EventEmitter<{
+    answer: AnswerCalcul; next: boolean; answerAnimationPosition: {x: number; y: number};
+  }>();
 
+  public answerPosition: {x: number ; y: number};
+  public answerElement: HTMLElement;
   public operatorSymbol: string;
   public answerNumber: number;
   public studentAnswer: number[];
@@ -48,6 +52,15 @@ export class QuestionCalculComponent implements OnInit {
     this.studentAnswer = new Array(this.answerNumber.toString().length);
   }
 
+  ngAfterViewInit(): void {
+    this.answerElement = document.getElementById('studentAnswer') as HTMLElement;
+    const position = this.answerElement.getBoundingClientRect();
+    this.answerPosition = {
+      x: position.x,
+      y: position.y
+    };
+  }
+
   public submitAnswer(): void {
     const studentNumber = parseInt(this.studentAnswer.join(''), 10);
     const valid = this.isValid(studentNumber);
@@ -62,7 +75,7 @@ export class QuestionCalculComponent implements OnInit {
     } else {
       this.answer.attempt = valid;
     }
-    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt });
+    this.answerChange.emit({ answer: this.answer, next: this.answer.attempt, answerAnimationPosition: this.answerPosition });
     this.studentAnswer.fill(undefined);
   }
 
@@ -84,13 +97,12 @@ export class QuestionCalculComponent implements OnInit {
 
   private wrongAnswerVibration(valid: boolean): void {
     if (!valid) {
-      const checkedOption = document.getElementById('studentAnswer') as HTMLLabelElement;
-      checkedOption.classList.add('vibration');
+      this.answerElement.classList.add('vibration');
       this.studentAnswer.fill(undefined);
       this.numberIndex = 0;
 
       setTimeout(() => {
-        checkedOption.classList.remove('vibration');
+        this.answerElement.classList.remove('vibration');
       }, 500);
     }
   }
