@@ -63,7 +63,12 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
             });
           });
         });
-        this.loading = false;
+        //TODO: Remove the timeout and find how to set loading as false when everything is really loaded
+        if (this.loading) {
+          setTimeout(() => {
+              this.loading = false;
+          }, 5000);
+        }
       }
     );
     this.tutorialSlideshowService.showTutorialForPage('assessments-page');

@@ -1,6 +1,6 @@
 <section>
     <mat-radio-group [formControl]="valueForm" class="options-container">
-        <ng-container *ngFor="let option of selOptions; let i = index">
+        <div *ngFor="let option of selOptions; let i = index">
             <div class="option">
                 <input
                     type="radio"
@@ -18,6 +18,9 @@
                     </ng-container>
                 </label>
             </div>
-        </ng-container>
+            <button mat-icon-button (click)="onSELAudio(option.path)">
+                <img src="assets/icons/audio-button.svg" alt="">
+            </button>
+        </div>
     </mat-radio-group>
 </section>

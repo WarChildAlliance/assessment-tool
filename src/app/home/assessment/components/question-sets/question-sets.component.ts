@@ -14,11 +14,11 @@ import { FeedbackAudio } from '../../question-set/components/audio-feedback/audi
 import { OutroComponent } from '../outro/outro.component';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { ProfileService } from 'src/app/core/services/profile.service';
 import { FlowerComponent } from '../flower/flower.component';
 import { BeeState, BeeAction } from '../bee/bee.component';
 import { Assessment } from 'src/app/core/models/assessment.model';
 import { SwiperOptions } from 'swiper';
+import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
     selector: 'app-question-sets',
@@ -56,8 +56,8 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         private tutorialService: TutorialService,
         private cacheService: CacheService,
         private tutorialSlideshowService: TutorialSlideshowService,
-        private answerService: AnswerService,
         private profileService: ProfileService,
+        private answerService: AnswerService,
         private userService: UserService,
         private router: Router
     ) {
