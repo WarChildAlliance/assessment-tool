@@ -7,8 +7,8 @@
         <div class="progress-header">
 -->
 <div class="light-green-bg">
-    <div class="header" [style.justify-content]="loading ? 'space-between': ''">
-        <img class="elevated-valid" (click)="onPrevious()"
+    <div #header class="header" [style.justify-content]="loading ? 'space-between': ''">
+        <img class="elevated-valid back-btn" (click)="onPrevious()"
         [src]="translate.currentLang === 'ara' ? 'assets/icons/right_arrow_24.svg' :  'assets/icons/left_arrow_24.svg'">
         <div class="progress-header" *ngIf="question">
             <!--  flyingBee = 35px so the bee stays before the first question path -->
@@ -29,10 +29,7 @@
     </div>
     <app-spinner *ngIf="loading"></app-spinner>
 
-    <!--
-    <div class="question" [@popOverState]="stateName" [style.height]="'calc(100vh - ' + header.clientHeight * 2 + 'px)'">
-        -->
-    <div *ngIf="question; else questionNotAvailable" class="question" [@popOverState]="stateName">
+    <div *ngIf="question; else questionNotAvailable" class="question" [@popOverState]="stateName" [style.height]="'calc(100vh - ' + header.clientHeight * 2 + 'px)'">
         <h2 *ngIf="showTitle" class="question-title">{{ question.title }}</h2>
         <div class="question-attachment" [ngClass]="{'dragdrop-attachment': question.question_type === 'DRAG_AND_DROP' && question.attachments.length > 1}">
             <app-attachments [attachments]="question.attachments"></app-attachments>

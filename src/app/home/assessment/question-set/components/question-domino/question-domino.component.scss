@@ -5,11 +5,10 @@
         float: left;
     }
 }
-
 .container {
     place-items: center;
     display: flex;
-    justify-content: center;
+    padding: 2rem 0;
 
     .left-number {
         color: #E66C33;
@@ -18,22 +17,26 @@
         font-size: 160px;
         line-height: 208px;
         margin-right: .5em;
+        flex-basis: 1;
+        margin: 0 auto;
     }
-
     .dominoes {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
         place-items: center;
+        flex-grow: 4;
 
         .option {
-            padding: 0.5rem;
-            width: 25%;
+            padding: 5%;
             text-align: center;
             display: flex;
             flex-direction: column;
             min-width: 200px;
 
             mat-card {
+                width: 100%;
+                aspect-ratio: 5/2;
                 background: #FFFFFF;
                 border-radius: 5px;
                 padding: 8px !important;
@@ -45,78 +48,73 @@
                     width: 2px;
                     background-color: #475D96;
                 }
-
                 .half {
                     width: 70%;
-                    height: 32%;
+                    height: 100%;
                     padding: 0 5%;
                     display: flex;
                     flex-direction: column;
 
                     .part {
                         padding: 5%;
-                        min-height: 13.74px;
+                        height: 33%;
 
                         .dot {
                             border-radius: 50%;
-                            width: 10px;
-                            height: 10px;
+                            width: 18px; // 10px;
+                            height: 18px; // 10px;
                             background-color: black;
                             margin-top: 1px;
                         }
-
                         .left {
                             float: left;
                         }
-
                         .right {
                             float: right;
                         }
-
                         .middle {
                             margin: auto;
                         }
                     }
-
                     .part:first-child {
                         padding-top: 0%;
                     }
-
                     .part:last-child {
                         padding-bottom: 0%;
                     }
                 }
             }
-
             &:not(.-card) {
                 background-color: rgb(223, 223, 223);
             }
         }
     }
 }
-
 .question-container {
     overflow: hidden;
 }
-
 @media (max-width: 940px) {
     .left-number {
         font-size: 100px !important;
         margin-right: 0.1em !important;
     }
+    .container {
+        padding: 1rem 0;
 
-    .dominoes {
-        gap: 0.1em 0.1em !important;
-        gap: inherit !important;
+        .dominoes {
+            gap: 0.1em 0.1em !important;
 
-        .option {
-            min-width: 100px !important;
+            .option {
+                min-width: 120px !important;
 
-            mat-card {
-                .half {
-                    .part {
-                        .dot {
-                            min-height: auto !important;
+                mat-card {
+                    .half {
+                        .part {
+                            .dot {
+                                min-height: auto !important;
+                                width: 10px;
+                                height: 10px;
+                            }
                         }
                     }
                 }
