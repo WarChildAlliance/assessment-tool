@@ -1,8 +1,16 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  align-items: center;
+  gap: 1em;
+}
 .background-image {
-  margin: 0 auto;
+  flex: 4;
   position: relative;
-  height: auto;
-  width: 80vh;
+  aspect-ratio: 6/5;
 
   .drop-area {
     position: absolute;
@@ -16,27 +24,24 @@
     mat-card {
       height: 100%;
       width: 100%;
-      box-sizing: border-box;
       cursor: move;
     }
   }
 }
 .options-container {
-  position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  min-height: 80vh;
+  height: 100%;
   overflow: auto;
 
   &.drop-placeholder {
     background: #fff;
     opacity: 90%;
-    border-radius: 5px;
   }
   mat-card {
     height: 50px;
-    min-width: 100px;
     width: auto;
     display: flex;
     cursor: move;
@@ -51,10 +56,15 @@ img {
   width: 100%;
   object-fit: contain;
 }
-
-.container {
-  max-height: 85vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+@media (max-width: 1024px) {
+  mat-card {
+    max-height: 30px;
+  }
+  .background-image {
+    .drop-area {
+      &.drop-placeholder {
+        border: dashed 2px #629487;
+      }
+    }
+  }
 }
