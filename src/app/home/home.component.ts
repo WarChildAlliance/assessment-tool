@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
@@ -9,7 +8,6 @@ import { AssessmentService } from '../core/services/assessment.service';
 import { AuthService } from '../core/services/auth.service';
 import { CacheService } from '../core/services/cache.service';
 import { UserService } from '../core/services/user.service';
-import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from '../core/services/tutorial.service';
 import { TextToSpeechService } from '../core/services/text-to-speech.service';
@@ -29,7 +27,6 @@ export class HomeComponent implements OnInit {
     private backgroundSound?: HTMLAudioElement;
 
     constructor(
-        private http: HttpClient,
         private dialog: MatDialog,
         private answerService: AnswerService,
         private assessmentService: AssessmentService,

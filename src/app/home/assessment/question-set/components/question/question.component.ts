@@ -68,8 +68,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
   private audioTimeoutId: any;
   private subscriptions: Subscription[] = [];
   private questionTimeStart: string;
-  // private isFirstTry: boolean;
-  private invalidAnswersStreak = 0;
   private titleAudio: HTMLAudioElement;
 
   constructor(
