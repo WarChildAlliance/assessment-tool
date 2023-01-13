@@ -64,8 +64,8 @@ export class QuestionSetsComponent implements OnInit, AfterViewInit {
         const audio = new Audio('/assets/audios/swipingAssessmentsLeft-Right.mp3');
         audio.load();
 
-        this.onSlideChange = (event?: any) => {
-            if (this.assessments) {
+        this.onSlideChange = (event?: { activeIndex: number }) => {
+            if (this.assessments && event?.activeIndex >= 0) {
                 audio.play();
                 this.questionSets = this.assessments[event.activeIndex].question_sets;
                 this.assessmentId = this.assessments[event.activeIndex].id;
