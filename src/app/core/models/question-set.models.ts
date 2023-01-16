@@ -16,5 +16,4 @@ export interface QuestionSet {
   honeypots?: number;
   completed?: boolean;
   can_start?: boolean;
-  isFirstTry?: boolean;
 }
