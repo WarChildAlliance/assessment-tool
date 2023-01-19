@@ -100,6 +100,7 @@ button {
   justify-content: center;
   align-items: center;
   align-content: center;
+  box-sizing: border-box;
 
   @media (min-width: 1024px) {
     font-size: 36px;

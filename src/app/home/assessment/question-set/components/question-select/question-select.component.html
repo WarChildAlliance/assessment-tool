@@ -3,7 +3,7 @@
 <section>
     <mat-radio-group [formControl]="valueForm" class="options-container" [class]="'default'" id="one-choice">
         <ng-container *ngFor="let option of question.options; let i = index">
-            <div class="option">
+            <div class="option" [style.flex-basis]="question.options.length % 3 === 0 ? '30%' : '40%'">
                 <div class="option-attachments">
                     <div *ngIf="getAttachmentOfType(option.attachments, 'IMAGE') as imageAttachment"
                         class="image-attachment"

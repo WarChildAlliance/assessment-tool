@@ -1,20 +1,26 @@
 .options-container {
   overflow-x: auto;
   overflow-y: hidden;
-  width: 100%;
   gap: 12px;
+  max-width: 100%;
+
+  @media (max-width: 1024px) {
+    font-size: 24px;
+  }
 
   &.default {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
 
-    // TODO: maybe here check aspect ratio instead (phones portrait mode for ex)
-    // @media (max-width: 780px) {
-    //   flex-direction: column;
-    //   align-items: center;
-    // }
+    @media (max-aspect-ratio: 1/1) {
+      flex-direction: column;
+      align-items: center;
+      flex-wrap: nowrap;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
   }
 
   &.grid {
@@ -22,9 +28,9 @@
     place-items: center;
     grid-template-columns: 1fr 1fr;
 
-    // @media (max-width: 780px) {
-    //   grid-template-columns: 1fr;
-    // }
+    @media (max-width: 780px) {
+      grid-template-columns: 1fr;
+    }
   }
   &.vertical {
     display: grid;
@@ -37,10 +43,10 @@
     justify-content: center;
   }
   .option {
+    flex-shrink: 1;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin: 1rem 0;
 
     &-attachments {
       display: flex;
@@ -56,9 +62,9 @@
           height: 120px;
           width: auto;
 
-          // @media (max-width: 780px) {
-          //   height: 50px;
-          // }
+          @media (max-width: 1024px) {
+            height: 50px;
+          }
         }
       }
       .without-title {
@@ -73,7 +79,6 @@
     display: block;
     padding: .5rem 1rem;
     border-radius: 1.25rem;
-    margin: .5rem;
 
     // making label text unselectable
     -webkit-touch-callout: none;
@@ -83,9 +88,10 @@
     -ms-user-select: none;
     user-select: none;
 
-    // @media (max-width: 780px) {
-    //   padding: 0 1rem;
-    // }
+    @media (max-width: 1024px) {
+      padding: .2rem .4rem;
+      border-radius: .8rem;
+    }
   }
   input:checked + label.elevated-basic--outline {
     background-color: #FFDC64;

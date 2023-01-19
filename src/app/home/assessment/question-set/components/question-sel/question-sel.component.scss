@@ -6,6 +6,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 
   .option {
     display: flex;
@@ -32,6 +33,16 @@
     img {
       height: 19vh;
       width: auto;
+    }
+  }
+  button {
+    width: 8vmin;
+    height: 8vmin;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
   }
 }

@@ -11,7 +11,7 @@
                 <div *ngIf="!val && val !== 0; else numberTemplate"
                     class="drop-area"
                     [class.drop-area]="!valueForm.value"
-                    [class.option]="valueForm.value"
+                    [class.dropped]="valueForm.value"
                     [style]="'color: ' + getNumberColor(valueForm.value)"
                     cdkDropList
                     [cdkDropListData]="answerDropListData"
@@ -41,9 +41,9 @@
             [class.cursor-move]="!valueForm.value"
             [style]="'color: ' + getNumberColor(option)"
             cdkDrag
-            (cdkDragEnded)="dropPosition = $event.dropPoint"
             [cdkDragData]="option"
             [matchSize]="true"
+            (cdkDragEnded)="dropPosition = $event.dropPoint"
             (cdkDropListDropped)="moveItemInArray(
                 $event.previousContainer.data,
                 $event.previousIndex,
