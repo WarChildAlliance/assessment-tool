@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { AssessmentRoutingModule } from './assessment-routing.module';
 import { AssessmentComponent } from './assessment.component';
-import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
+import { QuestionSetsComponent } from './question-sets/question-sets.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { OutroComponent } from './components/outro/outro.component';
