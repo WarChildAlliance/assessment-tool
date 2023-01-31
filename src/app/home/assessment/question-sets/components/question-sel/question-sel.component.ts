@@ -35,7 +35,6 @@ export class QuestionSelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     // Do not show title for this phase
     // this.userService.getUser().subscribe(({grade}) => {
     //   this.showTitle = +grade >= 3;

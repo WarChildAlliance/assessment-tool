@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { QuestionComponent } from './components/question/question.component';
-import { QuestionSetComponent } from './question-set.component';
+import { QuestionSetsComponent } from './question-sets.component';
 import { QuestionSetIntroComponent } from './components/question-set-intro/question-set-intro.component';
 import { CanDeactivateGuard } from '../../../core/guards/can-deactivate.guard';
 
 const routes: Routes = [
     {
         path: '',
-        component: QuestionSetComponent
+        component: QuestionSetsComponent
     },
     {
         path: 'intro',
@@ -30,5 +30,5 @@ const routes: Routes = [
     providers: [CanDeactivateGuard],
     exports: [RouterModule]
 })
-export class QuestionSetRoutingModule {
+export class QuestionSetsRoutingModule {
 }
