@@ -7,7 +7,7 @@ import { User } from 'src/app/core/models/user.model';
 import { AnswerService } from 'src/app/core/services/answer.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { environment } from 'src/environments/environment';
-import { FeedbackAudio } from '../../question-sets/components/audio-feedback/audio-feedback.dictionary';
+import { FeedbackAudio } from '../../question-set/components/audio-feedback/audio-feedback.dictionary';
 import { ProgressionAudio } from '../audio-progression/audio-progression.dictionary';
 
 @Component({
