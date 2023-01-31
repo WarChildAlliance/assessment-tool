@@ -41,7 +41,6 @@ export class QuestionDragAndDropComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
-
     const bgImageUrl = this.question.attachments.find(
       e => e.attachment_type === 'IMAGE' && e.background_image).file;
     this.backgroundImage = this.getSource(bgImageUrl);
