@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AssessmentComponent } from './assessment.component';
-import { QuestionSetsComponent } from './question-sets/question-sets.component';
-import { QuestionSetsModule } from './question-sets/question-sets.module';
+import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
+import { QuestionSetModule } from './question-set/question-set.module';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: 'question-sets/:question_set_id',
-        loadChildren: () => QuestionSetsModule
+        loadChildren: () => QuestionSetModule
       },
       {
         path: '**',

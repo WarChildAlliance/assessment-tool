@@ -19,7 +19,8 @@ import { QuestionNumberLineComponent } from './components/question-number-line/q
 import { QuestionSelectComponent } from './components/question-select/question-select.component';
 import { QuestionSortComponent } from './components/question-sort/question-sort.component';
 import { QuestionComponent } from './components/question/question.component';
-import { QuestionSetsRoutingModule } from './question-sets-routing.module';
+import { QuestionSetRoutingModule } from './question-set-routing.module';
+import { QuestionSetComponent } from './question-set.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { QuestionDragAndDropComponent } from './components/question-drag-and-drop/question-drag-and-drop.component';
@@ -34,6 +35,7 @@ import { QuestionSetIntroComponent } from './components/question-set-intro/quest
 
 @NgModule({
     declarations: [
+        QuestionSetComponent,
         QuestionComponent,
         QuestionInputComponent,
         QuestionSelectComponent,
@@ -50,7 +52,7 @@ import { QuestionSetIntroComponent } from './components/question-set-intro/quest
     ],
     imports: [
         SharedModule,
-        QuestionSetsRoutingModule,
+        QuestionSetRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         DragDropModule,
@@ -69,5 +71,5 @@ import { QuestionSetIntroComponent } from './components/question-set-intro/quest
         MatTooltipModule,
     ]
 })
-export class QuestionSetsModule {
+export class QuestionSetModule {
 }

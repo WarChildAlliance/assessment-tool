@@ -22,6 +22,7 @@ export class QuestionDominoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
     // shuffle evaluated options
     if (this.isEvaluated) {
       this.question.options = this.question.options.map(question => ({
