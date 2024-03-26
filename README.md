@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.7.
 
+## Google Text-To-Speech API key
+
+It is important to edit the API_KEY attributes in your environment files and to add your own API KEY for the functionnality to work correctly.
+
 ## Development server
 
 a) Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
