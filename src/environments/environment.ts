@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   API_URL: 'http://localhost:8002',
   TTS_API_URL: 'https://texttospeech.googleapis.com/v1/text:synthesize',
-  TTS_API_KEY: 'AIzaSyBlSZIqWoQAqNZ6BL7-eJ7ot-rt9x4MRT0'
-  // TTS_API_KEY: 'AIzaSyAmR4bv7FuWavYEqS2DqTUifnlFp_Ay1GU'
+  // Add your google Text to Spech API key here for the functionnality to work:
+  TTS_API_KEY: ''
 };
 
 /*
